@@ -10,7 +10,7 @@ export default function (db) {
 
     async function addEntry () {
       const hash = await argon2.hash(password)
-      await db.createUser((err, result, fields) => {
+      db.createUser((err, result, fields) => {
         if (err) throw err
         if (result) res.send(result)
       }, username, hash)
@@ -35,7 +35,7 @@ export default function (db) {
       db.getPassword(async (err, result, fields) => {
         if (err) throw err
         if (await argon2.verify(result[0]?.password, password)) res.send('logged in')
-        else res.send('password do not match')
+        else res.send('incorrect information')
       }, username)
     }
 

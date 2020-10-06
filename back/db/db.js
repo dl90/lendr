@@ -11,9 +11,7 @@ const pool = mysql.createPool({
 })
 
 function connect (cb) {
-  pool.getConnection(function (err) {
-    err ? cb(err) : console.log('Connected to DB')
-  })
+  pool.getConnection(err => cb(err))
 }
 
 /*
@@ -37,7 +35,7 @@ function getPassword (cb, username) {
 }
 
 function createUser (cb, username, password) {
-  pool.execute('INSERT INTO `users` SET username=?, `password`=? ', [username, password], cb)
+  pool.execute('INSERT INTO `users` SET `username` = ?, `password` = ?', [username, password], cb)
 }
 
 export default { connect, getUsername, getPassword, createUser }
