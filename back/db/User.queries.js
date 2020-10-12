@@ -45,8 +45,16 @@ async function getId (email) {
  * @param {number} id user ID
  * @returns {[object]} [ BinaryRow { data } ]
  */
-async function getUser (id) {
+async function getUserByID (id) {
   return await handler(pool.execute('SELECT * FROM `User` WHERE `id` = ?', [id]))
+}
+
+/**
+ * @param {string} email user email
+ * @returns {[object]} [ BinaryRow { data } ]
+ */
+async function getUserByEmail (email) {
+  return await handler(pool.execute('SELECT * FROM `User` WHERE `email` = ?', [email]))
 }
 
 /**
@@ -96,4 +104,6 @@ async function deleteUser (id) {
   return await handler(pool.execute('DELETE FROM `User` WHERE `id` = ?', [id]))
 }
 
-export default { checkEmail, getPassword, getId, getUser, createUser, updatePassword, updateDisplayName, updateAvatar, deleteUser }
+export default {
+  checkEmail, getPassword, getId, getUserByID, getUserByEmail, createUser, updatePassword, updateDisplayName, updateAvatar, deleteUser
+}

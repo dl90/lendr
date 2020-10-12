@@ -1,60 +1,59 @@
 import express from 'express'
-import pw from '../controller/pw.js'
-import User from '../model/User.js'
+import userController from '../controller/userController.js'
 import passport from '../middleware/passport.js'
 
 const router = express.Router()
-export default function (db) {
-  /* ------ sign-up ------ */
+export default function () {
+  /**
+   * @api {post} /auth/sign-up                                Sign-up new user
+   * @apiName PostSign-up
+   * @apiGroup Auth
+   *
+   * @apiParam {string} email                                 User email
+   * @apiParam {string} password                              User password
+   * @apiParam {string} [displayName = '']                    User display name
+   *
+   * @apiSuccess (201) {string}                               User creation data
+   * @apiHeader (Response Headers) {string} authorization     Authorization Bearer token
+   * @apiError (400) {text}                                   400/Email already exists
+   * @apiError (500) {text}                                   500/Internal server error
+   */
   router.post('/sign-up', async (req, res) => {
     const { email, password, displayName } = req.body
-
-    async function addEntry () {
-      const hash = await pw.hash(password)
-      const fields = { email, displayName, pwHash: hash }
-      return await User.createUser(fields)
-    }
-
     try {
-      const check = await User.checkEmail(email)
-      if (check) res.send('email already exists')
-      else {
-        const result = await addEntry()
-        // passport/session/jwt
-        if (result) res.send(result)
-      }
+      const success = userController.signUp(email, password, displayName)
+      // @TODO passport authorize
+      success ? res.status(201).json(success) : res.status(400).json({ Message: 'Email already exists' })
     } catch (err) {
+      // @TODO log error
       if (err) console.log(err)
+      res.status(500).json({ Error: 'Something went wrong' })
     }
   })
 
-  /* ------ login ------ */
+  /**
+   * @api {post} /auth/login                                  Authenticate user
+   * @apiName PostLogin
+   * @apiGroup Auth
+   *
+   * @apiParam {string} email                                 User email
+   * @apiParam {string} password                              User password
+   *
+   * @apiSuccess (200) {text}                                 Redirect
+   * @apiHeader (Response Headers) {string} authorization     Authorization Bearer token
+   * @apiError (401) {text}                                   401/Unauthorized
+   * @apiError (500) {text}                                   500/Internal server error
+   */
   router.post('/login', async (req, res) => {
     const { email, password } = req.body
-
-    async function verify () {
-      const hash = await User.getPasswordHash(email)
-      return await pw.verify(hash, password)
-    }
-
     try {
-      const check = await User.checkEmail(email)
-      if (!check) res.send('incorrect information')
-      const result = await verify()
-      // passport/session/jwt
-      if (result) res.send('logged in')
-    } catch (err) {
-      if (err) console.log(err)
-    }
-  })
-
-  router.get('/user', async (req, res) => {
-    try {
-      // hardcoded
-      const result = await User.getUser(1)
-      res.send(result)
-    } catch (err) {
-      if (err) console.log(err)
+      const success = userController.login(email, password)
+      // @TODO passport authorize
+      success ? res.status(200).json({ Message: 'Logged in' }) : res.status(401).json({ Message: 'Incorrect information' })
+    } catch (error) {
+      // @TODO log error
+      console.log(error)
+      res.status(500).json({ Error: 'Something went wrong' })
     }
   })
 
@@ -66,6 +65,40 @@ export default function (db) {
 
   router.get('/github/redirect', passport.authenticate('github'), (req, res) => {
     res.send('success')
+  })
+
+  /**
+   * @TODO move to user route
+   *
+   * @api {post} /auth//get-user                              Get user data
+   * @apiName PostGetUser
+   * @apiGroup Auth
+   *
+   * @apiParam {string|number} [id]                           User id
+   * @apiParam {string} email                                 User email
+   *
+   * @apiSuccess (200) {json}                                 User information
+   * @apiHeader (Request Headers) {string} authorization      Authorization Bearer token
+   * @apiError (401) {text}                                   401/Unauthorized
+   * @apiError (500) {text}                                   500/Internal server error
+   */
+  router.post('/get-user', async (req, res) => {
+    const { id, email } = req.body
+    try {
+      if (id) {
+        const result = await userController.getUserByID(id)
+        result ? res.status(200).json(result) : res.status(400).json({ Message: 'Incorrect id' })
+      } else if (email) {
+        const result = await userController.getUserByEmail(email)
+        result ? res.status(200).json(result) : res.status(400).json({ Message: 'Incorrect email' })
+      } else {
+        res.status(400).json({ Message: 'Missing params' })
+      }
+    } catch (error) {
+      // @TODO log error
+      console.log(error)
+      res.status(500).json({ Error: 'Something went wrong' })
+    }
   })
 
   return router

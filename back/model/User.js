@@ -38,10 +38,16 @@ async function getId (email) {
  * @param {number} id
  * @returns {object} JSON object
  */
-async function getUser (id) {
+async function getUserByID (id) {
   if (!checkId(id)) throw new Error(`invalid_id ${id}`)
-  const result = await db.getUser(id)
-  return result[0]
+  const result = await db.getUserByID(id)
+  return result[0] ? result[0] : null
+}
+
+async function getUserByEmail (email) {
+  if (!validateEmail(email)) throw new Error(`invalid_email ${email}`)
+  const result = await db.getUserByEmail(email)
+  return result[0] ? result[0] : null
 }
 
 /**
@@ -103,7 +109,9 @@ async function deleteUser (id) {
   return await db.deleteUser(id)
 }
 
-export default { checkEmail, getPasswordHash, getId, getUser, createUser, updatePassword, updateDisplayName, updateAvatar, deleteUser }
+export default {
+  checkEmail, getPasswordHash, getId, getUserByID, getUserByEmail, createUser, updatePassword, updateDisplayName, updateAvatar, deleteUser
+}
 
 /* -------------------- util -------------------- */
 
