@@ -1,18 +1,18 @@
 import jwt from 'jsonwebtoken'
-import { config } from 'dotenv'
+import dotenv from 'dotenv'
 
-config()
+dotenv.config()
 const SECRET = process.env.TOKEN_SECRET
 const ISSUER = process.env.TOKEN_ISSUER
 
-function generateToken (payload) {
+function generate (payload) {
   return jwt.sign(payload, SECRET, { issuer: ISSUER, expiresIn: '12h' })
 }
 
-function verifyToken (token) {
+function verify (token) {
   jwt.verify(token, SECRET, { issuer: ISSUER }, (err, decoded) => {
     return err ?? decoded
   })
 }
 
-export default { generateToken, verifyToken }
+export default { generate, verify }

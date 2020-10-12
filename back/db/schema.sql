@@ -9,10 +9,8 @@ CREATE TABLE `User` (
   `email`                   VARCHAR(255) UNIQUE NOT NULL,
   `password`                VARCHAR(255) NOT NULL,
   `display_name`            VARCHAR(255),
-  `avatar_id`               INTEGER,
+  `avatar_image_id`         INTEGER,
   `timestamp`               TIMESTAMP NOT NULL DEFAULT(NOW())
-
-    -- FOREIGN KEY (avatar_id) REFERENCES image(id) ON DELETE CASCADE
 );
 
 CREATE TABLE `Image` (
