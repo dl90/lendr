@@ -6,13 +6,13 @@ const app = express()
 const { json, urlencoded } = express
 
 app.use(json())
-app.use(urlencoded({ extended: true }))
+app.use(urlencoded({ extended: false }))
 app.use(cookieParser()) // ('', { httpOnly: true, sameSite: true, secure: true })
 app.use(express.static('public'))
 
-export default function (db) {
+export default function () {
   /* ------ auth route ------ */
-  app.use('/auth', auth(db))
+  app.use('/auth', auth())
 
   return app
 }
