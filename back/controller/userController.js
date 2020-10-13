@@ -1,5 +1,5 @@
 import argon2 from 'argon2'
-import User from '../model/User.js'
+import User from '../model/UserModel.js'
 
 /**
  * Verifies login credentials against db
@@ -11,7 +11,7 @@ async function login (email, password) {
   const check = await User.checkEmail(email)
   if (!check) return false
   else {
-    const hash = await User.getPasswordHash(email)
+    const hash = await User.getPasswordHashByEmail(email)
     return await argon2.verify(hash, password)
   }
 }
@@ -23,7 +23,7 @@ async function login (email, password) {
  * @param {string|undefined} displayName
  * @returns {boolean|object} false if email exists | object if success
  */
-async function signUp (email, password, displayName = null) {
+async function signUpWithEmailPassword (email, password, displayName = null) {
   const check = await User.checkEmail(email)
   if (check) return false
   else {
@@ -53,4 +53,4 @@ async function getUserByEmail (email) {
   return info ?? null
 }
 
-export default { login, signUp, getUserByID, getUserByEmail }
+export default { login, signUpWithEmailPassword, getUserByID, getUserByEmail }

@@ -1,16 +1,33 @@
 import db from './connect.js'
 const pool = db.pool.promise()
 
-/*
-  CREATE TABLE `User` (
-    `id`                      INTEGER PRIMARY KEY AUTO_INCREMENT,
-    `email`                   VARCHAR(255) UNIQUE NOT NULL,
-    `password`                VARCHAR(255) NOT NULL,
-    `display_name`            VARCHAR(255),
-    `avatar_image_id`         INTEGER,
-    `timestamp`               TIMESTAMP NOT NULL DEFAULT(NOW())
-  );
-*/
+export default {
+  getEmail,
+  getID,
+  getUserByID,
+  getUserByEmail,
+
+  getPasswordByUserEmail,
+  getPasswordByUserID,
+  createPassword,
+  updatePassword,
+
+  getUserIDByGitHubOAuthUserID,
+  getUserByGitHubOAuthUserID,
+  createGitHubOAuth,
+  updateGitHubOAuth,
+
+  createUser,
+  setUserActiveState,
+  setUserReportFlag,
+  updateDisplayName,
+  updateLastAccessed,
+  updateAvatar,
+  deleteUser,
+
+  getAllInactiveUsers,
+  getAllFlaggedUsers
+}
 
 async function handler (asyncQuery) {
   const [rows] = await asyncQuery
@@ -18,92 +35,222 @@ async function handler (asyncQuery) {
 }
 
 /**
- * @param {string} email user email
+ * @param {string} userEmail user email
  * @returns {[object]} [ BinaryRow { data } ]
  */
-async function checkEmail (email) {
-  return await handler(pool.execute('SELECT `email` FROM `User` WHERE `email` = ?', [email]))
+async function getEmail (userEmail) {
+  return await handler(pool.execute(
+    'SELECT email FROM User WHERE email = ?', [userEmail]
+  ))
 }
 
 /**
- * @param {string} email user email
+ * @param {string} userEmail user email
  * @returns {[object]} [ BinaryRow { data } ]
  */
-async function getPassword (email) {
-  return await handler(pool.execute('SELECT `password` FROM `User` WHERE `email` = ?', [email]))
+async function getID (userEmail) {
+  return await handler(pool.execute(
+    'SELECT id FROM User WHERE email = ?', [userEmail]
+  ))
 }
 
 /**
- * @param {string} email user email
+ * @param {number} userID user ID
  * @returns {[object]} [ BinaryRow { data } ]
  */
-async function getId (email) {
-  return await handler(pool.execute('SELECT `id` FROM `User` WHERE `email` = ?', [email]))
+async function getUserByID (userID) {
+  return await handler(pool.execute(
+    'SELECT * FROM User WHERE id = ?', [userID]
+  ))
 }
 
 /**
- * @param {number} id user ID
+ * @param {string} userEmail user email
  * @returns {[object]} [ BinaryRow { data } ]
  */
-async function getUserByID (id) {
-  return await handler(pool.execute('SELECT * FROM `User` WHERE `id` = ?', [id]))
+async function getUserByEmail (userEmail) {
+  return await handler(pool.execute(
+    'SELECT * FROM User WHERE email = ?', [userEmail]
+  ))
 }
 
 /**
- * @param {string} email user email
+ * @param {string} userEmail user email
  * @returns {[object]} [ BinaryRow { data } ]
  */
-async function getUserByEmail (email) {
-  return await handler(pool.execute('SELECT * FROM `User` WHERE `email` = ?', [email]))
+async function getPasswordByUserEmail (userEmail) {
+  return await handler(pool.execute(
+    `SELECT password_hash FROM UserPassword
+     LEFT JOIN User ON UserPassword.user_id = User.id
+     WHERE User.email = ? LIMIT 1`, [userEmail]
+  ))
 }
 
 /**
- * @param {object} fields { email, password [, displayName]
+ * @param {number} userID user id
+ * @returns {[object]} [ BinaryRow { data } ]
+ */
+async function getPasswordByUserID (userID) {
+  return await handler(pool.execute(
+    'SELECT password_hash FROM UserPassword WHERE user_id = ?', [userID]
+  ))
+}
+
+/**
+ * @param {object} fields { userID: [number], pwHash: [string] }
+ * @returns {}
+ */
+async function createPassword (fields) {
+  const { userID, pwHash } = fields
+  return await handler(pool.execute(
+    'INSERT INTO UserPassword SET user_id = ?, password_hash = ?', [userID, pwHash]
+  ))
+}
+
+/**
+ * @param {object} fields { userID: [number], pwHash: [string} }
+ * @returns {}
+ */
+async function updatePassword (fields) {
+  const { userID, pwHash } = fields
+  return await handler(pool.execute(
+    'UPDATE UserPassword SET password_hash = ? WHERE user_id = ?', [pwHash, userID]
+  ))
+}
+
+/**
+ * @param {number} GitHubUserID GitHub user id
+ * @returns {[object]} [ BinaryRow { data } ]
+ */
+async function getUserIDByGitHubOAuthUserID (GitHubUserID) {
+  return await handler(pool.execute(
+    'SELECT user_id FROM GitHubOAuth WHERE oauth_user_id = ?', [GitHubUserID]
+  ))
+}
+
+/**
+ * @param {number} GitHubUserID GitHub user id
+ */
+async function getUserByGitHubOAuthUserID (GitHubUserID) {
+  return await handler(pool.execute(
+    `SELECT * FROM User
+     LEFT JOIN GitHubOAuth ON GitHubOAuth.user_id = User.id
+     WHERE GitHubOAuth.github_user_id = ? LIMIT 1`, [GitHubUserID]
+  ))
+}
+
+/**
+ * @param {object} fields { userID: [number], oauthUserID: [number] }
+ * @returns {}
+ */
+async function createGitHubOAuth (fields) {
+  const { userID, GitHubUserID } = fields
+  return await handler(pool.execute(
+    'INSERT INTO GitHubOAuth SET user_id = ?, github_user_id = ?', [userID, GitHubUserID]
+  ))
+}
+
+/**
+ * @param {object} fields { userID: [number], GitHubUserID: [number] }
+ * @returns {}
+ */
+async function updateGitHubOAuth (fields) {
+  const { userID, GitHubUserID } = fields
+  return await handler(pool.execute(
+    'UPDATE GitHubOAuth SET github_user_id = ? WHERE user_id = ?', [GitHubUserID, userID]
+  ))
+}
+
+/**
+ * @param {object} fields { userEmail: [string] [, displayName: [string]]
  * @returns {}
  */
 async function createUser (fields) {
-  const { email, pwHash, displayName } = fields
+  const { userEmail, displayName } = fields
   return await handler(pool.execute(
-    'INSERT INTO `User` SET `email` = ?, `password` = ?, `display_name` = ?',
-    [email, pwHash, displayName || null])
+    'INSERT INTO User SET email = ?, display_name = ?', [userEmail, displayName || null])
   )
 }
 
 /**
- * @param {object} fields { id, password }
+ * @param {object} state { userID: [number], state: [1 == active | 0 == inactive] }
  * @returns {}
  */
-async function updatePassword (fields) {
-  const { id, pwHash } = fields
-  return await handler(pool.execute('UPDATE `User` SET `password` = ? WHERE `id` = ?', [pwHash, id]))
+async function setUserActiveState (fields) {
+  const { userID, state } = fields
+  return await handler(pool.execute(
+    'UPDATE User SET active = ? WHERE id = ?', [state, userID]
+  ))
 }
 
 /**
- * @param {object} fields { id, displayName }
+ * @param {object} fields { userID: [number], reportFlat: [1 == true | 0 == false] }
+ * @returns {}
+ */
+async function setUserReportFlag (fields) {
+  const { userID, reportFlag } = fields
+  return await handler(pool.execute(
+    'UPDATE User set report_flag = ? WHERE id = ?', [reportFlag, userID]
+  ))
+}
+
+/**
+ * @param {object} fields { userID: [number], displayName: [string]}
  * @returns {}
  */
 async function updateDisplayName (fields) {
-  const { id, displayName } = fields
-  return await handler(pool.execute('UPDATE `User` SET `display_name` = ? WHERE `id` = ?', [displayName, id]))
+  const { userID, displayName } = fields
+  return await handler(pool.execute(
+    'UPDATE User SET display_name = ? WHERE id = ?', [displayName, userID]
+  ))
 }
 
 /**
- * @param {object} fields { id, imageID }
+ * @param {object} fields { userID: [number], dateTime: [string '2020-01-01 10:10:10']}
+ * @returns {}
+ */
+async function updateLastAccessed (fields) {
+  const { userID, dateTime } = fields
+  return await handler(pool.execute(
+    'UPDATE User SET last_accessed = ? WHERE id = ?', [dateTime, userID]
+  ))
+}
+
+/**
+ * @param {object} fields { userID: [number], imageID: [number] }
  * @returns {}
  */
 async function updateAvatar (fields) {
-  const { id, imageID } = fields
-  return await handler(pool.execute('UPDATE `User` SET `avatar_image_id` = ? WHERE `id` = ?', [imageID, id]))
+  const { userID, imageID } = fields
+  return await handler(pool.execute(
+    'UPDATE `User` SET `avatar_image_id` = ? WHERE `id` = ?', [imageID, userID]
+  ))
 }
 
 /**
- * @param {number} id user id
+ * @param {number} userID userID: [number]
  * @returns {}
  */
-async function deleteUser (id) {
-  return await handler(pool.execute('DELETE FROM `User` WHERE `id` = ?', [id]))
+async function deleteUser (userID) {
+  return await handler(pool.execute(
+    'DELETE FROM `User` WHERE `id` = ?', [userID]
+  ))
 }
 
-export default {
-  checkEmail, getPassword, getId, getUserByID, getUserByEmail, createUser, updatePassword, updateDisplayName, updateAvatar, deleteUser
+/**
+ * @returns {} all users not active
+ */
+async function getAllInactiveUsers () {
+  return await handler(pool.execute(
+    'SELECT * from User WHERE active = 0', []
+  ))
+}
+
+/**
+ * @returns {} all users flagged
+ */
+async function getAllFlaggedUsers () {
+  return await handler(pool.execute(
+    'SELECT * from User WHERE report_flag = 1', []
+  ))
 }
