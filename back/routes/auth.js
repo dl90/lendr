@@ -21,7 +21,7 @@ export default function () {
   router.post('/sign-up', async (req, res) => {
     const { email, password, displayName } = req.body
     try {
-      const success = userController.signUp(email, password, displayName)
+      const success = userController.signUpWithEmailPassword(email, password, displayName)
       // @TODO passport authorize
       success ? res.status(201).json(success) : res.status(400).json({ Message: 'Email already exists' })
     } catch (err) {

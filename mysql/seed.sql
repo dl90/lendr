@@ -1,0 +1,1 @@
+INSERT INTO `User` (email, display_name, avatar_image_id, last_accessed) VALUES ('test@test.com', 'testy', 1, '2020-01-01 10:10:10');

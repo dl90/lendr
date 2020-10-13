@@ -1,5 +1,12 @@
 # Changelog
 
-## 0.0.1 (Septmber 24, 2020)
+format: Major . Minor . Sprint Week
 
-* initiate project 🎉
+## 0.0.4 (October 12, 2020)
+
+- [*] User model
+- [*] DB setup
+
+## 0.0.1 (September 24, 2020)
+
+- [*] initiate project 🎉

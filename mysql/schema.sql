@@ -7,10 +7,31 @@ USE lendr;
 CREATE TABLE `User` (
   `id`                      INTEGER PRIMARY KEY AUTO_INCREMENT,
   `email`                   VARCHAR(255) UNIQUE NOT NULL,
-  `password`                VARCHAR(255) NOT NULL,
   `display_name`            VARCHAR(255),
   `avatar_image_id`         INTEGER,
-  `timestamp`               TIMESTAMP NOT NULL DEFAULT(NOW())
+  `active`                  BOOLEAN NOT NULL DEFAULT(1),
+  `report_flag`             BOOLEAN NOT NULL DEFAULT(0),
+  `last_accessed`           TIMESTAMP NOT NULL DEFAULT(NOW()),
+  `created_at`              TIMESTAMP NOT NULL DEFAULT(NOW()),
+  `rating`                  FLOAT(5,4)
+);
+
+CREATE TABLE `UserPassword` (
+  `id`                      INTEGER PRIMARY KEY AUTO_INCREMENT,
+  `user_id`                 INTEGER UNIQUE NOT NULL,
+  `password_hash`           VARCHAR(255) NOT NULL,
+  `timestamp`               TIMESTAMP NOT NULL DEFAULT(NOW()),
+
+  FOREIGN KEY (`user_id`) REFERENCES `User`(`id`) ON DELETE CASCADE
+);
+
+CREATE TABLE `GitHubOAuth` (
+  `id`                      INTEGER PRIMARY KEY AUTO_INCREMENT,
+  `user_id`                 INTEGER NOT NULL,
+  `github_user_id`          INTEGER NOT NULL,
+  `timestamp`               TIMESTAMP NOT NULL DEFAULT(NOW()),
+
+  FOREIGN KEY (`user_id`) REFERENCES `User`(`id`) ON DELETE CASCADE
 );
 
 CREATE TABLE `Image` (
