@@ -2,6 +2,7 @@ import express from 'express'
 import userController from '../controller/userController.js'
 import passport from '../middleware/passport.js'
 
+// @TODO move logic to passport
 const router = express.Router()
 export default function () {
   /**
@@ -21,8 +22,10 @@ export default function () {
   router.post('/sign-up', async (req, res) => {
     const { email, password, displayName } = req.body
     try {
-      const success = userController.signUpWithEmailPassword(email, password, displayName)
+      const success = await userController.signUpWithEmailPassword(email, password, displayName)
       // @TODO passport authorize
+      console.log(success)
+
       success ? res.status(201).json(success) : res.status(400).json({ Message: 'Email already exists' })
     } catch (err) {
       // @TODO log error
@@ -47,8 +50,9 @@ export default function () {
   router.post('/login', async (req, res) => {
     const { email, password } = req.body
     try {
-      const success = userController.login(email, password)
+      const success = await userController.login(email, password)
       // @TODO passport authorize
+
       success ? res.status(200).json({ Message: 'Logged in' }) : res.status(401).json({ Message: 'Incorrect information' })
     } catch (error) {
       // @TODO log error

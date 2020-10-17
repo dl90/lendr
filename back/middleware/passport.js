@@ -59,7 +59,7 @@ const githubLogin = new GitHubStrategy({
   console.log(accessToken) // ****
   console.log(refreshToken) // undefined
   console.log(profile)
-  return done
+  console.log(done)
 })
 
 export default passport.use(githubLogin)

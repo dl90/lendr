@@ -14,6 +14,7 @@ export default {
 
   createUser,
   createPassword,
+  createGitHubOAuth,
   updatePassword,
   updateDisplayName,
   updateAvatar,
@@ -29,7 +30,7 @@ export default {
 /**
  * Checks if email is in db
  * @param {string} userEmail
- * @returns {boolean} true if email exists and is equivalent
+ * @return {boolean} true if email exists
  */
 async function checkEmail (userEmail) {
   validateEmail(userEmail)
@@ -40,7 +41,7 @@ async function checkEmail (userEmail) {
 /**
  * Gets user id from db
  * @param {string} userEmail
- * @returns {number} user id
+ * @return {number} user id
  */
 async function getID (userEmail) {
   validateEmail(userEmail)
@@ -51,10 +52,11 @@ async function getID (userEmail) {
 /**
  * Gets user password hash from db
  * @param {string} userEmail
- * @returns {string} password hash
+ * @return {string} password hash
  */
 async function getPasswordHashByEmail (userEmail) {
   validateEmail(userEmail)
+  if (DB_ENTRY_CHECK) await getEmail(userEmail)
   const result = await db.getPasswordByUserEmail(userEmail)
   return result[0]?.password_hash
 }
@@ -62,7 +64,7 @@ async function getPasswordHashByEmail (userEmail) {
 /**
  * Gets user password hash from db
  * @param {number} userID
- * @returns {string} password hash
+ * @return {string} password hash
  */
 async function getPasswordHashByID (userID) {
   checkID(userID)
@@ -73,7 +75,7 @@ async function getPasswordHashByID (userID) {
 /**
  * Gets all user fields from db
  * @param {number} userID
- * @returns {object} JSON object
+ * @return {object} JSON object
  */
 async function getUserByID (userID) {
   checkID(userID)
@@ -84,10 +86,11 @@ async function getUserByID (userID) {
 /**
  * Gets all user fields from db
  * @param {string} userEmail
- * @returns {object} JSON object
+ * @return {object} JSON object
  */
 async function getUserByEmail (userEmail) {
   validateEmail(userEmail)
+  if (DB_ENTRY_CHECK) await getEmail(userEmail)
   const result = await db.getUserByEmail(userEmail)
   return result[0] ? result[0] : null
 }
@@ -95,19 +98,40 @@ async function getUserByEmail (userEmail) {
 /**
  * Adds user to db
  * @param {object} fields { userEmail: [string] [, displayName: [string]] }
- * @returns {}
+ * @return {object|boolean} ResultSetHeader obj if success, **false** if failed
+ * > ```
+ * ResultSetHeader {
+ *   fieldCount: 0,
+ *   affectedRows: 1,
+ *   insertId: 1,
+ *   info: '',
+ *   serverStatus: 2,
+ *   warningStatus: 0
+ * }
+ * ```
  */
 async function createUser (fields) {
   const { userEmail, displayName } = fields
-  validateEmail(userEmail)
-  checkEmptyString(displayName)
-  return await db.createUser(fields)
+  if (displayName) checkEmptyString(displayName)
+  const exist = await checkEmail(userEmail)
+  if (!exist) return await db.createUser(fields)
+  return false
 }
 
 /**
  * Adds user password hash to db
  * @param {object} fields { userID: [number], pwHash: [string] }
- * @returns {}
+* @return {object|boolean} ResultSetHeader obj if success, **false** if failed
+ * > ```
+ * ResultSetHeader {
+ *   fieldCount: 0,
+ *   affectedRows: 1,
+ *   insertId: 1,
+ *   info: '',
+ *   serverStatus: 2,
+ *   warningStatus: 0
+ * }
+ * ```
  */
 async function createPassword (fields) {
   const { userID, pwHash } = fields
@@ -115,17 +139,33 @@ async function createPassword (fields) {
   checkID(userID)
 
   if (DB_ENTRY_CHECK) {
-    // checks if pwHash already exists
-    const results = await db.getPasswordByUserID(fields)
+    const results = await db.getPasswordByUserID(userID)
     if (results.length > 0) throw new Error(`${JSON.stringify({ userID })} <invalid argument: entry already exists>`)
   }
   return await db.createPassword(fields)
 }
 
 /**
+ * Add user GitHub OAuth info to db
+ * @param {object} fields { userID: [number], GitHubUserID: [number] }
+ * @return {}
+ */
+async function createGitHubOAuth (fields) {
+  const { userID, GitHubUserID } = fields
+  checkID(userID)
+  checkID(GitHubUserID)
+
+  if (DB_ENTRY_CHECK) {
+    const results = await db.getGitHubOAuthUserIDByUserID(userID)
+    if (results.length > 0) throw new Error(`${JSON.stringify({ userID })} <invalid argument: entry already exists>`)
+  }
+  return await db.createGitHubOAuth(fields)
+}
+
+/**
  * Updates user password hash in db
  * @param {object} fields { userID: [number], pwHash: [string] }
- * @returns {}
+ * @return {}
  */
 async function updatePassword (fields) {
   const { userID, pwHash } = fields
@@ -133,7 +173,6 @@ async function updatePassword (fields) {
   checkEmptyString(pwHash)
 
   if (DB_ENTRY_CHECK) {
-    // checks if pwHash exists
     const results = await db.getPasswordByUserID(fields)
     if (results.length === 0) throw new Error(`${JSON.stringify({ userID })} <invalid argument: entry does not exists>`)
   }
@@ -143,28 +182,28 @@ async function updatePassword (fields) {
 /**
  * Updates display name in db
  * @param {object} fields { userID: [number], displayName: [string] }
- * @returns {}
+ * @return {}
  */
 async function updateDisplayName (fields) {
   const { userID, displayName } = fields
   checkID(userID)
   checkEmptyString(displayName)
 
-  if (DB_ENTRY_CHECK) await checkUser(userID)
+  if (DB_ENTRY_CHECK) await getUser(userID)
   return await db.updateDisplayName(fields)
 }
 
 /**
  * Updates user avatar image id (PK image id) in db
  * @param {object} fields { userID: [number], imageID: [number] }
- * @returns {}
+ * @return {}
  */
 async function updateAvatar (fields) {
   const { userID, imageID } = fields
   checkID(userID)
   checkID(imageID)
 
-  if (DB_ENTRY_CHECK) await checkUser(userID)
+  if (DB_ENTRY_CHECK) await getUser(userID)
   return await db.updateAvatar(fields)
 }
 
@@ -179,7 +218,7 @@ async function updateAvatar (fields) {
  * const regex = /^[2][0]\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]$/g
  * >```
  * @param {object} fields { userID: [number], dateTime: [string '2020-12-01 23:59:59'] }
- * @returns {}
+ * @return {}
  */
 async function updateLastAccessed (fields) {
   const { userID, dateTime } = fields
@@ -193,46 +232,46 @@ async function updateLastAccessed (fields) {
 /**
  * Update user active state
  * @param {object} fields { userID: [number], state: [1 || 0] }
- * @returns {}
+ * @return {}
  */
 async function updateActivateUser (fields) {
   const { userID, state } = fields
   checkID(userID)
   checkState(state)
 
-  if (DB_ENTRY_CHECK) await checkUser(userID)
+  if (DB_ENTRY_CHECK) await getUser(userID)
   return await db.setUserActiveState(fields)
 }
 
 /**
  * Update user report flag
  * @param {object} fields { userID: [number], reportFlag: [1 || 0] }
- * @returns {}
+ * @return {}
  */
 async function updateUserReportFlag (fields) {
   const { userID, reportFlag } = fields
   checkID(userID)
   checkState(reportFlag)
 
-  if (DB_ENTRY_CHECK) await checkUser(userID)
+  if (DB_ENTRY_CHECK) await getUser(userID)
   return await db.setUserReportFlag(fields)
 }
 
 /**
  * Deletes user from db
  * @param {number} userID
- * @returns {}
+ * @return {}
  */
 async function deleteUser (userID) {
   checkID(userID)
 
-  if (DB_ENTRY_CHECK) await checkUser(userID)
+  if (DB_ENTRY_CHECK) await getUser(userID)
   return await db.deleteUser(userID)
 }
 
 /**
  * Returns all inactive users in db
- * @returns {}
+ * @return {}
  */
 async function getAllInactiveUsers () {
   return await db.getAllInactiveUsers()
@@ -240,7 +279,7 @@ async function getAllInactiveUsers () {
 
 /**
  * Returns all flagged users in db
- * @returns {}
+ * @return {}
  */
 async function getAllFlaggedUsers () {
   return await db.getAllFlaggedUsers()
@@ -251,7 +290,7 @@ async function getAllFlaggedUsers () {
 /**
  * throws error if arg is empty
  * @param {string} arg
- * @returns {error}
+ * @return {error}
  */
 function checkEmptyString (arg) {
   if (!(arg && arg.trim().length)) invalidArgument(arg)
@@ -260,7 +299,7 @@ function checkEmptyString (arg) {
 /**
  * throws error if id is not a number above 0
  * @param {number} id
- * @returns {error}
+ * @return {error}
  */
 function checkID (id) {
   if (!(parseInt(id) && id >= 0)) invalidArgument(id)
@@ -269,7 +308,7 @@ function checkID (id) {
 /**
  * throws error if state is not 0 or 1
  * @param {number} state
- * @returns {error}
+ * @return {error}
  */
 function checkState (state) {
   if (state !== 0 || state !== 1) invalidArgument(state)
@@ -278,7 +317,7 @@ function checkState (state) {
 /**
  * throws error if email is not valid
  * @param {string} email
- * @returns {error}
+ * @return {error}
  */
 function validateEmail (email) {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -288,7 +327,7 @@ function validateEmail (email) {
 /**
  * throws invalid argument error
  * @param {*} arg
- * @returns {error}
+ * @return {error}
  */
 function invalidArgument (arg) {
   throw new Error(`${JSON.stringify({ arg })} <invalid argument>`)
@@ -298,7 +337,16 @@ function invalidArgument (arg) {
  * throws error if user does not exist in db
  * @param {number} userID
  */
-async function checkUser (userID) {
+async function getUser (userID) {
   const result = await db.getUserByID(userID)
   if (result.length === 0) throw new Error(`${JSON.stringify({ userID })} <invalid argument: entry does not exists>`)
+}
+
+/**
+ * throws error if userEmail does not exist in db
+ * @param {number} userEmail
+ */
+async function getEmail (userEmail) {
+  const result = await db.getEmail(userEmail)
+  if (result.length === 0) throw new Error(`${JSON.stringify({ userEmail })} <invalid argument: entry does not exists>`)
 }
