@@ -54,6 +54,7 @@ async function signUpWithOAuth (profile) {
   // @TODO upload avatar_url image to s3
   // @TODO insert s3 link to image db
   // @TODO update user avatar
+  console.log(avatar_url)
 
   const gitHubOAuthFields = { userID: userCreated.insertId, GitHubUserID: id }
   const gitHubOAuthCreated = await User.createGitHubOAuth(gitHubOAuthFields)

@@ -1,5 +1,5 @@
 import app from './app.js'
-import db from './db/connect.js'
+import db from './db/mysql_connect.js'
 import dotenv from 'dotenv'
 dotenv.config()
 

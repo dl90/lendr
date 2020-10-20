@@ -1,4 +1,4 @@
-import db from './connect.js'
+import db from './mysql_connect.js'
 const pool = db.pool.promise()
 
 export default {
