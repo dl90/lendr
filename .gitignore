@@ -1,8 +1,5 @@
 **/node_modules
-**/package-lock.json
 **/.DS_Store
 **/.vscode
-**/.env
-
-**/coverage
-**/build
+**/package-lock.json
+**.env

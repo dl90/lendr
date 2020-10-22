@@ -13,7 +13,7 @@ const { json, urlencoded } = express
 const app = express()
 
 app.use(json())
-app.use(urlencoded({ extended: false }))
+app.use(urlencoded({ extended: true }))
 app.use(cookieParser()) // ('', { httpOnly: true, sameSite: true, secure: true })
 app.use(cookieSession({
   maxAge: 43200000, // 12h
