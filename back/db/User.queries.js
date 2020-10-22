@@ -1,4 +1,4 @@
-import db from './connect.js'
+import db from './mysql.connect.js'
 const pool = db.pool.promise()
 
 export default {
@@ -14,6 +14,8 @@ export default {
 
   getUserIDByGitHubOAuthUserID,
   getUserByGitHubOAuthUserID,
+  getGitHubOAuthUserIDByUserID,
+  getGitHubOAuthUserIDByEmail,
   createGitHubOAuth,
   updateGitHubOAuth,
 
@@ -29,6 +31,11 @@ export default {
   getAllFlaggedUsers
 }
 
+/**
+ * Pulls BinaryRow from asyncQuery result
+ * @param {function} asyncQuery SQL query
+ * @return {[object]} [ BinaryRow { data } ]
+ */
 async function handler (asyncQuery) {
   const [rows] = await asyncQuery
   return rows
@@ -36,7 +43,7 @@ async function handler (asyncQuery) {
 
 /**
  * @param {string} userEmail user email
- * @returns {[object]} [ BinaryRow { data } ]
+ * @return {[object]} [ BinaryRow { data } ]
  */
 async function getEmail (userEmail) {
   return await handler(pool.execute(
@@ -46,7 +53,7 @@ async function getEmail (userEmail) {
 
 /**
  * @param {string} userEmail user email
- * @returns {[object]} [ BinaryRow { data } ]
+ * @return {[object]} [ BinaryRow { data } ]
  */
 async function getID (userEmail) {
   return await handler(pool.execute(
@@ -56,7 +63,7 @@ async function getID (userEmail) {
 
 /**
  * @param {number} userID user ID
- * @returns {[object]} [ BinaryRow { data } ]
+ * @return {[object]} [ BinaryRow { data } ]
  */
 async function getUserByID (userID) {
   return await handler(pool.execute(
@@ -66,7 +73,7 @@ async function getUserByID (userID) {
 
 /**
  * @param {string} userEmail user email
- * @returns {[object]} [ BinaryRow { data } ]
+ * @return {[object]} [ BinaryRow { data } ]
  */
 async function getUserByEmail (userEmail) {
   return await handler(pool.execute(
@@ -76,19 +83,19 @@ async function getUserByEmail (userEmail) {
 
 /**
  * @param {string} userEmail user email
- * @returns {[object]} [ BinaryRow { data } ]
+ * @return {[object]} [ BinaryRow { data } ]
  */
 async function getPasswordByUserEmail (userEmail) {
   return await handler(pool.execute(
-    `SELECT password_hash FROM UserPassword
-     LEFT JOIN User ON UserPassword.user_id = User.id
-     WHERE User.email = ? LIMIT 1`, [userEmail]
+    `SELECT password_hash, user_id FROM UserPassword
+     JOIN User ON UserPassword.user_id = User.id
+     WHERE User.email = ?`, [userEmail]
   ))
 }
 
 /**
  * @param {number} userID user id
- * @returns {[object]} [ BinaryRow { data } ]
+ * @return {[object]} [ BinaryRow { data } ]
  */
 async function getPasswordByUserID (userID) {
   return await handler(pool.execute(
@@ -98,7 +105,7 @@ async function getPasswordByUserID (userID) {
 
 /**
  * @param {object} fields { userID: [number], pwHash: [string] }
- * @returns {}
+ * @return {}
  */
 async function createPassword (fields) {
   const { userID, pwHash } = fields
@@ -109,7 +116,7 @@ async function createPassword (fields) {
 
 /**
  * @param {object} fields { userID: [number], pwHash: [string} }
- * @returns {}
+ * @return {}
  */
 async function updatePassword (fields) {
   const { userID, pwHash } = fields
@@ -120,7 +127,7 @@ async function updatePassword (fields) {
 
 /**
  * @param {number} GitHubUserID GitHub user id
- * @returns {[object]} [ BinaryRow { data } ]
+ * @return {[object]} [ BinaryRow { data } ]
  */
 async function getUserIDByGitHubOAuthUserID (GitHubUserID) {
   return await handler(pool.execute(
@@ -130,18 +137,41 @@ async function getUserIDByGitHubOAuthUserID (GitHubUserID) {
 
 /**
  * @param {number} GitHubUserID GitHub user id
+ * @return {}
  */
 async function getUserByGitHubOAuthUserID (GitHubUserID) {
   return await handler(pool.execute(
     `SELECT * FROM User
-     LEFT JOIN GitHubOAuth ON GitHubOAuth.user_id = User.id
+     JOIN GitHubOAuth ON GitHubOAuth.user_id = User.id
      WHERE GitHubOAuth.github_user_id = ? LIMIT 1`, [GitHubUserID]
   ))
 }
 
 /**
- * @param {object} fields { userID: [number], oauthUserID: [number] }
- * @returns {}
+ * @param {number} userID userID
+ * @return {[object]} [ BinaryRow { data } ]
+ */
+async function getGitHubOAuthUserIDByUserID (userID) {
+  return await handler(pool.execute(
+    'SELECT github_user_id FROM GitHubOAuth WHERE user_id = ?', [userID]
+  ))
+}
+
+/**
+ * @param {string} email user email
+ * @return {}
+ */
+async function getGitHubOAuthUserIDByEmail (email) {
+  return await handler(pool.execute(
+    `SELECT github_user_id FROM GitHubOAuth
+    JOIN User ON GitHubOauth.user_id = User.id
+    WHERE User.email = ? LIMIT 1`, [email]
+  ))
+}
+
+/**
+ * @param {object} fields { userID: [number], GitHubUserID: [number] }
+ * @return {object} ResultSetHeader
  */
 async function createGitHubOAuth (fields) {
   const { userID, GitHubUserID } = fields
@@ -152,7 +182,7 @@ async function createGitHubOAuth (fields) {
 
 /**
  * @param {object} fields { userID: [number], GitHubUserID: [number] }
- * @returns {}
+ * @return {}
  */
 async function updateGitHubOAuth (fields) {
   const { userID, GitHubUserID } = fields
@@ -163,7 +193,7 @@ async function updateGitHubOAuth (fields) {
 
 /**
  * @param {object} fields { userEmail: [string] [, displayName: [string]]
- * @returns {}
+ * @return {}
  */
 async function createUser (fields) {
   const { userEmail, displayName } = fields
@@ -174,7 +204,7 @@ async function createUser (fields) {
 
 /**
  * @param {object} state { userID: [number], state: [1 == active | 0 == inactive] }
- * @returns {}
+ * @return {}
  */
 async function setUserActiveState (fields) {
   const { userID, state } = fields
@@ -185,7 +215,7 @@ async function setUserActiveState (fields) {
 
 /**
  * @param {object} fields { userID: [number], reportFlat: [1 == true | 0 == false] }
- * @returns {}
+ * @return {}
  */
 async function setUserReportFlag (fields) {
   const { userID, reportFlag } = fields
@@ -196,7 +226,7 @@ async function setUserReportFlag (fields) {
 
 /**
  * @param {object} fields { userID: [number], displayName: [string]}
- * @returns {}
+ * @return {}
  */
 async function updateDisplayName (fields) {
   const { userID, displayName } = fields
@@ -207,7 +237,7 @@ async function updateDisplayName (fields) {
 
 /**
  * @param {object} fields { userID: [number], dateTime: [string '2020-01-01 10:10:10']}
- * @returns {}
+ * @return {}
  */
 async function updateLastAccessed (fields) {
   const { userID, dateTime } = fields
@@ -218,7 +248,7 @@ async function updateLastAccessed (fields) {
 
 /**
  * @param {object} fields { userID: [number], imageID: [number] }
- * @returns {}
+ * @return {}
  */
 async function updateAvatar (fields) {
   const { userID, imageID } = fields
@@ -229,7 +259,7 @@ async function updateAvatar (fields) {
 
 /**
  * @param {number} userID userID: [number]
- * @returns {}
+ * @return {}
  */
 async function deleteUser (userID) {
   return await handler(pool.execute(
@@ -238,7 +268,7 @@ async function deleteUser (userID) {
 }
 
 /**
- * @returns {} all users not active
+ * @return {} all users not active
  */
 async function getAllInactiveUsers () {
   return await handler(pool.execute(
@@ -247,7 +277,7 @@ async function getAllInactiveUsers () {
 }
 
 /**
- * @returns {} all users flagged
+ * @return {} all users flagged
  */
 async function getAllFlaggedUsers () {
   return await handler(pool.execute(

@@ -27,8 +27,8 @@ CREATE TABLE `UserPassword` (
 
 CREATE TABLE `GitHubOAuth` (
   `id`                      INTEGER PRIMARY KEY AUTO_INCREMENT,
-  `user_id`                 INTEGER NOT NULL,
-  `github_user_id`          INTEGER NOT NULL,
+  `user_id`                 INTEGER UNIQUE NOT NULL,
+  `github_user_id`          VARCHAR(255) NOT NULL,
   `timestamp`               TIMESTAMP NOT NULL DEFAULT(NOW()),
 
   FOREIGN KEY (`user_id`) REFERENCES `User`(`id`) ON DELETE CASCADE
