@@ -62,13 +62,14 @@ export default function () {
   })
 
   router.get('/logout', (req, res) => {
-    // passport
+    req.logout()
+    res.redirect('/')
   })
 
   router.get('/github', passport.authenticate('github', { scope: ['profile'] }))
 
   router.get('/github/redirect', passport.authenticate('github'), (req, res) => {
-    res.send('success')
+    res.redirect('/me')
   })
 
   /**

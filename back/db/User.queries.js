@@ -1,4 +1,4 @@
-import db from './mysql_connect.js'
+import db from './mysql.connect.js'
 const pool = db.pool.promise()
 
 export default {
@@ -15,6 +15,7 @@ export default {
   getUserIDByGitHubOAuthUserID,
   getUserByGitHubOAuthUserID,
   getGitHubOAuthUserIDByUserID,
+  getGitHubOAuthUserIDByEmail,
   createGitHubOAuth,
   updateGitHubOAuth,
 
@@ -86,7 +87,7 @@ async function getUserByEmail (userEmail) {
  */
 async function getPasswordByUserEmail (userEmail) {
   return await handler(pool.execute(
-    `SELECT password_hash FROM UserPassword
+    `SELECT password_hash, user_id FROM UserPassword
      JOIN User ON UserPassword.user_id = User.id
      WHERE User.email = ?`, [userEmail]
   ))
@@ -136,6 +137,7 @@ async function getUserIDByGitHubOAuthUserID (GitHubUserID) {
 
 /**
  * @param {number} GitHubUserID GitHub user id
+ * @return {}
  */
 async function getUserByGitHubOAuthUserID (GitHubUserID) {
   return await handler(pool.execute(
@@ -156,8 +158,20 @@ async function getGitHubOAuthUserIDByUserID (userID) {
 }
 
 /**
- * @param {object} fields { userID: [number], GitHubUserID: [number] }
+ * @param {string} email user email
  * @return {}
+ */
+async function getGitHubOAuthUserIDByEmail (email) {
+  return await handler(pool.execute(
+    `SELECT github_user_id FROM GitHubOAuth
+    JOIN User ON GitHubOauth.user_id = User.id
+    WHERE User.email = ? LIMIT 1`, [email]
+  ))
+}
+
+/**
+ * @param {object} fields { userID: [number], GitHubUserID: [number] }
+ * @return {object} ResultSetHeader
  */
 async function createGitHubOAuth (fields) {
   const { userID, GitHubUserID } = fields

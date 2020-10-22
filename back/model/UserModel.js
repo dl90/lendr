@@ -8,6 +8,8 @@ export default {
   getID,
   getPasswordHashByEmail,
   getPasswordHashByID,
+  getGitHubOAuthIDByID,
+  getGitHubOAuthIDByEmail,
 
   getUserByID,
   getUserByEmail,
@@ -15,6 +17,7 @@ export default {
   createUser,
   createPassword,
   createGitHubOAuth,
+
   updatePassword,
   updateDisplayName,
   updateAvatar,
@@ -52,13 +55,13 @@ async function getID (userEmail) {
 /**
  * Gets user password hash from db
  * @param {string} userEmail
- * @return {string} password hash
+ * @return {object} { password_hash, user_id }
  */
 async function getPasswordHashByEmail (userEmail) {
   validateEmail(userEmail)
   if (DB_ENTRY_CHECK) await getEmail(userEmail)
   const result = await db.getPasswordByUserEmail(userEmail)
-  return result[0]?.password_hash
+  return result[0]
 }
 
 /**
@@ -73,6 +76,28 @@ async function getPasswordHashByID (userID) {
 }
 
 /**
+ * Gets user GitHub OAuth ID from db
+ * @param {number} userID
+ * @return {}
+ */
+async function getGitHubOAuthIDByID (userID) {
+  checkID(userID)
+  const result = await db.getGitHubOAuthUserIDByUserID(userID)
+  return result[0]?.github_user_id
+}
+
+/**
+ * Gets user GitHub OAuth ID from db
+ * @param {string} email
+ * @return {string} GitHub OAuth user ID
+ */
+async function getGitHubOAuthIDByEmail (email) {
+  checkEmail(email)
+  const result = await db.getGitHubOAuthUserIDByEmail(email)
+  return result[0]?.github_user_id
+}
+
+/**
  * Gets all user fields from db
  * @param {number} userID
  * @return {object} JSON object
@@ -80,7 +105,7 @@ async function getPasswordHashByID (userID) {
 async function getUserByID (userID) {
   checkID(userID)
   const result = await db.getUserByID(userID)
-  return result[0] ? result[0] : null
+  return result[0]
 }
 
 /**
@@ -92,7 +117,7 @@ async function getUserByEmail (userEmail) {
   validateEmail(userEmail)
   if (DB_ENTRY_CHECK) await getEmail(userEmail)
   const result = await db.getUserByEmail(userEmail)
-  return result[0] ? result[0] : null
+  return result[0]
 }
 
 /**
@@ -147,8 +172,18 @@ async function createPassword (fields) {
 
 /**
  * Add user GitHub OAuth info to db
- * @param {object} fields { userID: [number], GitHubUserID: [number] }
- * @return {}
+ * @param {object} fields { userID: [number], GitHubUserID: [string] }
+ * @return {object|boolean} ResultSetHeader obj if success, **false** if failed
+ * > ```
+ * ResultSetHeader {
+ *   fieldCount: 0,
+ *   affectedRows: 1,
+ *   insertId: 1,
+ *   info: '',
+ *   serverStatus: 2,
+ *   warningStatus: 0
+ * }
+ * ```
  */
 async function createGitHubOAuth (fields) {
   const { userID, GitHubUserID } = fields
