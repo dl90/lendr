@@ -1,24 +1,38 @@
 import passport from 'passport'
-// import LocalStrategy from 'passport-local'
+import LocalStrategy from 'passport-local'
 import GitHubStrategy from 'passport-github2'
-import UserController from '../controller/userController.js'
+import userController from '../controller/userController.js'
 import dotenv from 'dotenv'
 dotenv.config()
 
-passport.serializeUser((user, done) => {
-  done(null, user)
-})
+export default passport
 
+passport.serializeUser((user, done) => done(null, user))
 passport.deserializeUser(async (user, done) => {
-  done(null, await UserController.getUserByID(user.id))
+  done(null, await userController.getUserByID(user.id))
 })
 
-// const localLogin = new LocalStrategy({
-//   usernameField: 'email',
-//   passwordField: 'password'
-// }, (email, password, done) => {
+passport.use('local-login', new LocalStrategy({
+  usernameField: 'email',
+  passwordField: 'password'
+}, async (email, password, done) => {
+  const existingUser = await userController.login(email, password)
+  !existingUser
+    ? done(null, false, { message: 'Invalid email or password' })
+    : done(null, existingUser)
+}))
 
-// })
+passport.use('local-signup', new LocalStrategy({
+  usernameField: 'email',
+  passwordField: 'password',
+  passReqToCallback: true
+}, async (req, email, password, done) => {
+  const { displayName } = req.body
+  const newUser = await userController.signUpWithEmailPassword(email, password, displayName)
+  !newUser
+    ? done(null, false, { message: 'User already exists' })
+    : done(null, newUser)
+}))
 
 /*
   profile {
@@ -32,7 +46,7 @@ passport.deserializeUser(async (user, done) => {
     }
   }
 */
-const githubLogin = new GitHubStrategy({
+passport.use('github', new GitHubStrategy({
   clientID: process.env.GH_OAUTH_ID,
   clientSecret: process.env.GH_OAUTH_SECRET,
   callbackURL: process.env.GH_OAUTH_CB_URL
@@ -41,10 +55,8 @@ const githubLogin = new GitHubStrategy({
   const avatarURL = profile._json.avatar_url
 
   // @TODO if oauth entry is deleted, handel recreating oauth entry with existing user
-  const existingUser = await UserController.verifyGitHubOauth(email, id.toString())
+  const existingUser = await userController.verifyGitHubOauth(email, id.toString())
   !existingUser
-    ? done(null, await UserController.signUpWithOAuth(email, parseInt(id), name, avatarURL))
+    ? done(null, await userController.signUpWithOAuth(email, parseInt(id), name, avatarURL))
     : done(null, existingUser)
-})
-
-export default passport.use(githubLogin)
+}))
