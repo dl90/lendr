@@ -22,6 +22,7 @@ export default {
   updateDisplayName,
   updateAvatar,
   updateLastAccessed,
+  // updateGitHubOauth,
   updateActivateUser,
   updateUserReportFlag,
   deleteUser,
@@ -172,7 +173,7 @@ async function createPassword (fields) {
 
 /**
  * Add user GitHub OAuth info to db
- * @param {object} fields { userID: [number], GitHubUserID: [string] }
+ * @param {object} fields { userID: [number], githubUserID: [string] }
  * @return {object|boolean} ResultSetHeader obj if success, **false** if failed
  * > ```
  * ResultSetHeader {
@@ -186,9 +187,9 @@ async function createPassword (fields) {
  * ```
  */
 async function createGitHubOAuth (fields) {
-  const { userID, GitHubUserID } = fields
+  const { userID, githubUserID } = fields
   checkID(userID)
-  checkID(GitHubUserID)
+  checkID(githubUserID)
 
   if (DB_ENTRY_CHECK) {
     const results = await db.getGitHubOAuthUserIDByUserID(userID)

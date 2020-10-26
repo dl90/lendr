@@ -6,51 +6,62 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-  <title>🚀 Auth Test 🚀</title>
+  <title>🚀 Test 🚀</title>
 </head>
 
 <body>
-  <div class="page-header">
-    <h1>Testing Authentication Here</h1>
+  <div class="jumbotron">
+    <h1 class="display-4">Testing</h1>
   </div>
-  <div class="container">
-
+  <div class="container py-5">
     <form id="login-form" method="post" action="/auth/login">
       <h3>Login</h3>
       <div class="form-group row">
         <label for="email" class="col-form-label col-sm-3">Email</label>
-        <input class="form-control col-sm-2" type="text" id="email" name="email" placeholder="Username"
+        <input class="form-control col-sm-4" type="text" id="email" name="email" placeholder="test@test.com"
           form="login-form" pattern=".{3,}" required title="3 characters minimum">
       </div>
       <div class="form-group row">
         <label for="password" class="col-form-label col-sm-3">Password</label>
-        <input class="form-control col-sm-2" type="password" id="password" name="password" placeholder="Password"
+        <input class="form-control col-sm-4" type="password" id="password" name="password" placeholder="test"
           form="login-form" pattern=".{3,}" required title="3 characters minimum">
       </div>
-      <button type="submit" id="login-submit" form="login-form" class="btn btn-light">Login</button>
+      <button type="submit" form="login-form" class="btn btn-warning">Login</button>
     </form>
+  </div>
 
+  <div class="container py-5">
     <form id="sign-up-form" method="post" action="/auth/sign-up">
       <h3>Sign-up</h3>
       <div class="form-group row">
+        <label for="new-display-name" class="col-form-label col-sm-3">Display Name</label>
+        <input class="form-control col-sm-4" type="text" id="new-display-name" name="displayName"
+          placeholder="Testy Test" form="sign-up-form" pattern=".{3,}" required title="3 characters minimum">
+      </div>
+      <div class="form-group row">
         <label for="new-email" class="col-form-label col-sm-3">Email</label>
-        <input class="form-control col-sm-2" type="text" id="new-email" name="email" placeholder="Username"
-          form="sign-up-form" pattern=".{3,}" required title="3 characters minimum">
+        <input class="form-control col-sm-4" type="text" id="new-email" name="email" placeholder="test@test.com"
+          form="sign-up-form" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required title="valid email required">
       </div>
       <div class="form-group row">
         <label for="new-password" class="col-form-label col-sm-3">Password</label>
-        <input class="form-control col-sm-2" type="password" id="new-password" name="password" placeholder="Password"
+        <input class="form-control col-sm-4" type="password" id="new-password" name="password" placeholder="test"
           form="sign-up-form" pattern=".{3,}" required title="3 characters minimum">
       </div>
-      <!-- <div class="form-group row">
-      <label for="new-email" class="col-form-label col-sm-5">Email</label>
-      <input class="form-control col-sm-7" type="text" id="new-email" name="email" placeholder="Email"
-        form="sign-up-form" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required title="valid email required">
-    </div> -->
-      <button type="submit" id="sign-up-submit" form="sign-up-form" class="btn btn-warning">Sign-up</button>
+      <button type="submit" form="sign-up-form" class="btn btn-warning">Sign-up</button>
     </form>
-
   </div>
+
+  <div class="container py-5">
+    <h3>Upload Image</h3>
+    <form id="image-upload" method="post" action="/image/multi" enctype="multipart/form-data">
+      <label for="file-upload" class="btn btn-success" style="margin: 0;">Upload Image</label>
+      <input id="file-upload" type="file" accept="image/*" name="images" multiple
+        style='display: none; height: 0px; width: 0px; overflow: hidden;'>
+      <button type="submit" form="image-upload" class="btn btn-warning">Upload</button>
+    </form>
+  </div>
+
 </body>
 
 </html>

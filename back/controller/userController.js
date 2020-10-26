@@ -107,7 +107,7 @@ async function signUpWithOAuth (email, GitHubID, name, avatarURL) {
   // @TODO update user avatar
   console.log(avatarURL)
 
-  const gitHubOAuthFields = { userID: userCreated.insertId, GitHubUserID: GitHubID }
+  const gitHubOAuthFields = { userID: userCreated.insertId, githubUserID: GitHubID }
   const gitHubOAuthCreated = await User.createGitHubOAuth(gitHubOAuthFields)
   if (!gitHubOAuthCreated.insertId) return false
   return await User.getUserByEmail(email)
