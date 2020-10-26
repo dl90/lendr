@@ -192,13 +192,13 @@ async function updateGitHubOAuth (fields) {
 }
 
 /**
- * @param {object} fields { userEmail: [string] [, displayName: [string]]
+ * @param {object} fields { userEmail: [string] [, displayName: [string], avatarURL: [string]]
  * @return {}
  */
 async function createUser (fields) {
-  const { userEmail, displayName } = fields
+  const { userEmail, displayName, avatarURL } = fields
   return await handler(pool.execute(
-    'INSERT INTO User SET email = ?, display_name = ?', [userEmail, displayName || null])
+    'INSERT INTO User SET email = ?, display_name = ?, avatar_url = ?', [userEmail, displayName || null, avatarURL || null])
   )
 }
 
@@ -247,13 +247,13 @@ async function updateLastAccessed (fields) {
 }
 
 /**
- * @param {object} fields { userID: [number], imageID: [number] }
+ * @param {object} fields { userID: [number], avatarURL: [string] }
  * @return {}
  */
 async function updateAvatar (fields) {
-  const { userID, imageID } = fields
+  const { userID, avatarURL } = fields
   return await handler(pool.execute(
-    'UPDATE `User` SET `avatar_image_id` = ? WHERE `id` = ?', [imageID, userID]
+    'UPDATE `User` SET `avatar_url` = ? WHERE `id` = ?', [avatarURL, userID]
   ))
 }
 

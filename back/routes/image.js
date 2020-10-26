@@ -1,13 +1,6 @@
-import path from 'path'
 import express from 'express'
 import authCheck from '../middleware/authCheck.js'
-import multer from 'multer'
-
-// @TODO save as Buffer then uploade to s3
-const upload = multer({
-  dest: path.join(path.resolve(), '/image-uploads'),
-  fileSize: 5000000 // 5MB
-})
+import multer from '../middleware/multer'
 
 const router = express.Router()
 export default function () {
@@ -23,11 +16,11 @@ export default function () {
       size: 8107
     }
   */
-  router.post('/single', authCheck, upload.single('image'), (req, res) => {
+  router.post('/single', authCheck, multer.single('image'), (req, res) => {
     if (req.file) res.json(req.file)
   })
 
-  router.post('/multi', authCheck, upload.array('images', 12), (req, res) => {
+  router.post('/multi', authCheck, multer.array('images', 12), (req, res) => {
     if (req.files.length) res.json(req.files)
     console.log(req.files)
   })

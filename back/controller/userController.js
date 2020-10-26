@@ -98,14 +98,9 @@ async function login (email, password) {
  * ```
  */
 async function signUpWithOAuth (email, GitHubID, name, avatarURL) {
-  const userFields = { userEmail: email, displayName: name }
+  const userFields = { userEmail: email, displayName: name, avatarURL }
   const userCreated = await User.createUser(userFields)
   if (!userCreated.insertId) return false
-
-  // @TODO upload avatar_url image to s3
-  // @TODO insert s3 link to image db
-  // @TODO update user avatar
-  console.log(avatarURL)
 
   const gitHubOAuthFields = { userID: userCreated.insertId, githubUserID: GitHubID }
   const gitHubOAuthCreated = await User.createGitHubOAuth(gitHubOAuthFields)

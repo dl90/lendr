@@ -1,24 +1,29 @@
-import s3 from './s3.connect'
+import s3 from './s3.connect.js'
 import dotenv from 'dotenv'
 dotenv.config({ path: '../.env' })
 
 export default {
-  upload
+  uploadImage,
+  deleteImage
 }
 
 /**
  * @param {string} fileName
- * @param {*} fileContent
- * @param {string} fileType
+ * @param {object|string} fileContent
  */
-function upload (fileName, fileContent, fileType) {
+function uploadImage (fileName, fileContent) {
   const params = {
     Bucket: process.env.AWS_BUCKET_NAME,
     Key: fileName,
     Body: fileContent,
-    Expires: 60,
-    ContentType: fileType,
+    // ContentType: fileType,
     ACL: 'public-read'
   }
   return s3.upload(params).promise()
 }
+
+function deleteImage (fileName) {
+  return s3.deleteObject({ Key: fileName }).promise()
+}
+
+uploadImage('test.txt', 'abcdefg').then(res => console.log(res)).catch(e => console.log(e))

@@ -22,7 +22,7 @@ export default {
   updateDisplayName,
   updateAvatar,
   updateLastAccessed,
-  // updateGitHubOauth,
+  // updateGitHubOauth, @TODO
   updateActivateUser,
   updateUserReportFlag,
   deleteUser,
@@ -123,7 +123,7 @@ async function getUserByEmail (userEmail) {
 
 /**
  * Adds user to db
- * @param {object} fields { userEmail: [string] [, displayName: [string]] }
+ * @param {object} fields { userEmail: [string] [, displayName: [string], avatarURL: [string] ] }
  * @return {object|boolean} ResultSetHeader obj if success, **false** if failed
  * > ```
  * ResultSetHeader {
@@ -137,8 +137,9 @@ async function getUserByEmail (userEmail) {
  * ```
  */
 async function createUser (fields) {
-  const { userEmail, displayName } = fields
+  const { userEmail, displayName, avatarURL } = fields
   if (displayName) checkEmptyString(displayName)
+  if (avatarURL) validateURL(avatarURL)
   const exist = await checkEmail(userEmail)
   if (!exist) return await db.createUser(fields)
   return false
@@ -173,7 +174,7 @@ async function createPassword (fields) {
 
 /**
  * Add user GitHub OAuth info to db
- * @param {object} fields { userID: [number], githubUserID: [string] }
+ * @param {object} fields { userID: [number], githubUserID: [string], avatarURL: [string] }
  * @return {object|boolean} ResultSetHeader obj if success, **false** if failed
  * > ```
  * ResultSetHeader {
@@ -231,13 +232,13 @@ async function updateDisplayName (fields) {
 
 /**
  * Updates user avatar image id (PK image id) in db
- * @param {object} fields { userID: [number], imageID: [number] }
+ * @param {object} fields { userID: [number], avatarURL: [string] }
  * @return {}
  */
 async function updateAvatar (fields) {
-  const { userID, imageID } = fields
+  const { userID, avatarURL } = fields
   checkID(userID)
-  checkID(imageID)
+  validateURL(avatarURL)
 
   if (DB_ENTRY_CHECK) await getUser(userID)
   return await db.updateAvatar(fields)
@@ -326,7 +327,6 @@ async function getAllFlaggedUsers () {
 /**
  * throws error if arg is empty
  * @param {string} arg
- * @return {error}
  */
 function checkEmptyString (arg) {
   if (!(arg && arg.trim().length)) invalidArgument(arg)
@@ -335,7 +335,6 @@ function checkEmptyString (arg) {
 /**
  * throws error if id is not a number above 0
  * @param {number} id
- * @return {error}
  */
 function checkID (id) {
   if (!(parseInt(id) && id >= 0)) invalidArgument(id)
@@ -344,7 +343,6 @@ function checkID (id) {
 /**
  * throws error if state is not 0 or 1
  * @param {number} state
- * @return {error}
  */
 function checkState (state) {
   if (state !== 0 || state !== 1) invalidArgument(state)
@@ -353,7 +351,6 @@ function checkState (state) {
 /**
  * throws error if email is not valid
  * @param {string} email
- * @return {error}
  */
 function validateEmail (email) {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -361,9 +358,17 @@ function validateEmail (email) {
 }
 
 /**
+ * throws error if url is not valid
+ * @param {string} url
+ */
+function validateURL (url) {
+  const regex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/
+  if (!regex.test(String(url))) invalidArgument(url)
+}
+
+/**
  * throws invalid argument error
  * @param {*} arg
- * @return {error}
  */
 function invalidArgument (arg) {
   throw new Error(`${JSON.stringify({ arg })} <invalid argument>`)
