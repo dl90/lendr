@@ -18,7 +18,20 @@ export default {
  * @param {string} email
  * @param {string} password
  * @param {string|undefined} displayName
- * @return {boolean} true if success
+ * @return {object|false}
+ * >```
+ * {
+ *    id: 1,
+ *    email: 'testy(at)test.com',
+ *    display_name: 'Testy Test',
+ *    avatar_image_id: 1,
+ *    active: 1,
+ *    report_flag: 0,
+ *    last_accessed: '2020-01-12 00:00:01',
+ *    created_at: '2020-01-12 00:00:01',
+ *    rating: 0
+ * }
+ * ```
  */
 async function signUpWithEmailPassword (email, password, displayName = null) {
   const userFields = { userEmail: email, displayName }
@@ -29,14 +42,27 @@ async function signUpWithEmailPassword (email, password, displayName = null) {
   const pwFields = { userID: userCreated.insertId, pwHash }
   const pwCreated = await User.createPassword(pwFields)
   if (!pwCreated.insertId) return false
-  return true
+  return await User.getUserByEmail(email)
 }
 
 /**
  * Verifies login credentials
  * @param {string} email
  * @param {string} password
- * @return {boolean} true if valid
+ * @return {object|false}
+ * >```
+ * {
+ *    id: 1,
+ *    email: 'testy(at)test.com',
+ *    display_name: 'Testy Test',
+ *    avatar_image_id: 1,
+ *    active: 1,
+ *    report_flag: 0,
+ *    last_accessed: '2020-01-12 00:00:01',
+ *    created_at: '2020-01-12 00:00:01',
+ *    rating: 0
+ * }
+ * ```
  */
 async function login (email, password) {
   const queryResult = await User.getPasswordHashByEmail(email)
@@ -45,7 +71,9 @@ async function login (email, password) {
 
   const formattedDateTime = generateFormattedDateTime()
   const fields = { userID: parseInt(queryResult.user_id), dateTime: formattedDateTime }
-  return await User.updateLastAccessed(fields)
+  const res = await User.updateLastAccessed(fields)
+  if (res.changedRows === 1) return await User.getUserByEmail(email)
+  return false
 }
 
 /**
@@ -54,19 +82,27 @@ async function login (email, password) {
  * @param {string} GitHubID
  * @param {string} name
  * @param {string} avatarURL
- * @return {object|false} { userID } || false if failed
+ * @return {object|false}
+ * >```
+ * {
+ *    id: 1,
+ *    email: 'testy(at)test.com',
+ *    display_name: 'Testy Test',
+ *    avatar_image_id: 1,
+ *    active: 1,
+ *    report_flag: 0,
+ *    last_accessed: '2020-01-12 00:00:01',
+ *    created_at: '2020-01-12 00:00:01',
+ *    rating: 0
+ * }
+ * ```
  */
 async function signUpWithOAuth (email, GitHubID, name, avatarURL) {
-  const userFields = { userEmail: email, displayName: name }
+  const userFields = { userEmail: email, displayName: name, avatarURL }
   const userCreated = await User.createUser(userFields)
   if (!userCreated.insertId) return false
 
-  // @TODO upload avatar_url image to s3
-  // @TODO insert s3 link to image db
-  // @TODO update user avatar
-  console.log(avatarURL)
-
-  const gitHubOAuthFields = { userID: userCreated.insertId, GitHubUserID: GitHubID }
+  const gitHubOAuthFields = { userID: userCreated.insertId, githubUserID: GitHubID }
   const gitHubOAuthCreated = await User.createGitHubOAuth(gitHubOAuthFields)
   if (!gitHubOAuthCreated.insertId) return false
   return await User.getUserByEmail(email)
@@ -76,7 +112,20 @@ async function signUpWithOAuth (email, GitHubID, name, avatarURL) {
  * Checks if GitHub OAuth matches
  * @param {string} email
  * @param {string} gitHubID
- * @return {object|false} { userID } || false if failed
+ * @return {object|false}
+ * >```
+ * {
+ *    id: 1,
+ *    email: 'testy(at)test.com',
+ *    display_name: 'Testy Test',
+ *    avatar_image_id: 1,
+ *    active: 1,
+ *    report_flag: 0,
+ *    last_accessed: '2020-01-12 00:00:01',
+ *    created_at: '2020-01-12 00:00:01',
+ *    rating: 0
+ * }
+ * ```
  */
 async function verifyGitHubOauth (email, gitHubID) {
   const userID = await User.getID(email)

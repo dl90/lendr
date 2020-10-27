@@ -1,5 +1,5 @@
 # Lendr
 
-Lending/borrowing listing app
+![Lendr Logo](https://github.com/dl90/lendr/blob/main/logo.png?raw=true)
 
-@TODO logo
+Lending/borrowing listing app

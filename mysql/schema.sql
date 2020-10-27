@@ -8,7 +8,7 @@ CREATE TABLE `User` (
   `id`                      INTEGER PRIMARY KEY AUTO_INCREMENT,
   `email`                   VARCHAR(255) UNIQUE NOT NULL,
   `display_name`            VARCHAR(255),
-  `avatar_image_id`         INTEGER,
+  `avatar_url`              VARCHAR(255),
   `active`                  BOOLEAN NOT NULL DEFAULT(1),
   `report_flag`             BOOLEAN NOT NULL DEFAULT(0),
   `last_accessed`           TIMESTAMP NOT NULL DEFAULT(NOW()),
