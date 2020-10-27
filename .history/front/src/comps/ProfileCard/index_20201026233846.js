@@ -6,12 +6,11 @@ const UserProfileCard = styled.div`
 
 // width: 86%;
 width:345px;
-height:120px;
+height:103px;
 border-radius:10px;
 display:flex;
 align-items:center;
 box-shadow: 0px 16px 24px 0px rgba(0, 0, 0, 0.10);
-background-color:red;
 
 `;
 
@@ -20,9 +19,6 @@ display:flex;
 align-items:center;
 justify-content:center;
 margin-left:9.6%;
-display:flex;
-flex-direction: row;
-
 `;
 
 const UserProfile = styled.div`
@@ -34,7 +30,7 @@ overflow: hidden;
 display:flex;
 align-items:center;
 justify-content:center;
-margin-right:25px;
+margin-right:13px;
 img{
    width:100%;
    height:100%
@@ -43,7 +39,7 @@ img{
 
 const UserImg = styled.div`
 p{
-    margin-top:05px;
+    margin-top:-30px;
 }
 `;
 
@@ -62,7 +58,7 @@ const ProfileCard = ({ img, userName, userRating }) => {
                 <UserProfile>
                     <img src={img} />
                 </UserProfile>
-                <a>Edit Profile</a>
+                <p>edit Profile</p>
             </UserImg>
             <UserData>
                 <UserName>{userName}</UserName>

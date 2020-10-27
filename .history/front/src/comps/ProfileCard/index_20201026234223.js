@@ -20,9 +20,6 @@ display:flex;
 align-items:center;
 justify-content:center;
 margin-left:9.6%;
-display:flex;
-flex-direction: row;
-
 `;
 
 const UserProfile = styled.div`

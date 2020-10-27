@@ -6,12 +6,11 @@ const UserProfileCard = styled.div`
 
 // width: 86%;
 width:345px;
-height:120px;
+height:103px;
 border-radius:10px;
 display:flex;
 align-items:center;
 box-shadow: 0px 16px 24px 0px rgba(0, 0, 0, 0.10);
-background-color:red;
 
 `;
 
@@ -20,13 +19,10 @@ display:flex;
 align-items:center;
 justify-content:center;
 margin-left:9.6%;
-display:flex;
-flex-direction: row;
-
 `;
 
 const UserProfile = styled.div`
-
+border: 1px solid black;
 height:73px;
 width:73px;
 border-radius:100%;
@@ -34,16 +30,9 @@ overflow: hidden;
 display:flex;
 align-items:center;
 justify-content:center;
-margin-right:25px;
+margin-right:13px;
 img{
-   width:100%;
-   height:100%
-}
-`;
-
-const UserImg = styled.div`
-p{
-    margin-top:05px;
+   100px;
 }
 `;
 
@@ -58,21 +47,12 @@ const UserRating = styled.div``;
 const ProfileCard = ({ img, userName, userRating }) => {
     return <UserProfileCard>
         <UserInfo>
-            <UserImg>
-                <UserProfile>
-                    <img src={img} />
-                </UserProfile>
-                <a>Edit Profile</a>
-            </UserImg>
+            <UserProfile>
+                <img src={img} />
+            </UserProfile>
             <UserData>
                 <UserName>{userName}</UserName>
-                <UserRating>
-                    <img src={userRating} />
-                    <img src={userRating} />
-                    <img src={userRating} />
-                    <img src={userRating} />
-                    <img src={userRating} />
-                </UserRating>
+                <UserRating>{userRating}</UserRating>
             </UserData>
         </UserInfo>
     </UserProfileCard>
@@ -80,8 +60,8 @@ const ProfileCard = ({ img, userName, userRating }) => {
 
 ProfileCard.defaultProps = {
     img: './placeholderProfile.png',
-    userName: "Chad Smith",
-    userRating: './activeStar.png',
+    userName: "Chad",
+    userRating: null,
 }
 
 
