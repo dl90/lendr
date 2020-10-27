@@ -7,17 +7,17 @@ dotenv.config({ path: '../.env' })
 
 export default multer({
   storage: multerS3({
-    s3: s3,
+    s3,
     bucket: process.env.AWS_BUCKET_NAME,
     acl: 'public-read',
     fileSize: 5000000, // 5MB
     ContentType: multerS3.AUTO_CONTENT_TYPE,
     ContentDisposition: 'inline',
     metadata: (req, file, cb) => {
-      cb(null, Object.assign({}, file, req.user))
+      cb(null, { ...file, id: req.user.id.toString(), email: req.user.email })
     },
     key: (req, file, cb) => {
-      cb(null, path.basename(file.originalname, path.extname(file.originalname)) + '-' + Date.now() + path.extname(file.originalname))
+      cb(null, `${req.user.id}_${Date.now()}` + path.extname(file.originalname).toLowerCase())
     },
     fileFilter: (req, file, cb) => {
       checkFileType(file, cb)
