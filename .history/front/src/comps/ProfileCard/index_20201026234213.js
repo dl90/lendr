@@ -6,7 +6,7 @@ const UserProfileCard = styled.div`
 
 // width: 86%;
 width:345px;
-height:120px;
+height:103px;
 border-radius:10px;
 display:flex;
 align-items:center;
@@ -20,9 +20,6 @@ display:flex;
 align-items:center;
 justify-content:center;
 margin-left:9.6%;
-display:flex;
-flex-direction: row;
-
 `;
 
 const UserProfile = styled.div`
