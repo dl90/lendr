@@ -11,7 +11,7 @@ border-radius:10px;
 display:flex;
 align-items:center;
 box-shadow: 0px 16px 24px 0px rgba(0, 0, 0, 0.10);
-background-color:red;
+background-color:white;
 
 `;
 
