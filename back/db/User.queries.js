@@ -126,24 +126,24 @@ async function updatePassword (fields) {
 }
 
 /**
- * @param {number} GitHubUserID GitHub user id
+ * @param {number} githubUserID GitHub user id
  * @return {[object]} [ BinaryRow { data } ]
  */
-async function getUserIDByGitHubOAuthUserID (GitHubUserID) {
+async function getUserIDByGitHubOAuthUserID (githubUserID) {
   return await handler(pool.execute(
-    'SELECT user_id FROM GitHubOAuth WHERE oauth_user_id = ?', [GitHubUserID]
+    'SELECT user_id FROM GitHubOAuth WHERE oauth_user_id = ?', [githubUserID]
   ))
 }
 
 /**
- * @param {number} GitHubUserID GitHub user id
+ * @param {number} githubUserID GitHub user id
  * @return {}
  */
-async function getUserByGitHubOAuthUserID (GitHubUserID) {
+async function getUserByGitHubOAuthUserID (githubUserID) {
   return await handler(pool.execute(
     `SELECT * FROM User
      JOIN GitHubOAuth ON GitHubOAuth.user_id = User.id
-     WHERE GitHubOAuth.github_user_id = ? LIMIT 1`, [GitHubUserID]
+     WHERE GitHubOAuth.github_user_id = ? LIMIT 1`, [githubUserID]
   ))
 }
 
@@ -170,35 +170,35 @@ async function getGitHubOAuthUserIDByEmail (email) {
 }
 
 /**
- * @param {object} fields { userID: [number], GitHubUserID: [number] }
+ * @param {object} fields { userID: [number], githubUserID: [number] }
  * @return {object} ResultSetHeader
  */
 async function createGitHubOAuth (fields) {
-  const { userID, GitHubUserID } = fields
+  const { userID, githubUserID } = fields
   return await handler(pool.execute(
-    'INSERT INTO GitHubOAuth SET user_id = ?, github_user_id = ?', [userID, GitHubUserID]
+    'INSERT INTO GitHubOAuth SET user_id = ?, github_user_id = ?', [userID, githubUserID]
   ))
 }
 
 /**
- * @param {object} fields { userID: [number], GitHubUserID: [number] }
+ * @param {object} fields { userID: [number], githubUserID: [number] }
  * @return {}
  */
 async function updateGitHubOAuth (fields) {
-  const { userID, GitHubUserID } = fields
+  const { userID, githubUserID } = fields
   return await handler(pool.execute(
-    'UPDATE GitHubOAuth SET github_user_id = ? WHERE user_id = ?', [GitHubUserID, userID]
+    'UPDATE GitHubOAuth SET github_user_id = ? WHERE user_id = ?', [githubUserID, userID]
   ))
 }
 
 /**
- * @param {object} fields { userEmail: [string] [, displayName: [string]]
+ * @param {object} fields { userEmail: [string] [, displayName: [string], avatarURL: [string]]
  * @return {}
  */
 async function createUser (fields) {
-  const { userEmail, displayName } = fields
+  const { userEmail, displayName, avatarURL } = fields
   return await handler(pool.execute(
-    'INSERT INTO User SET email = ?, display_name = ?', [userEmail, displayName || null])
+    'INSERT INTO User SET email = ?, display_name = ?, avatar_url = ?', [userEmail, displayName || null, avatarURL || null])
   )
 }
 
@@ -247,13 +247,13 @@ async function updateLastAccessed (fields) {
 }
 
 /**
- * @param {object} fields { userID: [number], imageID: [number] }
+ * @param {object} fields { userID: [number], avatarURL: [string] }
  * @return {}
  */
 async function updateAvatar (fields) {
-  const { userID, imageID } = fields
+  const { userID, avatarURL } = fields
   return await handler(pool.execute(
-    'UPDATE `User` SET `avatar_image_id` = ? WHERE `id` = ?', [imageID, userID]
+    'UPDATE `User` SET `avatar_url` = ? WHERE `id` = ?', [avatarURL, userID]
   ))
 }
 
