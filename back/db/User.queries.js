@@ -1,5 +1,6 @@
 import db from './mysql.connect.js'
 const pool = db.pool.promise()
+const handler = db.handler
 
 export default {
   getEmail,
@@ -29,16 +30,6 @@ export default {
 
   getAllInactiveUsers,
   getAllFlaggedUsers
-}
-
-/**
- * Pulls BinaryRow from asyncQuery result
- * @param {function} asyncQuery SQL query
- * @return {[object]} [ BinaryRow { data } ]
- */
-async function handler (asyncQuery) {
-  const [rows] = await asyncQuery
-  return rows
 }
 
 /**

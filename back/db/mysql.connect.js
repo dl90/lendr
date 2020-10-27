@@ -16,4 +16,14 @@ function connect (cb) {
   pool.getConnection(err => cb(err))
 }
 
-export default { connect, pool }
+/**
+ * Pulls BinaryRow from asyncQuery result
+ * @param {function} asyncQuery SQL query
+ * @return {[object]} [ BinaryRow { data } ]
+ */
+async function handler (asyncQuery) {
+  const [rows] = await asyncQuery
+  return rows
+}
+
+export default { pool, connect, handler }
