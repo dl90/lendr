@@ -47,7 +47,6 @@ CREATE TABLE `Item` (
   `id`                      INTEGER PRIMARY KEY AUTO_INCREMENT,
   `timestamp`               TIMESTAMP NOT NULL DEFAULT(NOW()),
   `name`                    VARCHAR(255) NOT NULL,
-  `rating`                  FLOAT(5,4), -- aggregated
   `condition`               VARCHAR(15) NOT NULL,
   `age`                     SMALLINT NOT NULL, -- months
   `status`                  BOOLEAN NOT NULL DEFAULT(1),

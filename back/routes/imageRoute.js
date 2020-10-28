@@ -21,7 +21,6 @@ export default function () {
 
   router.post('/multi', authCheck, multer.array('images', 12), (req, res) => {
     if (req.files.length) res.json(req.files)
-    console.log(req.files)
   })
 
   return router
