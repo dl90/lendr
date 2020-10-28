@@ -18,6 +18,7 @@ display:flex;
  ::placeholder {
     color: rgba(23, 95, 164, 0.52);
  }
+ box-shadow: 0px 4px 4px 0px #000000 25%;
 `;
 
 const Circle = styled.div`

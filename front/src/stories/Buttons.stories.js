@@ -3,7 +3,7 @@ import SmallButton from '../comps/SmallButton';
 import Button from '../comps/Button';
 
 export default {
-    title: 'Example/Lendr Buttons',
+    title: 'Lendr Buttons',
     component: SmallButton
 };
 
