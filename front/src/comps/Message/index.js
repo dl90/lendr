@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 
 const MessageDiv = styled.div`
@@ -9,6 +9,8 @@ display:flex;
 justify-content:center;
 align-items:center;
 box-shadow: 0px 10px 24px rgba(0, 0, 0, 0.03);
+background-color: ${props => props.Hovered ?  "lightgray" : "white" };
+transition: background-color 0.5s;
 `;
 
 const ProfilePic = styled.div`
@@ -57,7 +59,12 @@ overflow:hidden;
 `;
 
 const Message = ({fullname, lastmsg, date, pfp}) => {
-    return <MessageDiv>
+    const [Hovered, setHovered] = useState(false);
+    return <MessageDiv Hovered={Hovered} onMouseOver={()=>{
+        setHovered(true);
+        }} onMouseOut={()=>{
+            setHovered(false);
+        }}>
 <ProfilePic><img src = {pfp}></img></ProfilePic>
 <TextContent>
 <Name>{fullname}</Name>
