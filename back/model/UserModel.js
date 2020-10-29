@@ -1,7 +1,5 @@
-import db from '../db/User.queries.js'
-
-// validates db entries before query (adds additional query)
-const DB_ENTRY_CHECK = true
+import db from '../db/queries/User.queries.js'
+import util from './util.js'
 
 export default {
   checkEmail,
@@ -22,7 +20,7 @@ export default {
   updateDisplayName,
   updateAvatar,
   updateLastAccessed,
-  // updateGitHubOauth, @TODO
+  updateGitHubOauth,
   updateActivateUser,
   updateUserReportFlag,
   deleteUser,
@@ -37,7 +35,7 @@ export default {
  * @return {boolean} true if email exists
  */
 async function checkEmail (userEmail) {
-  validateEmail(userEmail)
+  util.validateEmail(userEmail)
   const result = await db.getEmail(userEmail)
   return result[0]?.email === userEmail
 }
@@ -48,7 +46,7 @@ async function checkEmail (userEmail) {
  * @return {number} user id
  */
 async function getID (userEmail) {
-  validateEmail(userEmail)
+  util.validateEmail(userEmail)
   const result = await db.getID(userEmail)
   return result[0]?.id
 }
@@ -59,8 +57,8 @@ async function getID (userEmail) {
  * @return {object} { password_hash, user_id }
  */
 async function getPasswordHashByEmail (userEmail) {
-  validateEmail(userEmail)
-  if (DB_ENTRY_CHECK) await getEmail(userEmail)
+  util.validateEmail(userEmail)
+  if (util.DB_ENTRY_CHECK) await getEmail(userEmail)
   const result = await db.getPasswordByUserEmail(userEmail)
   return result[0]
 }
@@ -71,7 +69,7 @@ async function getPasswordHashByEmail (userEmail) {
  * @return {string} password hash
  */
 async function getPasswordHashByID (userID) {
-  checkID(userID)
+  util.checkID(userID)
   const result = await db.getPasswordByUserID(userID)
   return result[0]?.password_hash
 }
@@ -82,7 +80,7 @@ async function getPasswordHashByID (userID) {
  * @return {}
  */
 async function getGitHubOAuthIDByID (userID) {
-  checkID(userID)
+  util.checkID(userID)
   const result = await db.getGitHubOAuthUserIDByUserID(userID)
   return result[0]?.github_user_id
 }
@@ -93,7 +91,7 @@ async function getGitHubOAuthIDByID (userID) {
  * @return {string} GitHub OAuth user ID
  */
 async function getGitHubOAuthIDByEmail (email) {
-  checkEmail(email)
+  util.validateEmail(email)
   const result = await db.getGitHubOAuthUserIDByEmail(email)
   return result[0]?.github_user_id
 }
@@ -101,10 +99,10 @@ async function getGitHubOAuthIDByEmail (email) {
 /**
  * Gets all user fields from db
  * @param {number} userID
- * @return {object} JSON object
+ * @return {object} object
  */
 async function getUserByID (userID) {
-  checkID(userID)
+  util.checkID(userID)
   const result = await db.getUserByID(userID)
   return result[0]
 }
@@ -112,11 +110,11 @@ async function getUserByID (userID) {
 /**
  * Gets all user fields from db
  * @param {string} userEmail
- * @return {object} JSON object
+ * @return {object} object
  */
 async function getUserByEmail (userEmail) {
-  validateEmail(userEmail)
-  if (DB_ENTRY_CHECK) await getEmail(userEmail)
+  util.validateEmail(userEmail)
+  if (util.DB_ENTRY_CHECK) await getEmail(userEmail)
   const result = await db.getUserByEmail(userEmail)
   return result[0]
 }
@@ -138,8 +136,8 @@ async function getUserByEmail (userEmail) {
  */
 async function createUser (fields) {
   const { userEmail, displayName, avatarURL } = fields
-  if (displayName) checkEmptyString(displayName)
-  if (avatarURL) validateURL(avatarURL)
+  if (displayName) util.checkEmptyString(displayName)
+  if (avatarURL) util.validateURL(avatarURL)
   const exist = await checkEmail(userEmail)
   if (!exist) return await db.createUser(fields)
   return false
@@ -162,12 +160,12 @@ async function createUser (fields) {
  */
 async function createPassword (fields) {
   const { userID, pwHash } = fields
-  checkEmptyString(pwHash)
-  checkID(userID)
+  util.checkEmptyString(pwHash)
+  util.checkID(userID)
 
-  if (DB_ENTRY_CHECK) {
+  if (util.DB_ENTRY_CHECK) {
     const results = await db.getPasswordByUserID(userID)
-    if (results.length > 0) throw new Error(`${JSON.stringify({ userID })} <invalid argument: entry already exists>`)
+    if (results.length > 0) util.existingEntry({ fields })
   }
   return await db.createPassword(fields)
 }
@@ -189,12 +187,12 @@ async function createPassword (fields) {
  */
 async function createGitHubOAuth (fields) {
   const { userID, githubUserID } = fields
-  checkID(userID)
-  checkID(githubUserID)
+  util.checkID(userID)
+  util.checkID(githubUserID)
 
-  if (DB_ENTRY_CHECK) {
+  if (util.DB_ENTRY_CHECK) {
     const results = await db.getGitHubOAuthUserIDByUserID(userID)
-    if (results.length > 0) throw new Error(`${JSON.stringify({ userID })} <invalid argument: entry already exists>`)
+    if (results.length > 0) util.existingEntry(fields)
   }
   return await db.createGitHubOAuth(fields)
 }
@@ -206,12 +204,12 @@ async function createGitHubOAuth (fields) {
  */
 async function updatePassword (fields) {
   const { userID, pwHash } = fields
-  checkID(userID)
-  checkEmptyString(pwHash)
+  util.checkID(userID)
+  util.checkEmptyString(pwHash)
 
-  if (DB_ENTRY_CHECK) {
+  if (util.DB_ENTRY_CHECK) {
     const results = await db.getPasswordByUserID(fields)
-    if (results.length === 0) throw new Error(`${JSON.stringify({ userID })} <invalid argument: entry does not exists>`)
+    if (results.length === 0) util.missingEntry(fields)
   }
   return await db.updatePassword(fields)
 }
@@ -223,10 +221,10 @@ async function updatePassword (fields) {
  */
 async function updateDisplayName (fields) {
   const { userID, displayName } = fields
-  checkID(userID)
-  checkEmptyString(displayName)
+  util.checkID(userID)
+  util.checkEmptyString(displayName)
 
-  if (DB_ENTRY_CHECK) await getUser(userID)
+  if (util.DB_ENTRY_CHECK) await getUser(userID)
   return await db.updateDisplayName(fields)
 }
 
@@ -237,21 +235,20 @@ async function updateDisplayName (fields) {
  */
 async function updateAvatar (fields) {
   const { userID, avatarURL } = fields
-  checkID(userID)
-  validateURL(avatarURL)
+  util.checkID(userID)
+  util.validateURL(avatarURL)
 
-  if (DB_ENTRY_CHECK) await getUser(userID)
+  if (util.DB_ENTRY_CHECK) await getUser(userID)
   return await db.updateAvatar(fields)
 }
 
 /**
  * Updates user last accessed datetime in db
  * - **note dateTime format:**
+ * - **use util.generateFormattedDateTime() to generate dateTime time stamp**
  *
  * >```
- * date.toISOString().split('T')[0] // 2020-12-31
- * time.toLocaleTimeString('it-IT') // 23:59:59
- * // validator accepts only '2020-12-31 23:59:59'
+ * // validator accepts only dateTime formatted as'2020-12-31 23:59:59'
  * const regex = /^[2][0]\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]$/g
  * >```
  * @param {object} fields { userID: [number], dateTime: [string '2020-12-01 23:59:59'] }
@@ -259,11 +256,27 @@ async function updateAvatar (fields) {
  */
 async function updateLastAccessed (fields) {
   const { userID, dateTime } = fields
-  checkID(userID)
+  util.checkID(userID)
+  util.validateDateFormat(dateTime)
 
-  const regex = /^[2][0]\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]$/g
-  if (!regex.test(dateTime)) invalidArgument(dateTime)
   return await db.updateLastAccessed(fields)
+}
+
+/**
+ * Updates user GitHub OAuth info in db
+ * @param {object} fields { userID: [number], avatarURL: [string] }
+ * @return {}
+ */
+async function updateGitHubOauth (fields) {
+  const { userID, githubUserID } = fields
+  util.checkID(userID)
+  util.checkID(githubUserID)
+
+  if (util.DB_ENTRY_CHECK) {
+    const results = await db.getGitHubOAuthUserIDByUserID(userID)
+    if (results.length === 0) util.missingEntry(fields)
+  }
+  return await db.updateGitHubOAuth(fields)
 }
 
 /**
@@ -273,10 +286,10 @@ async function updateLastAccessed (fields) {
  */
 async function updateActivateUser (fields) {
   const { userID, state } = fields
-  checkID(userID)
-  checkState(state)
+  util.checkID(userID)
+  util.checkState(state)
 
-  if (DB_ENTRY_CHECK) await getUser(userID)
+  if (util.DB_ENTRY_CHECK) await getUser(userID)
   return await db.setUserActiveState(fields)
 }
 
@@ -287,10 +300,10 @@ async function updateActivateUser (fields) {
  */
 async function updateUserReportFlag (fields) {
   const { userID, reportFlag } = fields
-  checkID(userID)
-  checkState(reportFlag)
+  util.checkID(userID)
+  util.checkState(reportFlag)
 
-  if (DB_ENTRY_CHECK) await getUser(userID)
+  if (util.DB_ENTRY_CHECK) await getUser(userID)
   return await db.setUserReportFlag(fields)
 }
 
@@ -300,9 +313,9 @@ async function updateUserReportFlag (fields) {
  * @return {}
  */
 async function deleteUser (userID) {
-  checkID(userID)
+  util.checkID(userID)
 
-  if (DB_ENTRY_CHECK) await getUser(userID)
+  if (util.DB_ENTRY_CHECK) await getUser(userID)
   return await db.deleteUser(userID)
 }
 
@@ -325,69 +338,21 @@ async function getAllFlaggedUsers () {
 /* -------------------- util -------------------- */
 
 /**
- * throws error if arg is empty
- * @param {string} arg
- */
-function checkEmptyString (arg) {
-  if (!(arg && arg.trim().length)) invalidArgument(arg)
-}
-
-/**
- * throws error if id is not a number above 0
- * @param {number} id
- */
-function checkID (id) {
-  if (!(parseInt(id) && id >= 0)) invalidArgument(id)
-}
-
-/**
- * throws error if state is not 0 or 1
- * @param {number} state
- */
-function checkState (state) {
-  if (state !== 0 || state !== 1) invalidArgument(state)
-}
-
-/**
- * throws error if email is not valid
- * @param {string} email
- */
-function validateEmail (email) {
-  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  if (!regex.test(String(email).toLowerCase())) invalidArgument(email)
-}
-
-/**
- * throws error if url is not valid
- * @param {string} url
- */
-function validateURL (url) {
-  const regex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/
-  if (!regex.test(String(url))) invalidArgument(url)
-}
-
-/**
- * throws invalid argument error
- * @param {*} arg
- */
-function invalidArgument (arg) {
-  throw new Error(`${JSON.stringify({ arg })} <invalid argument>`)
-}
-
-/**
  * throws error if user does not exist in db
  * @param {number} userID
+ * @throw entry missing error
  */
 async function getUser (userID) {
   const result = await db.getUserByID(userID)
-  if (result.length === 0) throw new Error(`${JSON.stringify({ userID })} <invalid argument: entry does not exists>`)
+  if (result.length === 0) util.missingEntry(userID)
 }
 
 /**
  * throws error if userEmail does not exist in db
  * @param {number} userEmail
+ * @throw entry missing error
  */
 async function getEmail (userEmail) {
   const result = await db.getEmail(userEmail)
-  if (result.length === 0) throw new Error(`${JSON.stringify({ userEmail })} <invalid argument: entry does not exists>`)
+  if (result.length === 0) util.missingEntry(userEmail)
 }

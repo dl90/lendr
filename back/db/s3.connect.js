@@ -9,6 +9,9 @@ AWS.config.update({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 })
 
+
+export default new AWS.S3()
+
 /*
 async function test () {
   const lb = await s3.listBuckets().promise()

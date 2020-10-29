@@ -12,7 +12,6 @@ export default function () {
       mimetype: 'image/jpeg',
       destination: '/Users/don/GitHub/Projects/idsp-lendr/back/image-uploads',
       filename: '0e38f6e02d2ab9377f27af67e63ef082',
-      path: '/Users/don/GitHub/Projects/idsp-lendr/back/image-uploads/0e38f6e02d2ab9377f27af67e63ef082',
       size: 8107
     }
   */
@@ -22,7 +21,6 @@ export default function () {
 
   router.post('/multi', authCheck, multer.array('images', 12), (req, res) => {
     if (req.files.length) res.json(req.files)
-    console.log(req.files)
   })
 
   return router
