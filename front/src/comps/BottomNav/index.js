@@ -16,28 +16,47 @@ const NavBar = styled.div`
     }
 `;
 
-const settingsIcon = styled.img`
+const Explore = styled.div`
+
+`;
+
+const Lend = styled.div`
+
+`;
+
+const Post = styled.div`
+
+`;
+
+const Chat = styled.div`
+
+`;
+
+const More = styled.div`
 `;
 
 const BottomNav = ({ }) => {
     return <NavBar>
-        <div>
+        <Explore>
             <div><img alt="Explore" src="./exploreIcon.svg" /></div>
             <div>Home</div>
-        </div>
-        <div>
+        </Explore>
+        <Lend>
             <div><img alt="lend" src="./lendIcon.svg" /></div>
             <div>Lend</div>
-        </div>        <div>
+        </Lend>
+        <Post>
             <div><img alt="post" src="./postIcon.svg" /></div>
             <div>Post</div>
-        </div>        <div>
+        </Post>
+        <Chat>
             <div><img alt="chat" src="./chatIcon.svg" /></div>
             <div>Chat</div>
-        </div>        <div>
+        </Chat>
+        <More>
             <div><img alt="settings" src="./settingsIcon.svg" /></div>
             <div>More</div>
-        </div>
+        </More>
 
     </NavBar>
 };
