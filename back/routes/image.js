@@ -1,6 +1,6 @@
 import express from 'express'
 import authCheck from '../middleware/authCheck.js'
-import multer from '../middleware/multer'
+import multer from '../middleware/multer.js'
 
 const router = express.Router()
 export default function () {
