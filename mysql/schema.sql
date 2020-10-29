@@ -47,7 +47,6 @@ CREATE TABLE `Item` (
   `id`                      INTEGER PRIMARY KEY AUTO_INCREMENT,
   `timestamp`               TIMESTAMP NOT NULL DEFAULT(NOW()),
   `name`                    VARCHAR(255) NOT NULL,
-  `rating`                  FLOAT(5,4), -- aggregated
   `condition`               VARCHAR(15) NOT NULL,
   `age`                     SMALLINT NOT NULL, -- months
   `status`                  BOOLEAN NOT NULL DEFAULT(1),
@@ -60,7 +59,7 @@ CREATE TABLE `Post` (
   `id`                      INTEGER PRIMARY KEY AUTO_INCREMENT,
   `title`                   VARCHAR(255) NOT NULL,
   `rate`                    DECIMAL(11,2) DEFAULT(0),
-  `description`             VARCHAR(255),
+  `post_description`        VARCHAR(255),
   `location`                VARCHAR(255),
   `duration`                TIMESTAMP NOT NULL DEFAULT(NOW() + INTERVAL 1 MONTH),
   `views`                   INTEGER NOT NULL DEFAULT(0), -- increment on vew

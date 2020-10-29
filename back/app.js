@@ -5,9 +5,10 @@ import passport from 'passport'
 import cookieSession from 'cookie-session'
 import dotenv from 'dotenv'
 
-import auth from './routes/auth.js'
-import me from './routes/me.js'
-import image from './routes/image.js'
+import authRoute from './routes/authRoute.js'
+import meRoute from './routes/meRoute.js'
+import imageRoute from './routes/imageRoute.js'
+import userRoute from './routes/userRoute.js'
 
 dotenv.config()
 const { json, urlencoded } = express
@@ -15,12 +16,12 @@ const app = express()
 
 app.use(json())
 app.use(urlencoded({ extended: true }))
-app.use(cookieParser()) // ('', { httpOnly: true, sameSite: true, secure: true })
+app.use(cookieParser())
 app.use(cookieSession({
   maxAge: 43200000, // 12h
-  keys: [process.env.COOKIE_SESSION_SECRET_1, process.env.COOKIE_SESSION_SECRET_2]
-  // sameSite: true,
-  // httpOnly: true,
+  keys: [process.env.COOKIE_SESSION_SECRET_1, process.env.COOKIE_SESSION_SECRET_2],
+  sameSite: true,
+  httpOnly: true
   // secure: true
 }))
 app.use(passport.initialize())
@@ -36,12 +37,12 @@ export default function () {
   })
 
   /* ------ auth route ------ */
-  app.use('/auth', auth())
+  app.use('/auth', authRoute())
 
-  /* ------ private route ------ */
-  app.use('/me', me())
-
-  app.use('/image', image())
+  /* ------ private routes ------ */
+  app.use('/me', meRoute())
+  app.use('/image', imageRoute())
+  app.use('/user', userRoute())
 
   return app
 }
