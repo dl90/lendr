@@ -7,6 +7,7 @@ import dotenv from 'dotenv'
 
 import auth from './routes/auth.js'
 import me from './routes/me.js'
+import image from './routes/image.js'
 
 dotenv.config()
 const { json, urlencoded } = express
@@ -29,8 +30,9 @@ app.use(passport.session())
 export default function () {
   /* ------ homepage ------ */
   app.get('/', (req, res) => {
-    if (req.user) res.redirect('/me')
-    else res.sendFile(path.join(path.resolve(), '/public/index.html'))
+    // if (req.user) res.redirect('/me')
+    // else res.sendFile(path.join(path.resolve(), '/public/index.html'))
+    res.sendFile(path.join(path.resolve(), '/public/index.html'))
   })
 
   /* ------ auth route ------ */
@@ -38,6 +40,8 @@ export default function () {
 
   /* ------ private route ------ */
   app.use('/me', me())
+
+  app.use('/image', image())
 
   return app
 }
