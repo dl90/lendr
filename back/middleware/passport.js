@@ -1,7 +1,7 @@
 import passport from 'passport'
 import LocalStrategy from 'passport-local'
 import GitHubStrategy from 'passport-github2'
-import userController from '../controller/userController.js'
+import userController from '../controller/UserController.js'
 import dotenv from 'dotenv'
 dotenv.config()
 

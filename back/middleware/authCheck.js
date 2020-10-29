@@ -1,6 +1,6 @@
 export default authCheck
 
 function authCheck (req, res, next) {
-  if (!req.user) res.redirect('/')
+  if (!req.isAuthenticated()) res.redirect('/')
   else next()
 }

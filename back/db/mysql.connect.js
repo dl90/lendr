@@ -16,4 +16,15 @@ function connect (cb) {
   pool.getConnection(err => cb(err))
 }
 
-export default { connect, pool }
+/**
+ * Queries database
+ * @param {string} query SQL query
+ * @param {[*]} queryParams
+ * @return {[object]} [ BinaryRow { data } ]
+ */
+async function dbQuery (query, queryParams) {
+  const [rows] = await pool.promise().execute(query, queryParams)
+  return rows
+}
+
+export default { connect, dbQuery }
