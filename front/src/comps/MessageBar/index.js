@@ -6,8 +6,8 @@ const MessageDiv = styled.div`
 
 `;
 const Input = styled.input`
-width: 325px;
-height:55px;  
+min-width:325px;
+min-height:55px;  
 background-color: #F5F7FF;
 border-radius:10px;
 border:0px;
