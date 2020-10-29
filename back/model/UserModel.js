@@ -1,4 +1,4 @@
-import db from '../db/User.queries.js'
+import db from '../db/queries/User.queries.js'
 import util from './util.js'
 
 export default {
@@ -245,11 +245,10 @@ async function updateAvatar (fields) {
 /**
  * Updates user last accessed datetime in db
  * - **note dateTime format:**
+ * - **use util.generateFormattedDateTime() to generate dateTime time stamp**
  *
  * >```
- * date.toISOString().split('T')[0] // 2020-12-31
- * time.toLocaleTimeString('it-IT') // 23:59:59
- * // validator accepts only '2020-12-31 23:59:59'
+ * // validator accepts only dateTime formatted as'2020-12-31 23:59:59'
  * const regex = /^[2][0]\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]$/g
  * >```
  * @param {object} fields { userID: [number], dateTime: [string '2020-12-01 23:59:59'] }
@@ -258,9 +257,8 @@ async function updateAvatar (fields) {
 async function updateLastAccessed (fields) {
   const { userID, dateTime } = fields
   util.checkID(userID)
+  util.validateDateFormat(dateTime)
 
-  const regex = /^[2][0]\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]$/g
-  if (!regex.test(dateTime)) util.invalidArgument(dateTime)
   return await db.updateLastAccessed(fields)
 }
 

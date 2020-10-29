@@ -1,13 +1,12 @@
-import db from './mysql.connect.js'
-const pool = db.pool.promise()
-const handler = db.handler
+import db from '../mysql.connect.js'
+const query = db.dbQuery
 
 export default {
   getItemByID,
   getItemsByUserID,
   getItemsByUserIDWithStatus,
 
-  createItem,
+  addItem,
   deleteItem,
 
   updateItemName,
@@ -17,23 +16,21 @@ export default {
 }
 
 /**
- * @param {number} itemID itemID
+ * @param {number} itemID
  * @return {[object]} single item [ BinaryRow { data } ]
  */
 async function getItemByID (itemID) {
-  return await handler(pool.execute(
-    'SELECT * FROM Item WHERE id = ?', [itemID]
-  ))
+  return await query('SELECT * FROM Item WHERE id = ?', [itemID])
 }
 
 /**
- * @param {number} userID userID
+ * @param {number} userID
  * @return {[object]} all items [ BinaryRow { data } ]
  */
 async function getItemsByUserID (userID) {
-  return await handler(pool.execute(
+  return await query(
     'SELECT * FROM Item WHERE lender_id = ? ORDER BY timestamp DESC', [userID]
-  ))
+  )
 }
 
 /**
@@ -42,30 +39,30 @@ async function getItemsByUserID (userID) {
  */
 async function getItemsByUserIDWithStatus (fields) {
   const { userID, itemStatus } = fields
-  return await handler(pool.execute(
-    'SELECT * FROM Item WHERE lender_id = ? AND status = ?', [userID, itemStatus]
-  ))
+  return await query(
+    'SELECT * FROM Item WHERE lender_id = ? AND status = ?',
+    [userID, itemStatus]
+  )
 }
 
 /**
- * @param {object} fields { itemName: [string], itemCondition: [string], itemAge: [smallint] }
+ * @param {object} fields { userID: [number], itemName: [string], itemCondition: [string], itemAge: [smallint] }
  * @return {}
  */
-async function createItem (fields) {
-  const { itemName, itemCondition, itemAge } = fields
-  return await handler(pool.execute(
-    'INSERT INTO Item SET name = ?, condition = ?, age = ?', [itemName, itemCondition, itemAge]
-  ))
+async function addItem (fields) {
+  const { userID, itemName, itemCondition, itemAge } = fields
+  return await query(
+    'INSERT INTO Item SET name = ?, condition = ?, age = ?, lender_id = ?',
+    [itemName, itemCondition, itemAge, userID]
+  )
 }
 
 /**
- * @param {number} itemID itemID: [number]
+ * @param {number} itemID
  * @return {}
  */
 async function deleteItem (itemID) {
-  return await handler(pool.execute(
-    'DELETE FROM Item WHERE id = ?', [itemID]
-  ))
+  return await query('DELETE FROM Item WHERE id = ?', [itemID])
 }
 
 /**
@@ -74,9 +71,8 @@ async function deleteItem (itemID) {
  */
 async function updateItemName (fields) {
   const { itemID, itemName } = fields
-  return await handler(pool.execute(
-    'UPDATE Item SET name = ? WHERE id = ?', [itemName, itemID]
-  ))
+  return await query('UPDATE Item SET name = ? WHERE id = ?',
+    [itemName, itemID])
 }
 
 /**
@@ -85,9 +81,9 @@ async function updateItemName (fields) {
  */
 async function updateItemCondition (fields) {
   const { itemID, itemCondition } = fields
-  return await handler(pool.execute(
-    'UPDATE Item SET condition = ? WHERE id = ?', [itemCondition, itemID]
-  ))
+  return await query('UPDATE Item SET condition = ? WHERE id = ?',
+    [itemCondition, itemID]
+  )
 }
 
 /**
@@ -96,9 +92,9 @@ async function updateItemCondition (fields) {
  */
 async function updateItemAge (fields) {
   const { itemID, itemAge } = fields
-  return await handler(pool.execute(
-    'UPDATE Item SET age = ? WHERE id = ?', [itemAge, itemID]
-  ))
+  return await query('UPDATE Item SET age = ? WHERE id = ?',
+    [itemAge, itemID]
+  )
 }
 
 /**
@@ -107,7 +103,7 @@ async function updateItemAge (fields) {
  */
 async function changeItemStatus (fields) {
   const { itemID, itemStatus } = fields
-  return await handler(pool.execute(
-    'UPDATE Item SET status = ? WHERE id = ?', [itemStatus, itemID]
-  ))
+  return await query('UPDATE Item SET status = ? WHERE id = ?',
+    [itemStatus, itemID]
+  )
 }

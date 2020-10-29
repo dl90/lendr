@@ -1,4 +1,4 @@
-import db from '../db/Item.queries.js'
+import db from '../db/queries/Item.queries.js'
 import util from './util.js'
 
 export default {
@@ -53,8 +53,8 @@ async function getItemsByUserIDWithStatus (fields) {
 
 /**
  * Adds item to db
- * @param {object} fields { itemName: [string], itemCondition: [string], itemAge: [number] }
- * @return {object|boolean} ResultSetHeader obj if success, **false** if failed
+ * @param {object} fields { userID: [number], itemName: [string], itemCondition: [string], itemAge: [number] }
+ * @return {object|boolean}
  * > ```
  * ResultSetHeader {
  *   fieldCount: 0,
@@ -67,7 +67,8 @@ async function getItemsByUserIDWithStatus (fields) {
  * ```
  */
 async function createItem (fields) {
-  const { itemName, itemCondition, itemAge } = fields
+  const { userID, itemName, itemCondition, itemAge } = fields
+  util.checkID(userID)
   util.checkEmptyString(itemName)
   util.checkEmptyString(itemCondition)
 

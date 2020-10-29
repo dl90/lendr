@@ -17,13 +17,14 @@ function connect (cb) {
 }
 
 /**
- * Pulls BinaryRow from asyncQuery result
- * @param {function} asyncQuery SQL query
+ * Queries database
+ * @param {string} query SQL query
+ * @param {[*]} queryParams
  * @return {[object]} [ BinaryRow { data } ]
  */
-async function handler (asyncQuery) {
-  const [rows] = await asyncQuery
+async function dbQuery (query, queryParams) {
+  const [rows] = await pool.promise().execute(query, queryParams)
   return rows
 }
 
-export default { pool, connect, handler }
+export default { connect, dbQuery }
