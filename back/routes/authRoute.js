@@ -45,7 +45,7 @@ export default function () {
 
   /**
    * @api {get} /auth/github                  GitHub OAuth signup/login
-   * @apiName PostLogin
+   * @apiName PostLoginGitHub
    * @apiGroup Auth
    *
    * @apiSuccess (200) {text}                 Redirect
@@ -54,7 +54,7 @@ export default function () {
 
   /**
    * @api {get} /auth/redirect                  Redirect following GitHub OAuth
-   * @apiName PostLogin
+   * @apiName GetLoginGitHubRedirect
    * @apiGroup Auth
    *
    * @apiSuccess (200) {text}                   Redirect

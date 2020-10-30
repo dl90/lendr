@@ -37,12 +37,12 @@ function checkID (id) {
 }
 
 /**
- * Throws error if state is not 0 or 1
+ * Throws error if state is not boolean
  * @param {number} state
  * @throw invalid argument error
  */
 function checkState (state) {
-  if (state !== 0 || state !== 1) invalidArgument(state)
+  if (typeof state !== 'boolean') invalidArgument(state)
 }
 
 /**

@@ -1,5 +1,5 @@
 import db from '../db/queries/User.queries.js'
-import util from './util.js'
+import util from '../util/util.js'
 
 export default {
   checkEmail,
@@ -208,7 +208,7 @@ async function updatePassword (fields) {
   util.checkEmptyString(pwHash)
 
   if (util.DB_ENTRY_CHECK) {
-    const results = await db.getPasswordByUserID(fields)
+    const results = await db.getPasswordByUserID(userID)
     if (results.length === 0) util.missingEntry(fields)
   }
   return await db.updatePassword(fields)
@@ -281,7 +281,7 @@ async function updateGitHubOauth (fields) {
 
 /**
  * Update user active state
- * @param {object} fields { userID: [number], state: [1 || 0] }
+ * @param {object} fields { userID: [number], state: [boolean] }
  * @return {}
  */
 async function updateActivateUser (fields) {
@@ -295,7 +295,7 @@ async function updateActivateUser (fields) {
 
 /**
  * Update user report flag
- * @param {object} fields { userID: [number], reportFlag: [1 || 0] }
+ * @param {object} fields { userID: [number], reportFlag: [boolean] }
  * @return {}
  */
 async function updateUserReportFlag (fields) {

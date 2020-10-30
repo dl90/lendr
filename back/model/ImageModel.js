@@ -1,5 +1,5 @@
 import db from '../db/queries/Image.queries.js'
-import util from './util.js'
+import util from '../util/util.js'
 
 export default {
   getImageByImageID,

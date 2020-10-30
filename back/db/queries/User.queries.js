@@ -196,7 +196,7 @@ async function createUser (fields) {
 }
 
 /**
- * @param {object} fields { userID: [number], state: [1 == active | 0 == inactive] }
+ * @param {object} fields { userID: [number], state: [boolean] }
  * @return {}
  */
 async function setUserActiveState (fields) {
@@ -208,7 +208,7 @@ async function setUserActiveState (fields) {
 }
 
 /**
- * @param {object} fields { userID: [number], reportFlat: [1 == true | 0 == false] }
+ * @param {object} fields { userID: [number], reportFlat: [boolean] }
  * @return {}
  */
 async function setUserReportFlag (fields) {

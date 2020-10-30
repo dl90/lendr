@@ -1,5 +1,7 @@
 import argon2 from 'argon2'
 import User from '../model/UserModel.js'
+import util from '../util/util.js'
+import handler from '../util/handler.js'
 
 export default {
   signUpWithEmailPassword,
@@ -10,7 +12,16 @@ export default {
   getUserByID,
   getUserByEmail,
 
-  updatePassword
+  updatePassword,
+  updateDisplayName,
+  updateAvatar,
+  updateActive,
+  updateReportFlag,
+
+  deleteUser,
+
+  getAllInactiveUsers,
+  getAllFlaggedUsers
 }
 
 /**
@@ -69,7 +80,7 @@ async function login (email, password) {
   const match = await argon2.verify(queryResult.password_hash, password)
   if (!match) return false
 
-  const formattedDateTime = generateFormattedDateTime()
+  const formattedDateTime = util.generateFormattedDateTime()
   const fields = { userID: parseInt(queryResult.user_id), dateTime: formattedDateTime }
   const res = await User.updateLastAccessed(fields)
   if (res.changedRows === 1) return await User.getUserByEmail(email)
@@ -77,7 +88,6 @@ async function login (email, password) {
 }
 
 /**
- * Adds user and GitHub OAuth info to db
  * @param {string} email
  * @param {string} GitHubID
  * @param {string} name
@@ -109,7 +119,6 @@ async function signUpWithOAuth (email, GitHubID, name, avatarURL) {
 }
 
 /**
- * Checks if GitHub OAuth matches
  * @param {string} email
  * @param {string} gitHubID
  * @return {object|false}
@@ -133,7 +142,7 @@ async function verifyGitHubOauth (email, gitHubID) {
 
   const storedGitHubID = await User.getGitHubOAuthIDByEmail(email)
   if (gitHubID === storedGitHubID) {
-    const formattedDateTime = generateFormattedDateTime()
+    const formattedDateTime = util.generateFormattedDateTime()
     const fields = { userID: parseInt(userID), dateTime: formattedDateTime }
     const res = await User.updateLastAccessed(fields)
     if (res.changedRows === 1) return await User.getUserByEmail(email)
@@ -143,53 +152,121 @@ async function verifyGitHubOauth (email, gitHubID) {
 }
 
 /**
- * Updates user pwHash to db
- * @param {string} email
- * @param {string} password
- * @param {number|undefined} id
- * @return {boolean} true if success
- */
-async function updatePassword (email, password, id = undefined) {
-  const pwHash = await argon2.hash(password)
-
-  if (id) {
-    const fields = { userID: id, pwHash }
-    const result = await User.updatePassword(fields)
-    console.log(result)
-    if (result) return true
-  } else {
-    const id = await User.getID(email)
-    const fields = { userID: id, pwHash }
-    const result = await User.updatePassword(fields)
-    console.log(result)
-    if (result) return true
-  }
-  return false
-}
-
-/**
- * Gets all user fields from db
  * @param {string|number} id user id
  * @return {object|null} user fields if user exists
  */
 async function getUserByID (id) {
-  const info = await User.getUserByID(parseInt(id))
-  return info ?? null
+  const result = await handler.asyncErrorHandler(
+    User.getUserByID, parseInt(id)
+  )
+  return result ?? null
 }
 
 /**
- * Gets all user fields from db
  * @param {string} email
  * @return {object|null} user fields if user exists
  */
 async function getUserByEmail (email) {
-  const info = await User.getUserByEmail(email)
-  return info ?? null
+  const result = await handler.asyncErrorHandler(
+    User.getUserByEmail, email
+  )
+  return result ?? null
 }
 
-/* -------------------- util -------------------- */
+/**
+ * @param {number} userID
+ * @param {string} newPassword
+ * @return {boolean} true if changed
+ */
+async function updatePassword (userID, newPassword) {
+  const pwHash = await handler.asyncErrorHandler(argon2.hash, newPassword)
+  if (!pwHash) return false
+  const result = await handler.asyncErrorHandler(
+    User.updatePassword,
+    { userID, pwHash }
+  )
+  return result.changedRows === 1
+}
 
-function generateFormattedDateTime () {
-  const dateTime = new Date().toISOString()
-  return `${dateTime.slice(0, 10)} ${dateTime.slice(11, 19)}`
+/**
+ * @param {number} userID
+ * @param {string} displayName
+ * @return {boolean} true if changed
+ */
+async function updateDisplayName (userID, displayName) {
+  const result = await handler.asyncErrorHandler(
+    User.updateDisplayName,
+    { userID, displayName }
+  )
+  return result.changedRows === 1
+}
+
+/**
+ * @param {number} userID
+ * @param {string} avatarURL
+ * @return {boolean} true if changed
+ */
+async function updateAvatar (userID, avatarURL) {
+  const result = await handler.asyncErrorHandler(
+    User.updateAvatar,
+    { userID, avatarURL }
+  )
+  return result.changedRows === 1
+}
+
+/**
+ * @param {number} userID
+ * @param {boolean|1|0} state
+ * @return {boolean} true if changed
+ */
+async function updateActive (userID, state) {
+  const result = await handler.asyncErrorHandler(
+    User.updateActivateUser,
+    { userID, state }
+  )
+  return result.changedRows === 1
+}
+
+/**
+ * @param {number} userID
+ * @param {boolean|1|0} reportFlag
+ * @return {boolean} true if changed
+ */
+async function updateReportFlag (userID, reportFlag) {
+  const result = await handler.asyncErrorHandler(
+    User.updateUserReportFlag,
+    { userID, reportFlag }
+  )
+  return result.changedRows === 1
+}
+
+/**
+ * @param {number} userID
+ * @return {boolean} true if deleted
+ */
+async function deleteUser (userID) {
+  const result = await handler.asyncErrorHandler(
+    User.deleteUser, userID
+  )
+  return result.changedRows === 1
+}
+
+/**
+ * Returns all inactive users
+ * @return {[object]}
+ */
+async function getAllInactiveUsers () {
+  return await handler.asyncErrorHandler(
+    User.getAllInactiveUsers
+  )
+}
+
+/**
+ * Returns all flagged users
+ * @return {[object]}
+ */
+async function getAllFlaggedUsers () {
+  return await handler.asyncErrorHandler(
+    User.getAllFlaggedUsers
+  )
 }

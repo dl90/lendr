@@ -1,5 +1,5 @@
 import db from '../db/queries/Item.queries.js'
-import util from './util.js'
+import util from '../util/util.js'
 
 export default {
   getItemByItemID,
