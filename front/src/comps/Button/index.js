@@ -17,6 +17,11 @@ const ButtonDiv = styled.div`
     &:hover{
         cursor:pointer;
     }
+    &:active{
+    background:${props=>props.bg ? props.bg: "linear-gradient(119.69deg, rgba(57, 166, 220, 0.75) -15.26%, #39A6DC 98.97%)"};
+        color:#FFF;
+    box-shadow:none;
+    }
 `;
 
 const Button = ({bg,text}) => {

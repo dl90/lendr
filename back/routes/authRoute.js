@@ -57,7 +57,7 @@ export default function () {
    * @apiName PostLogin
    * @apiGroup Auth
    *
-   * @apiSuccess (200) {text}                 Redirect
+   * @apiSuccess (200) {text}                   Redirect
    */
   router.get('/github/redirect', passport.authenticate('github'), (_req, res) => {
     res.redirect('/me')
