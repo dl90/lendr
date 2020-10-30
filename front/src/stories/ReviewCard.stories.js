@@ -2,7 +2,7 @@ import React from 'react';
 import ReviewCard from '../comps/ReviewCard';
 
 export default {
-    title: 'Review Card',
+    title: 'Cards/Review Card',
     component: ReviewCard,
 };
 
