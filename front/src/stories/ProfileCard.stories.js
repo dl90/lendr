@@ -2,7 +2,7 @@ import React from 'react';
 import ProfileCard from '../comps/ProfileCard';
 
 export default {
-    title: 'Profile Card',
+    title: 'Cards/Profile Card',
     component: ProfileCard,
 };
 
