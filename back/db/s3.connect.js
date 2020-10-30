@@ -9,6 +9,7 @@ AWS.config.update({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 })
 
+
 export default new AWS.S3()
 
 /*
