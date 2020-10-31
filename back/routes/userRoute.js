@@ -1,6 +1,7 @@
 import express from 'express'
 import authCheck from '../middleware/authCheck.js'
 import UserController from '../controller/UserController.js'
+// import multer from '../middleware/multer.js'
 
 const router = express.Router()
 export default function () {
@@ -22,7 +23,7 @@ export default function () {
   })
 
   /**
-   * @api {post} /user/change-pw               Update user password
+   * @api {post} /user/change-pw              Update user password
    * @apiName PostUpdateUserPassword
    * @apiGroup User
    *
@@ -36,6 +37,12 @@ export default function () {
     await UserController.updatePassword(req.user.id, password)
       ? res.sendStatus(200) : res.sendStatus(400)
   })
+
+  /*
+    @TODO
+      user upload avatar
+      delete user
+  */
 
   router.post('/inactive', authCheck, async (req, res) => {
     const inactive = await UserController.getAllInactiveUsers()

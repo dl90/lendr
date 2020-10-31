@@ -1,5 +1,5 @@
 import db from '../mysql.connect.js'
-const query = db.dbQuery
+const query = db.dbExecute
 
 export default {
   createPost,

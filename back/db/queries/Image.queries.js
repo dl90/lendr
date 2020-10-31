@@ -1,4 +1,5 @@
 import db from '../mysql.connect.js'
+const execute = db.dbExecute
 const query = db.dbQuery
 
 export default {
@@ -6,8 +7,9 @@ export default {
   getAllImagesByUserID,
 
   addImage,
+  addImages,
   updateImage,
-  deleteImage
+  deleteImageByURL
 }
 
 /**
@@ -15,7 +17,7 @@ export default {
  * @return {[object]} single image [ BinaryRow { data } ]
  */
 async function getImageByImageID (imageID) {
-  return await query('SELECT * FROM Image WHERE ID = ?', [imageID])
+  return await execute('SELECT * FROM Image WHERE ID = ?', [imageID])
 }
 
 /**
@@ -23,35 +25,43 @@ async function getImageByImageID (imageID) {
  * @return {[object]} multiple images [ BinaryRow { data } ]
  */
 async function getAllImagesByUserID (userID) {
-  return await query('SELECT * FROM Image WHERE user_id = ?', [userID])
+  return await execute('SELECT * FROM Image WHERE user_id = ?', [userID])
 }
 
 /**
- * @param {object} fields { userID: [number] imageURL: [string]]
+ * @param {object} fields { userID: [number], imageURL: [string]]
  * @return {}
  */
 async function addImage (fields) {
   const { userID, imageURL } = fields
-  return await query('INSERT INTO Image SET url = ?, user_id = ?',
+  return await execute('INSERT INTO Image SET url = ?, user_id = ?',
     [imageURL, userID]
   )
 }
 
 /**
- * @param {object} fields { imageID: [number] imageURL: [string]]
+ * @param {array} fields [ [url, user_id], [url, user_id], ...]
+ * @return {}
+ */
+async function addImages (fields) {
+  return await query('INSERT INTO Image (url, user_id) VALUES ?', [fields])
+}
+
+/**
+ * @param {object} fields { imageID: [number], imageURL: [string]]
  * @return {}
  */
 async function updateImage (fields) {
   const { imageID, imageURL } = fields
-  return await query('UPDATE Image SET url = ? WHERE id = ?',
+  return await execute('UPDATE Image SET url = ? WHERE id = ?',
     [imageURL, imageID]
   )
 }
 
 /**
- * @param {number} imageID
+ * @param {string} imageURL
  * @return {}
  */
-async function deleteImage (imageID) {
-  return await query('DELETE FROM Image WHERE id = ?', [imageID])
+async function deleteImageByURL (imageURL) {
+  return await execute('DELETE FROM Image WHERE url = ?', [imageURL])
 }

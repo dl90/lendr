@@ -134,11 +134,25 @@ CREATE TABLE `Message` (
   `id`                      INTEGER PRIMARY KEY AUTO_INCREMENT,
   `message`                 VARCHAR(2550),
   `timestamp`               TIMESTAMP NOT NULL DEFAULT(NOW()),
-  `image_id`                INTEGER,
+  `receiver_read`           BOOLEAN NOT NULL DEFAULT(0)
+);
+
+CREATE TABLE `MessageImage` (
+  `id`                      INTEGER PRIMARY KEY AUTO_INCREMENT,
+  `message_id`              INTEGER NOT NULL,
+  `image_id`                INTEGER NOT NULL,
+
+  FOREIGN KEY (`message_id`) REFERENCES `Message`(`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`image_id`) REFERENCES `Image`(`id`)
+);
+
+CREATE TABLE `UserMessage` (
+  `id`                      INTEGER PRIMARY KEY AUTO_INCREMENT,
+  `message_id`              INTEGER NOT NULL,
   `sender_id`               INTEGER NOT NULL,
   `receiver_id`             INTEGER NOT NULL,
 
-  FOREIGN KEY (`image_id`) REFERENCES `Image`(`id`),
+  FOREIGN KEY (`message_id`) REFERENCES `Message`(`id`) ON DELETE CASCADE,
   FOREIGN KEY (`sender_id`) REFERENCES `User`(`id`),
   FOREIGN KEY (`receiver_id`) REFERENCES `User`(`id`) ON DELETE CASCADE
 );

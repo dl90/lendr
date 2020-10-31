@@ -10,7 +10,7 @@ export default {
  */
 async function asyncErrorHandler (func, fields = null) {
   try {
-    return fields ? await func(fields) : func()
+    return fields ? await func(fields) : await func()
   } catch (e) {
     console.log(e.message)
     return false
