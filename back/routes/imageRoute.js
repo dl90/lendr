@@ -13,7 +13,7 @@ export default function () {
    *
    * @apiParam {file} image                   Image file [jpeg|jpg|png|gif]
    *
-   * @apiSuccess (200) {json}                 { imageID, url }
+   * @apiSuccess (200) {json}                 { url }
    * @apiError (400) {}                       Incorrect type or failed to save to db
    */
   router.post('/single', authCheck, multer.single('image'), async (req, res) => {
@@ -21,7 +21,7 @@ export default function () {
     else {
       const imageID = await ImageController.addImage(req.user.id, req.file.location)
       imageID
-        ? res.json({ imageID, url: req.file.location })
+        ? res.json({ url: req.file.location })
         : res.sendStatus(400)
     }
   })
@@ -31,17 +31,18 @@ export default function () {
    * @apiName PostImageMulti
    * @apiGroup Image
    *
-   * @apiParam {files} images                 Image file [jpeg|jpg|png|gif]
+   * @apiParam {files} images                 Image files, 12 max [jpeg|jpg|png|gif]
    *
-   * @apiSuccess (200) {}                     OK
+   * @apiSuccess (200) {json}                 { [url, url, ...] }
    * @apiError (400) {}                       Incorrect type or failed to save to db
    */
   router.post('/multi', authCheck, multer.array('images', BATCH_IMAGE_UPLOAD_SIZE), async (req, res) => {
     if (!req.files.length) res.sendStatus(400)
     else {
       const result = await ImageController.addImages(req.user.id, req.files)
+      const imageURLs = req.files.map(file => file.location)
       result
-        ? res.sendStatus(200)
+        ? res.json({ urls: imageURLs })
         : res.sendStatus(400)
     }
   })
@@ -51,7 +52,7 @@ export default function () {
    * @apiName PostImageDelete
    * @apiGroup Image
    *
-   * @apiParam {number} imageURL              imageURL
+   * @apiParam {string} imageURL              imageURL
    *
    * @apiSuccess (200) {}                     OK
    * @apiError (400) {}                       Incorrect type or failed to save to db

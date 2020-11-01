@@ -1,58 +1,120 @@
 import express from 'express'
-import authCheck from '../middleware/authCheck.js'
 import UserController from '../controller/UserController.js'
-// import multer from '../middleware/multer.js'
+import authCheck from '../middleware/authCheck.js'
+import multer from '../middleware/multer.js'
 
 const router = express.Router()
+router.use(authCheck)
+
 export default function () {
   /**
-   * @api {post} /user/get                        Get user profile
+   * @api {post} /user/get                  Get user profile
    * @apiName PostGetUserProfile
    * @apiGroup User
    *
-   * @apiParam {number} userID                User ID
+   * @apiParam {number} userID              User ID
    *
-   * @apiSuccess (200) {json}                 User profile JSON
-   * @apiError (400) {}                       User does not exist
+   * @apiSuccess (200) {json}               User profile JSON
+   * @apiError (400) {}                     User does not exist
    */
-  router.post('/get', authCheck, async (req, res) => {
+  router.post('/get', async (req, res) => {
     const { userID } = req.body
     const queryUser = await UserController.getUserByID(userID)
-    if (queryUser) res.status(200).json(queryUser)
-    else res.status(204).end()
+    queryUser
+      ? res.json(queryUser)
+      : res.sendStatus(400)
   })
 
   /**
-   * @api {post} /user/change-pw              Update user password
+   * @api {post} /user/change-pw            Update user password
    * @apiName PostUpdateUserPassword
    * @apiGroup User
    *
-   * @apiParam {string} password              New password
+   * @apiParam {string} password            New password
    *
-   * @apiSuccess (200) {}                     password change success
-   * @apiError (400) {}                       password change failed
+   * @apiSuccess (200) {}                   success
+   * @apiError (400) {}                     failed
    */
-  router.post('/change-pw', authCheck, async (req, res) => {
+  router.post('/change-pw', async (req, res) => {
     const { password } = req.body
     await UserController.updatePassword(req.user.id, password)
-      ? res.sendStatus(200) : res.sendStatus(400)
+      ? res.sendStatus(200)
+      : res.sendStatus(400)
+  })
+
+  /**
+   * @api {post} /user/change-display-name  Updates user display name
+   * @apiName PostUpdateUserDisplayName
+   * @apiGroup User
+   *
+   * @apiParam {string} displayName         New display name
+   *
+   * @apiSuccess (200) {}                   success
+   * @apiError (400) {}                     failed
+   */
+  router.post('/change-display-name', authCheck, async (req, res) => {
+    const { displayName } = req.body
+    await UserController.updateDisplayName(req.user.id, displayName)
+      ? res.sendStatus(200)
+      : res.sendStatus(400)
+  })
+
+  /**
+   * @api {post} /user/change-avatar        Uploads image to s3 and update user avatar url in db
+   * @apiName PostImageSingle
+   * @apiGroup User
+   *
+   * @apiParam {file} avatar                Image file [jpeg|jpg|png|gif]
+   *
+   * @apiSuccess (200) {}                   success
+   * @apiError (400) {}                     Incorrect filetype or failed to save to db
+   */
+  router.post('/change-avatar', multer.single('avatar'), async (req, res) => {
+    if (!req.file) res.sendStatus(400)
+    else {
+      const avatarUpdated = await UserController.updateAvatar(req.user.id, req.file.location)
+      avatarUpdated
+        ? res.sendStatus(200)
+        : res.sendStatus(400)
+    }
+  })
+
+  /**
+   * @api {delete} /user/delete             Delete and logout current user
+   * @apiName DeleteUser
+   * @apiGroup User
+   *
+   * @apiSuccess (200) {}                   success
+   * @apiError (400) {}                     failed
+   */
+  router.delete('/delete', async (req, res) => {
+    await UserController.deleteUser(req.user.id)
+      ? (req.logout(), res.redirect('/'))
+      : res.sendStatus(400)
+  })
+
+  /**
+   * @api {post} /user/report               Report a user
+   * @apiName PostReportUser
+   * @apiGroup User
+   *
+   * @apiParam {number} userID              ID of user to report
+   *
+   * @apiSuccess (200) {}                   success
+   * @apiError (400) {}                     failed
+   */
+  router.post('/report', async (req, res) => {
+    const { userID } = req.body
+    await UserController.updateReportFlag(userID, true)
+      ? res.sendStatus(200)
+      : res.sendStatus(400)
   })
 
   /*
     @TODO
-      user upload avatar
-      delete user
+      set user active when they post/message within 14 days
+      otherwise user is inactive regardless of login
   */
-
-  router.post('/inactive', authCheck, async (req, res) => {
-    const inactive = await UserController.getAllInactiveUsers()
-    inactive ? res.status(200).json(inactive) : res.sendStatus(400)
-  })
-
-  router.post('/report', authCheck, async (req, res) => {
-    const query = await UserController.updateReportFlag(1, false)
-    console.log(query)
-  })
 
   return router
 }

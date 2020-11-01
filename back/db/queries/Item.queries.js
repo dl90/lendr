@@ -1,5 +1,6 @@
 import db from '../mysql.connect.js'
-const query = db.dbExecute
+const execute = db.dbExecute
+const query = db.dbQuery
 
 export default {
   getItemByID,
@@ -51,7 +52,7 @@ async function getItemsByUserIDWithStatus (fields) {
  */
 async function addItem (fields) {
   const { userID, itemName, itemCondition, itemAge } = fields
-  return await query(
+  return await execute(
     'INSERT INTO Item SET name = ?, condition = ?, age = ?, lender_id = ?',
     [itemName, itemCondition, itemAge, userID]
   )
@@ -62,7 +63,7 @@ async function addItem (fields) {
  * @return {}
  */
 async function deleteItem (itemID) {
-  return await query('DELETE FROM Item WHERE id = ?', [itemID])
+  return await execute('DELETE FROM Item WHERE id = ?', [itemID])
 }
 
 /**
@@ -71,7 +72,7 @@ async function deleteItem (itemID) {
  */
 async function updateItemName (fields) {
   const { itemID, itemName } = fields
-  return await query('UPDATE Item SET name = ? WHERE id = ?',
+  return await execute('UPDATE Item SET name = ? WHERE id = ?',
     [itemName, itemID])
 }
 
@@ -81,7 +82,7 @@ async function updateItemName (fields) {
  */
 async function updateItemCondition (fields) {
   const { itemID, itemCondition } = fields
-  return await query('UPDATE Item SET condition = ? WHERE id = ?',
+  return await execute('UPDATE Item SET condition = ? WHERE id = ?',
     [itemCondition, itemID]
   )
 }
@@ -92,7 +93,7 @@ async function updateItemCondition (fields) {
  */
 async function updateItemAge (fields) {
   const { itemID, itemAge } = fields
-  return await query('UPDATE Item SET age = ? WHERE id = ?',
+  return await execute('UPDATE Item SET age = ? WHERE id = ?',
     [itemAge, itemID]
   )
 }
@@ -103,7 +104,7 @@ async function updateItemAge (fields) {
  */
 async function changeItemStatus (fields) {
   const { itemID, itemStatus } = fields
-  return await query('UPDATE Item SET status = ? WHERE id = ?',
+  return await execute('UPDATE Item SET status = ? WHERE id = ?',
     [itemStatus, itemID]
   )
 }

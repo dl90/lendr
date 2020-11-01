@@ -52,7 +52,6 @@ async function addImages (userID, imageArray) {
   const result = await handler.asyncErrorHandler(
     Image.addImages, { userID, imageArray }
   )
-  console.log(result)
   return result.affectedRows === imageArray.length
 }
 

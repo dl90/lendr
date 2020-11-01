@@ -17,7 +17,7 @@ export default {
  * @return {[object]} single image [ BinaryRow { data } ]
  */
 async function getImageByImageID (imageID) {
-  return await execute('SELECT * FROM Image WHERE ID = ?', [imageID])
+  return await query('SELECT * FROM Image WHERE ID = ?', [imageID])
 }
 
 /**
@@ -25,7 +25,7 @@ async function getImageByImageID (imageID) {
  * @return {[object]} multiple images [ BinaryRow { data } ]
  */
 async function getAllImagesByUserID (userID) {
-  return await execute('SELECT * FROM Image WHERE user_id = ?', [userID])
+  return await query('SELECT * FROM Image WHERE user_id = ?', [userID])
 }
 
 /**
@@ -41,7 +41,17 @@ async function addImage (fields) {
 
 /**
  * @param {array} fields [ [url, user_id], [url, user_id], ...]
- * @return {}
+ * @return {object}
+ * ```js
+ *   ResultSetHeader {
+ *    fieldCount: 0,
+ *    affectedRows: 3,
+ *    insertId: 1,
+ *    info: 'Records: 3  Duplicates: 0  Warnings: 0',
+ *    serverStatus: 2,
+ *    warningStatus: 0
+ *  }
+ * ```
  */
 async function addImages (fields) {
   return await query('INSERT INTO Image (url, user_id) VALUES ?', [fields])

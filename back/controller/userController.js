@@ -46,14 +46,16 @@ export default {
  */
 async function signUpWithEmailPassword (email, password, displayName = null) {
   const userFields = { userEmail: email, displayName }
-  const userCreated = await User.createUser(userFields)
-  const pwHash = await argon2.hash(password)
+  const userCreated = await handler.asyncErrorHandler(User.createUser, userFields)
   if (!userCreated.insertId) return false
 
+  const pwHash = await argon2.hash(password)
   const pwFields = { userID: userCreated.insertId, pwHash }
-  const pwCreated = await User.createPassword(pwFields)
+
+  const pwCreated = await handler.asyncErrorHandler(User.createPassword, pwFields)
   if (!pwCreated.insertId) return false
-  return await User.getUserByEmail(email)
+
+  return await handler.asyncErrorHandler(User.getUserByEmail, email)
 }
 
 /**
@@ -76,20 +78,24 @@ async function signUpWithEmailPassword (email, password, displayName = null) {
  * ```
  */
 async function login (email, password) {
-  const queryResult = await User.getPasswordHashByEmail(email)
+  const queryResult = await handler.asyncErrorHandler(User.getPasswordHashByEmail, email)
+  if (!queryResult) return false
+
   const match = await argon2.verify(queryResult.password_hash, password)
   if (!match) return false
 
   const formattedDateTime = util.generateFormattedDateTime()
   const fields = { userID: parseInt(queryResult.user_id), dateTime: formattedDateTime }
-  const res = await User.updateLastAccessed(fields)
-  if (res.changedRows === 1) return await User.getUserByEmail(email)
-  return false
+  const res = await handler.asyncErrorHandler(User.updateLastAccessed, fields)
+
+  return res.changedRows === 1
+    ? await handler.asyncErrorHandler(User.getUserByEmail, email)
+    : false
 }
 
 /**
  * @param {string} email
- * @param {string} GitHubID
+ * @param {number} GitHubID
  * @param {string} name
  * @param {string} avatarURL
  * @return {object|false}
@@ -109,13 +115,14 @@ async function login (email, password) {
  */
 async function signUpWithOAuth (email, GitHubID, name, avatarURL) {
   const userFields = { userEmail: email, displayName: name, avatarURL }
-  const userCreated = await User.createUser(userFields)
+  const userCreated = await handler.asyncErrorHandler(User.createUser, userFields)
   if (!userCreated.insertId) return false
 
-  const gitHubOAuthFields = { userID: userCreated.insertId, githubUserID: GitHubID }
-  const gitHubOAuthCreated = await User.createGitHubOAuth(gitHubOAuthFields)
+  const gitHubOAuthFields = { userID: userCreated.insertId, githubUserID: +GitHubID }
+  const gitHubOAuthCreated = await handler.asyncErrorHandler(User.createGitHubOAuth, gitHubOAuthFields)
   if (!gitHubOAuthCreated.insertId) return false
-  return await User.getUserByEmail(email)
+
+  return await handler.asyncErrorHandler(User.getUserByEmail, email)
 }
 
 /**
@@ -141,7 +148,7 @@ async function verifyGitHubOauth (email, gitHubID) {
   if (!userID) return false
 
   const storedGitHubID = await User.getGitHubOAuthIDByEmail(email)
-  if (gitHubID === storedGitHubID) {
+  if (+gitHubID === storedGitHubID) {
     const formattedDateTime = util.generateFormattedDateTime()
     const fields = { userID: parseInt(userID), dateTime: formattedDateTime }
     const res = await User.updateLastAccessed(fields)
@@ -157,7 +164,7 @@ async function verifyGitHubOauth (email, gitHubID) {
  */
 async function getUserByID (id) {
   const result = await handler.asyncErrorHandler(
-    User.getUserByID, parseInt(id)
+    User.getUserByID, +id
   )
   return result ?? null
 }
@@ -183,7 +190,7 @@ async function updatePassword (userID, newPassword) {
   if (!pwHash) return false
   const result = await handler.asyncErrorHandler(
     User.updatePassword,
-    { userID, pwHash }
+    { userID: +userID, pwHash }
   )
   return result.changedRows === 1
 }
@@ -196,7 +203,7 @@ async function updatePassword (userID, newPassword) {
 async function updateDisplayName (userID, displayName) {
   const result = await handler.asyncErrorHandler(
     User.updateDisplayName,
-    { userID, displayName }
+    { userID: +userID, displayName }
   )
   return result.changedRows === 1
 }
@@ -209,7 +216,7 @@ async function updateDisplayName (userID, displayName) {
 async function updateAvatar (userID, avatarURL) {
   const result = await handler.asyncErrorHandler(
     User.updateAvatar,
-    { userID, avatarURL }
+    { userID: +userID, avatarURL }
   )
   return result.changedRows === 1
 }
@@ -222,20 +229,20 @@ async function updateAvatar (userID, avatarURL) {
 async function updateActive (userID, state) {
   const result = await handler.asyncErrorHandler(
     User.updateActivateUser,
-    { userID, state }
+    { userID: +userID, state }
   )
   return result.changedRows === 1
 }
 
 /**
- * @param {number} userID
- * @param {boolean|1|0} reportFlag
+ * @param {string|number} userID
+ * @param {boolean} reportFlag
  * @return {boolean} true if changed
  */
 async function updateReportFlag (userID, reportFlag) {
   const result = await handler.asyncErrorHandler(
     User.updateUserReportFlag,
-    { userID, reportFlag }
+    { userID: +userID, reportFlag }
   )
   return result.changedRows === 1
 }
@@ -246,9 +253,9 @@ async function updateReportFlag (userID, reportFlag) {
  */
 async function deleteUser (userID) {
   const result = await handler.asyncErrorHandler(
-    User.deleteUser, userID
+    User.deleteUser, +userID
   )
-  return result.changedRows === 1
+  return result.affectedRows === 1
 }
 
 /**

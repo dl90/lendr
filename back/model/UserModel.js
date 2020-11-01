@@ -211,6 +211,7 @@ async function updatePassword (fields) {
     const results = await db.getPasswordByUserID(userID)
     if (results.length === 0) util.missingEntry(fields)
   }
+  fields.timeStamp = util.generateFormattedDateTime()
   return await db.updatePassword(fields)
 }
 
@@ -296,7 +297,18 @@ async function updateActivateUser (fields) {
 /**
  * Update user report flag
  * @param {object} fields { userID: [number], reportFlag: [boolean] }
- * @return {}
+ * @return {object}
+ * ```
+ *  ResultSetHeader {
+ *    fieldCount: 0,
+ *    affectedRows: 1,
+ *    insertId: 0,
+ *    info: 'Rows matched: 1  Changed: 1  Warnings: 0',
+ *    serverStatus: 2,
+ *    warningStatus: 0,
+ *    changedRows: 1
+ *  }
+ * ```
  */
 async function updateUserReportFlag (fields) {
   const { userID, reportFlag } = fields
@@ -310,7 +322,17 @@ async function updateUserReportFlag (fields) {
 /**
  * Deletes user from db
  * @param {number} userID
- * @return {}
+ * @return {object}
+ * ```
+ *  ResultSetHeader {
+ *    fieldCount: 0,
+ *    affectedRows: 1,
+ *    insertId: 0,
+ *    info: '',
+ *    serverStatus: 2,
+ *    warningStatus: 0
+ *  }
+ * ```
  */
 async function deleteUser (userID) {
   util.checkID(userID)

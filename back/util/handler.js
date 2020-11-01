@@ -12,7 +12,7 @@ async function asyncErrorHandler (func, fields = null) {
   try {
     return fields ? await func(fields) : await func()
   } catch (e) {
-    console.log(e.message)
+    console.log(new Date(), e.message)
     return false
   }
 }

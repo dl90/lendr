@@ -1,5 +1,6 @@
 import db from '../mysql.connect.js'
-const query = db.dbExecute
+const execute = db.dbExecute
+const query = db.dbQuery
 
 export default {
   createPost,
@@ -12,21 +13,21 @@ export default {
 /**
  * @param {object} fields
  * ```
- * {
- * postTitle: [string],
- * postRate: [decimal(11, 2)],
- * postDescription: [string],
- * postLocation: [string],
- * postDuration: [timestamp],
- * userID: [number],
- * itemID: [number]
- * }
+ *  {
+ *    postTitle: [string],
+ *    postRate: [decimal(11, 2)],
+ *    postDescription: [string],
+ *    postLocation: [string],
+ *    postDuration: [timestamp],
+ *    userID: [number],
+ *    itemID: [number]
+ *  }
  * ```
- * @return {}
+ * @return {object}
  */
 async function createPost (fields) {
   const { postTitle, postRate, postDescription, postLocation, postDuration, userID, itemID } = fields
-  return await query(
+  return await execute(
     'INSERT INTO Post title = ?, rate = ?, post_description = ?, location = ?, duration = ? user_id = ? item_id = ?',
     [postTitle, postRate, postDescription, postLocation, postDuration, userID, itemID]
   )
@@ -37,7 +38,7 @@ async function createPost (fields) {
  * @return {}
  */
 async function deletePost (postID) {
-  return await query('DELETE FROM Post WHERE id = ?', [postID])
+  return await execute('DELETE FROM Post WHERE id = ?', [postID])
 }
 
 /**

@@ -1,5 +1,6 @@
 import db from '../mysql.connect.js'
-const query = db.dbExecute
+const execute = db.dbExecute
+const query = db.dbQuery
 
 export default {
   getEmail,
@@ -93,21 +94,21 @@ async function getPasswordByUserID (userID) {
  */
 async function createPassword (fields) {
   const { userID, pwHash } = fields
-  return await query(
+  return await execute(
     'INSERT INTO UserPassword SET user_id = ?, password_hash = ?',
     [userID, pwHash]
   )
 }
 
 /**
- * @param {object} fields { userID: [number], pwHash: [string} }
+ * @param {object} fields { userID: [number], timeStamp: [string], pwHash: [string} }
  * @return {}
  */
 async function updatePassword (fields) {
-  const { userID, pwHash } = fields
-  return await query(
-    'UPDATE UserPassword SET password_hash = ? WHERE user_id = ?',
-    [pwHash, userID]
+  const { userID, timeStamp, pwHash } = fields
+  return await execute(
+    'UPDATE UserPassword SET password_hash = ?, timestamp = ? WHERE user_id = ?',
+    [pwHash, timeStamp, userID]
   )
 }
 
@@ -165,7 +166,7 @@ async function getGitHubOAuthUserIDByEmail (userEmail) {
  */
 async function createGitHubOAuth (fields) {
   const { userID, githubUserID } = fields
-  return await query(
+  return await execute(
     'INSERT INTO GitHubOAuth SET user_id = ?, github_user_id = ?',
     [userID, githubUserID]
   )
@@ -177,7 +178,7 @@ async function createGitHubOAuth (fields) {
  */
 async function updateGitHubOAuth (fields) {
   const { userID, githubUserID } = fields
-  return await query(
+  return await execute(
     'UPDATE GitHubOAuth SET github_user_id = ? WHERE user_id = ?',
     [githubUserID, userID]
   )
@@ -189,7 +190,7 @@ async function updateGitHubOAuth (fields) {
  */
 async function createUser (fields) {
   const { userEmail, displayName, avatarURL } = fields
-  return await query(
+  return await execute(
     'INSERT INTO User SET email = ?, display_name = ?, avatar_url = ?',
     [userEmail, displayName || null, avatarURL || null]
   )
@@ -201,7 +202,7 @@ async function createUser (fields) {
  */
 async function setUserActiveState (fields) {
   const { userID, state } = fields
-  return await query(
+  return await execute(
     'UPDATE User SET active = ? WHERE id = ?',
     [state, userID]
   )
@@ -213,7 +214,7 @@ async function setUserActiveState (fields) {
  */
 async function setUserReportFlag (fields) {
   const { userID, reportFlag } = fields
-  return await query(
+  return await execute(
     'UPDATE User set report_flag = ? WHERE id = ?',
     [reportFlag, userID]
   )
@@ -225,7 +226,7 @@ async function setUserReportFlag (fields) {
  */
 async function updateDisplayName (fields) {
   const { userID, displayName } = fields
-  return await query(
+  return await execute(
     'UPDATE User SET display_name = ? WHERE id = ?',
     [displayName, userID]
   )
@@ -237,7 +238,7 @@ async function updateDisplayName (fields) {
  */
 async function updateLastAccessed (fields) {
   const { userID, dateTime } = fields
-  return await query(
+  return await execute(
     'UPDATE User SET last_accessed = ? WHERE id = ?',
     [dateTime, userID]
   )
@@ -249,7 +250,7 @@ async function updateLastAccessed (fields) {
  */
 async function updateAvatar (fields) {
   const { userID, avatarURL } = fields
-  return await query(
+  return await execute(
     'UPDATE User SET avatar_url = ? WHERE id = ?',
     [avatarURL, userID]
   )
@@ -260,7 +261,7 @@ async function updateAvatar (fields) {
  * @return {}
  */
 async function deleteUser (userID) {
-  return await query('DELETE FROM User WHERE id = ?', [userID])
+  return await execute('DELETE FROM User WHERE id = ?', [userID])
 }
 
 /**

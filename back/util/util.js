@@ -93,7 +93,7 @@ function missingEntry (arg) {
 }
 
 /**
- * Generates timestamp string
+ * Generates timestamp string at call time
  * @return {string} '2020-12-30 23:59:59'
  */
 function generateFormattedDateTime () {
