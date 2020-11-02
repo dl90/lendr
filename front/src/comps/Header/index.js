@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 const HeaderDiv = styled.div`
     display:flex;
-    justify-content:space-between;
     align-items: center;
     max-width: 325px;
 `;
@@ -16,6 +15,10 @@ const Back = styled.img`
     &:active{
         opacity:0.5;
     }
+`;
+
+const Space = styled.div`
+    flex-grow:1;
 `;
 
 const Options = styled.img`
@@ -31,6 +34,7 @@ const Options = styled.img`
 const Header = () => {
     return <HeaderDiv>
         <Back src={"/back.svg"}></Back>
+        <Space></Space>
         <Options src={"/options.svg"}></Options>
     </HeaderDiv>
 };
