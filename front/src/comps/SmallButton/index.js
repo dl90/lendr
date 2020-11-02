@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 const SmallButtonDiv = styled.div`
-    max-width: 110px;
+    width: 101px;
     height:35px;
-    border-radius:10px;
+    border-radius:5px;
     
     display:flex;
     justify-content:center;
