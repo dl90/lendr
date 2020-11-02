@@ -1,0 +1,19 @@
+.storybook-div24 {
+	width: 200px;
+	height: 250px;
+	border: 1px solid rgba(164, 167, 168, 0.56);
+	box-sizing: border-box;
+	border-radius: 10px;
+	/* text-align: center; */
+	box-shadow: 1px 1px 5px #333333;
+	margin-top: 30px;
+	margin-left: 20px;
+	border: 0px;
+	olor: #D5D5D5;
+}
+.storybook-a24 {
+	color: grey;
+	text-align: left;
+	margin-left: 40px;
+	margin-top: -28px;
+}

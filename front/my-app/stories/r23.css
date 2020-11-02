@@ -1,0 +1,35 @@
+.storybook-div {
+	width: 120px;
+	height: 130px;
+	border: 1px solid rgba(164, 167, 168, 0.56);
+	box-sizing: border-box;
+	border-radius: 10px;
+	/* text-align: center; */
+	box-shadow: 1px 1px 5px #333333;
+	margin-top: 30px;
+	margin-left: 20px;
+	border: 0px;
+	olor: #D5D5D5;
+}
+.lowline {
+	margin-left: 10px;
+	margin-right: 10px;
+	border-bottom: 1px solid grey;
+}
+.storybook-a {
+	color: grey;
+	text-align: left;
+	margin-top: 20px;
+}
+.storybook-div1 {
+	width: 120px;
+	height: 80px;
+	border: 1px solid rgba(164, 167, 168, 0.56);
+	box-sizing: border-box;
+	border-radius: 10px;
+	box-shadow: 1px 1px 5px #333333;
+	margin-top: -130px;
+	margin-left: 200px;
+	border: 0px;
+	olor: #D5D5D5;
+}
