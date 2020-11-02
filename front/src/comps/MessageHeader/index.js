@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import Button from '../Button';
+import Header from '../Header';
 
 // To display 'Edit Profile' make sure to write 'userState={true}' when stating the comp.
 // the props for this comp are: 'userImg', 'userName', and 'userRating'
@@ -17,9 +17,9 @@ const UserProfileCard = styled.div`
     box-shadow: 0px 16px 24px 0px rgba(0, 0, 0, 0.10);
     background-color:white;
     flex-wrap: wrap;
-    ${(props) => props.msgState === true && css`
-        padding-top:24px;
-    `}
+    margin-bottom: 10px;
+    margin-top: 0px;
+    justify-content:center;
 `;
 
 
@@ -28,9 +28,9 @@ const UserInfo = styled.div`
     display:flex;
     align-items:center;
     justify-content:center;
-    margin-left:9.6%;
     display:flex;
-    flex-direction: row;
+    flex-direction: column;
+    justify-content:center;
 `;
 
 //UserProfile is the profile image
@@ -39,13 +39,13 @@ const UserProfile = styled.div`
     max-width:73px;
     border-radius:1000px;
     overflow: hidden;
-    display:flex;
     align-items:center;
     justify-content:center;
-    margin-right:14px;
+    display:flex;
     img{
         width:100%;
         height:100%
+        
     }
 `;
 
@@ -68,11 +68,8 @@ const UserData = styled.div`
 
 const UserName = styled.div`
     margin-bottom:-15px;
+    text-align:center;
 `;
-
-const UserRating = styled.div`
-`;
-
 
 const Message = styled.div`
     display:none;
@@ -88,43 +85,28 @@ const Message = styled.div`
 
 
 
-const ProfileCard = ({ userImg, userName, userRating, msgState, userState }) => {
-    return <UserProfileCard msgState={msgState}>
+const MessageHeader = ({ userImg, userName, }) => {
+    return <UserProfileCard>
         <UserInfo>
-            <UserImg userState={userState}>
+            {/* <Header /> */}
+            <UserImg>
                 <UserProfile>
                     <img src={userImg} />
                 </UserProfile>
-                <a>Edit Profile</a>
             </UserImg>
             <UserData>
                 <UserName><h3>{userName}</h3></UserName>
-                <UserRating>
-                    {/* This is hard coded in */}
-                    <img src={userRating} />
-                    <img src={userRating} />
-                    <img src={userRating} />
-                    <img src={userRating} />
-                    <img src={userRating} />
-                </UserRating>
             </UserData>
         </UserInfo>
-
-
-        <Message msgState={msgState}>
-            <Button text={"Message"} />
-        </Message>
     </UserProfileCard>
 }
 
 
-ProfileCard.defaultProps = {
+MessageHeader.defaultProps = {
     userImg: '/placeholderProfile.png',
     userName: "Chad Smith",
-    userRating: '/activeStar.png',
 
 }
 
 
-
-export default ProfileCard;
+export default MessageHeader;

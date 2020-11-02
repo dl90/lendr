@@ -3,7 +3,7 @@ import BottomNav from '../comps/BottomNav';
 
 
 export default {
-    title: 'BottomNav/NavBar',
+    title: 'Navigation/NavBar',
     component: BottomNav
 };
 
