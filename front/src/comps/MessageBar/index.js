@@ -16,7 +16,7 @@ box-shadow: 0px 16px 24px 0px rgba(0, 0, 0, 0.06);
 const Input = styled.input`
 max-width:250px;
 height:55px;
-overflow: hidden;
+overflow: hidden;   
 background-color: #F5F7FF;
 border:0px;
 outline:none;
@@ -26,8 +26,8 @@ display:flex;
 border-radius:10px;
  ::placeholder {
     color: rgba(23, 95, 164, 0.52);
- }
-`;
+ };
+ `;
 
 const Circle = styled.div`
 min-height: 41px;
@@ -39,6 +39,7 @@ margin-right:7px;
 display:flex;
 justify-content:center;
 align-items:center;
+
 `;
 
 const Icon = styled.img`
