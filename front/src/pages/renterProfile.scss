@@ -1,0 +1,17 @@
+.app{
+    display: flex;
+    flex-direction: column;
+    padding:6.93%;
+    z-index: -1;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.253);
+}
+
+.nav{
+    position: fixed;
+    z-index: 2;
+    width:100%;
+    left: 0;
+    bottom: 0;
+    // background-color: white;
+}
