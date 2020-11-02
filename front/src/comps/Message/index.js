@@ -65,7 +65,7 @@ const Message = ({fullname, lastmsg, date, pfp}) => {
         }} onMouseOut={()=>{
             setHovered(false);
         }}>
-<ProfilePic><img src = {pfp}></img></ProfilePic>
+<ProfilePic><img src = {pfp} alt="User Profile Picture"></img></ProfilePic>
 <TextContent>
 <Name>{fullname}</Name>
 <LastMsg>{lastmsg}</LastMsg>

@@ -16,13 +16,12 @@ box-shadow: 0px 16px 24px 0px rgba(0, 0, 0, 0.06);
 const Input = styled.input`
 max-width:250px;
 height:55px;
-overflow: hidden;
+overflow: hidden;   
 background-color: #F5F7FF;
 border:0px;
 outline:none;
 padding-left:25px;
 color: #39A6DC; 
-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 display:flex;
 border-radius:10px;
  ::placeholder {

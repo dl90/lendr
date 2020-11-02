@@ -1,20 +1,31 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 
-const CatagoriesDiv = styled.div`
+const CatagoriesCont = styled.div`
 height: 48px;
-width: 326px;
-border-radius: 10px;
+max-width: 326px;
+border: 1px solid rgba(151, 151, 151, 0.26);
+border-radius: ${props => props.DivRadius ? " 10px 10px 0px 0px": "10px 10px 10px 10px"};
 box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06);
+cursor: pointer;
+:hover {
+    background-color: #FCFCFC;
+};
+
+`;
+
+const CatagoriesDiv = styled.div`
+max-width:300px;
 display:inline-flex;
 align-items:center;
 padding-left:20px;
 box-sizing: border-box;
-cursor: pointer;
+
 img {
     position:relative;
-    margin-left:220px;
-}
+    padding-right:20px;
+    transform:${props => props.IconRotate ? "rotate(180deg);" : "none"}
+};
 
 `;
 
@@ -23,17 +34,29 @@ color: #979797;
 `;
 
 const CatagoriesDropDiv = styled.div`
+ul {
+    list-style-type: none;
+}
 `;
 
+
+
 const CatagoriesDropdown = ({}) => {
-    return <div><CatagoriesDiv>
+const [Dropped, setDropped] = useState(false);
+
+    return <CatagoriesCont onClick = {()=>{
+        setDropped(!Dropped);
+    }}><CatagoriesDiv BgColour={Dropped} DivRadius={Dropped} IconRotate={Dropped} >
 <CatagoriesLabel>Category</CatagoriesLabel>
-<img src = './dropdownarrow.png'></img>
+<img alt="Dropdown Arrow" src='./dropdownarrow.png'></img>
     </CatagoriesDiv>
     
-<CatagoriesDropDiv></CatagoriesDropDiv>
+<CatagoriesDropDiv><ul>
+    <li>Test</li>
+    
+    </ul></CatagoriesDropDiv>
 
-</div>
+</CatagoriesCont>
 };
 
 CatagoriesDropdown.defaultProps = {
