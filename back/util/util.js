@@ -6,7 +6,9 @@ export default {
 
   checkEmptyString,
   checkID,
-  checkState,
+  checkStatus,
+  checkSmallInt,
+  checkBool,
   validateEmail,
   validateURL,
 
@@ -24,7 +26,7 @@ export default {
  * @throw invalid argument error
  */
 function checkEmptyString (arg) {
-  if (!(arg && arg.trim().length)) invalidArgument(arg)
+  if (!arg || arg.trim().length === 0) invalidArgument(arg)
 }
 
 /**
@@ -33,16 +35,34 @@ function checkEmptyString (arg) {
  * @throw invalid argument error
  */
 function checkID (id) {
-  if (!(parseInt(id) && id > 0)) invalidArgument(id)
+  if (id <= 0) invalidArgument(id)
 }
 
 /**
- * Throws error if state is not boolean
- * @param {number} state
+ * Throws error if status is not 0 || 1
+ * @param {0|1} status
  * @throw invalid argument error
  */
-function checkState (state) {
-  if (typeof state !== 'boolean') invalidArgument(state)
+function checkStatus (status) {
+  if (!(status !== 0 || status !== 1)) invalidArgument(status)
+}
+
+/**
+ * Throws error if arg is not smallInt (0 <= x <= 32767)
+ * @param {number} smallInt
+ * @throw invalid argument error
+ */
+function checkSmallInt (smallInt) {
+  if (smallInt < 0 || smallInt > 32767) (invalidArgument(smallInt))
+}
+
+/**
+ * Throws error if arg is not boolean
+ * @param {number} arg
+ * @throw invalid argument error
+ */
+function checkBool (arg) {
+  if (typeof arg !== 'boolean') invalidArgument(arg)
 }
 
 /**

@@ -30,8 +30,8 @@ export default {
  * @param {string} password
  * @param {string|undefined} displayName
  * @return {object|false}
- * >```
- * {
+ * ```
+ *  User {
  *    id: 1,
  *    email: 'testy(at)test.com',
  *    display_name: 'Testy Test',
@@ -41,7 +41,7 @@ export default {
  *    last_accessed: '2020-01-12 00:00:01',
  *    created_at: '2020-01-12 00:00:01',
  *    rating: 0
- * }
+ *  } || false
  * ```
  */
 async function signUpWithEmailPassword (email, password, displayName = null) {
@@ -63,8 +63,8 @@ async function signUpWithEmailPassword (email, password, displayName = null) {
  * @param {string} email
  * @param {string} password
  * @return {object|false}
- * >```
- * {
+ * ```
+ *  User {
  *    id: 1,
  *    email: 'testy(at)test.com',
  *    display_name: 'Testy Test',
@@ -74,7 +74,7 @@ async function signUpWithEmailPassword (email, password, displayName = null) {
  *    last_accessed: '2020-01-12 00:00:01',
  *    created_at: '2020-01-12 00:00:01',
  *    rating: 0
- * }
+ *  } || false
  * ```
  */
 async function login (email, password) {
@@ -99,8 +99,8 @@ async function login (email, password) {
  * @param {string} name
  * @param {string} avatarURL
  * @return {object|false}
- * >```
- * {
+ * ```
+ *  User {
  *    id: 1,
  *    email: 'testy(at)test.com',
  *    display_name: 'Testy Test',
@@ -110,7 +110,7 @@ async function login (email, password) {
  *    last_accessed: '2020-01-12 00:00:01',
  *    created_at: '2020-01-12 00:00:01',
  *    rating: 0
- * }
+ *  } || false
  * ```
  */
 async function signUpWithOAuth (email, GitHubID, name, avatarURL) {
@@ -129,8 +129,8 @@ async function signUpWithOAuth (email, GitHubID, name, avatarURL) {
  * @param {string} email
  * @param {string} gitHubID
  * @return {object|false}
- * >```
- * {
+ * ```
+ *  User {
  *    id: 1,
  *    email: 'testy(at)test.com',
  *    display_name: 'Testy Test',
@@ -140,7 +140,7 @@ async function signUpWithOAuth (email, GitHubID, name, avatarURL) {
  *    last_accessed: '2020-01-12 00:00:01',
  *    created_at: '2020-01-12 00:00:01',
  *    rating: 0
- * }
+ *  } || false
  * ```
  */
 async function verifyGitHubOauth (email, gitHubID) {
@@ -160,24 +160,18 @@ async function verifyGitHubOauth (email, gitHubID) {
 
 /**
  * @param {string|number} id user id
- * @return {object|null} user fields if user exists
+ * @return {object|false} user fields if user exists
  */
 async function getUserByID (id) {
-  const result = await handler.asyncErrorHandler(
-    User.getUserByID, +id
-  )
-  return result ?? null
+  return await handler.asyncErrorHandler(User.getUserByID, +id) ?? false
 }
 
 /**
  * @param {string} email
- * @return {object|null} user fields if user exists
+ * @return {object|false} user fields if user exists
  */
 async function getUserByEmail (email) {
-  const result = await handler.asyncErrorHandler(
-    User.getUserByEmail, email
-  )
-  return result ?? null
+  return await handler.asyncErrorHandler(User.getUserByEmail, email) ?? false
 }
 
 /**

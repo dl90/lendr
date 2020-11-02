@@ -7,7 +7,7 @@ export default {
   getItemsByUserID,
   getItemsByUserIDWithStatus,
 
-  addItem,
+  createItem,
   deleteItem,
 
   updateItemName,
@@ -30,30 +30,41 @@ async function getItemByID (itemID) {
  */
 async function getItemsByUserID (userID) {
   return await query(
-    'SELECT * FROM Item WHERE lender_id = ? ORDER BY timestamp DESC', [userID]
+    'SELECT * FROM Item WHERE lender_id = ? ORDER BY created_on DESC', [userID]
   )
 }
 
 /**
- * @param {object} fields { userID: [string] itemStatus: [boolean] }
+ * @param {object} fields { userID: [string] itemStatus: [0|1] }
  * @return {[object]} all items [ BinaryRow { data } ]
  */
 async function getItemsByUserIDWithStatus (fields) {
   const { userID, itemStatus } = fields
   return await query(
-    'SELECT * FROM Item WHERE lender_id = ? AND status = ?',
+    `SELECT * FROM Item WHERE lender_id = ? AND item_status = ?
+    ORDER BY created_on DESC`,
     [userID, itemStatus]
   )
 }
 
 /**
  * @param {object} fields { userID: [number], itemName: [string], itemCondition: [string], itemAge: [smallint] }
- * @return {}
+ * @return {object}
+ * ```
+ *  ResultSetHeader {
+ *    fieldCount: 0,
+ *    affectedRows: 1,
+ *    insertId: 1,
+ *    info: '',
+ *    serverStatus: 2,
+ *    warningStatus: 0
+ *  }
+ * ```
  */
-async function addItem (fields) {
+async function createItem (fields) {
   const { userID, itemName, itemCondition, itemAge } = fields
   return await execute(
-    'INSERT INTO Item SET name = ?, condition = ?, age = ?, lender_id = ?',
+    'INSERT INTO Item SET item_name = ?, item_condition = ?, age = ?, lender_id = ?',
     [itemName, itemCondition, itemAge, userID]
   )
 }

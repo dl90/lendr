@@ -18,8 +18,7 @@ export default function () {
    * @apiError (400) {}                     User does not exist
    */
   router.post('/get', async (req, res) => {
-    const { userID } = req.body
-    const queryUser = await UserController.getUserByID(userID)
+    const queryUser = await UserController.getUserByID(req.body.userID)
     queryUser
       ? res.json(queryUser)
       : res.sendStatus(400)
@@ -32,8 +31,8 @@ export default function () {
    *
    * @apiParam {string} password            New password
    *
-   * @apiSuccess (200) {}                   success
-   * @apiError (400) {}                     failed
+   * @apiSuccess (200) {}                   Success
+   * @apiError (400) {}                     Failed
    */
   router.post('/change-pw', async (req, res) => {
     const { password } = req.body
@@ -49,8 +48,8 @@ export default function () {
    *
    * @apiParam {string} displayName         New display name
    *
-   * @apiSuccess (200) {}                   success
-   * @apiError (400) {}                     failed
+   * @apiSuccess (200) {}                   Success
+   * @apiError (400) {}                     Failed
    */
   router.post('/change-display-name', authCheck, async (req, res) => {
     const { displayName } = req.body
@@ -66,7 +65,7 @@ export default function () {
    *
    * @apiParam {file} avatar                Image file [jpeg|jpg|png|gif]
    *
-   * @apiSuccess (200) {}                   success
+   * @apiSuccess (200) {}                   Success
    * @apiError (400) {}                     Incorrect filetype or failed to save to db
    */
   router.post('/change-avatar', multer.single('avatar'), async (req, res) => {
@@ -84,13 +83,15 @@ export default function () {
    * @apiName DeleteUser
    * @apiGroup User
    *
-   * @apiSuccess (200) {}                   success
-   * @apiError (400) {}                     failed
+   * @apiSuccess (200) {}                   Success
+   * @apiError (400) {}                     Failed
    */
   router.delete('/delete', async (req, res) => {
-    await UserController.deleteUser(req.user.id)
-      ? (req.logout(), res.redirect('/'))
-      : res.sendStatus(400)
+    const status = await UserController.deleteUser(req.user.id)
+    if (status) {
+      req.logout()
+      res.redirect('/')
+    } else res.sendStatus(400)
   })
 
   /**
@@ -100,8 +101,8 @@ export default function () {
    *
    * @apiParam {number} userID              ID of user to report
    *
-   * @apiSuccess (200) {}                   success
-   * @apiError (400) {}                     failed
+   * @apiSuccess (200) {}                   Success
+   * @apiError (400) {}                     Failed
    */
   router.post('/report', async (req, res) => {
     const { userID } = req.body
