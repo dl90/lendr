@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const MessageDiv = styled.div`
@@ -9,13 +9,14 @@ display:flex;
 justify-content:center;
 align-items:center;
 box-shadow: 0px 10px 24px rgba(0, 0, 0, 0.03);
-background-color: ${props => props.Hovered ?  "lightgray" : "white" };
+background-color: ${props => props.Hovered ? "lightgray" : "white"};
 transition: background-color 0.5s;
+border-top: 1px solid rgba(0, 0, 0, 0.050);
 `;
 
 const ProfilePic = styled.div`
-height: 50px;
-width: 50px;
+max-height: 50px;
+max-width: 50px;
 border-radius:50%;
 background-color:gray;
 overflow: hidden;
@@ -31,7 +32,7 @@ img{
 
 const TextContent = styled.div`
 margin-left:10px;
-max-width:200px;
+min-width:200px;
 max-height:98px;
 display:flex;
 flex-direction:column;
@@ -53,32 +54,34 @@ overflow:hidden;
 
 const Date = styled.p`
 margin-top:-5px;
+margin-right:20px;
 color:#39A6DC;
-width:30px;
+width:100px;
 overflow:hidden;
+text-align:right;
 `;
 
-const Message = ({fullname, lastmsg, date, pfp}) => {
+const Message = ({ fullname, lastmsg, date, pfp }) => {
     const [Hovered, setHovered] = useState(false);
-    return <MessageDiv Hovered={Hovered} onMouseOver={()=>{
+    return <MessageDiv Hovered={Hovered} onMouseOver={() => {
         setHovered(true);
-        }} onMouseOut={()=>{
-            setHovered(false);
-        }}>
-<ProfilePic><img src = {pfp} alt="User Profile Picture"></img></ProfilePic>
-<TextContent>
-<Name>{fullname}</Name>
-<LastMsg>{lastmsg}</LastMsg>
-</TextContent>
-<Date>{date}</Date>
+    }} onMouseOut={() => {
+        setHovered(false);
+    }}>
+        <ProfilePic><img src={pfp} alt="User Profile Picture"></img></ProfilePic>
+        <TextContent>
+            <Name>{fullname}</Name>
+            <LastMsg>{lastmsg}</LastMsg>
+        </TextContent>
+        <Date>{date}</Date>
     </MessageDiv>
 };
 
 Message.defaultProps = {
-fullname: "John Smith",
-lastmsg: "This is the last message sent from this use...",
-date: "Wed.",
-pfp: "./placeholderProfile.png"
+    fullname: "John Smith",
+    lastmsg: "This is the last message sent from this use...",
+    date: "Wed.",
+    pfp: "./placeholderProfile.png"
 }
 
 
