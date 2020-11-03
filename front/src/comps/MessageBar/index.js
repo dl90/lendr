@@ -40,6 +40,15 @@ display:flex;
 justify-content:center;
 align-items:center;
 
+&:active {
+    background: #258CBF;
+}
+
+
+ img {
+     
+ }
+
 `;
 
 const Icon = styled.img`
@@ -51,7 +60,7 @@ margin-left:-6px;
 const MessageBar = () => {
     return <MessageDiv>
         <Input placeholder="Type your message..."></Input>
-        <Circle><Icon src="/sendicon.png"></Icon></Circle>
+        <Circle><Icon draggable="false" src="/sendicon.png"></Icon></Circle>
     </MessageDiv>
 };
 
