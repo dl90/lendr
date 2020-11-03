@@ -6,17 +6,19 @@ import styled from 'styled-components';
 const LenderDiv = styled.div`
 height: 103px;
 max-width: 325px;
+min-width: 250px;
 border-radius: 10px;
 box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06);
 display:flex;
-align-items:center;
 justify-content:center;
 flex-direction:column;
+padding-left:25px;
 `;
 
 const MessageInput = styled.input`
 height: 41px;
 max-width: 279px;
+min-width: 190px;
 border:none;
 outline:none;
 border-radius: 10px;
@@ -34,13 +36,13 @@ padding-left:15px;
 
 const HeaderDiv = styled.div`
 display:flex;
-position:relative;
-top:-10px;
-left:-70px;
+margin-bottom: 10px;
 `;
 
 const Header = styled.p`
 margin:0px;
+position: relative;
+left: 10px;
 `;
 
 const AskLender = ({}) => {
