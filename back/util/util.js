@@ -11,6 +11,7 @@ export default {
   checkBool,
   validateEmail,
   validateURL,
+  validateRate,
 
   invalidArgument,
   existingEntry,
@@ -83,6 +84,19 @@ function validateEmail (email) {
 function validateURL (url) {
   const regex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/
   if (!regex.test(String(url))) invalidArgument(url)
+}
+
+/**
+ * Throws error if rate has more than 2 decimal places or is over 1 million
+ * @param {number} rate
+ * @throw invalid argument error
+ */
+function validateRate (rate) {
+  if (rate > 1000000000) invalidArgument(rate)
+  if (~~rate !== rate) {
+    const decimal = rate.toString().split('.')[1].length || 0
+    if (decimal > 2) invalidArgument(rate)
+  }
 }
 
 /**

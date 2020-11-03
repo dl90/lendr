@@ -39,7 +39,7 @@ export default function () {
   })
 
   /**
-   * @api {post} /item/get-multi             Get all items that belongs to user with status from db
+   * @api {post} /item/get-multi            Get all items that belongs to user with status from db
    * @apiName GetItems
    * @apiGroup Item
    *
@@ -56,8 +56,8 @@ export default function () {
   })
 
   /**
-   * @api {post} /item/create               Create item and store in db
-   * @apiName PostCreateItem
+   * @api {put} /item/create                Create item and store in db
+   * @apiName PutCreateItem
    * @apiGroup Item
    *
    * @apiParam {string} itemName            Item name
@@ -67,7 +67,7 @@ export default function () {
    * @apiSuccess (200) {json}               Item ID
    * @apiError (400) {}                     Incorrect params or create failed
    */
-  router.post('/create', async (req, res) => {
+  router.put('/create', async (req, res) => {
     const { itemName, itemCondition, itemAge } = req.body
     const itemID = await ItemController.createItem(req.user.id, itemName, itemCondition, itemAge)
     itemID
@@ -82,12 +82,101 @@ export default function () {
    *
    * @apiParam {number} itemID              Item ID
    *
-   * @apiSuccess (200) {}                   Success
+   * @apiSuccess (204) {}                   Success
    * @apiError (400) {}                     Incorrect itemID or delete failed
    */
   router.delete('/delete', async (req, res) => {
     await ItemController.deleteItem(req.body.itemID)
-      ? res.sendStatus(200)
+      ? res.sendStatus(204)
+      : res.sendStatus(400)
+  })
+
+  /**
+   * @api {patch} /item/name                Update item name in db
+   * @apiName PatchItemName
+   * @apiGroup Item
+   *
+   * @apiParam {number} itemID              Item ID
+   * @apiParam {number} itemName            Item name
+   *
+   * @apiSuccess (204) {}                   Success
+   * @apiError (400) {}                     Incorrect itemID or update failed
+   */
+  router.patch('/name', async (req, res) => {
+    await ItemController.updateItemName(req.body.itemID, req.body.itemName)
+      ? res.sendStatus(204)
+      : res.sendStatus(400)
+  })
+
+  /**
+   * @api {patch} /item/condition           Update item condition in db
+   * @apiName PatchItemCondition
+   * @apiGroup Item
+   *
+   * @apiParam {number} itemID              Item ID
+   * @apiParam {number} itemCondition       Item condition
+   *
+   * @apiSuccess (204) {}                   Success
+   * @apiError (400) {}                     Incorrect itemID or update failed
+   */
+  router.patch('/condition', async (req, res) => {
+    await ItemController.updateItemCondition(req.body.itemID, req.body.itemCondition)
+      ? res.sendStatus(204)
+      : res.sendStatus(400)
+  })
+
+  /**
+   * @api {patch} /item/age                 Update item age in db
+   * @apiName PatchItemAge
+   * @apiGroup Item
+   *
+   * @apiParam {number} itemID              Item ID
+   * @apiParam {number} itemAge             Item age
+   *
+   * @apiSuccess (204) {}                   Success
+   * @apiError (400) {}                     Incorrect itemID or update failed
+   */
+  router.patch('/age', async (req, res) => {
+    await ItemController.updateItemAge(req.body.itemID, req.body.itemAge)
+      ? res.sendStatus(204)
+      : res.sendStatus(400)
+  })
+
+  /**
+   * @api {patch} /item/status              Update item status in db
+   * @apiName PatchItemStatus
+   * @apiGroup Item
+   *
+   * @apiParam {number} itemID              Item ID
+   * @apiParam {number} itemStatus          Item status
+   *
+   * @apiSuccess (204) {}                   Success
+   * @apiError (400) {}                     Incorrect itemID or update failed
+   */
+  router.patch('/status', async (req, res) => {
+    await ItemController.updateItemStatus(req.body.itemID, req.body.itemStatus)
+      ? res.sendStatus(204)
+      : res.sendStatus(400)
+  })
+
+  /**
+   * @api {patch} /item/update-all          Update all item fields in db
+   * @apiName PatchItemUpdateAll
+   * @apiGroup Item
+   *
+   * @apiParam {number} itemID              Item ID
+   * @apiParam {string} itemName            Item name
+   * @apiParam {string} itemCondition       Item condition
+   * @apiParam {number} itemAge             Item age
+   * @apiParam {number} itemStatus          Item status
+   *
+   * @apiSuccess (204) {}                   Success
+   * @apiError (400) {}                     Incorrect itemID or update failed
+   */
+  router.patch('/update-all', async (req, res) => {
+    const { itemID, itemName, itemCondition, itemAge, itemStatus } = req.body
+    await ItemController.updateAllItemFields(itemID, itemName, itemCondition, itemAge, itemStatus)
+      ? res.sendStatus(204)
       : res.sendStatus(400)
   })
 

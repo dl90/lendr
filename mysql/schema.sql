@@ -48,7 +48,7 @@ CREATE TABLE `Item` (
   `created_on`              TIMESTAMP NOT NULL DEFAULT(NOW()),
   `item_name`               VARCHAR(255) NOT NULL,
   `item_condition`          VARCHAR(15) NOT NULL,
-  `age`                     SMALLINT NOT NULL, -- months
+  `item_age`                SMALLINT NOT NULL, -- months
   `item_status`             BOOLEAN NOT NULL DEFAULT(1),
   `lender_id`               INTEGER NOT NULL,
 
@@ -65,6 +65,7 @@ CREATE TABLE `Post` (
   `duration`                TIMESTAMP NOT NULL DEFAULT(NOW() + INTERVAL 1 MONTH),
   `views`                   INTEGER NOT NULL DEFAULT(0), -- increment on vew
   `likes`                   INTEGER NOT NULL DEFAULT(0), -- aggregated
+  `report_flag`             INTEGER NOT NULL DEFAULT(0),
   `user_id`                 INTEGER NOT NULL,
   `item_id`                 INTEGER NOT NULL,
 

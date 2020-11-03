@@ -3,7 +3,7 @@ const execute = db.dbExecute
 const query = db.dbQuery
 
 export default {
-  createPost,
+  createPostWithItemID,
   deletePost,
   getPostByPostID,
   getAllPostsByUserID,
@@ -25,10 +25,10 @@ export default {
  * ```
  * @return {object}
  */
-async function createPost (fields) {
+async function createPostWithItemID (fields) {
   const { postTitle, postRate, postDescription, postLocation, postDuration, userID, itemID } = fields
   return await execute(
-    'INSERT INTO Post title = ?, rate = ?, post_description = ?, location = ?, duration = ? user_id = ? item_id = ?',
+    'INSERT INTO Post SET title = ?, rate = ?, post_description = ?, location = ?, duration = ?, user_id = ?, item_id = ?',
     [postTitle, postRate, postDescription, postLocation, postDuration, userID, itemID]
   )
 }

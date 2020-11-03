@@ -10,6 +10,7 @@ import meRoute from './routes/meRoute.js'
 import imageRoute from './routes/imageRoute.js'
 import userRoute from './routes/userRoute.js'
 import itemRoute from './routes/itemRoute.js'
+import postRoute from './routes/postRoute.js'
 
 dotenv.config()
 const { json, urlencoded } = express
@@ -45,6 +46,7 @@ export default function () {
   app.use('/image', imageRoute())
   app.use('/user', userRoute())
   app.use('/item', itemRoute())
+  app.use('/post', postRoute())
 
   return app
 }

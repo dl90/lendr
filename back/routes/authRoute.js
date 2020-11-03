@@ -9,9 +9,9 @@ export default function () {
    * @apiName PostSign-up
    * @apiGroup Auth
    *
-   * @apiParam {string} email               User email
-   * @apiParam {string} password            User password
-   * @apiParam {string} [displayName = '']  User display name
+   * @apiParam {string} email
+   * @apiParam {string} password
+   * @apiParam {string} [displayName = '']
    *
    * @apiSuccess (200) {}                   Redirect
    * @apiError (401) {}                     400/Email already exists
@@ -23,8 +23,8 @@ export default function () {
    * @apiName PostLogin
    * @apiGroup Auth
    *
-   * @apiParam {string} email               User email
-   * @apiParam {string} password            User password
+   * @apiParam {string} email
+   * @apiParam {string} password
    *
    * @apiSuccess (200) {}                   Redirect
    * @apiError (401) {}                     401/Unauthorized

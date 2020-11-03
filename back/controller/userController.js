@@ -148,14 +148,14 @@ async function verifyGitHubOauth (email, gitHubID) {
   if (!userID) return false
 
   const storedGitHubID = await User.getGitHubOAuthIDByEmail(email)
-  if (+gitHubID === storedGitHubID) {
-    const formattedDateTime = util.generateFormattedDateTime()
-    const fields = { userID: parseInt(userID), dateTime: formattedDateTime }
-    const res = await User.updateLastAccessed(fields)
-    if (res.changedRows === 1) return await User.getUserByEmail(email)
-    else return false
-  }
-  return false
+  if (+gitHubID !== storedGitHubID) return false
+
+  const formattedDateTime = util.generateFormattedDateTime()
+  const fields = { userID: parseInt(userID), dateTime: formattedDateTime }
+  const res = await User.updateLastAccessed(fields)
+  return res.changedRows === 1
+    ? await User.getUserByEmail(email)
+    : false
 }
 
 /**
@@ -182,6 +182,7 @@ async function getUserByEmail (email) {
 async function updatePassword (userID, newPassword) {
   const pwHash = await handler.asyncErrorHandler(argon2.hash, newPassword)
   if (!pwHash) return false
+
   const result = await handler.asyncErrorHandler(
     User.updatePassword,
     { userID: +userID, pwHash }

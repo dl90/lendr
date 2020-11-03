@@ -9,8 +9,8 @@ router.use(authCheck)
 
 export default function () {
   /**
-   * @api {post} /image/single              Uploads image to s3 and store url to db
-   * @apiName PostImageSingle
+   * @api {put} /image/single               Upload image to s3 and store url to db
+   * @apiName PutImageSingle
    * @apiGroup Image
    *
    * @apiParam {file} image                 Image file [jpeg|jpg|png|gif]
@@ -18,7 +18,7 @@ export default function () {
    * @apiSuccess (200) {json}               { url }
    * @apiError (400) {}                     Incorrect type or failed to save to db
    */
-  router.post('/single', multer.single('image'), async (req, res) => {
+  router.put('/single', multer.single('image'), async (req, res) => {
     if (!req.file) res.sendStatus(400)
     else {
       await ImageController.addImage(req.user.id, req.file.location)
@@ -28,8 +28,8 @@ export default function () {
   })
 
   /**
-   * @api {post} /image/multi               Uploads images to s3 and store urls to db
-   * @apiName PostImageMulti
+   * @api {put} /image/multi                Upload images to s3 and store urls to db
+   * @apiName PutImageMulti
    * @apiGroup Image
    *
    * @apiParam {files} images               Image files, 12 max [jpeg|jpg|png|gif]
@@ -37,7 +37,7 @@ export default function () {
    * @apiSuccess (200) {json}               { [url, url, ...] }
    * @apiError (400) {}                     Incorrect type or failed to save to db
    */
-  router.post('/multi', multer.array('images', BATCH_IMAGE_UPLOAD_SIZE), async (req, res) => {
+  router.put('/multi', multer.array('images', BATCH_IMAGE_UPLOAD_SIZE), async (req, res) => {
     if (!req.files.length) res.sendStatus(400)
     else {
       const imageURLs = req.files.map(file => file.location)
@@ -48,19 +48,18 @@ export default function () {
   })
 
   /**
-   * @api {post} /image/delete              Deletes image from s3 and db
-   * @apiName PostImageDelete
+   * @api {delete} /image/delete            Delete image from s3 and db
+   * @apiName DeleteImage
    * @apiGroup Image
    *
-   * @apiParam {string} imageURL            imageURL
+   * @apiParam {string} imageURL
    *
-   * @apiSuccess (200) {}                   OK
+   * @apiSuccess (204) {}                   Success
    * @apiError (400) {}                     Incorrect type or failed to save to db
    */
-  router.post('/delete', async (req, res) => {
-    const { imageURL } = req.body
-    await ImageController.deleteImage(imageURL)
-      ? res.sendStatus(200)
+  router.delete('/delete', async (req, res) => {
+    await ImageController.deleteImage(req.body.imageURL)
+      ? res.sendStatus(204)
       : res.sendStatus(400)
   })
 
