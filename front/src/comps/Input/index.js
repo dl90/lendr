@@ -26,7 +26,7 @@ const InputBox = styled.div`
 
 const Input = ({title, placeholder}) => {
     return <InputDiv>
-        <h1>{title}</h1>
+        <h2>{title}</h2>
         <InputBox>{placeholder}</InputBox>
     </InputDiv>
 };

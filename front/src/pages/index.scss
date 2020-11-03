@@ -19,3 +19,11 @@
     z-index: 1;
     margin-bottom: 8%;
 }
+
+.post{
+    padding:25px;
+    .images{
+        overflow: hidden;
+        display: flex;
+    }
+}
