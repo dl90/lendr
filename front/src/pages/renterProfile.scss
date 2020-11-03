@@ -3,8 +3,17 @@
     flex-direction: column;
     padding:6.93%;
     z-index: -1;
-    overflow: hidden;
-    background-color: rgba(0, 0, 0, 0.253);
+    overflow-x:hidden;
+    white-space: nowrap;
+    height: 100vh;
+}
+
+.column01{
+    display: flex;
+    width: 750px;
+    justify-content: space-between;
+    overflow-x: scroll;   
+
 }
 
 .nav{

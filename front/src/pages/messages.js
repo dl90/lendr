@@ -2,19 +2,23 @@ import React from 'react';
 import BottomNav from '../comps/BottomNav';
 import CategoryGallery from '../comps/CategoryGallery';
 import Header from '../comps/Header';
-import './index.scss';
-import './app.scss'
+import Message from '../comps/Message';
 import SearchBar from '../comps/SearchBar';
+import './messages.scss';
+import './app.scss'
 
 
 export default function Home() {
     return <div className="app">
         <Header />
-        <h1>Categories</h1>
-        <div className="search">
-            <SearchBar placeholder="Search Categories" />
+        <h1>Messages</h1>
+        <div className='search'>
+            <SearchBar />
         </div>
-        <CategoryGallery />
+        <Message />
+        <Message />
+        <Message />
+
         <div className="nav">
             <BottomNav />
         </div>
