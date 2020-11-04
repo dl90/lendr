@@ -2,8 +2,10 @@ import React, {useState} from 'react';
 import styled from 'styled-components';
 
 const CatagoriesCont = styled.div`
+display:flex;
 height: 48px;
-max-width: 326px;
+max-width: 414px;
+padding: 0px 20px;
 border: 1px solid rgba(151, 151, 151, 0.26);
 border-radius: ${props => props.DivRadius ? " 10px 10px 0px 0px": "10px 10px 10px 10px"};
 box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06);
@@ -15,10 +17,10 @@ cursor: pointer;
 `;
 
 const CatagoriesDiv = styled.div`
-max-width:300px;
+max-width: 414px;
 display:flex;
 align-items:center;
-padding-left:20px;
+flex-grow:1;
 box-sizing: border-box;
 justify-content:space-between;
 padding-right:5px;
@@ -37,7 +39,7 @@ color: #979797;
 const CatagoriesDropDiv = styled.div`
 border: 1px solid rgba(151, 151, 151, 0.26);
 min-height:260px;
-max-width: 326px;
+max-width: 414px;
 background-color:white;
 position:relative;
 display:${props => props.DisplayDrop ? "flex" : "none"};

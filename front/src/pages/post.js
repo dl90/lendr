@@ -16,13 +16,18 @@ export default function post({PageTitle}){
     return <div className="postPage">
         <div className="post">
             <Header/>
-            <h1>Post Item</h1>
+                <h1>{PageTitle}</h1>
             <Input title={"Post Title"} placeholder="Item Name"></Input>  
         </div>
 
         <div className="imageDiv">
             <h2>Upload Photos</h2>
             <div className="images">
+                <UploadImg/>
+                <UploadImg/>
+                <UploadImg/>
+                <UploadImg/>
+                <UploadImg/>
                 <UploadImg/>
                 <UploadImg/>
                 <UploadImg/>
@@ -44,4 +49,8 @@ export default function post({PageTitle}){
             <BottomNav/>
         </div>
     </div>
+}
+
+post.defaultProps = {
+    PageTitle: "Post Item"
 }
