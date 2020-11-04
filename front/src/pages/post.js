@@ -1,6 +1,7 @@
 import React from 'react';
 import './index.scss';
 import './app.scss';
+import './post.scss';
 
 import Header from '../comps/Header';
 import Input from '../comps/Input';
@@ -9,23 +10,38 @@ import CategoriesDropdown from '../comps/CatagoriesDropdown';
 import Button from '../comps/Button';
 
 import BottomNav from '../comps/BottomNav';
+import InputParagraph from '../comps/InputParagraph';
 
-export default function post(){
-    return <div className="post">
-        <Header/>
-        <h1>Post Item</h1>
-        <Input title={"Post Title"} placeholder="Item Name"></Input>
-        <h2>Upload Photos</h2>
-        <div className="images">
-            <UploadImg/>
-            <UploadImg/>
-            <UploadImg/>
+export default function post({PageTitle}){
+    return <div className="postPage">
+        <div className="post">
+            <Header/>
+            <h1>Post Item</h1>
+            <Input title={"Post Title"} placeholder="Item Name"></Input>  
         </div>
-        <h2>Categories</h2>
-        <CategoriesDropdown/>
-        <Input title={"Add Description"} placeholder="Write a description of the item you're renting out."></Input>
-        <Input title={"Meeting Location"} placeholder="123 Main St."></Input>
-        <Button text={"Post"}></Button>
-        <BottomNav/>
+
+        <div className="imageDiv">
+            <h2>Upload Photos</h2>
+            <div className="images">
+                <UploadImg/>
+                <UploadImg/>
+                <UploadImg/>
+                <UploadImg/>
+                <UploadImg/>
+            </div>
+        </div>
+
+        <div className="post">
+            <CategoriesDropdown/>
+            <InputParagraph title={"Description"} placeholder="Write a description of the item you're renting out."></InputParagraph>
+            <Input title={"Meeting Location"} placeholder="123 Main St."></Input>
+            <div className="button">
+                <Button text={"Post"}></Button>
+            </div>
+        </div>
+
+        <div className="nav">
+            <BottomNav/>
+        </div>
     </div>
 }

@@ -1,18 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const InputDiv = styled.div`
+const InputParagraphDiv = styled.div`
     color: #175FA4;
 `;
 
-const InputBox = styled.input`
+const InputParagraphBox = styled.textarea`
     display:flex;
     align-items:center;
 
     min-width:278px;
     max-width:326px;
     min-height:48px;
-    padding:0px 24px;
+    padding:10px 24px;
 
     color: #979797;
     background: #FFFFFF;
@@ -23,19 +23,24 @@ const InputBox = styled.input`
 
     position:relative;
     top:-10px;
+    
+    font-family: Lato;
+    font-style: normal;
+    font-weight: normal;
+    color: #979797;
 `;
 
-const Input = ({ title, placeholder}) => {
-    return <InputDiv>
+const InputParagraph = ({ title, placeholder}) => {
+    return <InputParagraphDiv>
         <h2>{title}</h2>
-        <InputBox type="text" placeholder={placeholder}></InputBox>
-    </InputDiv>
+        <InputParagraphBox type="text" placeholder={placeholder}></InputParagraphBox>
+    </InputParagraphDiv>
 };
 
-Input.defaultProps = {
+InputParagraph.defaultProps = {
     title: "Title",
     placeholder: "Placeholder Text"
 };
 
 
-export default Input;
+export default InputParagraph;
