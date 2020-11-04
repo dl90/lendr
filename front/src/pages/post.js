@@ -12,7 +12,7 @@ import Button from '../comps/Button';
 import BottomNav from '../comps/BottomNav';
 import InputParagraph from '../comps/InputParagraph';
 
-export default function post({PageTitle}){
+export default function Post({PageTitle}){
     return <div className="postPage">
         <div className="post">
             <Header/>
@@ -51,6 +51,6 @@ export default function post({PageTitle}){
     </div>
 }
 
-post.defaultProps = {
+Post.defaultProps = {
     PageTitle: "Post Item"
 }

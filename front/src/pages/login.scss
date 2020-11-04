@@ -1,0 +1,22 @@
+.loginPage{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 92vh;
+    padding:25px;
+    
+    .login{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+    .button{
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        padding: 50px 0px 25px;
+        div{
+            flex-grow:1;
+        }
+    }
+}
