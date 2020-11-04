@@ -85,7 +85,7 @@ CREATE TABLE `PostImage` (
 
 CREATE TABLE `Tag` (
   `id`                      INTEGER PRIMARY KEY AUTO_INCREMENT,
-  `name`                    VARCHAR(255) NOT NULL,
+  `name`                    VARCHAR(255) UNIQUE NOT NULL,
   `total_count`             INTEGER NOT NULL DEFAULT(0) -- aggregated
 );
 

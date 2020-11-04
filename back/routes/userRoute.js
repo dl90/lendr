@@ -12,7 +12,7 @@ export default function () {
    * @apiName PostGetUserProfile
    * @apiGroup User
    *
-   * @apiParam {number} userID              User ID
+   * @apiParam {number} userID
    *
    * @apiSuccess (200) {json}               User profile JSON
    * @apiError (400) {}                     User does not exist
@@ -29,7 +29,7 @@ export default function () {
    * @apiName PutUpdateUserPassword
    * @apiGroup User
    *
-   * @apiParam {string} password            New password
+   * @apiParam {string} password
    *
    * @apiSuccess (204) {}                   Success
    * @apiError (400) {}                     Failed
@@ -46,7 +46,7 @@ export default function () {
    * @apiName PutUpdateUserDisplayName
    * @apiGroup User
    *
-   * @apiParam {string} displayName         New display name
+   * @apiParam {string} displayName
    *
    * @apiSuccess (204) {}                   Success
    * @apiError (400) {}                     Failed
@@ -100,7 +100,7 @@ export default function () {
    * @apiName PostReportUser
    * @apiGroup User
    *
-   * @apiParam {number} userID              ID of user to report
+   * @apiParam {number} userID
    *
    * @apiSuccess (200) {}                   Success
    * @apiError (400) {}                     Failed

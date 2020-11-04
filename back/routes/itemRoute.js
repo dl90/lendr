@@ -11,7 +11,7 @@ export default function () {
    * @apiName GetItem
    * @apiGroup Item
    *
-   * @apiParam {number} itemID              Item ID
+   * @apiParam {number} itemID
    *
    * @apiSuccess (200) {json}               Item
    * @apiError (400) {}                     Incorrect itemID or get failed
@@ -43,7 +43,7 @@ export default function () {
    * @apiName GetItems
    * @apiGroup Item
    *
-   * @apiParam {0|1} itemStatus             Item Status
+   * @apiParam {0|1} itemStatus
    *
    * @apiSuccess (200) {json}               [Items]
    * @apiError (400) {}                     Get failed
@@ -60,9 +60,9 @@ export default function () {
    * @apiName PutCreateItem
    * @apiGroup Item
    *
-   * @apiParam {string} itemName            Item name
-   * @apiParam {string} itemCondition       Item condition
-   * @apiParam {number} itemAge             Item age (months)
+   * @apiParam {string} itemName
+   * @apiParam {string} itemCondition
+   * @apiParam {number} itemAge (months)
    *
    * @apiSuccess (200) {json}               Item ID
    * @apiError (400) {}                     Incorrect params or create failed
@@ -80,7 +80,7 @@ export default function () {
    * @apiName DeleteItem
    * @apiGroup Item
    *
-   * @apiParam {number} itemID              Item ID
+   * @apiParam {number} itemID
    *
    * @apiSuccess (204) {}                   Success
    * @apiError (400) {}                     Incorrect itemID or delete failed
@@ -96,8 +96,8 @@ export default function () {
    * @apiName PatchItemName
    * @apiGroup Item
    *
-   * @apiParam {number} itemID              Item ID
-   * @apiParam {number} itemName            Item name
+   * @apiParam {number} itemID
+   * @apiParam {number} itemName
    *
    * @apiSuccess (204) {}                   Success
    * @apiError (400) {}                     Incorrect itemID or update failed
@@ -113,8 +113,8 @@ export default function () {
    * @apiName PatchItemCondition
    * @apiGroup Item
    *
-   * @apiParam {number} itemID              Item ID
-   * @apiParam {number} itemCondition       Item condition
+   * @apiParam {number} itemID
+   * @apiParam {number} itemCondition
    *
    * @apiSuccess (204) {}                   Success
    * @apiError (400) {}                     Incorrect itemID or update failed
@@ -130,8 +130,8 @@ export default function () {
    * @apiName PatchItemAge
    * @apiGroup Item
    *
-   * @apiParam {number} itemID              Item ID
-   * @apiParam {number} itemAge             Item age
+   * @apiParam {number} itemID
+   * @apiParam {number} itemAge
    *
    * @apiSuccess (204) {}                   Success
    * @apiError (400) {}                     Incorrect itemID or update failed
@@ -147,8 +147,8 @@ export default function () {
    * @apiName PatchItemStatus
    * @apiGroup Item
    *
-   * @apiParam {number} itemID              Item ID
-   * @apiParam {number} itemStatus          Item status
+   * @apiParam {number} itemID
+   * @apiParam {number} itemStatus
    *
    * @apiSuccess (204) {}                   Success
    * @apiError (400) {}                     Incorrect itemID or update failed
@@ -164,11 +164,11 @@ export default function () {
    * @apiName PatchItemUpdateAll
    * @apiGroup Item
    *
-   * @apiParam {number} itemID              Item ID
-   * @apiParam {string} itemName            Item name
-   * @apiParam {string} itemCondition       Item condition
-   * @apiParam {number} itemAge             Item age
-   * @apiParam {number} itemStatus          Item status
+   * @apiParam {number} itemID
+   * @apiParam {string} itemName
+   * @apiParam {string} itemCondition
+   * @apiParam {number} itemAge (months)
+   * @apiParam {number} itemStatus
    *
    * @apiSuccess (204) {}                   Success
    * @apiError (400) {}                     Incorrect itemID or update failed

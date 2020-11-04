@@ -11,6 +11,7 @@ import imageRoute from './routes/imageRoute.js'
 import userRoute from './routes/userRoute.js'
 import itemRoute from './routes/itemRoute.js'
 import postRoute from './routes/postRoute.js'
+import tagRoute from './routes/tagRoute.js'
 
 dotenv.config()
 const { json, urlencoded } = express
@@ -47,6 +48,7 @@ export default function () {
   app.use('/user', userRoute())
   app.use('/item', itemRoute())
   app.use('/post', postRoute())
+  app.use('/tag', tagRoute())
 
   return app
 }

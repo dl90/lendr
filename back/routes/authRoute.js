@@ -59,9 +59,7 @@ export default function () {
    *
    * @apiSuccess (200) {}                   Redirect
    */
-  router.get('/github/redirect', passport.authenticate('github'), (_req, res) => {
-    res.redirect('/me')
-  })
+  router.get('/github/redirect', passport.authenticate('github'), (_req, res) => res.redirect('/me'))
 
   return router
 }

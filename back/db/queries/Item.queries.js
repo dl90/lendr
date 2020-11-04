@@ -22,7 +22,7 @@ export default {
  * @return {[object]} single item [ BinaryRow { data } ]
  */
 async function getItemByID (itemID) {
-  return await query('SELECT * FROM Item WHERE id = ?', [itemID])
+  return await query('SELECT * FROM Item WHERE id = ? LIMIT 1', [itemID])
 }
 
 /**
