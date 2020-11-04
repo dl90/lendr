@@ -10,7 +10,6 @@ export default {
 //msgState adds the message button on the bottom and is used when looking at a users profile
 // a card with no props is used on the item page
 //userImg is the prop that changes the profile picture
- 
 export const UserProfileCard = () => <ProfileCard userState={true} />
 export const RenterProfileCard = () => <ProfileCard />
 export const RenterProfileProfileCard = () => <ProfileCard msgState={true} />
