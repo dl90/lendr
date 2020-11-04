@@ -17,7 +17,7 @@ export default function post({PageTitle}){
         <div className="post">
             <Header/>
             <h1>Post Item</h1>
-            <Input title={"Post Title"} placeholder="Item Name"></Input>  
+            <Input title={"Post Title"} placeholder="Item Name"></Input>
         </div>
 
         <div className="imageDiv">

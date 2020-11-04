@@ -24,7 +24,6 @@ justify-content:space-between;
 padding-right:5px;
 img {
     position:relative;
-    
     transform:${props => props.IconRotate ? "rotate(180deg);" : "none"}
 };
 

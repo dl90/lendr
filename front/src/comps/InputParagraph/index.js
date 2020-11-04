@@ -23,7 +23,6 @@ const InputParagraphBox = styled.textarea`
 
     position:relative;
     top:-10px;
-    
     font-family: Lato;
     font-style: normal;
     font-weight: normal;

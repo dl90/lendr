@@ -12,7 +12,7 @@ CREATE TABLE `User` (
   `active`                  BOOLEAN NOT NULL DEFAULT(1),
   `report_flag`             BOOLEAN NOT NULL DEFAULT(0),
   `last_accessed`           TIMESTAMP NOT NULL DEFAULT(NOW()),
-  `created_at`              TIMESTAMP NOT NULL DEFAULT(NOW()),
+  `created_on`              TIMESTAMP NOT NULL DEFAULT(NOW()),
   `rating`                  FLOAT(5,4)
 );
 
@@ -20,7 +20,7 @@ CREATE TABLE `UserPassword` (
   `id`                      INTEGER PRIMARY KEY AUTO_INCREMENT,
   `user_id`                 INTEGER UNIQUE NOT NULL,
   `password_hash`           VARCHAR(255) NOT NULL,
-  `timestamp`               TIMESTAMP NOT NULL DEFAULT(NOW()),
+  `created_on`              TIMESTAMP NOT NULL DEFAULT(NOW()),
 
   FOREIGN KEY (`user_id`) REFERENCES `User`(`id`) ON DELETE CASCADE
 );
@@ -29,7 +29,7 @@ CREATE TABLE `GitHubOAuth` (
   `id`                      INTEGER PRIMARY KEY AUTO_INCREMENT,
   `user_id`                 INTEGER UNIQUE NOT NULL,
   `github_user_id`          VARCHAR(255) NOT NULL,
-  `timestamp`               TIMESTAMP NOT NULL DEFAULT(NOW()),
+  `created_on`              TIMESTAMP NOT NULL DEFAULT(NOW()),
 
   FOREIGN KEY (`user_id`) REFERENCES `User`(`id`) ON DELETE CASCADE
 );
@@ -37,7 +37,7 @@ CREATE TABLE `GitHubOAuth` (
 CREATE TABLE `Image` (
   `id`                      INTEGER PRIMARY KEY AUTO_INCREMENT,
   `url`                     VARCHAR(255) UNIQUE NOT NULL,
-  `timestamp`               TIMESTAMP NOT NULL DEFAULT(NOW()),
+  `created_on`              TIMESTAMP NOT NULL DEFAULT(NOW()),
   `user_id`                 INTEGER NOT NULL,
 
   FOREIGN KEY (`user_id`) REFERENCES `User`(`id`) ON DELETE CASCADE
@@ -45,11 +45,11 @@ CREATE TABLE `Image` (
 
 CREATE TABLE `Item` (
   `id`                      INTEGER PRIMARY KEY AUTO_INCREMENT,
-  `timestamp`               TIMESTAMP NOT NULL DEFAULT(NOW()),
-  `name`                    VARCHAR(255) NOT NULL,
-  `condition`               VARCHAR(15) NOT NULL,
-  `age`                     SMALLINT NOT NULL, -- months
-  `status`                  BOOLEAN NOT NULL DEFAULT(1),
+  `created_on`              TIMESTAMP NOT NULL DEFAULT(NOW()),
+  `item_name`               VARCHAR(255) NOT NULL,
+  `item_condition`          VARCHAR(15) NOT NULL,
+  `item_age`                SMALLINT NOT NULL, -- months
+  `item_status`             BOOLEAN NOT NULL DEFAULT(1),
   `lender_id`               INTEGER NOT NULL,
 
   FOREIGN KEY (`lender_id`) REFERENCES `User`(`id`) ON DELETE CASCADE
@@ -57,6 +57,7 @@ CREATE TABLE `Item` (
 
 CREATE TABLE `Post` (
   `id`                      INTEGER PRIMARY KEY AUTO_INCREMENT,
+  `created_on`              TIMESTAMP NOT NULL DEFAULT(NOW()),
   `title`                   VARCHAR(255) NOT NULL,
   `rate`                    DECIMAL(11,2) DEFAULT(0),
   `post_description`        VARCHAR(255),
@@ -64,6 +65,7 @@ CREATE TABLE `Post` (
   `duration`                TIMESTAMP NOT NULL DEFAULT(NOW() + INTERVAL 1 MONTH),
   `views`                   INTEGER NOT NULL DEFAULT(0), -- increment on vew
   `likes`                   INTEGER NOT NULL DEFAULT(0), -- aggregated
+  `report_flag`             INTEGER NOT NULL DEFAULT(0),
   `user_id`                 INTEGER NOT NULL,
   `item_id`                 INTEGER NOT NULL,
 
@@ -73,6 +75,7 @@ CREATE TABLE `Post` (
 
 CREATE TABLE `PostImage` (
   `id`                      INTEGER PRIMARY KEY AUTO_INCREMENT,
+  `created_on`              TIMESTAMP NOT NULL DEFAULT(NOW()),
   `post_id`                 INTEGER NOT NULL,
   `image_id`                INTEGER NOT NULL,
 
@@ -82,7 +85,7 @@ CREATE TABLE `PostImage` (
 
 CREATE TABLE `Tag` (
   `id`                      INTEGER PRIMARY KEY AUTO_INCREMENT,
-  `name`                    VARCHAR(255) NOT NULL,
+  `name`                    VARCHAR(255) UNIQUE NOT NULL,
   `total_count`             INTEGER NOT NULL DEFAULT(0) -- aggregated
 );
 
@@ -134,11 +137,25 @@ CREATE TABLE `Message` (
   `id`                      INTEGER PRIMARY KEY AUTO_INCREMENT,
   `message`                 VARCHAR(2550),
   `timestamp`               TIMESTAMP NOT NULL DEFAULT(NOW()),
-  `image_id`                INTEGER,
+  `receiver_read`           BOOLEAN NOT NULL DEFAULT(0)
+);
+
+CREATE TABLE `MessageImage` (
+  `id`                      INTEGER PRIMARY KEY AUTO_INCREMENT,
+  `message_id`              INTEGER NOT NULL,
+  `image_id`                INTEGER NOT NULL,
+
+  FOREIGN KEY (`message_id`) REFERENCES `Message`(`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`image_id`) REFERENCES `Image`(`id`)
+);
+
+CREATE TABLE `UserMessage` (
+  `id`                      INTEGER PRIMARY KEY AUTO_INCREMENT,
+  `message_id`              INTEGER NOT NULL,
   `sender_id`               INTEGER NOT NULL,
   `receiver_id`             INTEGER NOT NULL,
 
-  FOREIGN KEY (`image_id`) REFERENCES `Image`(`id`),
+  FOREIGN KEY (`message_id`) REFERENCES `Message`(`id`) ON DELETE CASCADE,
   FOREIGN KEY (`sender_id`) REFERENCES `User`(`id`),
   FOREIGN KEY (`receiver_id`) REFERENCES `User`(`id`) ON DELETE CASCADE
 );
