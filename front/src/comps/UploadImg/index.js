@@ -3,8 +3,10 @@ import styled from 'styled-components';
 
 const ImgDiv = styled.div`
 min-height: 188px;
-max-width:129px;
-background-color:blue;
+min-width:129px;
+max-width:150px;
+margin-right: 24px;
+background-color:#DCEFFB;
 border-radius:10px;
 display:flex;
 align-items: center;
@@ -59,7 +61,7 @@ const UploadImg = ({ bgImg }) => {
 
 
 UploadImg.defaultProps = {
-    bgImg: "./placeholderProfile.png"
+    bgImg: "#DCEFFB"
 
 
 };
