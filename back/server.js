@@ -4,6 +4,12 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 const PORT = process.env.PORT
+db.connect(serve)
 
-db.connect(err => err ? console.log(err) : console.log('Connected to DB'))
-app().listen(PORT, () => console.log(`Live @ http://localhost:${PORT}`))
+function serve (error) {
+  if (error) console.log(error)
+  else {
+    console.log('Connected to DB')
+    app().listen(PORT, () => console.log(`Live @ http://localhost:${PORT}`))
+  }
+}

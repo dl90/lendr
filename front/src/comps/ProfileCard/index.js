@@ -93,7 +93,7 @@ const ProfileCard = ({ userImg, userName, userRating, msgState, userState }) => 
         <UserInfo>
             <UserImg userState={userState}>
                 <UserProfile>
-                    <img src={userImg} alt="User Profile"/>
+                    <img src={userImg} />
                 </UserProfile>
                 <a>Edit Profile</a>
             </UserImg>
@@ -101,11 +101,11 @@ const ProfileCard = ({ userImg, userName, userRating, msgState, userState }) => 
                 <UserName><h3>{userName}</h3></UserName>
                 <UserRating>
                     {/* This is hard coded in */}
-                    <img src={userRating} alt="Rating1"/>
-                    <img src={userRating} alt="Rating2"/>
-                    <img src={userRating} alt="Rating3"/>
-                    <img src={userRating} alt="Rating4"/>
-                    <img src={userRating} alt="Rating5"/>
+                    <img src={userRating} />
+                    <img src={userRating} />
+                    <img src={userRating} />
+                    <img src={userRating} />
+                    <img src={userRating} />
                 </UserRating>
             </UserData>
         </UserInfo>
@@ -119,9 +119,9 @@ const ProfileCard = ({ userImg, userName, userRating, msgState, userState }) => 
 
 
 ProfileCard.defaultProps = {
-    userImg: '/placeholderProfile.png',
+    userImg: './placeholderProfile.png',
     userName: "Chad Smith",
-    userRating: '/activeStar.png',
+    userRating: './activeStar.png',
 
 }
 

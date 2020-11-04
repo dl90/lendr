@@ -1,5 +1,5 @@
 import db from '../db/queries/Item.queries.js'
-import util from './util.js'
+import util from '../util/util.js'
 
 export default {
   getItemByItemID,
@@ -12,7 +12,8 @@ export default {
   updateItemName,
   updateItemCondition,
   updateItemAge,
-  changeItemStatus
+  updateItemStatus,
+  updateAllItemFields
 }
 
 /**
@@ -33,37 +34,35 @@ async function getItemByItemID (itemID) {
  */
 async function getItemsByUserID (userID) {
   util.checkID(userID)
-  const result = await db.getItemsByUserID(userID)
-  return result[0]
+  return await db.getItemsByUserID(userID)
 }
 
 /**
  * Gets all items belonging to userID with itemStatus from db
- * @param {object} fields { userID: [string] itemStatus: [boolean] }
+ * @param {object} fields { userID: [string] itemStatus: [0|1] }
  * @return {[object]} [item...]
  */
 async function getItemsByUserIDWithStatus (fields) {
   const { userID, itemStatus } = fields
   util.checkID(userID)
+  util.checkStatus(itemStatus)
 
-  if (typeof itemStatus !== 'boolean') util.invalidArgument(fields)
-  const result = await db.getItemsByUserIDWithStatus(fields)
-  return result[0]
+  return await db.getItemsByUserIDWithStatus(fields)
 }
 
 /**
  * Adds item to db
  * @param {object} fields { userID: [number], itemName: [string], itemCondition: [string], itemAge: [number] }
- * @return {object|boolean}
- * > ```
- * ResultSetHeader {
- *   fieldCount: 0,
- *   affectedRows: 1,
- *   insertId: 1,
- *   info: '',
- *   serverStatus: 2,
- *   warningStatus: 0
- * }
+ * @return {object}
+ * ```
+ *  ResultSetHeader {
+ *    fieldCount: 0,
+ *    affectedRows: 1,
+ *    insertId: 1,
+ *    info: '',
+ *    serverStatus: 2,
+ *    warningStatus: 0
+ *  }
  * ```
  */
 async function createItem (fields) {
@@ -71,15 +70,25 @@ async function createItem (fields) {
   util.checkID(userID)
   util.checkEmptyString(itemName)
   util.checkEmptyString(itemCondition)
+  util.checkSmallInt(itemAge)
 
-  if (itemAge < 0 || itemAge > 32767) util.invalidArgument(fields)
   return await db.createItem(fields)
 }
 
 /**
  * Deletes item from db
  * @param {number} userID
- * @return {}
+ * @return {object}
+ * ```
+ *  ResultSetHeader {
+ *    fieldCount: 0,
+ *    affectedRows: 1,
+ *    insertId: 0,
+ *    info: '',
+ *    serverStatus: 2,
+ *    warningStatus: 0
+ *  }
+ * ```
  */
 async function deleteItem (itemID) {
   util.checkID(itemID)
@@ -91,7 +100,18 @@ async function deleteItem (itemID) {
 /**
  * Updates item name in db
  * @param {object} fields { itemID: [number], itemName: [string] }
- * @return {}
+ * @return {object}
+ * ```
+ *  ResultSetHeader {
+ *    fieldCount: 0,
+ *    affectedRows: 1,
+ *    insertId: 0,
+ *    info: 'Rows matched: 1  Changed: 1  Warnings: 0',
+ *    serverStatus: 2,
+ *    warningStatus: 0,
+ *    changedRows: 1
+ *  }
+ * ```
  */
 async function updateItemName (fields) {
   const { itemID, itemName } = fields
@@ -124,24 +144,41 @@ async function updateItemCondition (fields) {
 async function updateItemAge (fields) {
   const { itemID, itemAge } = fields
   util.checkID(itemID)
+  util.checkSmallInt(itemAge)
 
-  if (itemAge < 0 || itemAge > 32767) util.invalidArgument(fields)
   if (util.DB_ENTRY_CHECK) await checkItem(itemID)
   return await db.updateItemAge(fields)
 }
 
 /**
- * Changes item status in db
- * @param {object} fields { itemID: [number], itemStatus: [boolean] }
+ * Updates item status in db
+ * @param {object} fields { itemID: [number], itemStatus: [0|1] }
  * @return {}
  */
-async function changeItemStatus (fields) {
+async function updateItemStatus (fields) {
   const { itemID, itemStatus } = fields
   util.checkID(itemID)
+  util.checkStatus(itemStatus)
 
-  if (typeof itemStatus !== 'boolean') util.invalidArgument(fields)
   if (util.DB_ENTRY_CHECK) await checkItem(itemID)
-  return await db.changeItemStatus(fields)
+  return await db.updateItemStatus(fields)
+}
+
+/**
+ * Updates all item fields in db
+ * @param {object} fields { userID: [number], itemName: [string], itemCondition: [string], itemAge: [smallint], itemStatusL [0|1] }
+ * @return {}
+ */
+async function updateAllItemFields (fields) {
+  const { itemID, itemName, itemCondition, itemAge, itemStatus } = fields
+  util.checkID(itemID)
+  util.checkEmptyString(itemName)
+  util.checkEmptyString(itemCondition)
+  util.checkSmallInt(itemAge)
+  util.checkStatus(itemStatus)
+
+  if (util.DB_ENTRY_CHECK) await checkItem(itemID)
+  return await db.updateAllItemFields(fields)
 }
 
 /* -------------------- util -------------------- */

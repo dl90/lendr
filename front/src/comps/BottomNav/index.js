@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const NavBar = styled.div`
+    
+    background-colour: white;
     max-width:375px;
     min-height:76px;
     box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.25);
@@ -11,11 +13,10 @@ const NavBar = styled.div`
     div{
         text-align:center;
         align-items: center;
-        background-color:white;
-        justify-content: center;
-        user-select:none;
+    justify-content: center;
+    user-select:none;
+    -webkit-tap-highlight-color: transparent;
     }
-    background-color:white;
 `;
 
 const Explore = styled.div`
