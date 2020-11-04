@@ -24,7 +24,7 @@ justify-content:space-between;
 padding-right:5px;
 img {
     position:relative;
-    
+
     transform:${props => props.IconRotate ? "rotate(180deg);" : "none"}
 };
 
@@ -72,28 +72,27 @@ li {
 const CatagoriesDropdown = ({test}) => {
 const [Dropped, setDropped] = useState(false);
 
-    return <div><CatagoriesCont BgColour={Dropped} DivRadius={Dropped} onClick = {()=>{
-        setDropped(!Dropped);
-    }}><CatagoriesDiv IconRotate={Dropped} >
-<CatagoriesLabel>Category</CatagoriesLabel>
-<img alt="Dropdown Arrow" src='./dropdownarrow.png'></img>
-    </CatagoriesDiv>
-    
-
-
-</CatagoriesCont>
-
-<CatagoriesDropDiv DisplayDrop = {Dropped} ><ul>
-    <li>Automobile</li>
-    <li>Appliances</li>
-    <li>Electronic</li>
-    <li>Furniture</li>
-    <li>Recreation</li>
-    <li>Sports &amp; Fitness</li>
-    <li>Tools</li>
-    <li>Venues</li>
-     </ul>
-     </CatagoriesDropDiv>
+    return <div>
+        <h2>Categories</h2>
+        <CatagoriesCont BgColour={Dropped} DivRadius={Dropped} onClick = {()=>{
+            setDropped(!Dropped);
+        }}>
+            <CatagoriesDiv IconRotate={Dropped} >
+                <CatagoriesLabel>Category</CatagoriesLabel>
+                <img alt="Dropdown Arrow" src='./dropdownarrow.png'></img>
+            </CatagoriesDiv>
+        </CatagoriesCont>
+        <CatagoriesDropDiv DisplayDrop = {Dropped} ><ul>
+            <li>Automobile</li>
+            <li>Appliances</li>
+            <li>Electronic</li>
+            <li>Furniture</li>
+            <li>Recreation</li>
+            <li>Sports &amp; Fitness</li>
+            <li>Tools</li>
+            <li>Venues</li>
+            </ul>
+        </CatagoriesDropDiv>
     </div>
 };
 
