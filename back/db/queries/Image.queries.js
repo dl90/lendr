@@ -1,4 +1,5 @@
 import db from '../mysql.connect.js'
+const execute = db.dbExecute
 const query = db.dbQuery
 
 export default {
@@ -6,8 +7,9 @@ export default {
   getAllImagesByUserID,
 
   addImage,
+  addImages,
   updateImage,
-  deleteImage
+  deleteImageByURL
 }
 
 /**
@@ -27,31 +29,49 @@ async function getAllImagesByUserID (userID) {
 }
 
 /**
- * @param {object} fields { userID: [number] imageURL: [string]]
+ * @param {object} fields { userID: [number], imageURL: [string]]
  * @return {}
  */
 async function addImage (fields) {
   const { userID, imageURL } = fields
-  return await query('INSERT INTO Image SET url = ?, user_id = ?',
+  return await execute('INSERT INTO Image SET url = ?, user_id = ?',
     [imageURL, userID]
   )
 }
 
 /**
- * @param {object} fields { imageID: [number] imageURL: [string]]
+ * @param {array} fields [ [url, user_id], [url, user_id], ...]
+ * @return {object}
+ * ```js
+ *   ResultSetHeader {
+ *    fieldCount: 0,
+ *    affectedRows: 3,
+ *    insertId: 1,
+ *    info: 'Records: 3  Duplicates: 0  Warnings: 0',
+ *    serverStatus: 2,
+ *    warningStatus: 0
+ *  }
+ * ```
+ */
+async function addImages (fields) {
+  return await query('INSERT INTO Image (url, user_id) VALUES ?', [fields])
+}
+
+/**
+ * @param {object} fields { imageID: [number], imageURL: [string]]
  * @return {}
  */
 async function updateImage (fields) {
   const { imageID, imageURL } = fields
-  return await query('UPDATE Image SET url = ? WHERE id = ?',
+  return await execute('UPDATE Image SET url = ? WHERE id = ?',
     [imageURL, imageID]
   )
 }
 
 /**
- * @param {number} imageID
+ * @param {string} imageURL
  * @return {}
  */
-async function deleteImage (imageID) {
-  return await query('DELETE FROM Image WHERE id = ?', [imageID])
+async function deleteImageByURL (imageURL) {
+  return await execute('DELETE FROM Image WHERE url = ?', [imageURL])
 }

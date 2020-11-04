@@ -1,5 +1,5 @@
 import db from '../db/queries/User.queries.js'
-import util from './util.js'
+import util from '../util/util.js'
 
 export default {
   checkEmail,
@@ -208,9 +208,10 @@ async function updatePassword (fields) {
   util.checkEmptyString(pwHash)
 
   if (util.DB_ENTRY_CHECK) {
-    const results = await db.getPasswordByUserID(fields)
+    const results = await db.getPasswordByUserID(userID)
     if (results.length === 0) util.missingEntry(fields)
   }
+  fields.timeStamp = util.generateFormattedDateTime()
   return await db.updatePassword(fields)
 }
 
@@ -281,7 +282,7 @@ async function updateGitHubOauth (fields) {
 
 /**
  * Update user active state
- * @param {object} fields { userID: [number], state: [1 || 0] }
+ * @param {object} fields { userID: [number], state: [boolean] }
  * @return {}
  */
 async function updateActivateUser (fields) {
@@ -295,8 +296,19 @@ async function updateActivateUser (fields) {
 
 /**
  * Update user report flag
- * @param {object} fields { userID: [number], reportFlag: [1 || 0] }
- * @return {}
+ * @param {object} fields { userID: [number], reportFlag: [boolean] }
+ * @return {object}
+ * ```
+ *  ResultSetHeader {
+ *    fieldCount: 0,
+ *    affectedRows: 1,
+ *    insertId: 0,
+ *    info: 'Rows matched: 1  Changed: 1  Warnings: 0',
+ *    serverStatus: 2,
+ *    warningStatus: 0,
+ *    changedRows: 1
+ *  }
+ * ```
  */
 async function updateUserReportFlag (fields) {
   const { userID, reportFlag } = fields
@@ -310,7 +322,17 @@ async function updateUserReportFlag (fields) {
 /**
  * Deletes user from db
  * @param {number} userID
- * @return {}
+ * @return {object}
+ * ```
+ *  ResultSetHeader {
+ *    fieldCount: 0,
+ *    affectedRows: 1,
+ *    insertId: 0,
+ *    info: '',
+ *    serverStatus: 2,
+ *    warningStatus: 0
+ *  }
+ * ```
  */
 async function deleteUser (userID) {
   util.checkID(userID)
