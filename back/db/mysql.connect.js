@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 const pool = mysql.createPool({
+  // debug: true,
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PW,
@@ -17,14 +18,25 @@ function connect (cb) {
 }
 
 /**
- * Queries database
+ * Queries database with .execute
  * @param {string} query SQL query
- * @param {[*]} queryParams
+ * @param {[*]} values
  * @return {[object]} [ BinaryRow { data } ]
  */
-async function dbQuery (query, queryParams) {
-  const [rows] = await pool.promise().execute(query, queryParams)
+async function dbExecute (query, values) {
+  const [rows] = await pool.promise().execute(query, values)
   return rows
 }
 
-export default { connect, dbQuery }
+/**
+ * Queries database with .query
+ * @param {string} query SQL query
+ * @param {[*]} values
+ * @return {[object]} [ BinaryRow { data } ]
+ */
+async function dbQuery (query, values) {
+  const [rows] = await pool.promise().query(query, values)
+  return rows
+}
+
+export default { connect, dbExecute, dbQuery }

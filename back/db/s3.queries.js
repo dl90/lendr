@@ -7,23 +7,25 @@ export default {
   deleteImage
 }
 
+const BASE = {
+  Bucket: process.env.AWS_BUCKET_NAME,
+  ACL: 'public-read'
+}
+
 /**
- * @param {string} fileName
- * @param {object|string} fileContent
+ * @param {string} Key
+ * @param {object|string} Body
  */
-function uploadImage (fileName, fileContent) {
-  const params = {
-    Bucket: process.env.AWS_BUCKET_NAME,
-    Key: fileName,
-    Body: fileContent,
-    // ContentType: fileType,
-    ACL: 'public-read'
-  }
+function uploadImage (Key, Body) {
+  const params = { ...BASE, Key, Body }
   return s3.upload(params).promise()
 }
 
-function deleteImage (fileName) {
-  return s3.deleteObject({ Key: fileName }).promise()
+/**
+ * @param {string} Key
+ */
+function deleteImage (Key) {
+  const params = { ...BASE, Key }
+  delete params.ACL
+  return s3.deleteObject(params).promise()
 }
-
-uploadImage('test.txt', 'abcdefg').then(res => console.log(res)).catch(e => console.log(e))

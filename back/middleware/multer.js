@@ -5,12 +5,17 @@ import s3 from '../db/s3.connect.js'
 import dotenv from 'dotenv'
 dotenv.config({ path: '../.env' })
 
+const FILE_SIZE = 5000000 // 5MB
 export default multer({
+  fileSize: FILE_SIZE,
+  fileFilter: (_req, file, cb) => {
+    checkFileType(file, cb)
+  },
   storage: multerS3({
     s3,
+    size: FILE_SIZE,
     bucket: process.env.AWS_BUCKET_NAME,
     acl: 'public-read',
-    fileSize: 5000000, // 5MB
     ContentType: multerS3.AUTO_CONTENT_TYPE,
     ContentDisposition: 'inline',
     metadata: (req, file, cb) => {
@@ -18,16 +23,13 @@ export default multer({
     },
     key: (req, file, cb) => {
       cb(null, `${req.user.id}_${Date.now()}` + path.extname(file.originalname).toLowerCase())
-    },
-    fileFilter: (req, file, cb) => {
-      checkFileType(file, cb)
     }
   })
 })
 
 function checkFileType (file, cb) {
   const filetypes = /jpeg|jpg|png|gif/
-  const extname = filetypes.test(path.extname(file.originalname).toLowerCase())
-  const mimetype = filetypes.test(file.mimetype)
-  return mimetype && extname ? cb(null, true) : cb(new Error('wrong type'))
+  return filetypes.test(file.mimetype) && filetypes.test(path.extname(file.originalname).toLowerCase())
+    ? cb(null, true)
+    : cb(null, false)
 }
