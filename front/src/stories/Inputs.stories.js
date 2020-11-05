@@ -2,6 +2,7 @@ import Input from '../comps/Input';
 import CatagoriesDropdown from '../comps/CatagoriesDropdown';
 import SearchBar from '../comps/SearchBar';
 import InputParagraph from '../comps/InputParagraph';
+import React from 'react';
 
 export default {
     title: 'Inputs/Form and Inputs',

@@ -12,6 +12,8 @@ box-shadow: 0px 10px 24px rgba(0, 0, 0, 0.03);
 background-color: ${props => props.Hovered ? "lightgray" : "white"};
 transition: background-color 0.5s;
 border-bottom: 1px solid rgba(0, 0, 0, 0.050);
+padding-left:15px;
+box-sizing:border-box;
 `;
 
 const ProfilePic = styled.div`
