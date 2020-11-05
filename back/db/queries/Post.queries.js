@@ -1,8 +1,9 @@
 import db from '../mysql.connect.js'
+const execute = db.dbExecute
 const query = db.dbQuery
 
 export default {
-  createPost,
+  createPostWithItemID,
   deletePost,
   getPostByPostID,
   getAllPostsByUserID,
@@ -12,24 +13,28 @@ export default {
 /**
  * @param {object} fields
  * ```
- * {
- * postTitle: [string],
- * postRate: [decimal(11, 2)],
- * postDescription: [string],
- * postLocation: [string],
- * postDuration: [timestamp],
- * userID: [number],
- * itemID: [number]
- * }
+ *  {
+ *    postTitle: [string],
+ *    postRate: [decimal(11, 2)],
+ *    postDescription: [string],
+ *    postLocation: [string],
+ *    postDuration: [timestamp],
+ *    userID: [number],
+ *    itemID: [number]
+ *  }
  * ```
- * @return {}
+ * @return {object}
  */
-async function createPost (fields) {
+async function createPostWithItemID (fields) {
   const { postTitle, postRate, postDescription, postLocation, postDuration, userID, itemID } = fields
-  return await query(
-    'INSERT INTO Post title = ?, rate = ?, post_description = ?, location = ?, duration = ? user_id = ? item_id = ?',
-    [postTitle, postRate, postDescription, postLocation, postDuration, userID, itemID]
-  )
+
+  if (postDuration) {
+    return await execute(
+      'INSERT INTO Post SET title = ?, rate = ?, post_description = ?, location = ?, duration = ?, user_id = ?, item_id = ?',
+      [postTitle, postRate, postDescription, postLocation, postDuration, userID, itemID])
+  }
+  return await execute('INSERT INTO Post SET title = ?, rate = ?, post_description = ?, location = ?, user_id = ?, item_id = ?',
+    [postTitle, postRate, postDescription, postLocation, userID, itemID])
 }
 
 /**
@@ -37,7 +42,7 @@ async function createPost (fields) {
  * @return {}
  */
 async function deletePost (postID) {
-  return await query('DELETE FROM Post WHERE id = ?', [postID])
+  return await execute('DELETE FROM Post WHERE id = ?', [postID])
 }
 
 /**
@@ -45,7 +50,7 @@ async function deletePost (postID) {
  * @return {[object]} single post [ BinaryRow { data } ]
  */
 async function getPostByPostID (postID) {
-  return await query('SELECT * FROM Post WHERE id = ?', [postID])
+  return await query('SELECT * FROM Post WHERE id = ? LIMIT 1', [postID])
 }
 
 /**
@@ -53,7 +58,7 @@ async function getPostByPostID (postID) {
  * @return {[object]} multiple posts [ BinaryRow { data } ]
  */
 async function getAllPostsByUserID (userID) {
-  return await query('SELECT * FROM Post WHERE user_id = ?', [userID])
+  return await query('SELECT * FROM Post WHERE user_id = ? ORDER BY created_on DESC', [userID])
 }
 
 /**

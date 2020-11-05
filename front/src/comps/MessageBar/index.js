@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 const MessageDiv = styled.div`
 max-width: 325px;
-min-height:55px;  
+min-height:55px;
 background-color:blue;
 display:flex;
 align-items:center;
@@ -16,12 +16,12 @@ box-shadow: 0px 16px 24px 0px rgba(0, 0, 0, 0.06);
 const Input = styled.input`
 max-width:250px;
 height:55px;
-overflow: hidden;   
+overflow: hidden;
 background-color: #F5F7FF;
 border:0px;
 outline:none;
 padding-left:25px;
-color: #39A6DC; 
+color: #39A6DC;
 display:flex;
 border-radius:10px;
  ::placeholder {
@@ -46,7 +46,6 @@ align-items:center;
 
 
  img {
-     
  }
 
 `;

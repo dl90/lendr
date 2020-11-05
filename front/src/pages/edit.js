@@ -1,7 +1,7 @@
 import React from 'react';
 import './index.scss';
 import './app.scss';
-import './edit.scss';
+import './post.scss';
 
 import Header from '../comps/Header';
 import Input from '../comps/Input';
@@ -16,7 +16,7 @@ export default function Post(){
     return <div>
         <div className="post">
             <Header/>
-            <h1>Post Item</h1>
+            <h1>Edit Item</h1>
             <Input title={"Post Title"} placeholder="Item Name"></Input>
         </div>
 
@@ -41,7 +41,7 @@ export default function Post(){
             <InputParagraph title={"Description"} placeholder="Write a description of the item you're renting out."></InputParagraph>
             <Input title={"Meeting Location"} placeholder="123 Main St."></Input>
             <div className="button">
-                <Button text={"Post"}></Button>
+                <Button text={"Save Changes"}></Button>
             </div>
         </div>
 

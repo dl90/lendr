@@ -1,17 +1,17 @@
 import db from '../db/queries/Image.queries.js'
-import util from './util.js'
+import util from '../util/util.js'
 
 export default {
   getImageByImageID,
   getAllImagesByUserID,
 
   addImage,
+  addImages,
   updateImage,
   deleteImage
 }
 
 /**
- * Gets all image fields from db
  * @param {number} imageID
  * @return {object} image
  */
@@ -22,7 +22,6 @@ async function getImageByImageID (imageID) {
 }
 
 /**
- * Gets all items belonging to userID from db
  * @param {number} itemID
  * @return {[object]} [item...]
  */
@@ -33,7 +32,6 @@ async function getAllImagesByUserID (userID) {
 }
 
 /**
- * Adds image to db
  * @param {object} fields { userID: [number], imageURL: [string] }
  * @return {object}
  * > ```
@@ -56,7 +54,36 @@ async function addImage (fields) {
 }
 
 /**
- * Updates image URL in db
+ * @param {object} fields { userID: [number], imageArray: [{ location: 'www.' }, ...] }
+ * @return {object}
+ * > ```
+ * ResultSetHeader {
+ *   fieldCount: 0,
+ *   affectedRows: 4,
+ *   insertId: 16,
+ *   info: 'Records: 4  Duplicates: 0  Warnings: 0',
+ *   serverStatus: 2,
+ *   warningStatus: 0
+ * }
+ * ```
+ */
+async function addImages (fields) {
+  const { userID, imageArray } = fields
+  util.checkID(userID)
+
+  const arr = []
+  const len = imageArray.length
+  if (len < 0) util.invalidArgument(imageArray)
+
+  for (let i = 0; i < len; i++) {
+    util.validateURL(imageArray[i].location)
+    arr.push([imageArray[i].location, userID])
+  }
+
+  return await db.addImages(arr)
+}
+
+/**
  * @param {object} fields { userID: [number], imageURL: [string] }
  * @return {}
  */
@@ -64,16 +91,30 @@ async function updateImage (fields) {
   const { imageID, imageURL } = fields
   util.checkID(imageID)
   util.validateURL(imageURL)
+  checkImageID(imageID)
 
   return await db.updateImage(fields)
 }
 
 /**
- * Deletes image URL from db
- * @param {number} imageID
+ * @param {string} imageID
  * @return {}
  */
-async function deleteImage (imageID) {
-  util.checkID(imageID)
-  return await db.deleteImage(imageID)
+async function deleteImage (imageURL) {
+  util.validateURL(imageURL)
+  return await db.deleteImageByURL(imageURL)
+}
+
+/* -------------------- util -------------------- */
+
+/**
+ * throws error if image does not exist in db
+ * @param {number} imageID
+ * @throw entry missing error
+ */
+async function checkImageID (imageID) {
+  if (util.DB_ENTRY_CHECK) {
+    const result = await getImageByImageID(imageID)
+    if (result.length === 0) util.missingEntry(imageID)
+  }
 }
