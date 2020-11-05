@@ -34,18 +34,6 @@ passport.use('local-signup', new LocalStrategy({
     : done(null, newUser)
 }))
 
-/*
-  profile {
-    id: '****',
-    displayName: 'Don L',
-    _json: {
-      id: ****,
-      avatar_url: 'https://avatars1.githubusercontent.com/u/48544754?v=4',
-      name: 'Don L',
-      email: 'dl90dev@gmail.com',
-    }
-  }
-*/
 passport.use('github', new GitHubStrategy({
   clientID: process.env.GH_OAUTH_ID,
   clientSecret: process.env.GH_OAUTH_SECRET,
@@ -57,6 +45,6 @@ passport.use('github', new GitHubStrategy({
   // @TODO if oauth entry is deleted, handel recreating oauth entry with existing user
   const existingUser = await userController.verifyGitHubOauth(email, id.toString())
   !existingUser
-    ? done(null, await userController.signUpWithOAuth(email, parseInt(id), name, avatarURL))
+    ? done(null, await userController.signUpWithOAuth(email, +id, name, avatarURL))
     : done(null, existingUser)
 }))

@@ -5,12 +5,13 @@ const InputDiv = styled.div`
     color: #175FA4;
 `;
 
-const InputBox = styled.div`
+const InputBox = styled.input`
     display:flex;
     align-items:center;
 
-    width:326px;
-    height:48px;
+    min-width:278px;
+    max-width:326px;
+    min-height:48px;
     padding:0px 24px;
 
     color: #979797;
@@ -24,10 +25,10 @@ const InputBox = styled.div`
     top:-10px;
 `;
 
-const Input = ({title, placeholder}) => {
+const Input = ({ title, placeholder}) => {
     return <InputDiv>
-        <h1>{title}</h1>
-        <InputBox>{placeholder}</InputBox>
+        <h2>{title}</h2>
+        <InputBox type="text" placeholder={placeholder}></InputBox>
     </InputDiv>
 };
 

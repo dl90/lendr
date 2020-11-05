@@ -1,9 +1,8 @@
 import React from 'react';
 // import './App.css';
-
-import Pages from "./pages/messages";
 // import Pages from "./pages/renterProfile";
 // import Pages from "./pages/index";
+import Pages from "./pages/post";
 
 function App() {
   return (
