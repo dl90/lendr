@@ -65,7 +65,7 @@ CREATE TABLE `Post` (
   `duration`                TIMESTAMP NOT NULL DEFAULT(NOW() + INTERVAL 1 MONTH),
   `views`                   INTEGER NOT NULL DEFAULT(0), -- increment on vew
   `likes`                   INTEGER NOT NULL DEFAULT(0), -- aggregated
-  `report_flag`             INTEGER NOT NULL DEFAULT(0),
+  `report_flag`             BOOLEAN NOT NULL DEFAULT(0),
   `user_id`                 INTEGER NOT NULL,
   `item_id`                 INTEGER NOT NULL,
 

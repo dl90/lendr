@@ -82,33 +82,34 @@ async function getPasswordByUserEmail (userEmail) {
  * @return {[object]} [ BinaryRow { data } ]
  */
 async function getPasswordByUserID (userID) {
-  return await query(
-    'SELECT password_hash FROM UserPassword WHERE user_id = ?',
+  return await query('SELECT password_hash FROM UserPassword WHERE user_id = ?',
     [userID]
   )
 }
 
 /**
- * @param {object} fields { userID: [number], pwHash: [string] }
+ * @param {object} fields
+ * ```
+ * { userID: [number], pwHash: [string] }
+ * ```
  * @return {}
  */
 async function createPassword (fields) {
-  const { userID, pwHash } = fields
-  return await execute(
-    'INSERT INTO UserPassword SET user_id = ?, password_hash = ?',
-    [userID, pwHash]
+  return await execute('INSERT INTO UserPassword SET user_id = ?, password_hash = ?',
+    [fields.userID, fields.pwHash]
   )
 }
 
 /**
- * @param {object} fields { userID: [number], timeStamp: [string], pwHash: [string} }
+ * @param {object} fields
+ * ```
+ * { userID: [number], timeStamp: [string], pwHash: [string} }
+ * ```
  * @return {}
  */
 async function updatePassword (fields) {
-  const { userID, timeStamp, pwHash } = fields
-  return await execute(
-    'UPDATE UserPassword SET password_hash = ?, timestamp = ? WHERE user_id = ?',
-    [pwHash, timeStamp, userID]
+  return await execute('UPDATE UserPassword SET password_hash = ?, timestamp = ? WHERE user_id = ?',
+    [fields.pwHash, fields.timeStamp, fields.userID]
   )
 }
 
@@ -117,8 +118,7 @@ async function updatePassword (fields) {
  * @return {[object]} [ BinaryRow { data } ]
  */
 async function getUserIDByGitHubOAuthUserID (githubUserID) {
-  return await query(
-    'SELECT user_id FROM GitHubOAuth WHERE oauth_user_id = ?',
+  return await query('SELECT user_id FROM GitHubOAuth WHERE oauth_user_id = ?',
     [githubUserID]
   )
 }
@@ -141,8 +141,7 @@ async function getUserByGitHubOAuthUserID (githubUserID) {
  * @return {[object]} [ BinaryRow { data } ]
  */
 async function getGitHubOAuthUserIDByUserID (userID) {
-  return await query(
-    'SELECT github_user_id FROM GitHubOAuth WHERE user_id = ?',
+  return await query('SELECT github_user_id FROM GitHubOAuth WHERE user_id = ?',
     [userID]
   )
 }
@@ -161,98 +160,108 @@ async function getGitHubOAuthUserIDByEmail (userEmail) {
 }
 
 /**
- * @param {object} fields { userID: [number], githubUserID: [number] }
+ * @param {object} fields
+ * ```
+ * { userID: [number], githubUserID: [number] }
+ * ```
  * @return {object} ResultSetHeader
  */
 async function createGitHubOAuth (fields) {
-  const { userID, githubUserID } = fields
-  return await execute(
-    'INSERT INTO GitHubOAuth SET user_id = ?, github_user_id = ?',
-    [userID, githubUserID]
+  return await execute('INSERT INTO GitHubOAuth SET user_id = ?, github_user_id = ?',
+    [fields.userID, fields.githubUserID]
   )
 }
 
 /**
- * @param {object} fields { userID: [number], githubUserID: [number] }
+ * @param {object} fields
+ * ```
+ * { userID: [number], githubUserID: [number] }
+ * ```
  * @return {}
  */
 async function updateGitHubOAuth (fields) {
-  const { userID, githubUserID } = fields
   return await execute(
     'UPDATE GitHubOAuth SET github_user_id = ? WHERE user_id = ?',
-    [githubUserID, userID]
+    [fields.githubUserID, fields.userID]
   )
 }
 
 /**
- * @param {object} fields { userEmail: [string] [, displayName: [string], avatarURL: [string] ]
+ * @param {object} fields
+ * ```
+ * { userEmail: [string] [, displayName: [string], avatarURL: [string] ] }
+ * ```
  * @return {}
  */
 async function createUser (fields) {
-  const { userEmail, displayName, avatarURL } = fields
   return await execute(
     'INSERT INTO User SET email = ?, display_name = ?, avatar_url = ?',
-    [userEmail, displayName || null, avatarURL || null]
+    [fields.userEmail, fields.displayName || null, fields.avatarURL || null]
   )
 }
 
 /**
- * @param {object} fields { userID: [number], state: [boolean] }
+ * @param {object} fields
+ * ```
+ * { userID: [number], state: [boolean] }
+ * ```
  * @return {}
  */
 async function setUserActiveState (fields) {
-  const { userID, state } = fields
-  return await execute(
-    'UPDATE User SET active = ? WHERE id = ?',
-    [state, userID]
+  return await execute('UPDATE User SET active = ? WHERE id = ?',
+    [fields.state, fields.userID]
   )
 }
 
 /**
- * @param {object} fields { userID: [number], reportFlat: [boolean] }
+ * @param {object} fields
+ * ```
+ * { userID: [number], reportFlat: [boolean] }
+ * ```
  * @return {}
  */
 async function setUserReportFlag (fields) {
-  const { userID, reportFlag } = fields
-  return await execute(
-    'UPDATE User set report_flag = ? WHERE id = ?',
-    [reportFlag, userID]
+  return await execute('UPDATE User set report_flag = ? WHERE id = ?',
+    [fields.reportFlag, fields.userID]
   )
 }
 
 /**
- * @param {object} fields { userID: [number], displayName: [string]}
+ * @param {object} fields
+ * ```
+ * { userID: [number], displayName: [string]}
+ * ```
  * @return {}
  */
 async function updateDisplayName (fields) {
-  const { userID, displayName } = fields
-  return await execute(
-    'UPDATE User SET display_name = ? WHERE id = ?',
-    [displayName, userID]
+  return await execute('UPDATE User SET display_name = ? WHERE id = ?',
+    [fields.displayName, fields.userID]
   )
 }
 
 /**
- * @param {object} fields { userID: [number], dateTime: [string '2020-01-01 10:10:10']}
+ * @param {object} fields
+ * ```
+ * { userID: [number], dateTime: [string: '2020-12-31 23:59:59']}
+ * ```
  * @return {}
  */
 async function updateLastAccessed (fields) {
-  const { userID, dateTime } = fields
-  return await execute(
-    'UPDATE User SET last_accessed = ? WHERE id = ?',
-    [dateTime, userID]
+  return await execute('UPDATE User SET last_accessed = ? WHERE id = ?',
+    [fields.dateTime, fields.userID]
   )
 }
 
 /**
- * @param {object} fields { userID: [number], avatarURL: [string] }
+ * @param {object} fields
+ * ```
+ * { userID: [number], avatarURL: [string] }
+ * ```
  * @return {}
  */
 async function updateAvatar (fields) {
-  const { userID, avatarURL } = fields
-  return await execute(
-    'UPDATE User SET avatar_url = ? WHERE id = ?',
-    [avatarURL, userID]
+  return await execute('UPDATE User SET avatar_url = ? WHERE id = ?',
+    [fields.avatarURL, fields.userID]
   )
 }
 

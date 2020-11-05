@@ -7,6 +7,7 @@ export default {
   updateTagName,
   updateTagCount,
   getTagByID,
+  getTagByTagName,
   getAllTags
 }
 
@@ -58,6 +59,14 @@ async function updateTagCount (tagCount, tagID = null, tagName = null) {
  */
 async function getTagByID (tagID) {
   return await handler.asyncErrorHandler(Tag.getTagByID, +tagID)
+}
+
+/**
+ * @param {string} tagName
+ * @return {object} tag
+ */
+async function getTagByTagName (tagName) {
+  return await handler.asyncErrorHandler(Tag.getTagByTagName, tagName)
 }
 
 /**

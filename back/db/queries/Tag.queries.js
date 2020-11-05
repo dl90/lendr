@@ -8,11 +8,13 @@ export default {
   updateTagName,
   updateTagCount,
   getTagByID,
+  getTagByTagName,
   getAllTag
 }
 
 /**
  * @param {string} tagName
+ * @return {}
  */
 async function addTag (tagName) {
   return await execute(
@@ -22,6 +24,7 @@ async function addTag (tagName) {
 
 /**
  * @param {number} postID
+ * @return {}
  */
 async function deleteTag (tagID) {
   return await execute('DELETE FROM Tag WHERE id = ?', [tagID])
@@ -32,6 +35,7 @@ async function deleteTag (tagID) {
  * ```
  *  { tagName: [string], tagID: [number] }
  * ```
+ * @return {}
  */
 async function updateTagName (fields) {
   return await execute(
@@ -44,6 +48,7 @@ async function updateTagName (fields) {
  * ```
  *  { tagCount: [number], tagID: [number], tagName: [string] }
  * ```
+ * @return {}
  */
 async function updateTagCount (fields) {
   return fields.tagID
@@ -53,6 +58,7 @@ async function updateTagCount (fields) {
 
 /**
  * @param {number} tagID
+ * @return {}
  */
 async function getTagByID (tagID) {
   return await query(
@@ -60,8 +66,17 @@ async function getTagByID (tagID) {
   )
 }
 
+/**
+ * @param {string} tagName
+ * @return {}
+ */
+async function getTagByTagName (tagName) {
+  return await query('SELECT * FROM Tag WHERE name = ?', [tagName])
+}
+
+/**
+ * @return {}
+ */
 async function getAllTag () {
-  return await query(
-    'SELECT * FROM Tag ORDER BY total_count DESC'
-  )
+  return await query('SELECT * FROM Tag ORDER BY total_count DESC')
 }

@@ -7,7 +7,18 @@ export default {
 
   getPostByPostID,
   getAllPostsByUserID,
-  getAllPostsByItemID
+  getAllPostsByItemID,
+  getAllPostsByTagID,
+  getAllPostsByTagName,
+
+  updatePostTitle,
+  updatePostRate,
+  updatePostDescription,
+  updatePostLocation,
+  updatePostDuration,
+
+  setPostReportFlag,
+  incrementView
 }
 
 /**
@@ -34,6 +45,7 @@ export default {
  *    warningStatus: 0
  *  }
  * ```
+ * @throw invalid argument error
  */
 async function createPostWithItemID (fields) {
   util.checkEmptyString(fields.postTitle)
@@ -60,6 +72,7 @@ async function createPostWithItemID (fields) {
  *    warningStatus: 0
  *  }
  * ```
+ * @throw invalid argument error
  */
 async function deletePost (postID) {
   util.checkID(postID)
@@ -77,17 +90,151 @@ async function getPostByPostID (postID) {
 }
 
 /**
- * @param {number} userID
+ * @param {object} fields
+ * ```
+ *  { userID: [number] [, reportFlag: [boolean] ] }
+ * ```
+ * @return {[object]]}
+ * @throw invalid argument error
  */
-async function getAllPostsByUserID (userID) {
-  util.checkID(userID)
-  return await db.getAllPostsByUserID(userID)
+async function getAllPostsByUserID (fields) {
+  util.checkID(fields.userID)
+  if (fields.reportFlag) util.checkBool(fields.reportFlag)
+  return await db.getAllPostsByUserID(fields)
 }
 
 /**
- * @param {number} itemID
+ * @param {object} fields
+ * ```
+ *  { itemID: [number] [, reportFlag: [boolean] ] }
+ * ```
+ * @return {[object]}
+ * @throw invalid argument error
  */
-async function getAllPostsByItemID (itemID) {
-  util.checkID(itemID)
-  return await db.getAllPostsByItemID(itemID)
+async function getAllPostsByItemID (fields) {
+  util.checkID(fields.itemID)
+  if (fields.reportFlag) util.checkBool(fields.reportFlag)
+  return await db.getAllPostsByItemID(fields)
+}
+
+/**
+ * @param {object} fields
+ * ```
+ *  { tagID: [number] [, reportFlag: [boolean] ] }
+ * ```
+ * @return {[object]}
+ * @throw invalid argument error
+ */
+async function getAllPostsByTagID (fields) {
+  util.checkID(fields.tagID)
+  if (fields.reportFlag) util.checkBool(fields.reportFlag)
+  return await db.getAllPostsByTagID(fields)
+}
+
+/**
+ * @param {object} fields
+ * ```
+ *  { tagName: [string] [, reportFlag: [boolean] ] }
+ * ```
+ * @return {[object]}
+ * @throw invalid argument error
+ */
+async function getAllPostsByTagName (fields) {
+  util.checkEmptyString(fields.tagName)
+  if (fields.reportFlag) util.checkBool(fields.reportFlag)
+  return await db.getAllPostsByTagName(fields)
+}
+
+/**
+ * @param {object} fields
+ * ```
+ *  { postID: [number], postTitle: [string]}
+ * ```
+ * @return {}
+ * @throw invalid argument error
+ */
+async function updatePostTitle (fields) {
+  util.checkID(fields.postID)
+  util.checkEmptyString(fields.postTitle)
+  return await db.updatePostTitle(fields)
+}
+
+/**
+ * @param {object} fields
+ * ```
+ *  { postID: [number], postRate: [number: decimal(11,2)] }
+ * ```
+ * @return {}
+ * @throw invalid argument error
+ */
+async function updatePostRate (fields) {
+  util.checkID(fields.postID)
+  util.validateRate(fields.postRate)
+  return await db.updatePostRate(fields)
+}
+
+/**
+ * @param {object} fields
+ * ```
+ *  { postID: [number], postDescription: [string]}
+ * ```
+ * @return {}
+ * @throw invalid argument error
+ */
+async function updatePostDescription (fields) {
+  util.checkID(fields.postID)
+  util.checkEmptyString(fields.postDescription)
+  return await db.updatePostDescription(fields)
+}
+
+/**
+ * @param {object} fields
+ * ```
+ *  { postID: [number], postLocation: [string] }
+ * ```
+ * @return {}
+ * @throw invalid argument error
+ */
+async function updatePostLocation (fields) {
+  util.checkID(fields.postID)
+  util.checkEmptyString(fields.postLocation)
+  return await db.updatePostDescription(fields)
+}
+
+/**
+ * @param {object} fields
+ * ```
+ *  { postID: [number], postDuration: [string: '2020-12-31 23:59:59'] }
+ * ```
+ * @return {}
+ * @throw invalid argument error
+ */
+async function updatePostDuration (fields) {
+  util.checkID(fields.postID)
+  util.validateDateFormat(fields.postDuration)
+  return await db.updatePostDuration(fields)
+}
+
+/**
+ * @param {object} fields
+ * ```
+ *  { postID: [number], reportFlag: [boolean] }
+ * ```
+ * @return {}
+ * @throw invalid argument error
+ */
+async function setPostReportFlag (fields) {
+  util.checkID(fields.postID)
+  util.checkBool(fields.reportFlag)
+  return await db.setPostReportFlag(fields)
+}
+
+/**
+ * @param {number} postID
+ * @return {}
+ * @throw invalid argument error
+ */
+async function incrementView (postID) {
+  util.checkID(postID)
+  return await db.incrementView(postID)
 }

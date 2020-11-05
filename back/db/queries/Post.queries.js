@@ -5,9 +5,21 @@ const query = db.dbQuery
 export default {
   createPostWithItemID,
   deletePost,
+
   getPostByPostID,
   getAllPostsByUserID,
-  getAllPostsByItemID
+  getAllPostsByItemID,
+  getAllPostsByTagID,
+  getAllPostsByTagName,
+
+  updatePostTitle,
+  updatePostRate,
+  updatePostDescription,
+  updatePostLocation,
+  updatePostDuration,
+
+  setPostReportFlag,
+  incrementView
 }
 
 /**
@@ -23,7 +35,7 @@ export default {
  *    itemID: [number]
  *  }
  * ```
- * @return {object}
+ * @return {}
  */
 async function createPostWithItemID (fields) {
   const { postTitle, postRate, postDescription, postLocation, postDuration, userID, itemID } = fields
@@ -54,17 +66,161 @@ async function getPostByPostID (postID) {
 }
 
 /**
- * @param {number} userID
+ * @param {object} fields
+ * ```
+ *  { userID: [number] [, reportFlag: [boolean] ] }
+ * ```
  * @return {[object]} multiple posts [ BinaryRow { data } ]
  */
-async function getAllPostsByUserID (userID) {
-  return await query('SELECT * FROM Post WHERE user_id = ? ORDER BY created_on DESC', [userID])
+async function getAllPostsByUserID (fields) {
+  return fields.reportFlag === undefined
+    ? await query('SELECT * FROM Post WHERE user_id = ? ORDER BY created_on DESC', [fields.userID])
+    : await query('SELECT * FROM post WHERE user_id = ? AND report_flag = ? ORDER BY created_on DESC',
+      [fields.userID, fields.reportFlag])
 }
 
 /**
- * @param {number} itemID
+ * @param {object} fields
+ * ```
+ *  { itemID: [number] [, reportFlag: [boolean] ] }
+ * ```
  * @return {[object]} multiple posts [ BinaryRow { data } ]
  */
-async function getAllPostsByItemID (itemID) {
-  return await query('SELECT * FROM Post WHERE item_id = ?', [itemID])
+async function getAllPostsByItemID (fields) {
+  return fields.reportFlag === undefined
+    ? await query('SELECT * FROM Post WHERE item_id = ? ORDER BY created_on DESC', [fields.itemID])
+    : await query('SELECT * FROM post WHERE item_id = ? AND report_flag = ? ORDER BY created_on DESC',
+      [fields.itemID, fields.reportFlag])
+}
+
+/**
+ * @param {object} fields
+ * ```
+ *  { tagID: [number] [, reportFlag: [boolean] ] }
+ * ```
+ * @return {[object]} multiple posts [ BinaryRow { data } ]
+ */
+async function getAllPostsByTagID (fields) {
+  return fields.reportFlag === undefined
+    ? await query(
+      `SELECT * FROM Post
+       JOIN PostTag ON Post.id = PostTag.post_id
+       WHERE PostTag.tag_id = ?
+       ORDER BY Post.created_on DESC`,
+      [fields.tagID])
+    : await query(
+      `SELECT * FROM Post
+       JOIN PostTag ON Post.id = PostTag.post_id
+       WHERE PostTag.tag_id = ? AND Post.report_flag = ?
+       ORDER BY Post.created_on DESC`,
+      [fields.tagID, fields.reportFlag])
+}
+
+/**
+ * @param {object} fields
+ * ```
+ *  { tagName: [string] [, reportFlag: [boolean] ] }
+ * ```
+ * @return {[object]} multiple posts [ BinaryRow { data } ]
+ */
+async function getAllPostsByTagName (fields) {
+  return fields.reportFlag === undefined
+    ? await query(
+      `SELECT * FROM Post
+       JOIN PostTag ON Post.id = PostTag.post_id
+       JOIN Tag ON Tag.id = PostTag.tag_id
+       WHERE Tag.name = tagName
+       ORDER BY Post.created_on DESC`,
+      [fields.tagName])
+    : await query(
+      `SELECT * FROM Post
+       JOIN PostTag ON Post.id = PostTag.post_id
+       JOIN Tag ON Tag.id = PostTag.tag_id
+       WHERE Tag.name = tagName AND Post.report_flag = ?
+       ORDER BY Post.created_on DESC`,
+      [fields.tagName, fields.reportFlag])
+}
+
+/**
+ * @param {object} fields
+ * ```
+ *  { postID: [number], postTitle: [string] }
+ * ```
+ * @return {}
+ */
+async function updatePostTitle (fields) {
+  return await execute('UPDATE Post SET title = ? WHERE id = ?',
+    [fields.postTitle, fields.postID])
+}
+
+/**
+ * @param {object} fields
+ * ```
+ *  { postID: [number], postRate: [number: decimal(11,2)] }
+ * ```
+ * @return {}
+ */
+async function updatePostRate (fields) {
+  return await execute('UPDATE Post SET rate = ? WHERE id = ?',
+    [fields.postRate, fields.postID])
+}
+
+/**
+ * @param {object} fields
+ * ```
+ *  { postID: [number], postDescription: [string] }
+ * ```
+ * @return {}
+ */
+async function updatePostDescription (fields) {
+  return await execute('UPDATE Post SET post_description = ? WHERE id = ?',
+    [fields.postDescription, fields.postID])
+}
+
+/**
+ * @param {object} fields
+ * ```
+ *  { postID: [number], postLocation: [string] }
+ * ```
+ * @return {}
+ */
+async function updatePostLocation (fields) {
+  return await execute('UPDATE Post SET post_location = ? WHERE id = ?',
+    [fields.postLocation, fields.postID])
+}
+
+/**
+ * @param {object} fields
+ * ```
+ *  { postID: [number], postDuration: [string: '2020-12-31 23:59:59'] }
+ * ```
+ * @return {}
+ */
+async function updatePostDuration (fields) {
+  return await execute('UPDATE Post SET duration = ? WHERE id = ?',
+    [fields.postDuration, fields.postID]
+  )
+}
+
+/**
+ * @param {object} fields
+ * ```
+ *  { postID: [number], reportFlag: [boolean] }
+ * ```
+ * @return {}
+ */
+async function setPostReportFlag (fields) {
+  return await execute('UPDATE Post set report_flag = ? WHERE id = ?',
+    [fields.reportFlag, fields.postID]
+  )
+}
+
+/**
+ * @param {number} postID
+ * @return {}
+ */
+async function incrementView (postID) {
+  return await execute('UPDATE Post set views = views + 1 WHERE id = ?',
+    [postID]
+  )
 }
