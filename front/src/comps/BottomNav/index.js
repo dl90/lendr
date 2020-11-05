@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const NavBar = styled.div`
-    max-width:375px;
+    max-width:414px;
     min-height:76px;
     box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.25);
     display:flex;

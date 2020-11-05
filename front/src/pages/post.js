@@ -12,17 +12,22 @@ import Button from '../comps/Button';
 import BottomNav from '../comps/BottomNav';
 import InputParagraph from '../comps/InputParagraph';
 
-export default function post({PageTitle}){
+export default function Post({PageTitle}){
     return <div className="postPage">
         <div className="post">
             <Header/>
-            <h1>Post Item</h1>
-            <Input title={"Post Title"} placeholder="Item Name"></Input>
+                <h1>{PageTitle}</h1>
+            <Input title={"Post Title"} placeholder="Item Name"></Input>  
         </div>
 
         <div className="imageDiv">
             <h2>Upload Photos</h2>
             <div className="images">
+                <UploadImg/>
+                <UploadImg/>
+                <UploadImg/>
+                <UploadImg/>
+                <UploadImg/>
                 <UploadImg/>
                 <UploadImg/>
                 <UploadImg/>
@@ -44,4 +49,8 @@ export default function post({PageTitle}){
             <BottomNav/>
         </div>
     </div>
+}
+
+Post.defaultProps = {
+    PageTitle: "Post Item"
 }

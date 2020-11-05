@@ -2,15 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 
 const InputParagraphDiv = styled.div`
+    display:flex;
+    flex-direction:column;
     color: #175FA4;
 `;
 
 const InputParagraphBox = styled.textarea`
     display:flex;
     align-items:center;
+    flex-grow:1;
 
-    min-width:278px;
-    max-width:326px;
+    min-width:220px;
+    max-width:414px;
     min-height:48px;
     padding:10px 24px;
 
