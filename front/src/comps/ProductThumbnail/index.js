@@ -84,8 +84,12 @@ left:245px;
 bottom:120px;
 `;
 
+const CompDiv = styled.div`
+
+`;
+
 const ProductThumbnail = ({itemname, price, img, pfp, username}) => {
-    return <div>
+    return <CompDiv>
 <CardDiv>
     <ItemThumbnail><Img src={img}></Img></ItemThumbnail>
 <CardTextBox>
@@ -97,7 +101,7 @@ const ProductThumbnail = ({itemname, price, img, pfp, username}) => {
 <Username>{username}</Username>
 </UserDiv>
 </CardDiv>
-    </div>
+</CompDiv>
 };  
 
 ProductThumbnail.defaultProps = {
