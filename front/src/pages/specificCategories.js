@@ -2,9 +2,8 @@ import React from 'react';
 import BottomNav from '../comps/BottomNav';
 import CategoryGallery from '../comps/CategoryGallery';
 import Header from '../comps/Header';
-import './index.scss';
 import './app.scss'
-import './specificCategories.scss';
+import '../pages/specificCategories.scss'
 import SearchBar from '../comps/SearchBar';
 import ProductThumbnail from '../comps/ProductThumbnail'
 
@@ -16,9 +15,18 @@ export default function specificCategories({title}) {
         <div className="search">
             <SearchBar placeholder="Search Categories" />
         </div>
-        <ProductThumbnail ></ProductThumbnail>
-        <ProductThumbnail ></ProductThumbnail>
+
+    <div className="thumb_cont">
+        <div className = "thumb">
         <ProductThumbnail></ProductThumbnail>
+        </div>
+        <div className = "thumb">
+        <ProductThumbnail ></ProductThumbnail>
+        </div>
+        <div className = "thumb">
+        <ProductThumbnail></ProductThumbnail>
+        </div>
+        </div>
         <div className="nav">
             <BottomNav />
         </div>

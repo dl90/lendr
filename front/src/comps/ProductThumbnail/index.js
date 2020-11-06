@@ -32,8 +32,8 @@ max-width: 70px;
 border-radius: 999px;
 position:relative;
 background-color:#39A6DC;
-left:240px;
-bottom:115px;
+left:220px;
+bottom:100px;
 display:flex;
 justify-content:center;
 align-items:center;
@@ -80,8 +80,8 @@ const UserDiv = styled.div`
 
 const Username = styled.p`
 position:relative;
-left:245px;
-bottom:120px;
+padding-left:220px;
+bottom:110px;
 `;
 
 const CompDiv = styled.div`
@@ -95,10 +95,10 @@ const ProductThumbnail = ({itemname, price, img, pfp, username}) => {
 <CardTextBox>
 <Title>{itemname}</Title>
 <Price>{price}</Price>
-</CardTextBox>
-<UserDiv>
 <Circle><img src = {pfp}></img></Circle>
 <Username>{username}</Username>
+</CardTextBox>
+<UserDiv>
 </UserDiv>
 </CardDiv>
 </CompDiv>
