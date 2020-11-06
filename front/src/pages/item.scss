@@ -1,0 +1,27 @@
+.imageDiv{
+    padding-left: 25px;
+    .images{
+        display: flex;
+        overflow-x: scroll;
+        img{
+            width: 280px;
+            height: 212px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-right: 25px; 
+        }
+    }
+} 
+.item{
+    padding: 25px;
+}
+.title{
+    display: flex;
+    justify-content: space-between;
+}
+.location{
+    margin-bottom: 75px;
+    img{
+        max-width: 100%;
+    }
+}
