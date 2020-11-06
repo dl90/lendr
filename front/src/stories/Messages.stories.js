@@ -1,6 +1,6 @@
 
 import AskLender from '../comps/AskLender';
-
+import React from 'react';
 import Message from '../comps/Message';
 import MessageBar from '../comps/MessageBar';
 
