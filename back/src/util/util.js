@@ -54,7 +54,7 @@ function checkStatus (status) {
  * @throw invalid argument error
  */
 function checkSmallInt (smallInt) {
-  if (smallInt < 0 || smallInt > 32767) (invalidArgument(smallInt))
+  if (smallInt < 0 || smallInt > 32_767) (invalidArgument(smallInt))
 }
 
 /**
@@ -92,7 +92,7 @@ function validateURL (url) {
  * @throw invalid argument error
  */
 function validateRate (rate) {
-  if (rate > 1000000000) invalidArgument(rate)
+  if (rate > 1_000_000_000) invalidArgument(rate)
   if (~~rate !== rate) {
     const decimal = rate.toString().split('.')[1].length || 0
     if (decimal > 2) invalidArgument(rate)

@@ -11,7 +11,17 @@ export default {
 /**
  * @param {number} postID
  * @param {number} tagID
- * @return {}
+ * @return {object}
+ * ```
+ *  ResultSetHeader {
+ *    fieldCount: 0,
+ *    affectedRows: 1,
+ *    insertId: 1,
+ *    info: '',
+ *    serverStatus: 2,
+ *    warningStatus: 0
+ *  }
+ * ```
  */
 async function addPostTag (postID, tagID) {
   return await execute('INSERT INTO PostTag SET post_id = ?, tag_id = ?',

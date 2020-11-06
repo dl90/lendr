@@ -101,6 +101,7 @@ async function getAllPostsByItemID (fields) {
  * @return {[object]} multiple posts [ BinaryRow { data } ]
  */
 async function getAllPostsByTagID (fields) {
+  console.log(fields)
   return fields.reportFlag === undefined
     ? await query(
       `SELECT * FROM Post

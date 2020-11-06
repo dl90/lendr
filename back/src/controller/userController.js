@@ -19,9 +19,7 @@ export default {
   updateReportFlag,
 
   deleteUser,
-
-  getAllInactiveUsers,
-  getAllFlaggedUsers
+  getAllUsers
 }
 
 /**
@@ -255,20 +253,14 @@ async function deleteUser (userID) {
 
 /**
  * Returns all inactive users
+ * @param {boolean} active
+ * @param {boolean} reportFlag
  * @return {[object]}
  */
-async function getAllInactiveUsers () {
-  return await handler.asyncErrorHandler(
-    User.getAllInactiveUsers
-  )
-}
+async function getAllUsers (active = undefined, reportFlag = undefined) {
+  const params = {}
+  if (active) params.active = (active === 'true')
+  if (reportFlag) params.reportFlag = (reportFlag === 'true')
 
-/**
- * Returns all flagged users
- * @return {[object]}
- */
-async function getAllFlaggedUsers () {
-  return await handler.asyncErrorHandler(
-    User.getAllFlaggedUsers
-  )
+  return await handler.asyncErrorHandler(User.getAllUsers, params)
 }

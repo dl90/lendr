@@ -14,13 +14,31 @@ export default function () {
    *
    * @apiParam {number} userID
    *
-   * @apiSuccess (200) {json}               User profile JSON
+   * @apiSuccess (200) {json}               User profile
    * @apiError (400) {}                     User does not exist
    */
   router.post('/get', async (req, res) => {
     const queryUser = await UserController.getUserByID(req.body.userID)
     queryUser
       ? res.json(queryUser)
+      : res.sendStatus(400)
+  })
+
+  /**
+   * @api {post} /user/get-all              Get all user profiles
+   * @apiName PostGetUserProfile
+   * @apiGroup User
+   *
+   * @apiParam {boolean|undefined} active
+   * @apiParam {boolean|undefined} reportFlag
+   *
+   * @apiSuccess (200) {json}               Users profile
+   * @apiError (400) {}                     User does not exist
+   */
+  router.post('/get-all', async (req, res) => {
+    const users = await UserController.getAllUsers(req.body.active, req.body.reportFlag)
+    users
+      ? res.json(users)
       : res.sendStatus(400)
   })
 
@@ -102,12 +120,12 @@ export default function () {
    *
    * @apiParam {number} userID
    *
-   * @apiSuccess (200) {}                   Success
+   * @apiSuccess (204) {}                   Success
    * @apiError (400) {}                     Failed
    */
   router.post('/report', async (req, res) => {
     await UserController.updateReportFlag(req.body.userID, true)
-      ? res.sendStatus(200)
+      ? res.sendStatus(204)
       : res.sendStatus(400)
   })
 

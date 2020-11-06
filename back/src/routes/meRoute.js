@@ -13,7 +13,7 @@ export default function () {
    * @apiSuccess (200) {json}               User profile JSON
    */
   router.get('/', (req, res) => {
-    res.send('logged in as: \n' + JSON.stringify(req.user))
+    res.json(req.user)
   })
 
   return router

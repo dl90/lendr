@@ -1,0 +1,1264 @@
+{
+	"info": {
+		"_postman_id": "1d8e2f38-0516-48a0-980c-b35761b1b876",
+		"name": "lendr",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "/auth/sign-up",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "test@test.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "test",
+									"type": "text"
+								},
+								{
+									"key": "displayName",
+									"value": "test test",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/sign-up",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"sign-up"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/auth/login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "test@test.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "new pw",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/auth/logout",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/auth/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/auth/github",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/auth/github",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"github"
+							]
+						},
+						"description": "GitHub OAuth"
+					},
+					"response": []
+				},
+				{
+					"name": "/auth/github/redirect",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/auth/github/redirect",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"github",
+								"redirect"
+							]
+						},
+						"description": "GitHub OAuth redirect"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "me",
+			"item": [
+				{
+					"name": "/me",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/me",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"me"
+							]
+						},
+						"description": "{\n    \"id\": 2,\n    \"email\": \"test1@test.com\",\n    \"display_name\": \"test test\",\n    \"avatar_url\": null,\n    \"active\": 1,\n    \"report_flag\": 0,\n    \"last_accessed\": \"2020-11-06T20:30:35.000Z\",\n    \"created_on\": \"2020-11-06T20:30:35.000Z\",\n    \"rating\": null\n}"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "/user/get",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "userID",
+									"value": "1",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/get",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"get"
+							],
+							"query": [
+								{
+									"key": "userID",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get user profile by user ID\n\n{\n    \"id\": 1,\n    \"display_name\": \"test test\",\n    \"avatar_url\": null,\n    \"active\": 1,\n    \"report_flag\": 0,\n    \"rating\": null\n}"
+					},
+					"response": []
+				},
+				{
+					"name": "/user/get-all",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "active",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "reportFlag",
+									"value": "false",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/get-all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/user/change-pw",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "password",
+									"value": "new pw",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/change-pw",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"change-pw"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/user/change-display-name",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "displayName",
+									"value": "changed",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/change-display-name",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"change-display-name"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/user/change-avatar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/Users/don/Desktop/m.png"
+								}
+							],
+							"options": {
+								"formdata": {}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/change-avatar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"change-avatar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/user/delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/user/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/user/report",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "userID",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/report",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"report"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "image",
+			"item": [
+				{
+					"name": "/image/single",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/Users/don/Desktop/m.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/image/single",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"image",
+								"single"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/image/multi",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "images",
+									"type": "file",
+									"src": [
+										"/Users/don/Desktop/Screen Shot 2020-11-05 at 11.37.36 PM.png",
+										"/Users/don/Desktop/Screen Shot 2020-11-05 at 11.37.47 PM.png",
+										"/Users/don/Desktop/Screen Shot 2020-11-05 at 11.38.08 PM.png"
+									]
+								}
+							],
+							"options": {
+								"formdata": {}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/image/multi",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"image",
+								"multi"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/image/delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "imageURL",
+									"value": "https://lendr-s3.s3.us-west-2.amazonaws.com/3_1604700329278.png",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/image/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"image",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "item",
+			"item": [
+				{
+					"name": "/item/create",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "itemName",
+									"value": "test",
+									"type": "text"
+								},
+								{
+									"key": "itemCondition",
+									"value": "great",
+									"type": "text"
+								},
+								{
+									"key": "itemAge",
+									"value": "12",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/item/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"item",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/item/get",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "itemID",
+									"value": "1",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/item/get",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"item",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/item/get-multi",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/item/get-multi",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"item",
+								"get-multi"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/item/get-multi",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "itemStatus",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/item/get-multi",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"item",
+								"get-multi"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/item/delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "itemID",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/item/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"item",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/item/name",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "itemID",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "itemName",
+									"value": "new name",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/item/name",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"item",
+								"name"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/item/condition",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "itemID",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "itemCondition",
+									"value": "bad",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/item/condition",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"item",
+								"condition"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/item/age",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "itemID",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "itemAge",
+									"value": "9000",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/item/age",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"item",
+								"age"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/item/status",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "itemID",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "itemStatus",
+									"value": "0",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/item/status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"item",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/item/update-all",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "itemID",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "itemName",
+									"value": "change all",
+									"type": "text"
+								},
+								{
+									"key": "itemCondition",
+									"value": "change all",
+									"type": "text"
+								},
+								{
+									"key": "itemAge",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "itemStatus",
+									"value": "0",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/item/update-all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"item",
+								"update-all"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "post",
+			"item": [
+				{
+					"name": "/post/new",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "postTitle",
+									"value": "test post",
+									"type": "text"
+								},
+								{
+									"key": "postRate",
+									"value": "13.37",
+									"type": "text"
+								},
+								{
+									"key": "postDescription",
+									"value": "this is a test",
+									"type": "text"
+								},
+								{
+									"key": "postLocation",
+									"value": "vancouver",
+									"type": "text"
+								},
+								{
+									"key": "postDuration",
+									"value": "2020-12-02 21:35:59",
+									"type": "text"
+								},
+								{
+									"key": "itemID",
+									"value": "2",
+									"type": "text"
+								}
+							],
+							"options": {
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/post/new",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"post",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/post/new-item",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "itemName",
+									"value": "new item",
+									"type": "text"
+								},
+								{
+									"key": "itemCondition",
+									"value": "bad",
+									"type": "text"
+								},
+								{
+									"key": "itemAge",
+									"value": "36",
+									"type": "text"
+								},
+								{
+									"key": "postTitle",
+									"value": "new item post",
+									"type": "text"
+								},
+								{
+									"key": "postRate",
+									"value": "9.99",
+									"type": "text"
+								},
+								{
+									"key": "postDescription",
+									"value": "howdy",
+									"type": "text"
+								},
+								{
+									"key": "postLocation",
+									"value": "surrey",
+									"type": "text"
+								},
+								{
+									"key": "postDuration",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/post/new-item",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"post",
+								"new-item"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/post/delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "postID",
+									"value": "3",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/post/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"post",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/post/get",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "postID",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/post/get",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"post",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/post/get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/post/get",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"post",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/post/get-user-id",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "userID",
+									"value": "3",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/post/get-user-id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"post",
+								"get-user-id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/post/get-item-id",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "itemID",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/post/get-item-id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"post",
+								"get-item-id"
+							]
+						},
+						"description": "get all posts with item ID"
+					},
+					"response": []
+				},
+				{
+					"name": "/post/get-tag-id",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "tagID",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "postFlag",
+									"value": "false",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/post/get-tag-id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"post",
+								"get-tag-id"
+							]
+						},
+						"description": "get all posts with item ID"
+					},
+					"response": []
+				},
+				{
+					"name": "/post/new-tag",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "postID",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "tagName",
+									"value": "test tag",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/post/new-tag",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"post",
+								"new-tag"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "tag",
+			"item": [
+				{
+					"name": "/tag/create",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "tagName",
+									"value": "test 3",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/tag/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tag",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/tag/all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/tag/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"tag",
+								"all"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

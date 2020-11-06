@@ -12,7 +12,17 @@ export default {
  * ```
  * { postID: [number], tagID: [number] }
  * ```
- * @return {}
+ * @return {object}
+ * ```
+ *  ResultSetHeader {
+ *    fieldCount: 0,
+ *    affectedRows: 1,
+ *    insertId: 1,
+ *    info: '',
+ *    serverStatus: 2,
+ *    warningStatus: 0
+ *  }
+ * ```
  */
 async function addPostTag (fields) {
   util.checkID(fields.postID)

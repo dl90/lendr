@@ -28,8 +28,7 @@ export default {
   updateAvatar,
   deleteUser,
 
-  getAllInactiveUsers,
-  getAllFlaggedUsers
+  getAllUsers
 }
 
 /**
@@ -108,7 +107,7 @@ async function createPassword (fields) {
  * @return {}
  */
 async function updatePassword (fields) {
-  return await execute('UPDATE UserPassword SET password_hash = ?, timestamp = ? WHERE user_id = ?',
+  return await execute('UPDATE UserPassword SET password_hash = ?, updated_on = ? WHERE user_id = ?',
     [fields.pwHash, fields.timeStamp, fields.userID]
   )
 }
@@ -216,7 +215,7 @@ async function setUserActiveState (fields) {
 /**
  * @param {object} fields
  * ```
- * { userID: [number], reportFlat: [boolean] }
+ * { userID: [number], reportFlag: [boolean] }
  * ```
  * @return {}
  */
@@ -274,15 +273,24 @@ async function deleteUser (userID) {
 }
 
 /**
- * @return {} all users not active
+ * @param {object|undefined} fields
+ * ```
+ *  { [ active: [boolean], reportFlag: [boolean] ] }
+ * ```
  */
-async function getAllInactiveUsers () {
-  return await query('SELECT * from User WHERE active = 0', [])
-}
+async function getAllUsers (fields = undefined) {
+  switch (true) {
+    case (fields.active !== undefined && fields.reportFlag !== undefined):
+      return await query('SELECT * FROM User WHERE active = ? AND report_flag = ?', [fields.active, fields.reportFlag])
 
-/**
- * @return {} all users flagged
- */
-async function getAllFlaggedUsers () {
-  return await query('SELECT * from User WHERE report_flag = 1', [])
+    case (fields.active !== undefined):
+      return await query('SELECT * FROM User Where active = ?', [fields.active])
+
+    case (fields.reportFlag !== undefined):
+      return await query('SELECT * FROM User WHERE report_flag = ?', [fields.reportFlag])
+
+    default:
+      console.log('default')
+      return await query('SELECT * from User')
+  }
 }

@@ -25,8 +25,7 @@ export default {
   updateUserReportFlag,
   deleteUser,
 
-  getAllInactiveUsers,
-  getAllFlaggedUsers
+  getAllUsers
 }
 
 /**
@@ -313,7 +312,7 @@ async function updateActivateUser (fields) {
 async function updateUserReportFlag (fields) {
   const { userID, reportFlag } = fields
   util.checkID(userID)
-  util.checkState(reportFlag)
+  util.checkBool(reportFlag)
 
   if (util.DB_ENTRY_CHECK) await getUser(userID)
   return await db.setUserReportFlag(fields)
@@ -337,24 +336,22 @@ async function updateUserReportFlag (fields) {
 async function deleteUser (userID) {
   util.checkID(userID)
 
+  // @TODO delete assets from s3 if there are any
   if (util.DB_ENTRY_CHECK) await getUser(userID)
   return await db.deleteUser(userID)
 }
 
 /**
- * Returns all inactive users in db
+ * @param {object|undefined} fields
+ * ```
+ *  { [ active: [boolean], reportFlag: [boolean] ] }
+ * ```
  * @return {}
  */
-async function getAllInactiveUsers () {
-  return await db.getAllInactiveUsers()
-}
-
-/**
- * Returns all flagged users in db
- * @return {}
- */
-async function getAllFlaggedUsers () {
-  return await db.getAllFlaggedUsers()
+async function getAllUsers (fields = undefined) {
+  if (fields.active) util.checkBool(fields.active)
+  if (fields.reportFlag) util.checkBool(fields.reportFlag)
+  return await db.getAllUsers(fields)
 }
 
 /* -------------------- util -------------------- */

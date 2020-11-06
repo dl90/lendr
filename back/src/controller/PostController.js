@@ -3,7 +3,7 @@ import Post from '../model/PostModel.js'
 import Item from '../model/ItemModel.js'
 import PostTag from '../model/PostTagModel.js'
 
-import TagController from '../controller/TagController.js'
+import TagController from './TagController.js'
 
 export default {
   createPostWithItemID,
@@ -137,8 +137,9 @@ async function getAllPostsByItemID (itemID, postFlag = undefined) {
  * @return {[object]|false}
  */
 async function getAllPostsByTagID (tagID, postFlag = undefined) {
-  return await handler.asyncErrorHandler(Post.getAllPostsByTagID,
-    { tagID: +tagID, postFlag })
+  const fields = { tagID: +tagID }
+  if (postFlag) fields.postFlag = (postFlag === 'true')
+  return await handler.asyncErrorHandler(Post.getAllPostsByTagID, fields)
 }
 
 /**
@@ -243,7 +244,7 @@ async function addPostTagWithTagID (postID, tagID) {
 /**
  * @param {number} postID
  * @param {string} tagName
- * @return {}
+ * @return {number} postTag id
  */
 async function addPostTagWithNewTag (postID, tagName) {
   const tagID = await TagController.addTag(tagName)
@@ -252,5 +253,6 @@ async function addPostTagWithNewTag (postID, tagName) {
     return await handler.asyncErrorHandler(PostTag.addPostTag,
       { postID: +postID, tagID: +tag.id })
   }
-  return await handler.asyncErrorHandler(PostTag.addPostTag, { postID: +postID, tagID })
+  const result = await handler.asyncErrorHandler(PostTag.addPostTag, { postID: +postID, tagID })
+  return result.insertId
 }
