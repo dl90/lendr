@@ -1,10 +1,10 @@
-import path from 'path'
 import express from 'express'
-import cookieParser from 'cookie-parser'
-import passport from 'passport'
-import cookieSession from 'cookie-session'
 import helmet from 'helmet'
+import passport from 'passport'
+import cookieParser from 'cookie-parser'
+import cookieSession from 'cookie-session'
 import rateLimit from 'express-rate-limit'
+import expressWs from 'express-ws'
 import dotenv from 'dotenv'
 
 import authRoute from './routes/authRoute.js'
@@ -14,6 +14,7 @@ import userRoute from './routes/userRoute.js'
 import itemRoute from './routes/itemRoute.js'
 import postRoute from './routes/postRoute.js'
 import tagRoute from './routes/tagRoute.js'
+import chatRoute from './routes/chatRoute.js'
 
 dotenv.config()
 const { json, urlencoded } = express
@@ -32,7 +33,8 @@ app.use(cookieSession({
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(helmet())
-// app.use(express.static('public'))
+app.use(express.static('public'))
+expressWs(app)
 
 const authLimit = rateLimit({ windowMs: 3_600_000, max: 10 }) // 1h
 const imageUploadLimit = rateLimit({ windowMs: 3_600_000, max: 36 }) // 1h
@@ -44,7 +46,6 @@ export default function () {
   app.get('/', (req, res) => {
     // if (req.user) res.redirect('/me')
     // else res.sendFile(path.join(path.resolve(), '/public/index.html'))
-    res.sendFile(path.join(path.resolve(), '/public/index.html'))
   })
 
   /* ------ auth route ------ */
@@ -57,6 +58,7 @@ export default function () {
   app.use('/item', itemRoute())
   app.use('/post', postRoute())
   app.use('/tag', tagRoute())
+  app.use('/msg', chatRoute())
 
   return app
 }

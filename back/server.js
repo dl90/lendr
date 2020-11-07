@@ -1,4 +1,5 @@
 import app from './src/app.js'
+// import wss from './src/wss.js'
 import db from './src/db/mysql.connect.js'
 import dotenv from 'dotenv'
 dotenv.config()
@@ -8,6 +9,8 @@ db.connect(serve)
 
 function serve (error) {
   if (error) throw new Error(error.message)
+
   console.log('Connected to DB')
   app().listen(PORT, () => console.log(`Live @ http://localhost:${PORT}`))
+  // wss(app().listen(PORT, () => console.log(`Live @ http://localhost:${PORT}`)))
 }
