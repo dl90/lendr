@@ -127,17 +127,17 @@ async function getAllPostsByTagID (fields) {
 async function getAllPostsByTagName (fields) {
   return fields.reportFlag === undefined
     ? await query(
-      `SELECT * FROM Post
+      `SELECT Post.* FROM Post
        JOIN PostTag ON Post.id = PostTag.post_id
        JOIN Tag ON Tag.id = PostTag.tag_id
-       WHERE Tag.name = tagName
+       WHERE Tag.name = ?
        ORDER BY Post.created_on DESC`,
       [fields.tagName])
     : await query(
-      `SELECT * FROM Post
+      `SELECT Post.* FROM Post
        JOIN PostTag ON Post.id = PostTag.post_id
        JOIN Tag ON Tag.id = PostTag.tag_id
-       WHERE Tag.name = tagName AND Post.report_flag = ?
+       WHERE Tag.name = ? AND Post.report_flag = ?
        ORDER BY Post.created_on DESC`,
       [fields.tagName, fields.reportFlag])
 }
@@ -186,7 +186,7 @@ async function updatePostDescription (fields) {
  * @return {}
  */
 async function updatePostLocation (fields) {
-  return await execute('UPDATE Post SET post_location = ? WHERE id = ?',
+  return await execute('UPDATE Post SET location = ? WHERE id = ?',
     [fields.postLocation, fields.postID])
 }
 

@@ -198,7 +198,7 @@ async function updatePostDescription (fields) {
 async function updatePostLocation (fields) {
   util.checkID(fields.postID)
   util.checkEmptyString(fields.postLocation)
-  return await db.updatePostDescription(fields)
+  return await db.updatePostLocation(fields)
 }
 
 /**

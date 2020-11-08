@@ -62,7 +62,7 @@ async function updateTagCount (fields) {
  */
 async function getTagByID (tagID) {
   return await query(
-    'SELECT * FROM Tag WHERE id = ?', [tagID]
+    'SELECT * FROM Tag WHERE id = ? LIMIT 1', [tagID]
   )
 }
 

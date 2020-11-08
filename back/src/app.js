@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser'
 import cookieSession from 'cookie-session'
 import rateLimit from 'express-rate-limit'
 import expressWs from 'express-ws'
+import cors from 'cors'
 import dotenv from 'dotenv'
 
 import authRoute from './routes/authRoute.js'
@@ -21,6 +22,7 @@ const { json, urlencoded } = express
 const app = express()
 
 app.use(json())
+app.use(cors())
 app.use(urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use(cookieSession({
@@ -32,7 +34,7 @@ app.use(cookieSession({
 }))
 app.use(passport.initialize())
 app.use(passport.session())
-app.use(helmet())
+app.use(helmet({ hsts: false, contentSecurityPolicy: false }))
 app.use(express.static('public'))
 expressWs(app)
 

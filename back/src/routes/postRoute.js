@@ -74,6 +74,8 @@ export default function () {
       : res.sendStatus(400)
   })
 
+  // @TODO only delete/modify your own posts
+
   /**
    * @api {delete} /post/delete             Delete post
    * @apiName DeletePost
@@ -173,28 +175,25 @@ export default function () {
       : res.sendStatus(400)
   })
 
-  // @TODO tag exists ? add tag : make new tag
-
   /**
-   * @api {post} /post/new-tag              Add new tag to post
-   * @apiName AddNewTagToPost
+   * @api {post} /post/get-tag-name         Get all posts by tagName
+   * @apiName GetAllPostWithTagName
    * @apiGroup Post
    *
-   * @apiParam {number} postID
    * @apiParam {string} tagName
    *
-   * @apiSuccess (204) {}                   Success
-   * @apiError (400) {}                     Incorrect params || tagName already exists || insert failed
+   * @apiSuccess (200) {json}               Posts
+   * @apiError (400) {}                     Incorrect tagName || get failed
    */
-  router.post('/new-tag', async (req, res) => {
-    const result = await PostController.addPostTagWithNewTag(req.body.postID, req.body.tagName)
-    result
-      ? res.sendStatus(204)
+  router.post('/get-tag-name', async (req, res) => {
+    const posts = await PostController.getAllPostsByTagName(req.body.tagName, req.body.postFlag)
+    posts
+      ? res.json(posts)
       : res.sendStatus(400)
   })
 
   /**
-   * @api {post} /post/tag                  Add tag to post
+   * @api {put} /post/tag                  Add tag to post
    * @apiName AddTagToPost
    * @apiGroup Post
    *
@@ -202,11 +201,112 @@ export default function () {
    * @apiParam {string} tagName
    *
    * @apiSuccess (204) {}                   Success
-   * @apiError (400) {}                     Incorrect params || tagName already exists || insert failed
+   * @apiError (400) {}                     Incorrect params || insert failed
    */
-  router.post('/tag', async (req, res) => {
-    const result = await PostController.addPostTagWithTagID(req.body.postID, req.body.tagID)
-    result
+  router.put('/tag', async (req, res) => {
+    await PostController.addPostTagWithNewTag(req.body.postID, req.body.tagName)
+      ? res.sendStatus(204)
+      : res.sendStatus(400)
+  })
+
+  /**
+   * @api {patch} /post/title               Update post title
+   * @apiName UpdatePostTitle
+   * @apiGroup Post
+   *
+   * @apiParam {number} postID
+   * @apiParam {string} postTitle
+   *
+   * @apiSuccess (204) {}                   Success
+   * @apiError (400) {}                     Incorrect params || update failed
+   */
+  router.patch('/title', async (req, res) => {
+    await PostController.updatePostTitle(req.body.postID, req.body.postTitle)
+      ? res.sendStatus(204)
+      : res.sendStatus(400)
+  })
+
+  /**
+   * @api {patch} /post/rate                Update post rate
+   * @apiName UpdatePostRate
+   * @apiGroup Post
+   *
+   * @apiParam {number} postID
+   * @apiParam {number} postRate
+   *
+   * @apiSuccess (204) {}                   Success
+   * @apiError (400) {}                     Incorrect params || update failed
+   */
+  router.patch('/rate', async (req, res) => {
+    await PostController.updatePostRate(req.body.postID, req.body.postRate)
+      ? res.sendStatus(204)
+      : res.sendStatus(400)
+  })
+
+  /**
+   * @api {patch} /post/description         Update post description
+   * @apiName UpdatePostDescription
+   * @apiGroup Post
+   *
+   * @apiParam {number} postID
+   * @apiParam {string} postDescription
+   *
+   * @apiSuccess (204) {}                   Success
+   * @apiError (400) {}                     Incorrect params || update failed
+   */
+  router.patch('/description', async (req, res) => {
+    await PostController.updatePostDescription(req.body.postID, req.body.postDescription)
+      ? res.sendStatus(204)
+      : res.sendStatus(400)
+  })
+
+  /**
+   * @api {patch} /post/location            Update post location
+   * @apiName UpdatePostLocation
+   * @apiGroup Post
+   *
+   * @apiParam {number} postID
+   * @apiParam {string} postLocation
+   *
+   * @apiSuccess (204) {}                   Success
+   * @apiError (400) {}                     Incorrect params || update failed
+   */
+  router.patch('/location', async (req, res) => {
+    await PostController.updatePostLocation(req.body.postID, req.body.postLocation)
+      ? res.sendStatus(204)
+      : res.sendStatus(400)
+  })
+
+  /**
+   * @api {patch} /post/duration            Update post duration
+   * @apiName UpdatePostDuration
+   * @apiGroup Post
+   *
+   * @apiParam {number} postID
+   * @apiParam {string} postDuration
+   *
+   * @apiSuccess (204) {}                   Success
+   * @apiError (400) {}                     Incorrect params || update failed
+   */
+  router.patch('/duration', async (req, res) => {
+    await PostController.updatePostDuration(req.body.postID, req.body.postDuration)
+      ? res.sendStatus(204)
+      : res.sendStatus(400)
+  })
+
+  /**
+   * @api {patch} /post/flag                Update post flag
+   * @apiName UpdatePostFlag
+   * @apiGroup Post
+   *
+   * @apiParam {number} postID
+   * @apiParam {boolean} postFlag
+   *
+   * @apiSuccess (204) {}                   Success
+   * @apiError (400) {}                     Incorrect params || update failed
+   */
+  router.patch('/flag', async (req, res) => {
+    await PostController.setPostReportFlag(req.body.postID, req.body.postFlag)
       ? res.sendStatus(204)
       : res.sendStatus(400)
   })

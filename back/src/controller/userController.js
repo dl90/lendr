@@ -216,7 +216,7 @@ async function updateAvatar (userID, avatarURL) {
 
 /**
  * @param {number} userID
- * @param {boolean|1|0} state
+ * @param {boolean} state
  * @return {boolean} true if changed
  */
 async function updateActive (userID, state) {

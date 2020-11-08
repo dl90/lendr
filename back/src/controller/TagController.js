@@ -58,7 +58,8 @@ async function updateTagCount (tagCount, tagID = null, tagName = null) {
  * @return {object} tag
  */
 async function getTagByID (tagID) {
-  return await handler.asyncErrorHandler(Tag.getTagByID, +tagID)
+  const result = await handler.asyncErrorHandler(Tag.getTagByID, +tagID)
+  return result.length ? result[0] : false
 }
 
 /**
@@ -66,7 +67,8 @@ async function getTagByID (tagID) {
  * @return {object} tag
  */
 async function getTagByTagName (tagName) {
-  return await handler.asyncErrorHandler(Tag.getTagByTagName, tagName)
+  const result = await handler.asyncErrorHandler(Tag.getTagByTagName, tagName)
+  return result.length ? result[0] : false
 }
 
 /**

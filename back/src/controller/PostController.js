@@ -108,6 +108,7 @@ async function deletePost (postID) {
  * @return {object|false}
  */
 async function getPostByPostID (postID) {
+  await handler.asyncErrorHandler(Post.incrementView, +postID)
   return await handler.asyncErrorHandler(Post.getPostByPostID, +postID)
 }
 
@@ -133,7 +134,7 @@ async function getAllPostsByItemID (itemID, postFlag = undefined) {
 
 /**
  * @param {number} tagID
- * @param {boolean} postFlag
+ * @param {boolean|undefined} postFlag
  * @return {[object]|false}
  */
 async function getAllPostsByTagID (tagID, postFlag = undefined) {
@@ -144,7 +145,7 @@ async function getAllPostsByTagID (tagID, postFlag = undefined) {
 
 /**
  * @param {number} tagName
- * @param {boolean} postFlag
+ * @param {boolean|undefined} postFlag
  * @return {[object]|false}
  */
 async function getAllPostsByTagName (tagName, postFlag = undefined) {
@@ -215,8 +216,9 @@ async function updatePostDuration (postID, postDuration) {
  * @return {boolean} true if updated
  */
 async function setPostReportFlag (postID, reportFlag) {
-  const result = await handler.asyncErrorHandler(Post.setPostReportFlag,
-    { postID: +postID }, reportFlag)
+  const fields = { postID: +postID }
+  fields.reportFlag = (reportFlag === 'true')
+  const result = await handler.asyncErrorHandler(Post.setPostReportFlag, fields)
   return result.affectedRows === 1
 }
 
@@ -237,8 +239,9 @@ async function incrementView (postID) {
  * @return {}
  */
 async function addPostTagWithTagID (postID, tagID) {
-  return await handler.asyncErrorHandler(PostTag.addPostTag,
+  const result = await handler.asyncErrorHandler(PostTag.addPostTag,
     { postID: +postID, tagID: +tagID })
+  return result.insertID
 }
 
 /**
@@ -247,12 +250,16 @@ async function addPostTagWithTagID (postID, tagID) {
  * @return {number} postTag id
  */
 async function addPostTagWithNewTag (postID, tagName) {
-  const tagID = await TagController.addTag(tagName)
-  if (!tagID) {
-    const tag = await TagController.getTagByTagName(tagName)
-    return await handler.asyncErrorHandler(PostTag.addPostTag,
-      { postID: +postID, tagID: +tag.id })
+  const tag = await TagController.getTagByTagName(tagName)
+  const fields = { postID: +postID }
+
+  if (tag) fields.tagID = +tag.id
+  else {
+    const newTagID = await TagController.addTag(tagName)
+    if (!newTagID) return false
+    fields.tagID = newTagID
   }
-  const result = await handler.asyncErrorHandler(PostTag.addPostTag, { postID: +postID, tagID })
+
+  const result = await handler.asyncErrorHandler(PostTag.addPostTag, fields)
   return result.insertId
 }

@@ -66,7 +66,10 @@ async function updateTagCount (fields) {
 
 /**
  * @param {number} tagID
- * @return {}
+ * @return {[object]}
+ * ```
+ *  [ { id: 1, name: 'test tag', total_count: 0 } ]
+ * ```
  */
 async function getTagByID (tagID) {
   util.checkID(tagID)
