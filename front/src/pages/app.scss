@@ -51,6 +51,16 @@ h4{
     text-align: left;
     color: #175FA4;
 }
+// h5 is a font style used for category thumbnail text to make it white and not blue. Any other css is smae a h3
+h5{
+    color: white; 
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 27px;
+    letter-spacing: 0em;
+    text-align: left;
+}
 a{
     color: #39A6DC;
 

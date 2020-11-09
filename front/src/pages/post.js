@@ -3,6 +3,13 @@ import './index.scss';
 import './app.scss';
 import './edit.scss';
 
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+  } from "react-router-dom";
+
 import Header from '../comps/Header';
 import Input from '../comps/Input';
 import UploadImg from '../comps/UploadImg';
@@ -13,11 +20,13 @@ import BottomNav from '../comps/BottomNav';
 import InputParagraph from '../comps/InputParagraph';
 
 export default function Post(){
-    return <div>
+    return <Router exact path="./pages/post">
+    <div>
         <div className="post">
             <Header/>
-                <h1>Post Item</h1>
+            <h1>Post Item</h1>
             <Input title={"Post Title"} placeholder="Item Name"></Input>  
+            <Input title={"Price"} placeholder="$20/day"></Input>  
         </div>
 
         <div className="imageDiv">
@@ -49,4 +58,6 @@ export default function Post(){
             <BottomNav/>
         </div>
     </div>
+    </Router>
+
 }

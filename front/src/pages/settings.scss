@@ -1,0 +1,26 @@
+.app{
+    display: flex;
+    flex-direction: column;
+}
+
+.ProfileCard{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.imageDiv{
+    // padding-left: 25px;
+    .images{
+        display: flex; 
+        overflow-x: scroll;
+        justify-content: space-between;
+    }
+} 
+
+
+.nav{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+}
