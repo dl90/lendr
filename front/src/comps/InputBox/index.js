@@ -23,8 +23,8 @@ const InputBoxDiv = styled.input`
     top:-10px;
 `;
 
-const InputBox = ({ placeholder }) => {
-    return <InputBoxDiv type="text" placeholder={placeholder}></InputBoxDiv>
+const InputBox = ({ placeholder, onChange }) => {
+    return <InputBoxDiv type="text" placeholder={placeholder} onChange={onChange}></InputBoxDiv>
 };
 
 InputBox.defaultProps = {

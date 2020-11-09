@@ -14,7 +14,7 @@ export default function SignUp() {
     // const [email, setEmail] = useState(null);
     // const [password, setPassword] = useState(null);
 
-    const HandlePostAccount = async () => {
+    const HandlePostAccount = async (email, pass) => {
         console.log('Logging In');
         //do a await axios get to rectrieve data
         var resp = await axios.post('http://ec2-44-242-43-38.us-west-2.compute.amazonaws.com/auth/sign-up', {
