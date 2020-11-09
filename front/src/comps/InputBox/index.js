@@ -23,7 +23,7 @@ const InputBoxDiv = styled.input`
     top:-10px;
 `;
 
-const InputBox = ({placeholder}) => {
+const InputBox = ({ placeholder }) => {
     return <InputBoxDiv type="text" placeholder={placeholder}></InputBoxDiv>
 };
 

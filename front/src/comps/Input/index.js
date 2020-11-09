@@ -9,10 +9,11 @@ const InputDiv = styled.div`
     color: #175FA4;
 `;
 
-const Input = ({ title, placeholder}) => {
+const Input = ({ title, placeholder }) => {
     return <InputDiv>
         <h2>{title}</h2>
-        <InputBox type="text" placeholder={placeholder}></InputBox>
+        <InputBox type="text" placeholder={placeholder}
+        ></InputBox>
     </InputDiv>
 };
 
