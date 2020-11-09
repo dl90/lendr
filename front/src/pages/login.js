@@ -25,7 +25,6 @@ export default function Login() {
             // password: "test"
         });
         console.log(resp.data);
-
     }
 
 

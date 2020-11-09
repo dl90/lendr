@@ -11,46 +11,52 @@ import InputBox from '../comps/InputBox';
 import axios from 'axios';
 export default function SignUp() {
 
-    // const [email, setEmail] = useState(null);
-    // const [password, setPassword] = useState(null);
+    const [email, setEmail] = useState("");
+    const [pass, setPass] = useState("");
+    const [name, setName] = useState("");
 
-    const HandlePostAccount = async (email, pass) => {
-        console.log('Logging In');
+    const HandleSignUp = async (email, pass, name) => {
+        console.log('Creating an Account for: ', name, email, pass,);
         //do a await axios get to rectrieve data
         var resp = await axios.post('http://ec2-44-242-43-38.us-west-2.compute.amazonaws.com/auth/sign-up', {
             email: email,
-            password: pass
+            password: pass,
+            displayName: name
         });
-        console.log("response", resp.auth.SignUp);
-        //console log the response data
-        // setEmail(email);
-        // setPassword(password);
-        // console.log(CreateAccount);
+        console.log(resp.data);
     }
 
 
-    const [email, setEmail] = useState("");
-    const [pass, setPass] = useState("");
+
 
     return <div className="loginPage">
         <Header options={"none"} />
         <h1>Sign Up</h1>
 
         <div className="login">
-            <Input title={"Name"} placeholder={"Jon Doe"}></Input>
-            <Input title={"Email"} placeholder={"example@mail.com"}
+            <Input title={"Name"} placeholder={"Jon Doe"}
                 onChange={(e) => {
-                    setEmail(e.target.value)
+                    setName(e.target.value);
                 }}
             ></Input>
-            <Input title={"Password"} placeholder={"Password"}></Input>
-            <InputBox placeholder={"Re-enter Password"}
+            <Input title={"Email"} placeholder={"example@mail.com"}
                 onChange={(e) => {
-                    setPass(e.target.value)
+                    setEmail(e.target.value);
                 }}
+            ></Input>
+            <Input title={"Password"} placeholder={"Password"}
+                onChange={(e) => {
+                    setPass(e.target.value);
+                }}
+            ></Input>
+            <InputBox placeholder={"Re-enter Password"}
             ></InputBox>
             <div className="button">
-                <Button text={"Create account"} onClick={HandlePostAccount} />
+                <Button text={"Create account"}
+                    onClick={() => {
+                        HandleSignUp(email, pass, name);
+                    }}
+                />
             </div>
 
         </div>
