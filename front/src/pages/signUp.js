@@ -49,8 +49,7 @@ export default function SignUp() {
                     setPass(e.target.value);
                 }}
             ></Input>
-            <InputBox placeholder={"Re-enter Password"}
-            ></InputBox>
+            <InputBox placeholder={"Re-enter Password"} ></InputBox>
             <div className="button">
                 <Button text={"Create account"}
                     onClick={() => {
