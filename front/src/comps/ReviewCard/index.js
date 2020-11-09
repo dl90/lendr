@@ -3,8 +3,10 @@ import styled from 'styled-components';
 
 
 const Card = styled.div`
-max-width:196px;
-min-height:184px;
+min-height: 188px;
+min-width:195px;
+max-width:150px;
+margin-right: 24px;
 background-color: blue;
 border-radius:10px;
 background-image: url("${props => props.bgImg}");

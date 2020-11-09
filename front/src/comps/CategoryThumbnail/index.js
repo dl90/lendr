@@ -30,7 +30,7 @@ const Overlay = styled.div`
 
 const CategoryThumbnail = ({src,text}) => {
     return <CategoryThumbnailDiv src={src}>
-         <Overlay><h3>{text}</h3></Overlay>
+         <Overlay><h5>{text}</h5></Overlay>
         {/* <Title>Category</Title> */}
     </CategoryThumbnailDiv>
 };

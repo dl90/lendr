@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 
 const LikeDiv = styled.img`
@@ -6,6 +6,7 @@ const LikeDiv = styled.img`
 `;
 
 const Like = () => {
+    const [heartActive, changeHeartActive] = useState(false);
     return <LikeDiv onClick={() => {
         if(heartActive === false){
             changeHeartActive(true);
