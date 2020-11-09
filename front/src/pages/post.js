@@ -16,8 +16,9 @@ export default function Post(){
     return <div>
         <div className="post">
             <Header/>
-                <h1>Post Item</h1>
+            <h1>Post Item</h1>
             <Input title={"Post Title"} placeholder="Item Name"></Input>  
+            <Input title={"Price"} placeholder="$20/day"></Input>  
         </div>
 
         <div className="imageDiv">
