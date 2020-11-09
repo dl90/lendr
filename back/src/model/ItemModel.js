@@ -76,8 +76,10 @@ async function createItem (fields) {
 }
 
 /**
- * Deletes item from db
- * @param {number} userID
+ * @param {object} fields
+ * ```
+ *  { userID: [number], itemID: [number] }
+ * ```
  * @return {object}
  * ```
  *  ResultSetHeader {
@@ -90,16 +92,19 @@ async function createItem (fields) {
  *  }
  * ```
  */
-async function deleteItem (itemID) {
-  util.checkID(itemID)
+async function deleteItem (fields) {
+  util.checkID(fields.userID)
+  util.checkID(fields.itemID)
 
-  if (util.DB_ENTRY_CHECK) await checkItem(itemID)
-  return await db.deleteItem(itemID)
+  if (util.DB_ENTRY_CHECK) await checkItem(fields.itemID)
+  return await db.deleteItem(fields)
 }
 
 /**
- * Updates item name in db
- * @param {object} fields { itemID: [number], itemName: [string] }
+ * @param {object} fields
+ * ```
+ *  { userID: [number], itemID: [number], itemName: [string] }
+ * ```
  * @return {object}
  * ```
  *  ResultSetHeader {
@@ -114,70 +119,85 @@ async function deleteItem (itemID) {
  * ```
  */
 async function updateItemName (fields) {
-  const { itemID, itemName } = fields
-  util.checkID(itemID)
-  util.checkEmptyString(itemName)
+  util.checkID(fields.userID)
+  util.checkID(fields.itemID)
+  util.checkEmptyString(fields.itemName)
 
-  if (util.DB_ENTRY_CHECK) await checkItem(itemID)
+  if (util.DB_ENTRY_CHECK) await checkItem(fields.itemID)
   return await db.updateItemName(fields)
 }
 
 /**
- * Updates item condition in db
- * @param {object} fields { itemID: [number], itemCondition: [string] }
+ * @param {object} fields
+ * ```
+ *  { userID: [number], itemID: [number], itemCondition: [string] }
+ * ```
  * @return {}
  */
 async function updateItemCondition (fields) {
-  const { itemID, itemCondition } = fields
-  util.checkID(itemID)
-  util.checkEmptyString(itemCondition)
+  util.checkID(fields.userID)
+  util.checkID(fields.itemID)
+  util.checkEmptyString(fields.itemCondition)
 
-  if (util.DB_ENTRY_CHECK) await checkItem(itemID)
+  if (util.DB_ENTRY_CHECK) await checkItem(fields.itemID)
   return await db.updateItemCondition(fields)
 }
 
 /**
- * Updates item age in db
- * @param {object} fields { itemID: [number], itemAge: [number < 32767] }
+ * @param {object} fields
+ * ```
+ *  { userID: [number], itemID: [number], itemAge: [number < 32767] }
+ * ```
  * @return {}
  */
 async function updateItemAge (fields) {
-  const { itemID, itemAge } = fields
-  util.checkID(itemID)
-  util.checkSmallInt(itemAge)
+  util.checkID(fields.userID)
+  util.checkID(fields.itemID)
+  util.checkSmallInt(fields.itemAge)
 
-  if (util.DB_ENTRY_CHECK) await checkItem(itemID)
+  if (util.DB_ENTRY_CHECK) await checkItem(fields.itemID)
   return await db.updateItemAge(fields)
 }
 
 /**
- * Updates item status in db
- * @param {object} fields { itemID: [number], itemStatus: [0|1] }
+ * @param {object} fields
+ * ```
+ *  { userID: [number], itemID: [number], itemStatus: [boolean] }
+ * ```
  * @return {}
  */
 async function updateItemStatus (fields) {
-  const { itemID, itemStatus } = fields
-  util.checkID(itemID)
-  util.checkStatus(itemStatus)
+  util.checkID(fields.userID)
+  util.checkID(fields.itemID)
+  util.checkBool(fields.itemStatus)
 
-  if (util.DB_ENTRY_CHECK) await checkItem(itemID)
+  if (util.DB_ENTRY_CHECK) await checkItem(fields.itemID)
   return await db.updateItemStatus(fields)
 }
 
 /**
- * Updates all item fields in db
- * @param {object} fields { userID: [number], itemName: [string], itemCondition: [string], itemAge: [smallint], itemStatusL [0|1] }
+ * @param {object} fields
+ * ```
+ *  {
+ *    userID: [number],
+ *    itemID: [number],
+ *    itemName: [string],
+ *    itemCondition: [string],
+ *    itemAge: [smallint],
+ *    itemStatus: [boolean]
+ *  }
+ * ```
  * @return {}
  */
 async function updateAllItemFields (fields) {
-  const { itemID, itemName, itemCondition, itemAge, itemStatus } = fields
-  util.checkID(itemID)
-  util.checkEmptyString(itemName)
-  util.checkEmptyString(itemCondition)
-  util.checkSmallInt(itemAge)
-  util.checkStatus(itemStatus)
+  util.checkID(fields.userID)
+  util.checkID(fields.itemID)
+  util.checkEmptyString(fields.itemName)
+  util.checkEmptyString(fields.itemCondition)
+  util.checkSmallInt(fields.itemAge)
+  util.checkBool(fields.itemStatus)
 
-  if (util.DB_ENTRY_CHECK) await checkItem(itemID)
+  if (util.DB_ENTRY_CHECK) await checkItem(fields.itemID)
   return await db.updateAllItemFields(fields)
 }
 

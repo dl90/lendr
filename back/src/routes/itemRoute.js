@@ -7,7 +7,7 @@ router.use(authCheck)
 
 export default function () {
   /**
-   * @api {post} /item/get                  Get item from db
+   * @api {post} /item/get                  Get item
    * @apiName GetItem
    * @apiGroup Item
    *
@@ -24,14 +24,14 @@ export default function () {
   })
 
   /**
-   * @api {get} /item/get-multi             Get all items that belongs to user from db
+   * @api {get} /item/get                   Get all items that belongs to user
    * @apiName GetItems
    * @apiGroup Item
    *
    * @apiSuccess (200) {json}               [Items]
    * @apiError (400) {}                     Get failed
    */
-  router.get('/get-multi', async (req, res) => {
+  router.get('/get', async (req, res) => {
     const items = await ItemController.getItemsByUserID(req.user.id)
     items
       ? res.json(items)
@@ -39,7 +39,7 @@ export default function () {
   })
 
   /**
-   * @api {post} /item/get-multi            Get all items that belongs to user with status from db
+   * @api {post} /item/get-status           Get all items that belongs to user with status
    * @apiName GetItems
    * @apiGroup Item
    *
@@ -48,7 +48,7 @@ export default function () {
    * @apiSuccess (200) {json}               [Items]
    * @apiError (400) {}                     Get failed
    */
-  router.post('/get-multi', async (req, res) => {
+  router.post('/get-status', async (req, res) => {
     const items = await ItemController.getItemsByUserIDWithStatus(req.user.id, req.body.itemStatus)
     items
       ? res.json(items)
@@ -65,7 +65,7 @@ export default function () {
    * @apiParam {number} itemAge (months)
    *
    * @apiSuccess (200) {json}               Item ID
-   * @apiError (400) {}                     Incorrect params or create failed
+   * @apiError (400) {}                     Incorrect params || create failed
    */
   router.put('/create', async (req, res) => {
     const { itemName, itemCondition, itemAge } = req.body
@@ -83,10 +83,10 @@ export default function () {
    * @apiParam {number} itemID
    *
    * @apiSuccess (204) {}                   Success
-   * @apiError (400) {}                     Incorrect itemID or delete failed
+   * @apiError (400) {}                     Incorrect params || delete failed
    */
   router.delete('/delete', async (req, res) => {
-    await ItemController.deleteItem(req.body.itemID)
+    await ItemController.deleteItem(req.user.id, req.body.itemID)
       ? res.sendStatus(204)
       : res.sendStatus(400)
   })
@@ -100,10 +100,10 @@ export default function () {
    * @apiParam {number} itemName
    *
    * @apiSuccess (204) {}                   Success
-   * @apiError (400) {}                     Incorrect itemID or update failed
+   * @apiError (400) {}                     Incorrect params || update failed
    */
   router.patch('/name', async (req, res) => {
-    await ItemController.updateItemName(req.body.itemID, req.body.itemName)
+    await ItemController.updateItemName(req.user.id, req.body.itemID, req.body.itemName)
       ? res.sendStatus(204)
       : res.sendStatus(400)
   })
@@ -117,10 +117,10 @@ export default function () {
    * @apiParam {number} itemCondition
    *
    * @apiSuccess (204) {}                   Success
-   * @apiError (400) {}                     Incorrect itemID or update failed
+   * @apiError (400) {}                     Incorrect params || update failed
    */
   router.patch('/condition', async (req, res) => {
-    await ItemController.updateItemCondition(req.body.itemID, req.body.itemCondition)
+    await ItemController.updateItemCondition(req.user.id, req.body.itemID, req.body.itemCondition)
       ? res.sendStatus(204)
       : res.sendStatus(400)
   })
@@ -137,7 +137,7 @@ export default function () {
    * @apiError (400) {}                     Incorrect itemID or update failed
    */
   router.patch('/age', async (req, res) => {
-    await ItemController.updateItemAge(req.body.itemID, req.body.itemAge)
+    await ItemController.updateItemAge(req.user.id, req.body.itemID, req.body.itemAge)
       ? res.sendStatus(204)
       : res.sendStatus(400)
   })
@@ -148,13 +148,13 @@ export default function () {
    * @apiGroup Item
    *
    * @apiParam {number} itemID
-   * @apiParam {number} itemStatus
+   * @apiParam {string} itemStatus
    *
    * @apiSuccess (204) {}                   Success
    * @apiError (400) {}                     Incorrect itemID or update failed
    */
   router.patch('/status', async (req, res) => {
-    await ItemController.updateItemStatus(req.body.itemID, req.body.itemStatus)
+    await ItemController.updateItemStatus(req.user.id, req.body.itemID, req.body.itemStatus)
       ? res.sendStatus(204)
       : res.sendStatus(400)
   })
@@ -175,7 +175,7 @@ export default function () {
    */
   router.patch('/update-all', async (req, res) => {
     const { itemID, itemName, itemCondition, itemAge, itemStatus } = req.body
-    await ItemController.updateAllItemFields(itemID, itemName, itemCondition, itemAge, itemStatus)
+    await ItemController.updateAllItemFields(req.user.id, itemID, itemName, itemCondition, itemAge, itemStatus)
       ? res.sendStatus(204)
       : res.sendStatus(400)
   })

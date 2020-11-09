@@ -82,76 +82,94 @@ async function getItemsByUserIDWithStatus (userID, itemStatus) {
  * @param {string} itemName
  * @param {string} itemCondition
  * @param {number} itemAge
- * @return {number|false} itemID || false if invalid params
+ * @return {number|false} itemID
  */
 async function createItem (userID, itemName, itemCondition, itemAge) {
-  const result = await handler.asyncErrorHandler(Item.createItem, {
-    userID: +userID,
-    itemName,
-    itemCondition,
-    itemAge: +itemAge
-  })
+  const result = await handler.asyncErrorHandler(
+    Item.createItem,
+    {
+      userID: +userID,
+      itemName,
+      itemCondition,
+      itemAge: +itemAge
+    }
+  )
   return result.insertId ?? false
 }
 
 /**
+ * @param {number} userID
  * @param {number} itemID
  * @return {boolean} true if deleted
  */
-async function deleteItem (itemID) {
-  const result = await handler.asyncErrorHandler(Item.deleteItem, +itemID)
+async function deleteItem (userID, itemID) {
+  const result = await handler.asyncErrorHandler(
+    Item.deleteItem,
+    { userID: +userID, itemID: +itemID }
+  )
   return result.affectedRows === 1
 }
 
 /**
+ * @param {number} userID
  * @param {number} itemID
  * @param {string} itemName
  * @return {boolean} true if updated
  */
-async function updateItemName (itemID, itemName) {
-  const result = await handler.asyncErrorHandler(Item.updateItemName,
-    { itemID: +itemID, itemName }
+async function updateItemName (userID, itemID, itemName) {
+  const result = await handler.asyncErrorHandler(
+    Item.updateItemName,
+    { userID: +userID, itemID: +itemID, itemName }
   )
   return result.affectedRows === 1
 }
 
 /**
+ * @param {number} userID
  * @param {number} itemID
  * @param {string} itemCondition
  * @return {boolean} true if updated
  */
-async function updateItemCondition (itemID, itemCondition) {
-  const result = await handler.asyncErrorHandler(Item.updateItemCondition,
-    { itemID: +itemID, itemCondition }
+async function updateItemCondition (userID, itemID, itemCondition) {
+  const result = await handler.asyncErrorHandler(
+    Item.updateItemCondition,
+    { userID: +userID, itemID: +itemID, itemCondition }
   )
   return result.affectedRows === 1
 }
 
 /**
+ * @param {number} userID
  * @param {number} itemID
  * @param {number} itemAge
  * @return {boolean} true if updated
  */
-async function updateItemAge (itemID, itemAge) {
-  const result = await handler.asyncErrorHandler(Item.updateItemAge,
-    { itemID: +itemID, itemAge: +itemAge }
+async function updateItemAge (userID, itemID, itemAge) {
+  const result = await handler.asyncErrorHandler(
+    Item.updateItemAge,
+    { userID: +userID, itemID: +itemID, itemAge: +itemAge }
   )
   return result.affectedRows === 1
 }
 
 /**
+ * @param {number} userID
  * @param {number} itemID
- * @param {number} itemStatus
+ * @param {string} itemStatus
  * @return {boolean} true if updated
  */
-async function updateItemStatus (itemID, itemStatus) {
-  const result = await handler.asyncErrorHandler(Item.updateItemStatus,
-    { itemID: +itemID, itemStatus: +itemStatus }
+async function updateItemStatus (userID, itemID, itemStatus) {
+  const fields = { userID: +userID, itemID: +itemID }
+  fields.itemStatus = (itemStatus === 'true')
+  const result = await handler.asyncErrorHandler(
+    Item.updateItemStatus,
+    fields
   )
   return result.affectedRows === 1
 }
 
 /**
+ * @param {number} userID
  * @param {number} itemID
  * @param {string} itemName
  * @param {string} itemCondition
@@ -159,9 +177,12 @@ async function updateItemStatus (itemID, itemStatus) {
  * @param {number} itemStatus
  * @return {boolean} true if updated
  */
-async function updateAllItemFields (itemID, itemName, itemCondition, itemAge, itemStatus) {
-  const result = await handler.asyncErrorHandler(Item.updateAllItemFields,
-    { itemID: +itemID, itemName, itemCondition, itemAge: +itemAge, itemStatus: +itemStatus }
+async function updateAllItemFields (userID, itemID, itemName, itemCondition, itemAge, itemStatus) {
+  const fields = { userID: +userID, itemID: +itemID, itemName, itemCondition, itemAge: +itemAge }
+  fields.itemStatus = (itemStatus === 'true')
+  const result = await handler.asyncErrorHandler(
+    Item.updateAllItemFields,
+    fields
   )
   return result.affectedRows === 1
 }

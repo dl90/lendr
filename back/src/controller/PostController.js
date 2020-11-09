@@ -40,15 +40,17 @@ export default {
  * @return {number|false} postID || false if invalid params
  */
 async function createPostWithItemID (userID, itemID, postTitle, postRate, postDescription, postLocation, postDuration = null) {
-  const result = await handler.asyncErrorHandler(Post.createPostWithItemID, {
-    userID: +userID,
-    itemID: +itemID,
-    postTitle,
-    postRate: +postRate,
-    postDescription,
-    postLocation,
-    postDuration
-  }
+  const result = await handler.asyncErrorHandler(
+    Post.createPostWithItemID,
+    {
+      userID: +userID,
+      itemID: +itemID,
+      postTitle,
+      postRate: +postRate,
+      postDescription,
+      postLocation,
+      postDuration
+    }
   )
   return result.insertId ?? false
 }
@@ -75,29 +77,34 @@ async function createPostWithNewItem (
   postLocation,
   postDuration = null
 ) {
-  const itemInsert = await handler.asyncErrorHandler(Item.createItem,
-    { userID: +userID, itemName, itemCondition, itemAge: +itemAge })
+  const itemInsert = await handler.asyncErrorHandler(
+    Item.createItem,
+    { userID: +userID, itemName, itemCondition, itemAge: +itemAge }
+  )
   if (!itemInsert) return false
 
-  const result = await handler.asyncErrorHandler(Post.createPostWithItemID, {
-    userID: +userID,
-    itemID: itemInsert.insertId,
-    postTitle,
-    postRate: +postRate,
-    postDescription,
-    postLocation,
-    postDuration
-  })
-
+  const result = await handler.asyncErrorHandler(
+    Post.createPostWithItemID,
+    {
+      userID: +userID,
+      itemID: itemInsert.insertId,
+      postTitle,
+      postRate: +postRate,
+      postDescription,
+      postLocation,
+      postDuration
+    }
+  )
   return result.insertId ?? false
 }
 
 /**
+ * @param {number} userID
  * @param {number} postID
  * @return {boolean} true if deleted
  */
-async function deletePost (postID) {
-  const result = await handler.asyncErrorHandler(Post.deletePost, +postID)
+async function deletePost (userID, postID) {
+  const result = await handler.asyncErrorHandler(Post.deletePost, { userID: +userID, postID: +postID })
   return result.affectedRows === 1
 }
 
@@ -250,6 +257,9 @@ async function addPostTagWithTagID (postID, tagID) {
  * @return {number} postTag id
  */
 async function addPostTagWithNewTag (postID, tagName) {
+  const post = await getPostByPostID(postID)
+  if (!post) return false
+
   const tag = await TagController.getTagByTagName(tagName)
   const fields = { postID: +postID }
 
@@ -257,9 +267,11 @@ async function addPostTagWithNewTag (postID, tagName) {
   else {
     const newTagID = await TagController.addTag(tagName)
     if (!newTagID) return false
-    fields.tagID = newTagID
+    fields.tagID = +newTagID
   }
 
+  // @TODO check if post already has postTag (currently just throws errors)
+  // const postTag = await handler.asyncErrorHandler(PostTag.getPostTagByID, field)
   const result = await handler.asyncErrorHandler(PostTag.addPostTag, fields)
   return result.insertId
 }

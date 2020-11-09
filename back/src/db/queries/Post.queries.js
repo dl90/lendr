@@ -50,11 +50,14 @@ async function createPostWithItemID (fields) {
 }
 
 /**
- * @param {number} postID
+ * @param {object} fields
+ * ```
+ *  { userID: [number], postID: [number] }
+ * ```
  * @return {}
  */
-async function deletePost (postID) {
-  return await execute('DELETE FROM Post WHERE id = ?', [postID])
+async function deletePost (fields) {
+  return await execute('DELETE FROM Post WHERE id = ? AND user_id = ?', [fields.postID, fields.userID])
 }
 
 /**
@@ -104,13 +107,13 @@ async function getAllPostsByTagID (fields) {
   console.log(fields)
   return fields.reportFlag === undefined
     ? await query(
-      `SELECT * FROM Post
+      `SELECT Post.* FROM Post
        JOIN PostTag ON Post.id = PostTag.post_id
        WHERE PostTag.tag_id = ?
        ORDER BY Post.created_on DESC`,
       [fields.tagID])
     : await query(
-      `SELECT * FROM Post
+      `SELECT Post.* FROM Post
        JOIN PostTag ON Post.id = PostTag.post_id
        WHERE PostTag.tag_id = ? AND Post.report_flag = ?
        ORDER BY Post.created_on DESC`,

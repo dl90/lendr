@@ -22,15 +22,15 @@ export default function () {
    * @apiError (400) {}                     Incorrect itemID || insert failed
    */
   router.put('/new', async (req, res) => {
-    const { itemID, postTitle, postRate, postDescription, postLocation, postDuration } = req.body
     const postID = await PostController.createPostWithItemID(
       req.user.id,
-      itemID,
-      postTitle,
-      postRate,
-      postDescription,
-      postLocation,
-      postDuration
+
+      req.body.itemID,
+      req.body.postTitle,
+      req.body.postRate,
+      req.body.postDescription,
+      req.body.postLocation,
+      req.body.postDuration
     )
 
     postID
@@ -56,25 +56,23 @@ export default function () {
    * @apiError (400) {}                     Incorrect itemID || insert failed
    */
   router.put('/new-item', async (req, res) => {
-    const { itemName, itemCondition, itemAge, postTitle, postRate, postDescription, postLocation, postDuration } = req.body
     const postID = await PostController.createPostWithNewItem(
       req.user.id,
-      itemName,
-      itemCondition,
-      itemAge,
-      postTitle,
-      postRate,
-      postDescription,
-      postLocation,
-      postDuration
+
+      req.body.itemName,
+      req.body.itemCondition,
+      req.body.itemAge,
+      req.body.postTitle,
+      req.body.postRate,
+      req.body.postDescription,
+      req.body.postLocation,
+      req.body.postDuration
     )
 
     postID
       ? res.json({ postID })
       : res.sendStatus(400)
   })
-
-  // @TODO only delete/modify your own posts
 
   /**
    * @api {delete} /post/delete             Delete post
@@ -87,7 +85,7 @@ export default function () {
    * @apiError (400) {}                     Incorrect postID || delete failed
    */
   router.delete('/delete', async (req, res) => {
-    await PostController.deletePost(req.body.postID)
+    await PostController.deletePost(req.user.id, req.body.postID)
       ? res.sendStatus(204)
       : res.sendStatus(400)
   })

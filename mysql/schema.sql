@@ -95,6 +95,7 @@ CREATE TABLE `PostTag` (
   `post_id`                 INTEGER NOT NULL,
   `tag_id`                  INTEGER NOT NULL,
 
+  UNIQUE (`post_id`,`tag_id`),
   FOREIGN KEY (`post_id`) REFERENCES `Post`(`id`) ON DELETE CASCADE,
   FOREIGN KEY (`tag_id`) REFERENCES `Tag`(`id`) ON DELETE CASCADE
 );

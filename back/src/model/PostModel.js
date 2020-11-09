@@ -60,7 +60,10 @@ async function createPostWithItemID (fields) {
 }
 
 /**
- * @param {number} postID
+ * @param {object} fields
+ * ```
+ *  { userID: [number], postID: [number]}
+ * ```
  * @return {object}
  * ```
  *  ResultSetHeader {
@@ -74,9 +77,10 @@ async function createPostWithItemID (fields) {
  * ```
  * @throw invalid argument error
  */
-async function deletePost (postID) {
-  util.checkID(postID)
-  return await db.deletePost(postID)
+async function deletePost (fields) {
+  util.checkID(fields.postID)
+  util.checkID(fields.postID)
+  return await db.deletePost(fields)
 }
 
 /**

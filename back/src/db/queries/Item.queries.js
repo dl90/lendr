@@ -36,7 +36,10 @@ async function getItemsByUserID (userID) {
 }
 
 /**
- * @param {object} fields { userID: [string] itemStatus: [0|1] }
+ * @param {object} fields
+ * ```
+ *  { userID: [string] itemStatus: [boolean] }
+ * ```
  * @return {[object]} all items [ BinaryRow { data } ]
  */
 async function getItemsByUserIDWithStatus (fields) {
@@ -49,7 +52,10 @@ async function getItemsByUserIDWithStatus (fields) {
 }
 
 /**
- * @param {object} fields { userID: [number], itemName: [string], itemCondition: [string], itemAge: [smallint] }
+ * @param {object} fields
+ * ```
+ *  { userID: [number], itemName: [string], itemCondition: [string], itemAge: [smallint] }
+ * ```
  * @return {object}
  * ```
  *  ResultSetHeader {
@@ -71,63 +77,78 @@ async function createItem (fields) {
 }
 
 /**
- * @param {number} itemID
+ * @param {object} fields
+ * ```
+ *  { userID: [number], itemID: [number]}
+ * ```
  * @return {}
  */
-async function deleteItem (itemID) {
-  return await execute('DELETE FROM Item WHERE id = ?', [itemID])
+async function deleteItem (fields) {
+  return await execute('DELETE FROM Item WHERE id = ? AND lender_id = ?',
+    [fields.itemID, fields.userID])
 }
 
 /**
- * @param {object} fields { itemID: [number], itemName: [string] }
+ * @param {object} fields
+ * ```
+ *  { userID: [number] itemID: [number], itemName: [string] }
+ * ```
  * @return {}
  */
 async function updateItemName (fields) {
-  const { itemID, itemName } = fields
-  return await execute('UPDATE Item SET item_name = ? WHERE id = ?',
-    [itemName, itemID])
+  return await execute('UPDATE Item SET item_name = ? WHERE id = ? AND lender_id = ?',
+    [fields.itemName, fields.itemID, fields.userID])
 }
 
 /**
- * @param {object} fields { itemID: [number], itemCondition: [string] }
+ * @param {object} fields
+ * ```
+ *  { userID: [number], itemID: [number], itemCondition: [string] }
+ * ```
  * @return {}
  */
 async function updateItemCondition (fields) {
-  const { itemID, itemCondition } = fields
-  return await execute('UPDATE Item SET item_condition = ? WHERE id = ?',
-    [itemCondition, itemID]
+  return await execute('UPDATE Item SET item_condition = ? WHERE id = ? AND lender_id = ?',
+    [fields.itemCondition, fields.itemID, fields.userID]
   )
 }
 
 /**
- * @param {object} fields { itemID: [number], itemAge: [smallint < 32767] }
+ * @param {object} fields
+ * ```
+ *  { itemID: [number], itemAge: [smallint < 32767] }
+ * ```
  * @return {}
  */
 async function updateItemAge (fields) {
-  const { itemID, itemAge } = fields
-  return await execute('UPDATE Item SET item_age = ? WHERE id = ?',
-    [itemAge, itemID]
+  return await execute('UPDATE Item SET item_age = ? WHERE id = ? AND lender_id = ?',
+    [fields.itemAge, fields.itemID, fields.userID]
   )
 }
 
 /**
- * @param {object} fields { itemID: [number], itemStatus: [boolean] }
+ * @param {object} fields
+ * ```
+ *  { itemID: [number], itemStatus: [boolean] }
+ * ```
  * @return {}
  */
 async function updateItemStatus (fields) {
-  const { itemID, itemStatus } = fields
-  return await execute('UPDATE Item SET item_status = ? WHERE id = ?',
-    [itemStatus, itemID]
+  return await execute('UPDATE Item SET item_status = ? WHERE id = ? AND lender_id = ?',
+    [fields.itemStatus, fields.itemID, fields.userID]
   )
 }
 
 /**
- * @param {object} fields { userID: [number], itemName: [string], itemCondition: [string], itemAge: [smallint], itemStatusL [0|1] }
+ * @param {object} fields
+ * ```
+ *  { userID: [number], itemID: [number] itemName: [string], itemCondition: [string], itemAge: [smallint], itemStatus: [boolean] }
+ * ```
  * @return {}
  */
 async function updateAllItemFields (fields) {
-  const { itemID, itemName, itemCondition, itemAge, itemStatus } = fields
-  return await execute('UPDATE Item SET item_name = ?, item_condition = ?, item_age = ?, item_status = ? WHERE id = ?',
-    [itemName, itemCondition, itemAge, itemStatus, itemID]
+  const { userID, itemID, itemName, itemCondition, itemAge, itemStatus } = fields
+  return await execute('UPDATE Item SET item_name = ?, item_condition = ?, item_age = ?, item_status = ? WHERE id = ? AND lender_id = ?',
+    [itemName, itemCondition, itemAge, itemStatus, itemID, userID]
   )
 }

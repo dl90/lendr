@@ -34,7 +34,7 @@ export default function () {
   router.get('/all', async (req, res) => {
     const tags = await TagController.getAllTags()
     tags
-      ? res.json({ tags })
+      ? res.json(tags)
       : res.sendStatus(400)
   })
 

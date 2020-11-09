@@ -38,7 +38,7 @@ app.use(helmet({ hsts: false, contentSecurityPolicy: false }))
 app.use(express.static('public'))
 expressWs(app)
 
-const authLimit = rateLimit({ windowMs: 3_600_000, max: 10 }) // 1h
+const authLimit = rateLimit({ windowMs: 3_600_000, max: 20 }) // 1h
 const imageUploadLimit = rateLimit({ windowMs: 3_600_000, max: 36 }) // 1h
 const generalLimit = rateLimit({ windowMs: 300_000, max: 100 }) // 5min
 app.use(generalLimit)
