@@ -1,5 +1,5 @@
-import React from 'react';
-import './index.scss';
+import React, { useState } from 'react';
+// import './index.scss';
 import './app.scss';
 import './edit.scss';
 
@@ -21,34 +21,38 @@ export default function Post(){
             <Input title={"Price"} placeholder="$20/day"></Input>  
         </div>
 
-        <div className="imageDiv">
-            <h2>Upload Photos</h2>
-            <div className="images">
-                <UploadImg/>
-                <UploadImg/>
-                <UploadImg/>
-                <UploadImg/>
-                <UploadImg/>
-                <UploadImg/>
-                <UploadImg/>
-                <UploadImg/>
-                <UploadImg/>
-                <UploadImg/>
+            <div className="imageDiv">
+                <h2>Upload Photos</h2>
+                <div className="images">
+                    <UploadImg />
+                    <UploadImg />
+                    <UploadImg />
+                </div>
+            </div>
+
+            <div className="post">
+                <CategoriesDropdown />
+                <InputParagraph title={"Description"} placeholder="Write a description of the item you're renting out."
+                    onChange={(e) => {
+                        setDesc(e.target.value);
+                    }}
+                />
+                <Input title={"Meeting Location"} placeholder="123 Main St."
+                    onChange={(e) => {
+                        setLocation(e.target.value);
+                    }}
+                />
+                <div className="button">
+                    <Button text={"Post"}
+                        onClick={() => {
+                            HandleNewPost(title, desc, location, rate);
+                        }}
+                    />
+                </div>
+            </div>
+
+            <div className="nav">
+                <BottomNav />
             </div>
         </div>
-
-        <div className="post">
-            <CategoriesDropdown/>
-            <InputParagraph title={"Description"} placeholder="Write a description of the item you're renting out."></InputParagraph>
-            <Input title={"Meeting Location"} placeholder="123 Main St."></Input>
-            <div className="button">
-                <Button text={"Post"}></Button>
-            </div>
-        </div>
-
-        <div className="nav">
-            <BottomNav/>
-        </div>
-    </div>
-   
 }
