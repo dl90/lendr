@@ -1,0 +1,44 @@
+.nav{
+    position: fixed;
+    z-index: 2;
+    width:100%;
+    left: 0;
+    bottom: 0;
+}
+
+.header{
+    margin-top:60px;
+  h1 {
+      margin-bottom:19px;
+  }
+}
+
+.Category_divs {
+    display:flex;
+    justify-content: space-around;
+}
+
+.Category_header {
+    display: flex;
+    align-items: center;
+
+}
+.Category_cont {
+    h2{
+        margin-top:50px;
+    }
+    margin-bottom: 50px;
+}
+
+
+.Recommended_cont{
+margin-bottom: 50px;
+}
+
+.Recommended_divs {
+    display: flex;
+    overflow-x: scroll;
+}
+.content_div {
+    overflow: scroll;
+}
