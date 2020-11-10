@@ -11,13 +11,13 @@ import Post from "./pages/post";
 import Edit from "./pages/edit";
 import Messages from "./pages/messages";
 import Settings from './pages/settings';
+import explorepage from './pages/explorepage';
 
 const App = () => {
   return (
     <Router>
       <div>
-        <Link to="/post">Post</Link>
-        <Route path="/index" component={Home}></Route>
+        <Route path="/index" component={explorepage}></Route>
         <Route path="/post" component={PostPage}></Route>
         <Route path="/edit" component={EditPage}></Route>
         <Route path="/messages" component={ChatPage}></Route>

@@ -14,28 +14,34 @@ const UserAvatar = styled.div`
 height:60px;
 max-width: 60px;
 border-radius:50%;
-
 overflow:hidden;
+display:flex;
+justify-content:center;
+align-items:center;
+ img {
+     width:100%;
+     height:100%;
+ }
 `;
 
-export default function explorepage() {
+export default function explorepage({userfname}) {
     return <div className="app">
+        <div className="Header">
+       <div className="Header_top">
+       <div>Hi {userfname},</div>
         <UserAvatar><img src="/placeholderProfile.png"></img></UserAvatar>
-        <div className="header">
+        </div>
         <h1>Explore</h1>
         </div>
         <div className="search">
-            <SearchBar placeholder="Search Categories" />
+            <SearchBar placeholder="Search Items" />
         </div>
         <div className="content_div">
         <div className="Category_cont">
-            <div className="Category_header">
         <h2>Categories</h2>
-        <h6>See All</h6>
-        </div>
         <div className="Category_divs">
         <CategoryButton src="/vehicle.png" text="Automobile"></CategoryButton>
-        <CategoryButton src="/vehicle.png" text="Appliances"></CategoryButton>
+        <CategoryButton src="/appliancesicon.png" text="Appliances"></CategoryButton>
         <CategoryButton src="/vehicle.png" text="Electronics"></CategoryButton>
         <CategoryButton src="/vehicle.png" text="Furniture"></CategoryButton>
         </div>
@@ -63,6 +69,6 @@ export default function explorepage() {
 
 
 explorepage.defaultProps = {
-    
+    userfname: "Steven"
 }
 
