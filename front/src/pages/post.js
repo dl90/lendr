@@ -34,18 +34,18 @@ export default function Post(){
                 <CategoriesDropdown />
                 <InputParagraph title={"Description"} placeholder="Write a description of the item you're renting out."
                     onChange={(e) => {
-                        setDesc(e.target.value);
+                        // setDesc(e.target.value);
                     }}
                 />
                 <Input title={"Meeting Location"} placeholder="123 Main St."
                     onChange={(e) => {
-                        setLocation(e.target.value);
+                        // setLocation(e.target.value);
                     }}
                 />
                 <div className="button">
                     <Button text={"Post"}
                         onClick={() => {
-                            HandleNewPost(title, desc, location, rate);
+                            // HandleNewPost(title, desc, location, rate);
                         }}
                     />
                 </div>
