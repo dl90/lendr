@@ -1,32 +1,50 @@
 import React from 'react';
 import {
   BrowserRouter as Router,
-  Switch,
-  Route,
   Link,
-  useRouteMatch,
-  useParams
+  Route,
 } from "react-router-dom";
+import './App.css';
+import Login from "./pages/login";
+import Index from "./pages/index";
+import Post from "./pages/post";
+import Edit from "./pages/edit";
+import Messages from "./pages/messages";
+import Settings from './pages/settings';
 
-// import './App.css';
-// import Pages from "./pages/index";
-// import Pages from "./pages/login";
-// import Pages from "./pages/signUp";
-// import Pages from "./pages/renterProfile";
-// import Pages from "./pages/index";
-import Pages from "./pages/post";
-// import Pages from "./pages/item";
-// import Pages from "./pages/edit";
-// import Pages from "./pages/settings";
-// import Pages from "./pages/messages";
-
-function App() {
+const App = () => {
   return (
     <Router>
-      <Pages />
+      <div>
+        <Link to="/post">Post</Link>
+        <Route path="/index" component={Home}></Route>
+        <Route path="/post" component={PostPage}></Route>
+        <Route path="/edit" component={EditPage}></Route>
+        <Route path="/messages" component={ChatPage}></Route>
+        <Route path="/settings" component={SettingsPage}></Route>
+      </div>
+      
     </Router>
   );
 }
 
+function Home() {
+  return <Index></Index>;
+}
+
+function EditPage() {
+  return <Edit></Edit>;
+}
+
+// Navbar
+function PostPage() {
+  return <Post></Post>;
+}
+function ChatPage() {
+  return <Messages></Messages>;
+}
+function SettingsPage() {
+  return <Settings></Settings>;
+}
 
 export default App;

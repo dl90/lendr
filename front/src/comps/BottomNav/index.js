@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    useRouteMatch,
-    useParams
-  } from "react-router-dom";
+
+// Routing
+import {Link} from "react-router-dom";
 
 const NavBar = styled.div`
     max-width:414px;
@@ -36,12 +31,12 @@ const Lend = styled.div`
     cursor:pointer;
 `;
 
-const Post = styled.div`
+const PostDiv = styled.div`
 color:${props => props.postActive};
 cursor:pointer;
 `;
 
-const Chat = styled.div`
+const ChatDiv = styled.div`
 color:${props => props.chatActive};
 cursor:pointer;
 `;
@@ -59,8 +54,9 @@ const BottomNav = ({ }) => {
     //when a user clicks on an icon it defines "changeExploreActive" to 1-5
     //Depending on the value of exploreActiveValue the svg changes color
 
-    return <NavBar>
-        <Link to="./pages/explore">
+    return<div>
+    <NavBar>
+        <Link to="/Index">
         <Explore onClick={() => {
             changeExploreActive(1)
         }} exploreActive={exploreActiveValue === 1 ? "orange" : "black"}>
@@ -74,7 +70,6 @@ const BottomNav = ({ }) => {
             <div>Home</div>
         </Explore>
         </Link>
-        
         <Lend onClick={() => {
             changeExploreActive(2)
         }}
@@ -87,8 +82,8 @@ const BottomNav = ({ }) => {
             </svg>
             <div>Lend</div>
         </Lend>
-        <Link to="./pages/post">
-        <Post onClick={() => {
+        <Link to="/post">
+        <PostDiv onClick={() => {
             changeExploreActive(3)
         }}
             postActive={exploreActiveValue === 3 ? "#FF8A00" : "#201823"}>
@@ -96,9 +91,10 @@ const BottomNav = ({ }) => {
                 <path d="M22.875 13.125H13.125V22.875H9.875V13.125H0.125V9.875H9.875V0.125H13.125V9.875H22.875V13.125Z" fill={exploreActiveValue === 3 ? "orange" : "black"} />
             </svg>
             <div>Post</div>
-        </Post>
+        </PostDiv>
         </Link>
-        <Chat onClick={() => {
+        <Link to="/messages">
+        <ChatDiv onClick={() => {
             changeExploreActive(4)
         }}
 
@@ -108,7 +104,9 @@ const BottomNav = ({ }) => {
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M5.37833 2.76361L1 12.6975V19.0572C1 20.4622 2.12983 21.6011 3.52354 21.6011H23.7118C25.1055 21.6011 26.2354 20.4622 26.2354 19.0572V12.6975L21.857 2.76361C21.4524 1.84281 20.547 1.24931 19.548 1.25H7.68737C6.68833 1.24931 5.78294 1.84281 5.37833 2.76361Z" stroke={exploreActiveValue === 4 ? "orange" : "black"} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
             <div>Chat</div>
-        </Chat>
+        </ChatDiv>
+        </Link>
+        <Link to="/settings">
         <More onClick={() => {
             changeExploreActive(5)
         }}
@@ -120,8 +118,9 @@ const BottomNav = ({ }) => {
             </svg>
             <div>More</div>
         </More>
-
+        </Link>
     </NavBar>
+    </div>
 };
 
 BottomNav.defaultProps = {
@@ -132,5 +131,5 @@ BottomNav.defaultProps = {
     settingsActive: "black",
 };
 
-
 export default BottomNav;
+
