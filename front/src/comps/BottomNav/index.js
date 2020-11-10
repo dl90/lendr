@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    useRouteMatch,
+    useParams
+  } from "react-router-dom";
 
 const NavBar = styled.div`
     max-width:414px;
@@ -52,6 +60,7 @@ const BottomNav = ({ }) => {
     //Depending on the value of exploreActiveValue the svg changes color
 
     return <NavBar>
+        <Link to="./pages/explore">
         <Explore onClick={() => {
             changeExploreActive(1)
         }} exploreActive={exploreActiveValue === 1 ? "orange" : "black"}>
@@ -64,6 +73,8 @@ const BottomNav = ({ }) => {
             </div>
             <div>Home</div>
         </Explore>
+        </Link>
+        
         <Lend onClick={() => {
             changeExploreActive(2)
         }}
@@ -76,6 +87,7 @@ const BottomNav = ({ }) => {
             </svg>
             <div>Lend</div>
         </Lend>
+        <Link to="./pages/post">
         <Post onClick={() => {
             changeExploreActive(3)
         }}
@@ -85,6 +97,7 @@ const BottomNav = ({ }) => {
             </svg>
             <div>Post</div>
         </Post>
+        </Link>
         <Chat onClick={() => {
             changeExploreActive(4)
         }}

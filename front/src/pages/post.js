@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
-import './index.scss';
+// import './index.scss';
 import './app.scss';
 import './edit.scss';
+
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+} from "react-router-dom";
 
 import Header from '../comps/Header';
 import Input from '../comps/Input';
@@ -20,6 +27,8 @@ export default function Post() {
     // const [catag, setCatag] = useState('');
     const [desc, setDesc] = useState("");
     const [location, setLocation] = useState("");
+    const [rate, setRate] = useState("");
+
 
     const HandleNewPost = async (title, desc, location) => {
         console.log('Creating a New Post: ', title, desc, location,);
@@ -29,57 +38,67 @@ export default function Post() {
             postTitle: title,
             postDescription: desc,
             postLocation: location,
+            postRate: rate,
         })
         console.log(resp.data);
     }
 
 
-    return <div>
-        <div className="post">
-            <Header />
-            <h1>Post Item</h1>
-            <Input title={"Post Title"} placeholder="Item Name"
-                onChange={(e) => {
-                    setTitle(e.target.value);
-                }}
-            />
-        </div>
 
-        <div className="imageDiv">
-            <h2>Upload Photos</h2>
-            <div className="images">
-                <UploadImg />
-                <UploadImg />
-                <UploadImg />
-                <UploadImg />
-                <UploadImg />
-                <UploadImg />
-            </div>
-        </div>
-
-        <div className="post">
-            <CategoriesDropdown />
-            <InputParagraph title={"Description"} placeholder="Write a description of the item you're renting out."
-                onChange={(e) => {
-                    setDesc(e.target.value);
-                }}
-            />
-            <Input title={"Meeting Location"} placeholder="123 Main St."
-                onChange={(e) => {
-                    setLocation(e.target.value);
-                }}
-            />
-            <div className="button">
-                <Button text={"Post"}
-                    onClick={() => {
-                        HandleNewPost(title, desc, location);
+    return <Router exact path="./pages/post">
+        <div>
+            <div className="post">
+                <Header />
+                <h1>Post Item</h1>
+                <Input title={"Post Title"} placeholder="Item Name"
+                    onChange={(e) => {
+                        setTitle(e.target.value);
+                    }}
+                ></Input>
+                <Input title={"Price"} placeholder="$20/day"
+                    onChange={(e) => {
+                        setRate(e.target.value);
                     }}
                 />
             </div>
-        </div>
 
-        <div className="nav">
-            <BottomNav />
+            <div className="imageDiv">
+                <h2>Upload Photos</h2>
+                <div className="images">
+                    <UploadImg />
+                    <UploadImg />
+                    <UploadImg />
+                    <UploadImg />
+                    <UploadImg />
+                    <UploadImg />
+                </div>
+            </div>
+
+            <div className="post">
+                <CategoriesDropdown />
+                <InputParagraph title={"Description"} placeholder="Write a description of the item you're renting out."
+                    onChange={(e) => {
+                        setDesc(e.target.value);
+                    }}
+                />
+                <Input title={"Meeting Location"} placeholder="123 Main St."
+                    onChange={(e) => {
+                        setLocation(e.target.value);
+                    }}
+                />
+                <div className="button">
+                    <Button text={"Post"}
+                        onClick={() => {
+                            HandleNewPost(title, desc, location);
+                        }}
+                    />
+                </div>
+            </div>
+
+            <div className="nav">
+                <BottomNav />
+            </div>
         </div>
-    </div>
+    </Router>
+
 }
