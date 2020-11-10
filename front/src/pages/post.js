@@ -19,8 +19,11 @@ import Button from '../comps/Button';
 import BottomNav from '../comps/BottomNav';
 import InputParagraph from '../comps/InputParagraph';
 
+//import axios to get 
 import axios from 'axios';
 export default function Post() {
+
+    //Creating Use state
 
     // const [name, setName] = useState('');
     const [title, setTitle] = useState("");
@@ -30,8 +33,8 @@ export default function Post() {
     const [rate, setRate] = useState("");
 
 
-    const HandleNewPost = async (title, desc, location) => {
-        console.log('Creating a New Post: ', title, desc, location,);
+    const HandleNewPost = async (title, desc, location, rate, itemID) => {
+        console.log('Creating a New Post: ', "Title:", title, "Desc:", desc, "Location:", location, "Rate:", rate, "ItemID:", itemID);
 
         var resp = await axios.post('http://ec2-44-242-43-38.us-west-2.compute.amazonaws.com/post/new-item/', {
             itemName: 'Test Name',
@@ -39,6 +42,7 @@ export default function Post() {
             postDescription: desc,
             postLocation: location,
             postRate: rate,
+            itemID: itemID
         })
         console.log(resp.data);
     }
@@ -68,9 +72,6 @@ export default function Post() {
                     <UploadImg />
                     <UploadImg />
                     <UploadImg />
-                    <UploadImg />
-                    <UploadImg />
-                    <UploadImg />
                 </div>
             </div>
 
@@ -89,7 +90,7 @@ export default function Post() {
                 <div className="button">
                     <Button text={"Post"}
                         onClick={() => {
-                            HandleNewPost(title, desc, location);
+                            HandleNewPost(title, desc, location, rate);
                         }}
                     />
                 </div>
