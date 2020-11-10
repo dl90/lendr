@@ -42,8 +42,7 @@ export default function Post() {
 
 
 
-    return <Router exact path="./pages/post">
-        <div>
+    return<div>
             <div className="post">
                 <Header />
                 <h1>Post Item</h1>
