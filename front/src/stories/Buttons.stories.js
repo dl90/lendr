@@ -3,6 +3,7 @@ import SmallButton from '../comps/SmallButton';
 import Button from '../comps/Button';
 import CategoryButtons from '../comps/CategoryButtons';
 import MyLendsButtons from '../comps/MyLendsButtons';
+import Like from '../comps/Like';
 
 export default {
     title: 'Buttons/Lendr Buttons',
@@ -18,3 +19,5 @@ export const SignupButton = () => <Button bg={"linear-gradient(119.69deg, rgba(2
 export const AllCategoryButtons = () =><CategoryButtons></CategoryButtons>
 
 export const DefaultMyLendsButtons = () => <MyLendsButtons></MyLendsButtons>
+
+export const LikeButton = () => <Like></Like>
