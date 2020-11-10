@@ -32,10 +32,10 @@ const InputParagraphBox = styled.textarea`
     color: #979797;
 `;
 
-const InputParagraph = ({ title, placeholder}) => {
+const InputParagraph = ({ title, placeholder, onChange }) => {
     return <InputParagraphDiv>
         <h2>{title}</h2>
-        <InputParagraphBox type="text" placeholder={placeholder}></InputParagraphBox>
+        <InputParagraphBox type="text" placeholder={placeholder} onChange={onChange}></InputParagraphBox>
     </InputParagraphDiv>
 };
 
