@@ -110,12 +110,13 @@ async function getAllPostsByUserID (fields) {
 /**
  * @param {object} fields
  * ```
- *  { itemID: [number] [, reportFlag: [boolean] ] }
+ *  { userID: [number], itemID: [number] [, reportFlag: [boolean] ] }
  * ```
  * @return {[object]}
  * @throw invalid argument error
  */
 async function getAllPostsByItemID (fields) {
+  util.checkID(fields.userID)
   util.checkID(fields.itemID)
   if (fields.reportFlag) util.checkBool(fields.reportFlag)
   return await db.getAllPostsByItemID(fields)
@@ -152,12 +153,13 @@ async function getAllPostsByTagName (fields) {
 /**
  * @param {object} fields
  * ```
- *  { postID: [number], postTitle: [string]}
+ *  { userID: [number], postID: [number], postTitle: [string]}
  * ```
  * @return {}
  * @throw invalid argument error
  */
 async function updatePostTitle (fields) {
+  util.checkID(fields.userID)
   util.checkID(fields.postID)
   util.checkEmptyString(fields.postTitle)
   return await db.updatePostTitle(fields)
@@ -166,12 +168,13 @@ async function updatePostTitle (fields) {
 /**
  * @param {object} fields
  * ```
- *  { postID: [number], postRate: [number: decimal(11,2)] }
+ *  { userID: [number], postID: [number], postRate: [number: decimal(11,2)] }
  * ```
  * @return {}
  * @throw invalid argument error
  */
 async function updatePostRate (fields) {
+  util.checkID(fields.postID)
   util.checkID(fields.postID)
   util.validateRate(fields.postRate)
   return await db.updatePostRate(fields)
@@ -180,12 +183,13 @@ async function updatePostRate (fields) {
 /**
  * @param {object} fields
  * ```
- *  { postID: [number], postDescription: [string]}
+ *  { userID: [number], postID: [number], postDescription: [string]}
  * ```
  * @return {}
  * @throw invalid argument error
  */
 async function updatePostDescription (fields) {
+  util.checkID(fields.postID)
   util.checkID(fields.postID)
   util.checkEmptyString(fields.postDescription)
   return await db.updatePostDescription(fields)
@@ -194,12 +198,13 @@ async function updatePostDescription (fields) {
 /**
  * @param {object} fields
  * ```
- *  { postID: [number], postLocation: [string] }
+ *  { userID: [number], postID: [number], postLocation: [string] }
  * ```
  * @return {}
  * @throw invalid argument error
  */
 async function updatePostLocation (fields) {
+  util.checkID(fields.userID)
   util.checkID(fields.postID)
   util.checkEmptyString(fields.postLocation)
   return await db.updatePostLocation(fields)
@@ -208,12 +213,13 @@ async function updatePostLocation (fields) {
 /**
  * @param {object} fields
  * ```
- *  { postID: [number], postDuration: [string: '2020-12-31 23:59:59'] }
+ *  { userID: [number], postID: [number], postDuration: [string: '2020-12-31 23:59:59'] }
  * ```
  * @return {}
  * @throw invalid argument error
  */
 async function updatePostDuration (fields) {
+  util.checkID(fields.userID)
   util.checkID(fields.postID)
   util.validateDateFormat(fields.postDuration)
   return await db.updatePostDuration(fields)

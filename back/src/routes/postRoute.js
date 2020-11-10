@@ -145,12 +145,13 @@ export default function () {
    * @apiGroup Post
    *
    * @apiParam {number} itemID
+   * @apiParam {boolean|undefined} postFlag
    *
    * @apiSuccess (200) {json}               Posts
    * @apiError (400) {}                     Incorrect itemID || get failed
    */
   router.post('/get-item-id', async (req, res) => {
-    const posts = await PostController.getAllPostsByItemID(req.body.itemID)
+    const posts = await PostController.getAllPostsByItemID(req.user.id, req.body.itemID, req.body.postFlag)
     posts
       ? res.json(posts)
       : res.sendStatus(400)
@@ -202,7 +203,7 @@ export default function () {
    * @apiError (400) {}                     Incorrect params || insert failed
    */
   router.put('/tag', async (req, res) => {
-    await PostController.addPostTagWithNewTag(req.body.postID, req.body.tagName)
+    await PostController.addPostTagWithNewTag(req.user.id, req.body.postID, req.body.tagName)
       ? res.sendStatus(204)
       : res.sendStatus(400)
   })
@@ -219,7 +220,7 @@ export default function () {
    * @apiError (400) {}                     Incorrect params || update failed
    */
   router.patch('/title', async (req, res) => {
-    await PostController.updatePostTitle(req.body.postID, req.body.postTitle)
+    await PostController.updatePostTitle(req.user.id, req.body.postID, req.body.postTitle)
       ? res.sendStatus(204)
       : res.sendStatus(400)
   })
@@ -236,7 +237,7 @@ export default function () {
    * @apiError (400) {}                     Incorrect params || update failed
    */
   router.patch('/rate', async (req, res) => {
-    await PostController.updatePostRate(req.body.postID, req.body.postRate)
+    await PostController.updatePostRate(req.user.id, req.body.postID, req.body.postRate)
       ? res.sendStatus(204)
       : res.sendStatus(400)
   })
@@ -253,7 +254,7 @@ export default function () {
    * @apiError (400) {}                     Incorrect params || update failed
    */
   router.patch('/description', async (req, res) => {
-    await PostController.updatePostDescription(req.body.postID, req.body.postDescription)
+    await PostController.updatePostDescription(req.user.id, req.body.postID, req.body.postDescription)
       ? res.sendStatus(204)
       : res.sendStatus(400)
   })
@@ -270,7 +271,7 @@ export default function () {
    * @apiError (400) {}                     Incorrect params || update failed
    */
   router.patch('/location', async (req, res) => {
-    await PostController.updatePostLocation(req.body.postID, req.body.postLocation)
+    await PostController.updatePostLocation(req.user.id, req.body.postID, req.body.postLocation)
       ? res.sendStatus(204)
       : res.sendStatus(400)
   })
@@ -287,7 +288,7 @@ export default function () {
    * @apiError (400) {}                     Incorrect params || update failed
    */
   router.patch('/duration', async (req, res) => {
-    await PostController.updatePostDuration(req.body.postID, req.body.postDuration)
+    await PostController.updatePostDuration(req.user.id, req.body.postID, req.body.postDuration)
       ? res.sendStatus(204)
       : res.sendStatus(400)
   })

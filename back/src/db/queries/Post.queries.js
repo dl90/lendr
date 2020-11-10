@@ -85,15 +85,15 @@ async function getAllPostsByUserID (fields) {
 /**
  * @param {object} fields
  * ```
- *  { itemID: [number] [, reportFlag: [boolean] ] }
+ *  { userID: [number], itemID: [number] [, reportFlag: [boolean] ] }
  * ```
  * @return {[object]} multiple posts [ BinaryRow { data } ]
  */
 async function getAllPostsByItemID (fields) {
   return fields.reportFlag === undefined
-    ? await query('SELECT * FROM Post WHERE item_id = ? ORDER BY created_on DESC', [fields.itemID])
-    : await query('SELECT * FROM post WHERE item_id = ? AND report_flag = ? ORDER BY created_on DESC',
-      [fields.itemID, fields.reportFlag])
+    ? await query('SELECT * FROM Post WHERE item_id = ? AND user_id = ? ORDER BY created_on DESC', [fields.itemID, fields.userID])
+    : await query('SELECT * FROM post WHERE item_id = ? AND user_id = ? AND report_flag = ? ORDER BY created_on DESC',
+      [fields.itemID, fields.userID, fields.reportFlag])
 }
 
 /**
@@ -148,61 +148,61 @@ async function getAllPostsByTagName (fields) {
 /**
  * @param {object} fields
  * ```
- *  { postID: [number], postTitle: [string] }
+ *  { userID: [number], postID: [number], postTitle: [string] }
  * ```
  * @return {}
  */
 async function updatePostTitle (fields) {
-  return await execute('UPDATE Post SET title = ? WHERE id = ?',
-    [fields.postTitle, fields.postID])
+  return await execute('UPDATE Post SET title = ? WHERE id = ? AND user_id = ?',
+    [fields.postTitle, fields.postID, fields.userID])
 }
 
 /**
  * @param {object} fields
  * ```
- *  { postID: [number], postRate: [number: decimal(11,2)] }
+ *  { userID: [number], postID: [number], postRate: [number: decimal(11,2)] }
  * ```
  * @return {}
  */
 async function updatePostRate (fields) {
-  return await execute('UPDATE Post SET rate = ? WHERE id = ?',
-    [fields.postRate, fields.postID])
+  return await execute('UPDATE Post SET rate = ? WHERE id = ? AND user_id = ?',
+    [fields.postRate, fields.postID, fields.userID])
 }
 
 /**
  * @param {object} fields
  * ```
- *  { postID: [number], postDescription: [string] }
+ *  { userID: [number], postID: [number], postDescription: [string] }
  * ```
  * @return {}
  */
 async function updatePostDescription (fields) {
-  return await execute('UPDATE Post SET post_description = ? WHERE id = ?',
-    [fields.postDescription, fields.postID])
+  return await execute('UPDATE Post SET post_description = ? WHERE id = ? AND user_id = ?',
+    [fields.postDescription, fields.postID, fields.userID])
 }
 
 /**
  * @param {object} fields
  * ```
- *  { postID: [number], postLocation: [string] }
+ *  { userID: [number], postID: [number], postLocation: [string] }
  * ```
  * @return {}
  */
 async function updatePostLocation (fields) {
-  return await execute('UPDATE Post SET location = ? WHERE id = ?',
-    [fields.postLocation, fields.postID])
+  return await execute('UPDATE Post SET location = ? WHERE id = ? AND user_id = ?',
+    [fields.postLocation, fields.postID, fields.userID])
 }
 
 /**
  * @param {object} fields
  * ```
- *  { postID: [number], postDuration: [string: '2020-12-31 23:59:59'] }
+ *  { userID: [number], postID: [number], postDuration: [string: '2020-12-31 23:59:59'] }
  * ```
  * @return {}
  */
 async function updatePostDuration (fields) {
-  return await execute('UPDATE Post SET duration = ? WHERE id = ?',
-    [fields.postDuration, fields.postID]
+  return await execute('UPDATE Post SET duration = ? WHERE id = ? AND user_id = ?',
+    [fields.postDuration, fields.postID, fields.userID]
   )
 }
 

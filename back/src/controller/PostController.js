@@ -130,13 +130,16 @@ async function getAllPostsByUserID (userID, postFlag = undefined) {
 }
 
 /**
+ * @param {number} userID
  * @param {number} itemID
  * @param {boolean|null} postFlag
  * @return {[object]|false}
  */
-async function getAllPostsByItemID (itemID, postFlag = undefined) {
+async function getAllPostsByItemID (userID, itemID, postFlag = undefined) {
+  const fields = { userID: +userID, itemID: +itemID }
+  fields.postFlag = (postFlag === 'true')
   return await handler.asyncErrorHandler(Post.getAllPostsByItemID,
-    { itemID: +itemID, postFlag })
+    fields)
 }
 
 /**
@@ -163,57 +166,62 @@ async function getAllPostsByTagName (tagName, postFlag = undefined) {
 /* ======================================== UPDATE ======================================== */
 
 /**
+ * @param {number} userID
  * @param {number} postID
  * @param {string} postTitle
  * @return {boolean} true if updated
  */
-async function updatePostTitle (postID, postTitle) {
+async function updatePostTitle (userID, postID, postTitle) {
   const result = await handler.asyncErrorHandler(Post.updatePostTitle,
-    { postID: +postID, postTitle })
+    { userID: +userID, postID: +postID, postTitle })
   return result.affectedRows === 1
 }
 
 /**
+ * @param {number} userID
  * @param {number} postID
  * @param {number} postRate decimal(11,2)
  * @return {boolean} true if updated
  */
-async function updatePostRate (postID, postRate) {
+async function updatePostRate (userID, postID, postRate) {
   const result = await handler.asyncErrorHandler(Post.updatePostRate,
-    { postID: +postID, postRate: +postRate })
+    { userID: +userID, postID: +postID, postRate: +postRate })
   return result.affectedRows === 1
 }
 
 /**
+ * @param {number} userID
  * @param {number} postID
  * @param {string} postDescription
  * @return {boolean} true if updated
  */
-async function updatePostDescription (postID, postDescription) {
+async function updatePostDescription (userID, postID, postDescription) {
   const result = await handler.asyncErrorHandler(Post.updatePostDescription,
-    { postID: +postID, postDescription })
+    { userID: +userID, postID: +postID, postDescription })
   return result.affectedRows === 1
 }
 
 /**
+ * @param {number} userID
  * @param {number} postID
  * @param {string} postLocation
  * @return {boolean} true if updated
  */
-async function updatePostLocation (postID, postLocation) {
+async function updatePostLocation (userID, postID, postLocation) {
   const result = await handler.asyncErrorHandler(Post.updatePostLocation,
-    { postID: +postID, postLocation })
+    { userID: +userID, postID: +postID, postLocation })
   return result.affectedRows === 1
 }
 
 /**
+ * @param {number} userID
  * @param {number} postID
  * @param {string} postDuration '2020-12-31 23:59:59'
  * @return {boolean} true if updated
  */
-async function updatePostDuration (postID, postDuration) {
+async function updatePostDuration (userID, postID, postDuration) {
   const result = await handler.asyncErrorHandler(Post.updatePostDuration,
-    { postID: +postID, postDuration })
+    { userID: +userID, postID: +postID, postDuration })
   return result.affectedRows === 1
 }
 
@@ -252,13 +260,14 @@ async function addPostTagWithTagID (postID, tagID) {
 }
 
 /**
+ * @param {number} userID
  * @param {number} postID
  * @param {string} tagName
  * @return {number} postTag id
  */
-async function addPostTagWithNewTag (postID, tagName) {
+async function addPostTagWithNewTag (userID, postID, tagName) {
   const post = await getPostByPostID(postID)
-  if (!post) return false
+  if (!post || post.user_id !== +userID) return false
 
   const tag = await TagController.getTagByTagName(tagName)
   const fields = { postID: +postID }
