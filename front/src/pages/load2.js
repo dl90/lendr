@@ -3,7 +3,7 @@ import './index.scss';
 import './app.scss';
 import './load2.scss';
 
-export default function load(){
+export default function Load2(){
     return <div className="loggingIn">
         <h1>Creating</h1>
         <h1>Account</h1>

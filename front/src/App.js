@@ -18,21 +18,13 @@ import Settings from './pages/settings';
 import SignUp from './pages/signUp';
 import SpecificCategories from './pages/specificCategories';
 
-// import './App.css';
-// import Pages from "./pages/renterProfile";
-// import Pages from "./pages/index";
-// import Pages from "./pages/post";
-// import Pages from "./pages/login";
-// import Pages from "./pages/signUp";
-// import Pages from "./pages/item";
-// import Pages from "./pages/settings";
-// import Pages from "./pages/Lsignup";
-// import Pages from "./pages/load1";
-// import Pages from "./pages/load2";
-// import Pages from "./pages/tutorial1";
-// import Pages from "./pages/tutorial2";
-// import Pages from "./pages/tutorial3";
-// import Pages from "./pages/tutorial4";
+import Lsignup from "./pages/Lsignup";
+import Load1 from "./pages/load1";
+import Load2 from "./pages/load2";
+import Tutorial1 from "./pages/tutorial1";
+import Tutorial2 from "./pages/tutorial2";
+import Tutorial3 from "./pages/tutorial3";
+import Tutorial4 from "./pages/tutorial4";
 
 const App = () => {
   return (
@@ -49,6 +41,14 @@ const App = () => {
         <Route path="/settings" component={SettingsPage}></Route>
         <Route path="/signUp" component={SignUpPage}></Route>
         <Route path="/specificCategories" component={SpecificCategoriesPage}></Route>
+
+        <Route path="/Lsignup" component={LsignupPage}></Route>
+        <Route path="/load1" component={Load1Page}></Route>
+        <Route path="/load2" component={Load2Page}></Route>
+        <Route path="/tutorial1" component={Tutorial1Page}></Route>
+        <Route path="/tutorial2" component={Tutorial2Page}></Route>
+        <Route path="/tutorial3" component={Tutorial3Page}></Route>
+        <Route path="/tutorial4" component={Tutorial4Page}></Route>
       </div>
       
     </Router>
@@ -77,6 +77,28 @@ function SignUpPage() {
 }
 function SpecificCategoriesPage() {
   return <SpecificCategories></SpecificCategories>;
+}
+
+function LsignupPage() {
+  return <Lsignup></Lsignup>;
+}
+function Load1Page() {
+  return <Load1></Load1>;
+}
+function Load2Page() {
+  return <Load2></Load2>;
+}
+function Tutorial1Page() {
+  return <Tutorial1></Tutorial1>;
+}
+function Tutorial2Page() {
+  return <Tutorial2></Tutorial2>;
+}
+function Tutorial3Page() {
+  return <Tutorial3></Tutorial3>;
+}
+function Tutorial4Page() {
+  return <Tutorial4></Tutorial4>;
 }
 // Navbar
 function PostPage() {

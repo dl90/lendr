@@ -5,7 +5,7 @@ import './tutorial4.scss';
 
 import Header from '../comps/Header';
 import Button from '../comps/Button';
-export default function load(){
+export default function Tutorial4(){
     return <div className="loggingIn">
             <Header options={"none"}/>
         <div className="img"><img src="logging.png"></img></div>

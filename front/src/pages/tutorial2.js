@@ -5,7 +5,7 @@ import './tutorial2.scss';
 
 import Header from '../comps/Header';
 import Button from '../comps/Button';
-export default function load(){
+export default function Tutorial2(){
     return <div className="loggingIn">
             <Header options={"none"}/>
             <h12 className="skip">Skip Tutorial</h12>
