@@ -1,0 +1,22 @@
+.loggingIn{
+    text-align: left;
+    flex-direction: column;
+    padding:55px;
+    display: flex;
+    .img{
+        margin-left: -20px;
+    }
+    .text{
+        font-family: Lato;
+        font-size: small;;
+    }
+    .button{
+          margin-left: 170px;;
+          margin-top: 37px; 
+    }
+
+    .button2{
+        margin-top: 40px;
+        width:100%;
+    }
+}
