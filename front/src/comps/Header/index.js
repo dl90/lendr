@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const HeaderDiv = styled.div`
     display:flex;
     align-items: center;
-    max-width: 325px;
+    max-width:414px;
 `;
 
 const Back = styled.img`
@@ -22,6 +22,7 @@ const Space = styled.div`
 `;
 
 const Options = styled.img`
+    display:${props=>props.options ? props.options : "block"};
     width: 30px;
     &:hover{
         cursor:pointer;
@@ -31,15 +32,16 @@ const Options = styled.img`
     }
 `;
 
-const Header = () => {
+const Header = ({options}) => {
     return <HeaderDiv>
         <Back src={"/back.svg"}></Back>
         <Space></Space>
-        <Options src={"/options.svg"}></Options>
+        <Options src={"/options.svg"} options={options}></Options>
     </HeaderDiv>
 };
 
 Header.defaultProps = {
+    options: "block"
 };
 
 

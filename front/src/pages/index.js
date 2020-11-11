@@ -6,11 +6,15 @@ import './index.scss';
 import './app.scss'
 import SearchBar from '../comps/SearchBar';
 
+import {Link} from "react-router-dom";
+
+
 
 export default function Home() {
     return <div className="app">
         <Header />
         <h1>Categories</h1>
+          {/* <Link to="/post">Post</Link> */}
         <div className="search">
             <SearchBar placeholder="Search Categories" />
         </div>

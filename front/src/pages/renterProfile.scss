@@ -1,24 +1,26 @@
-.app{
-    display: flex;
-    flex-direction: column;
-    padding:6.93%;
-    z-index: -1;
-    overflow-x:hidden;
-    white-space: nowrap;
-    height: 100vh;
-}
-.column01{
-    display: flex;
-    width: 750px;
-    justify-content: space-between;
-    overflow-x: scroll;   
-}
+// .app{
+//     display: flex;
+//     flex-direction: column;
+//     padding:6.93%;
+//     z-index: -1;
+//     overflow-x:hidden;
+//     white-space: nowrap;
+//     height: 100vh;
+// }
+
+.imageDiv{
+    // padding-left: 25px;
+    .images{
+        display: flex; 
+        overflow-x: scroll;
+        justify-content: space-between;
+    }
+} 
+
 
 .nav{
     position: fixed;
-    z-index: 2;
-    width:100%;
-    left: 0;
     bottom: 0;
-    // background-color: white;
+    width: 100%;
+    left: 0;
 }
