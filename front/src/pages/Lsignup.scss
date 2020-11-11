@@ -1,0 +1,33 @@
+.loginPage{
+    text-align: center;
+    line-height: 10%;
+    font-size: 11px;
+    font-family: Lato;
+    margin-top: 30px;
+
+    
+    .login{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+    .button{
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        padding: 50px 0px 25px;
+        div{
+            flex-grow:1;
+        }
+    }
+    .signup{
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    
+        div{
+            flex-grow:1;
+        }
+    }
+    
+}
