@@ -1,0 +1,26 @@
+import React from 'react';
+import './index.scss';
+import './Lsignup.scss';
+
+
+
+import Button from '../comps/Button';
+
+export default function Lsignup(){
+    return <div className="loginPage">
+        <div><img src="signup.png"></img></div>
+        <h1>Creating more budget</h1>
+        <br></br>
+        <h1>friendly options for you!</h1>
+            
+            <div className="button">
+                <Button text={"Login"}/>
+            </div>
+            <div className="signup">
+            <Button bg={"linear-gradient(119.69deg, rgba(255,138,0,0.5) -15.26%, #FF8A00 98.97%)"} text={"Signup"}/>
+            </div>
+
+        </div>
+        
+ 
+}
