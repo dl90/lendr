@@ -1,15 +1,27 @@
 /* global WebSocket */
-const ws = new WebSocket('ws://localhost:8080/msg/echo')
+const www = window.location
+const ws = new WebSocket(`ws://${www.hostname}:${www.port}/msg/live`)
 
-ws.onopen = () => console.log('connected', ws.readyState)
+ws.onopen = () => console.log('connected')
 ws.onclose = () => console.error('disconnected')
 ws.onerror = error => console.error('error', error)
 
 ws.onmessage = (socket) => {
-  const li = document.createElement('li')
+  const div = document.createElement('div')
   const payload = JSON.parse(socket.data)
-  li.innerText = `From ${payload.senderID}: ${payload.message}`
-  document.querySelector('#chat').append(li)
+
+  /*
+    payload {
+      senderID: 1,
+      sender: "John",
+      receiverID: 2,
+      receiver: "Joe",
+      message: "a"
+    }
+  */
+
+  div.innerText = `From ${payload.sender}: ${payload.message}`
+  document.querySelector('#chat').append(div)
 }
 
 document.querySelector('#chatBox').addEventListener('submit', e => {
@@ -17,10 +29,13 @@ document.querySelector('#chatBox').addEventListener('submit', e => {
 
   const receiverID = document.querySelector('#recipient-id').value
   const message = document.querySelector('#message').value
-  ws.send(JSON.stringify({ receiverID: +receiverID, message }))
+  if (ws.readyState) ws.send(JSON.stringify({ receiverID: +receiverID, message }))
 
-  const li = document.createElement('li')
-  li.innerText = `To ${receiverID}: ${message}`
-  document.querySelector('#chat').append(li)
+  const div = document.createElement('div')
+  div.innerText = ws.readyState
+    ? `To ${receiverID}: ${message}`
+    : `Failed to send: ${message}`
+
+  document.querySelector('#chat').append(div)
   document.querySelector('#message').value = ''
 })

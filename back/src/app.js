@@ -7,6 +7,7 @@ import rateLimit from 'express-rate-limit'
 import expressWs from 'express-ws'
 import cors from 'cors'
 import dotenv from 'dotenv'
+import Filter from 'bad-words'
 
 import authRoute from './routes/authRoute.js'
 import meRoute from './routes/meRoute.js'
@@ -25,6 +26,7 @@ const wsInstance = expressWs(app)
 const authLimit = rateLimit({ windowMs: 3_600_000, max: 20 }) //          1h
 const imageUploadLimit = rateLimit({ windowMs: 3_600_000, max: 36 }) //   1h
 const generalLimit = rateLimit({ windowMs: 300_000, max: 200 }) //        5min
+const filter = new Filter()
 
 app.use(json())
 app.use(cors())
@@ -61,7 +63,7 @@ export default function () {
   app.use('/item', itemRoute())
   app.use('/post', postRoute())
   app.use('/tag', tagRoute())
-  app.use('/msg', chatRoute(wsInstance))
+  app.use('/msg', chatRoute(wsInstance, filter))
 
   app.use('*', (req, res) => res.sendStatus(404))
 

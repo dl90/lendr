@@ -6,6 +6,9 @@ export default {
   addPostTag,
   deletePostTag,
   getPostTagByID
+
+  // getAllPostIDsByTagID
+  // getAllTagIDsByPostID
 }
 
 /**

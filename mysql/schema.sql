@@ -80,6 +80,7 @@ CREATE TABLE `PostImage` (
   `post_id`                 INTEGER NOT NULL,
   `image_id`                INTEGER NOT NULL,
 
+  UNIQUE (`post_id`, `image_id`),
   FOREIGN KEY (`post_id`) REFERENCES `Post`(`id`) ON DELETE CASCADE,
   FOREIGN KEY (`image_id`) REFERENCES `Image`(`id`) ON DELETE CASCADE
 );

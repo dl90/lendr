@@ -27,6 +27,11 @@ export default {
 
   addPostTagWithTagID,
   addPostTagWithNewTag
+
+  // addPostImage
+  // addPostImages
+  // deletePostImage
+  // getAllPostImages
 }
 
 /**
@@ -283,4 +288,10 @@ async function addPostTagWithNewTag (userID, postID, tagName) {
   // const postTag = await handler.asyncErrorHandler(PostTag.getPostTagByID, field)
   const result = await handler.asyncErrorHandler(PostTag.addPostTag, fields)
   return result.insertId
+}
+
+/* ======================================== Image ======================================== */
+
+async function addPostImage () {
+
 }

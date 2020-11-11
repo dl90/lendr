@@ -14,7 +14,10 @@ export default {
 
 /**
  * @param {number} imageID
- * @return {[object]} single image [ BinaryRow { data } ]
+ * @return {[object]} single image
+ * ```
+ *  [ BinaryRow { data } ]
+ * ```
  */
 async function getImageByImageID (imageID) {
   return await query('SELECT * FROM Image WHERE ID = ?', [imageID])
@@ -22,14 +25,20 @@ async function getImageByImageID (imageID) {
 
 /**
  * @param {number} userID
- * @return {[object]} multiple images [ BinaryRow { data } ]
+ * @return {[object]} multiple images
+ * ```
+ *  [ BinaryRow { data } ]
+ * ```
  */
 async function getAllImagesByUserID (userID) {
   return await query('SELECT * FROM Image WHERE user_id = ?', [userID])
 }
 
 /**
- * @param {object} fields { userID: [number], imageURL: [string]]
+ * @param {object} fields
+ * ```
+ *  { userID: [number], imageURL: [string] }
+ * ```
  * @return {}
  */
 async function addImage (fields) {
@@ -40,7 +49,10 @@ async function addImage (fields) {
 }
 
 /**
- * @param {array} fields [ [url, user_id], [url, user_id], ...]
+ * @param {array} fields
+ * ```
+ *  [ [url, user_id], [url, user_id], ...]
+ * ```
  * @return {object}
  * ```js
  *   ResultSetHeader {
@@ -58,7 +70,10 @@ async function addImages (fields) {
 }
 
 /**
- * @param {object} fields { imageID: [number], imageURL: [string]]
+ * @param {object} fields
+ * ```
+ *  { imageID: [number], imageURL: [string]] }
+ * ```
  * @return {}
  */
 async function updateImage (fields) {
