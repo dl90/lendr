@@ -19,7 +19,7 @@
       <div class="form-group row">
         <label for="email" class="col-form-label col-sm-3">Email</label>
         <input class="form-control col-sm-4" type="text" id="email" name="email" placeholder="test@test.com">
-          <form="login-form" pattern=".{3,}" required title="3 characters minimum">
+        <form="login-form" pattern=".{3,}" required title="3 characters minimum">
       </div>
       <div class="form-group row">
         <label for="password" class="col-form-label col-sm-3">Password</label>
@@ -62,6 +62,23 @@
     </form>
   </div>
 
+  <div class="container py-5">
+    <h3>Chat</h3>
+    <div id="chat"></div>
+
+    <form id="chatBox">
+      <div class="form-group">
+        <input id="recipient-id" type="text" placeholder="Recipient UserID" class="form-control col-sm-7">
+      </div>
+      <div class="form-group">
+        <textarea rows="2" cols="50" id="message" style="resize:none" placeholder="message"
+          class="form-control col-sm-7"></textarea>
+      </div>
+      <button type="submit" form="chatBox" class="btn btn-warning">Send</button>
+    </form>
+  </div>
+
+  <script src="./ws.js"></script>
 </body>
 
 </html>
