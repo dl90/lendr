@@ -19,7 +19,7 @@ import SignUp from './pages/signUp';
 import SpecificCategories from './pages/specificCategories';
 
 // import './App.css';
-// import Pages from "./pages/renterProfile";
+import Pages from "./pages/renterProfile";
 // import Pages from "./pages/index";
 // import Pages from "./pages/post";
 // import Pages from "./pages/login";
