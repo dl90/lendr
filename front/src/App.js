@@ -17,6 +17,7 @@ import RenterProfile from "./pages/renterProfile";
 import Settings from './pages/settings';
 import SignUp from './pages/signUp';
 import SpecificCategories from './pages/specificCategories';
+// import ExplorePage from './pages/ExplorePage';
 
 import Lsignup from "./pages/Lsignup";
 import Load1 from "./pages/load1";
@@ -49,6 +50,7 @@ const App = () => {
         <Route exact path="/tutorial2" component={Tutorial2}></Route>
         <Route exact path="/tutorial3" component={Tutorial3}></Route>
         <Route exact path="/tutorial4" component={Tutorial4}></Route>
+
       </div>
 
     </Router>
