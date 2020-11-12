@@ -14,6 +14,14 @@ import InputParagraph from '../comps/InputParagraph';
 
 //import axios to get 
 import axios from 'axios';
+
+import {
+    BrowserRouter as Router,
+    Link,
+    Route,
+  } from "react-router-dom";
+
+
 export default function Post() {
 
     //Creating Use state
