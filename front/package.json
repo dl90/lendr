@@ -12,6 +12,7 @@
     "react-dom": "^16.14.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
+    "storybook": "^6.0.28",
     "styled-components": "^5.2.1"
   },
   "scripts": {

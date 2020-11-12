@@ -1,0 +1,31 @@
+.app{
+    display: flex;
+    flex-direction: column;
+    padding:6.93%;
+    height: 120vh;
+    z-index: -1;
+}
+
+.nav{
+    position: fixed;
+    z-index: 2;
+    width:100%;
+    left: 0;
+    bottom: 0;
+    // background-color: white;
+}
+
+.search{
+    z-index: 1;
+    margin-bottom: 8%;
+}
+
+h3{
+    color: white; 
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 27px;
+    letter-spacing: 0em;
+    text-align: left;
+}
