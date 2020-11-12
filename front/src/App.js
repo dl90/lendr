@@ -3,7 +3,7 @@ import React from 'react';
 
 import {
   BrowserRouter as Router,
-  Link,
+  useHistory,
   Route,
 } from "react-router-dom";
 import './App.css';
@@ -30,85 +30,29 @@ const App = () => {
   return (
     <Router>
       <div>
-        <Route path="/" component={Landing}></Route>
-        <Route path="/edit" component={EditPage}></Route>
-        <Route path="/index" component={Home}></Route>
-        <Route path="/item" component={ItemPage}></Route>
-        <Route path="/login" component={LoginPage}></Route>
-        <Route path="/messages" component={ChatPage}></Route>
-        <Route path="/post" component={PostPage}></Route>
-        <Route path="/renterProfile" component={RenterProfilePage}></Route>
-        <Route path="/settings" component={SettingsPage}></Route>
-        <Route path="/signUp" component={SignUpPage}></Route>
-        <Route path="/specificCategories" component={SpecificCategoriesPage}></Route>
+        <Route exact path="/" component={Login}></Route>
+        <Route exact path="/edit" component={Edit}></Route>
+        <Route exact path="/index" component={Index}></Route>
+        <Route exact path="/item" component={Item}></Route>
+        <Route exact path="/login" component={Login}></Route>
+        <Route exact path="/messages" component={Messages}></Route>
+        <Route exact path="/post" component={Post}></Route>
+        <Route exact path="/renterProfile" component={RenterProfile}></Route>
+        <Route exact path="/settings" component={Settings}></Route>
+        <Route exact path="/signUp" component={SignUp}></Route>
+        <Route exact path="/specificCategories" component={SpecificCategories}></Route>
 
-        <Route path="/Lsignup" component={LsignupPage}></Route>
-        <Route path="/load1" component={Load1Page}></Route>
-        <Route path="/load2" component={Load2Page}></Route>
-        <Route path="/tutorial1" component={Tutorial1Page}></Route>
-        <Route path="/tutorial2" component={Tutorial2Page}></Route>
-        <Route path="/tutorial3" component={Tutorial3Page}></Route>
-        <Route path="/tutorial4" component={Tutorial4Page}></Route>
+        <Route exact path="/Lsignup" component={Lsignup}></Route>
+        <Route exact path="/load1" component={Load1}></Route>
+        <Route exact path="/load2" component={Load2}></Route>
+        <Route exact path="/tutorial1" component={Tutorial1}></Route>
+        <Route exact path="/tutorial2" component={Tutorial2}></Route>
+        <Route exact path="/tutorial3" component={Tutorial3}></Route>
+        <Route exact path="/tutorial4" component={Tutorial4}></Route>
       </div>
       
     </Router>
   );
-}
-function Landing() {
-  return <Login></Login>;
-}
-function LoginPage() {
-  return <Login></Login>;
-}
-function Home() {
-  return <Index></Index>;
-}
-function ItemPage() {
-  return <Item></Item>;
-}
-function EditPage() {
-  return <Edit></Edit>;
-}
-function RenterProfilePage() {
-  return <RenterProfile></RenterProfile>;
-}
-function SignUpPage() {
-  return <SignUp></SignUp>;
-}
-function SpecificCategoriesPage() {
-  return <SpecificCategories></SpecificCategories>;
-}
-
-function LsignupPage() {
-  return <Lsignup></Lsignup>;
-}
-function Load1Page() {
-  return <Load1></Load1>;
-}
-function Load2Page() {
-  return <Load2></Load2>;
-}
-function Tutorial1Page() {
-  return <Tutorial1></Tutorial1>;
-}
-function Tutorial2Page() {
-  return <Tutorial2></Tutorial2>;
-}
-function Tutorial3Page() {
-  return <Tutorial3></Tutorial3>;
-}
-function Tutorial4Page() {
-  return <Tutorial4></Tutorial4>;
-}
-// Navbar
-function PostPage() {
-  return <Post></Post>;
-}
-function ChatPage() {
-  return <Messages></Messages>;
-}
-function SettingsPage() {
-  return <Settings></Settings>;
 }
 
 export default App;

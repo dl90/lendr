@@ -5,6 +5,9 @@ import './tutorial3.scss';
 
 import Header from '../comps/Header';
 import Button from '../comps/Button';
+
+import {Link} from "react-router-dom";
+
 export default function Tutorial3(){
     return <div className="loggingIn">
             <Header options={"none"}/>
@@ -13,9 +16,13 @@ export default function Tutorial3(){
         <h1>Pick Up the Item</h1>
             <div className="text">
             <h10> Make the exchange at the meeting place you set up.</h10>
+            <Link to="/tutorial2">
+                <div className="button2"> <Button text={"Back"}/></div>
+            </Link>
             <div className="number"><h11>3/4</h11></div>
-           <div className="button"> <Button  bg={"linear-gradient(119.69deg, rgba(255,138,0,0.5) -15.26%, #FF8A00 98.97%)"} text={"Next"}/></div>
-           <div className="button2"> <Button text={"Back"}/></div>
+            <Link to="/tutorial4">
+                <div className="button"> <Button  bg={"linear-gradient(119.69deg, rgba(255,138,0,0.5) -15.26%, #FF8A00 98.97%)"} text={"Next"}/></div>
+            </Link>
             </div>
 
         </div>
