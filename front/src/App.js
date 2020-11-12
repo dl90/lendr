@@ -52,7 +52,7 @@ const App = () => {
         <Route exact path="/tutorial4" component={Tutorial4}></Route>
 
       </div>
-      
+
     </Router>
   );
 }
