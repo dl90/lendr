@@ -100,5 +100,4 @@ export default function Post() {
                 <BottomNav />
             </div>
         </div>
-        </Router>
 }

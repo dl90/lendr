@@ -6,7 +6,7 @@ import './app.scss'
 import '../pages/explorepage.scss'
 import SearchBar from '../comps/SearchBar';
 import ReviewCard from '../comps/ReviewCard';
-import CategoryButton from '../comps/CategoryButton';
+import CategoryButtons from '../comps/CategoryButtons';
 import styled from 'styled-components';
 
 
@@ -24,7 +24,7 @@ align-items:center;
  }
 `;
 
-export default function explorepage({userfname}) {
+export default function ExplorePage({userfname}) {
     return <div className="app">
         <div className="Header">
        <div className="Header_top">
@@ -40,10 +40,7 @@ export default function explorepage({userfname}) {
         <div className="Category_cont">
         <h2>Categories</h2>
         <div className="Category_divs">
-        <CategoryButton src="/vehicle.png" text="Automobile"></CategoryButton>
-        <CategoryButton src="/appliancesicon.png" text="Appliances"></CategoryButton>
-        <CategoryButton src="/vehicle.png" text="Electronics"></CategoryButton>
-        <CategoryButton src="/vehicle.png" text="Furniture"></CategoryButton>
+            <CategoryButtons></CategoryButtons>
         </div>
         </div>
         <div className="Recommended_cont">
@@ -68,7 +65,7 @@ export default function explorepage({userfname}) {
 }
 
 
-explorepage.defaultProps = {
+ExplorePage.defaultProps = {
     userfname: "Steven"
 }
 
