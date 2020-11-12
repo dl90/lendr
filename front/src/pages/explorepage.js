@@ -6,8 +6,8 @@ import './app.scss'
 import '../pages/explorepage.scss'
 import SearchBar from '../comps/SearchBar';
 import ReviewCard from '../comps/ReviewCard';
-import CategoryButtons from '../comps/CategoryButtons';
 import styled from 'styled-components';
+import CategoryButton from '../comps/CategoryButton';
 
 
 const UserAvatar = styled.div`
@@ -40,7 +40,10 @@ export default function ExplorePage({userfname}) {
         <div className="Category_cont">
         <h2>Categories</h2>
         <div className="Category_divs">
-            <CategoryButtons></CategoryButtons>
+        <CategoryButton src={"/vehicles.svg"} text={"Vehicles"}></CategoryButton>
+        <CategoryButton src={"/appliances.svg"} text={"Appliances"}></CategoryButton>
+        <CategoryButton src={"/electronics.svg"} text={"Electronics"}></CategoryButton>
+        <CategoryButton src={"/furniture.svg"} text={"Furniture"}></CategoryButton>
         </div>
         </div>
         <div className="Recommended_cont">
