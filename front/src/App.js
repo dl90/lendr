@@ -17,7 +17,7 @@ import RenterProfile from "./pages/renterProfile";
 import Settings from './pages/settings';
 import SignUp from './pages/signUp';
 import SpecificCategories from './pages/specificCategories';
-// import ExplorePage from './pages/ExplorePage';
+import ExplorePage from './pages/explorepage';
 
 import Lsignup from "./pages/Lsignup";
 import Load1 from "./pages/load1";
@@ -31,8 +31,9 @@ const App = () => {
   return (
     <Router>
       <div>
-        <Route exact path="/" component={Login}></Route>
+        <Route exact path="/" component={ExplorePage}></Route>
         <Route exact path="/edit" component={Edit}></Route>
+        <Route exact path="/explorepage" component={ExplorePage}></Route>
         <Route exact path="/index" component={Index}></Route>
         <Route exact path="/item" component={Item}></Route>
         <Route exact path="/login" component={Login}></Route>

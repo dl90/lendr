@@ -8,6 +8,7 @@ import ProfileCard from '../comps/ProfileCard';
 import AskLender from '../comps/AskLender';
 import BottomNav from '../comps/BottomNav';
 
+import {Link} from "react-router-dom";
 
 export default function Item({Title,Price,img,Desc}){
     const [heartActive, changeHeartActive] = useState(false);

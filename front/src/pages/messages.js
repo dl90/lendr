@@ -7,6 +7,7 @@ import SearchBar from '../comps/SearchBar';
 import './messages.scss';
 import './app.scss'
 
+import {Link} from "react-router-dom";
 
 export default function Home() {
     return <div className="app">
