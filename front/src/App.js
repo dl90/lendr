@@ -16,6 +16,23 @@ import Settings from './pages/settings';
 import SignUp from './pages/signUp';
 import SpecificCategories from './pages/specificCategories';
 
+
+// import './App.css';
+// import Pages from "./pages/renterProfile";
+// import Pages from "./pages/index";
+// import Pages from "./pages/post";
+// import Pages from "./pages/login";
+// import Pages from "./pages/signUp";
+// import Pages from "./pages/item";
+// import Pages from "./pages/settings";
+// import Pages from "./pages/Lsignup";
+// import Pages from "./pages/load1";
+// import Pages from "./pages/load2";
+// import Pages from "./pages/tutorial1";
+// import Pages from "./pages/tutorial2";
+// import Pages from "./pages/tutorial3";
+// import Pages from "./pages/tutorial4";
+
 const App = () => {
   return (
     <Router>
@@ -32,7 +49,7 @@ const App = () => {
         <Route path="/signUp" component={SignUpPage}></Route>
         <Route path="/specificCategories" component={SpecificCategoriesPage}></Route>
       </div>
-      
+
     </Router>
   );
 }
