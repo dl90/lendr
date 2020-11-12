@@ -1,4 +1,6 @@
 import React from 'react';
+
+
 import {
   BrowserRouter as Router,
   Link,
@@ -15,7 +17,6 @@ import RenterProfile from "./pages/renterProfile";
 import Settings from './pages/settings';
 import SignUp from './pages/signUp';
 import SpecificCategories from './pages/specificCategories';
-
 
 // import './App.css';
 // import Pages from "./pages/renterProfile";

@@ -1,0 +1,40 @@
+.loggingIn{
+    text-align: left;
+    flex-direction: column;
+    padding:55px;
+    display: flex;
+    .img{
+        margin-left: -20px;
+    }
+    .skip{
+        margin-top:-19px;
+        margin-left: 176px;
+        font-family: Font Awesome 5 Free;
+        font-weight: 900;
+        font-size: 12px;
+        line-height: 18px;
+        display: flex;
+        align-items: center;
+
+        color: #39A6DC;
+    }
+    .text{
+        font-family: Lato;
+        font-size: small;;
+    }
+    .button{
+          margin-left: 170px;;
+          margin-top: 12px;
+    }
+    .number{
+       position:absolute;
+       margin-top: 20px;
+       margin-left: 120px;
+       color: rgba(0, 0, 0, 0.5);
+       font-family: Poppins;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 18px;
+    }
+}
