@@ -5,6 +5,7 @@ const HeaderDiv = styled.div`
     display:flex;
     align-items: center;
     max-width:414px;
+    
 `;
 
 const Back = styled.img`
