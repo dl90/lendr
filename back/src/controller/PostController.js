@@ -1,7 +1,10 @@
 import handler from '../util/handler.js'
+
 import Post from '../model/PostModel.js'
 import Item from '../model/ItemModel.js'
+import Image from '../model/ImageModel.js'
 import PostTag from '../model/PostTagModel.js'
+import PostImage from '../model/PostImageModel.js'
 
 import TagController from './TagController.js'
 
@@ -26,13 +29,14 @@ export default {
   incrementView,
 
   addPostTagWithTagID,
-  addPostTagWithNewTag
+  addPostTagWithNewTag,
 
-  // addPostImage
-  // addPostImages
-  // deletePostImage
-  // getAllPostImages
+  addPostImages,
+  getAllPostImages,
+  deletePostImage
 }
+
+// @TODO verify itemID first before creating post
 
 /**
  * @param {number} userID
@@ -238,7 +242,11 @@ async function updatePostDuration (userID, postID, postDuration) {
 async function setPostReportFlag (postID, reportFlag) {
   const fields = { postID: +postID }
   fields.reportFlag = (reportFlag === 'true')
-  const result = await handler.asyncErrorHandler(Post.setPostReportFlag, fields)
+  const result = await handler.asyncErrorHandler(
+    Post.setPostReportFlag,
+    fields,
+    'PostController: setPostReportFlag - Post model'
+  )
   return result.affectedRows === 1
 }
 
@@ -247,7 +255,11 @@ async function setPostReportFlag (postID, reportFlag) {
  * @return {boolean} true if incremented
  */
 async function incrementView (postID) {
-  const result = await handler.asyncErrorHandler(Post.incrementView, +postID)
+  const result = await handler.asyncErrorHandler(
+    Post.incrementView,
+    +postID,
+    'PostController: incrementView - Post model'
+  )
   return result.affectedRows === 1
 }
 
@@ -259,8 +271,11 @@ async function incrementView (postID) {
  * @return {}
  */
 async function addPostTagWithTagID (postID, tagID) {
-  const result = await handler.asyncErrorHandler(PostTag.addPostTag,
-    { postID: +postID, tagID: +tagID })
+  const result = await handler.asyncErrorHandler(
+    PostTag.addPostTag,
+    { postID: +postID, tagID: +tagID },
+    'PostController: addPostTagWithTagID - PostTag model'
+  )
   return result.insertID
 }
 
@@ -286,12 +301,61 @@ async function addPostTagWithNewTag (userID, postID, tagName) {
 
   // @TODO check if post already has postTag (currently just throws errors)
   // const postTag = await handler.asyncErrorHandler(PostTag.getPostTagByID, field)
-  const result = await handler.asyncErrorHandler(PostTag.addPostTag, fields)
+  const result = await handler.asyncErrorHandler(
+    PostTag.addPostTag,
+    fields,
+    'PostController: addPostTagWithNewTag - PostTag model'
+  )
   return result.insertId
 }
 
 /* ======================================== Image ======================================== */
 
-async function addPostImage () {
+/**
+ * @param {number} userID
+ * @param {number} postID
+ * @param {[object]} imageArray
+ * @return {boolean} true if uploaded && inserted to db
+ */
+async function addPostImages (userID, postID, imageArray) {
+  const length = imageArray.length
+  const imageResult = await handler.asyncErrorHandler(
+    Image.addImages,
+    { userID: +userID, imageArray },
+    'PostController: addPostImages - Image model'
+  )
 
+  const start = imageResult.insertId
+  const imageIDs = Array.from({ length }, (_, i) => i + start)
+  const postImageResult = await handler.asyncErrorHandler(
+    PostImage.addPostImages,
+    { imageIDs, postID: +postID },
+    'PostController: addPostImages - PostImage model'
+  )
+  return postImageResult.affectedRows === length
+}
+
+/**
+ * @param {number} postID
+ * @return {[object]}
+ */
+async function getAllPostImages (postID) {
+  return await handler.asyncErrorHandler(
+    PostImage.getAllImageIDsByPostID,
+    +postID,
+    'PostController: getAllPostImages - PostImage model'
+  )
+}
+
+/**
+ * @param {number} postImageID
+ * @return {boolean} true if deleted
+ */
+async function deletePostImage (postImageID) {
+  const result = await handler.asyncErrorHandler(
+    PostImage.deletePostImage,
+    +postImageID,
+    'PostController: deletePostImage - PostImage model'
+  )
+  return result.affectedRows === 1
 }

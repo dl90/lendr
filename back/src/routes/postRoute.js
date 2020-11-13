@@ -1,13 +1,15 @@
 import express from 'express'
+import config from '../util/config.js'
 import PostController from '../controller/PostController.js'
 import authCheck from '../middleware/authCheck.js'
+import multer from '../middleware/multer.js'
 
 const router = express.Router()
 router.use(authCheck)
 
 export default function () {
   /**
-   * @api {put} /post/put                   Create new post with existing item
+   * @api {post} /post/new                  Create new post with existing item
    * @apiName NewPostWithExistingItem
    * @apiGroup Post
    *
@@ -21,7 +23,7 @@ export default function () {
    * @apiSuccess (204) {}                   Success
    * @apiError (400) {}                     Incorrect itemID || insert failed
    */
-  router.put('/new', async (req, res) => {
+  router.post('/new', async (req, res) => {
     const postID = await PostController.createPostWithItemID(
       req.user.id,
 
@@ -39,7 +41,7 @@ export default function () {
   })
 
   /**
-   * @api {put} /post/put                   Create new post with new item
+   * @api {post} /post/new-item             Create new post with new item
    * @apiName NewPostWIthNewItem
    * @apiGroup Post
    *
@@ -55,7 +57,7 @@ export default function () {
    * @apiSuccess (204) {}                   Success
    * @apiError (400) {}                     Incorrect itemID || insert failed
    */
-  router.put('/new-item', async (req, res) => {
+  router.post('/new-item', async (req, res) => {
     const postID = await PostController.createPostWithNewItem(
       req.user.id,
 
@@ -192,7 +194,7 @@ export default function () {
   })
 
   /**
-   * @api {put} /post/tag                  Add tag to post
+   * @api {post} /post/tag                  Add tag to post
    * @apiName AddTagToPost
    * @apiGroup Post
    *
@@ -202,7 +204,7 @@ export default function () {
    * @apiSuccess (204) {}                   Success
    * @apiError (400) {}                     Incorrect params || insert failed
    */
-  router.put('/tag', async (req, res) => {
+  router.post('/tag', async (req, res) => {
     await PostController.addPostTagWithNewTag(req.user.id, req.body.postID, req.body.tagName)
       ? res.sendStatus(204)
       : res.sendStatus(400)
@@ -306,6 +308,59 @@ export default function () {
    */
   router.patch('/flag', async (req, res) => {
     await PostController.setPostReportFlag(req.body.postID, req.body.postFlag)
+      ? res.sendStatus(204)
+      : res.sendStatus(400)
+  })
+
+  /**
+   * @api {post} /post/upload-images        Upload images to s3
+   * @apiName UploadPostImages
+   * @apiGroup Post
+   *
+   * @apiParam {number} postID
+   * @apiParam {files} images               Image files, 12 max [jpeg|jpg|png|gif]
+   *
+   * @apiSuccess (204) {}                   Success
+   * @apiError (400) {}                     Incorrect params || upload failed
+   */
+  router.post('/upload-images', multer.array('images', config.BATCH_IMAGE_UPLOAD_COUNT), async (req, res) => {
+    if (!req.files.length) res.sendStatus(400)
+    else {
+      await PostController.addPostImages(req.user.id, req.body.postID, req.files)
+        ? res.sendStatus(204)
+        : res.sendStatus(400)
+    }
+  })
+
+  /**
+   * @api {post} /post/images               Get all post images by postID
+   * @apiName GetPostImages
+   * @apiGroup Post
+   *
+   * @apiParam {number} postID
+   *
+   * @apiSuccess (200) {json}               Post images
+   * @apiError (400) {}                     Incorrect params || server error
+   */
+  router.post('/images', async (req, res) => {
+    const result = await PostController.getAllPostImages(req.body.postID)
+    result
+      ? res.json(result)
+      : res.sendStatus(400)
+  })
+
+  /**
+   * @api {delete} /post/images             Delete postImage by postImageID
+   * @apiName DeletePostImage
+   * @apiGroup Post
+   *
+   * @apiParam {number} postImageID
+   *
+   * @apiSuccess (204) {}                   Success
+   * @apiError (400) {}                     Incorrect params || server error
+   */
+  router.delete('/image', async (req, res) => {
+    await PostController.deletePostImage(req.body.postImageID)
       ? res.sendStatus(204)
       : res.sendStatus(400)
   })

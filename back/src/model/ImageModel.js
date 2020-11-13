@@ -1,4 +1,5 @@
 import db from '../db/queries/Image.queries.js'
+import config from '../util/config.js'
 import util from '../util/util.js'
 
 export default {
@@ -46,15 +47,16 @@ async function getAllImagesByUserID (userID) {
  * ```
  */
 async function addImage (fields) {
-  const { userID, imageURL } = fields
-  util.checkID(userID)
-  util.validateURL(imageURL)
-
+  util.checkID(fields.userID)
+  util.validateURL(fields.imageURL)
   return await db.addImage(fields)
 }
 
 /**
- * @param {object} fields { userID: [number], imageArray: [{ location: 'www.' }, ...] }
+ * @param {object} fields
+ * ```
+ *  { userID: [number], imageArray: [{ location: 'www.' }, ...] }
+ * ```
  * @return {object}
  * > ```
  * ResultSetHeader {
@@ -71,15 +73,8 @@ async function addImages (fields) {
   const { userID, imageArray } = fields
   util.checkID(userID)
 
-  const arr = []
-  const len = imageArray.length
-  if (len < 0) util.invalidArgument(imageArray)
-
-  for (let i = 0; i < len; i++) {
-    util.validateURL(imageArray[i].location)
-    arr.push([imageArray[i].location, userID])
-  }
-
+  if (imageArray.length < 0) util.invalidArgument(imageArray)
+  const arr = imageArray.map(obj => [obj.location, userID])
   return await db.addImages(arr)
 }
 
@@ -88,10 +83,9 @@ async function addImages (fields) {
  * @return {}
  */
 async function updateImage (fields) {
-  const { imageID, imageURL } = fields
-  util.checkID(imageID)
-  util.validateURL(imageURL)
-  checkImageID(imageID)
+  util.checkID(fields.imageID)
+  util.validateURL(fields.imageURL)
+  checkImageID(fields.imageID)
 
   return await db.updateImage(fields)
 }
@@ -113,7 +107,7 @@ async function deleteImage (imageURL) {
  * @throw entry missing error
  */
 async function checkImageID (imageID) {
-  if (util.DB_ENTRY_CHECK) {
+  if (config.DB_ENTRY_CHECK) {
     const result = await getImageByImageID(imageID)
     if (result.length === 0) util.missingEntry(imageID)
   }
