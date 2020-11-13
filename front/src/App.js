@@ -18,6 +18,7 @@ import Settings from './pages/settings';
 import SignUp from './pages/signUp';
 import SpecificCategories from './pages/specificCategories';
 import ExplorePage from './pages/explorepage';
+import Lending from "./pages/lending"
 
 import Lsignup from "./pages/Lsignup";
 import Load1 from "./pages/load1";
@@ -32,6 +33,7 @@ const App = () => {
     <Router>
       <div>
         <Route exact path="/" component={ExplorePage}></Route>
+        <Route exact path="/lending" component={Lending}></Route>
         <Route exact path="/edit" component={Edit}></Route>
         <Route exact path="/explorepage" component={ExplorePage}></Route>
         <Route exact path="/index" component={Index}></Route>
@@ -53,7 +55,7 @@ const App = () => {
         <Route exact path="/tutorial4" component={Tutorial4}></Route>
 
       </div>
-      
+
     </Router>
   );
 }

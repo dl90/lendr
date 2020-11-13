@@ -63,7 +63,9 @@ export default function ExplorePage({userfname}) {
         <div className="Recommended_cont">
             <div className="Section_header">
                 <h2 >Recommended</h2>
-                <h6>See All</h6>
+                <Link to="/categories">
+                    <h6>See All</h6>
+                </Link>
             </div>
         
         <div className="Recommended_divs">
@@ -83,7 +85,7 @@ export default function ExplorePage({userfname}) {
         {/* </div> */}
         </div>
         <div className="nav">
-            <BottomNav/>
+            <BottomNav />
         </div>
     </div>
 }
