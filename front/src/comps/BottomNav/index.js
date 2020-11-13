@@ -70,6 +70,7 @@ const BottomNav = ({ }) => {
             <div>Home</div>
         </Explore>
         </Link>
+        <Link to="/lending">
         <Lend onClick={() => {
             changeExploreActive(2)
         }}
@@ -82,6 +83,7 @@ const BottomNav = ({ }) => {
             </svg>
             <div>Lend</div>
         </Lend>
+        </Link>
         <Link to="/post">
         <PostDiv onClick={() => {
             changeExploreActive(3)

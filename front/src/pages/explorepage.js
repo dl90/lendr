@@ -39,7 +39,9 @@ export default function ExplorePage({userfname}) {
             <div className="Category_cont">
                 <div className="Category_header">
                     <h2>Categories</h2>
-                    <h6>See All</h6>
+                    <Link to="/index">
+                        <h6>See All</h6>
+                    </Link>
                 </div>
             <div className="Category_divs">
                 <Link to="/specificCategories">
@@ -63,7 +65,7 @@ export default function ExplorePage({userfname}) {
         <div className="Recommended_cont">
             <div className="Section_header">
                 <h2 >Recommended</h2>
-                <Link to="/categories">
+                <Link to="/specificcategories">
                     <h6>See All</h6>
                 </Link>
             </div>
@@ -76,7 +78,9 @@ export default function ExplorePage({userfname}) {
         <div className="Saved_cont">
         <div className="Section_header">
             <h2>Saved Items</h2>
-            <h6>See All</h6>
+            <Link to="/specificcategories">
+                <h6>See All</h6>
+            </Link>
         </div>
         <div className="Recommended_divs">
             <ReviewCard></ReviewCard>

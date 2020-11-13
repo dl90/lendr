@@ -3,7 +3,6 @@ import React from 'react';
 
 import {
   BrowserRouter as Router,
-  useHistory,
   Route,
 } from "react-router-dom";
 import './App.css';
@@ -28,7 +27,10 @@ import Tutorial2 from "./pages/tutorial2";
 import Tutorial3 from "./pages/tutorial3";
 import Tutorial4 from "./pages/tutorial4";
 
+// const BrowserHistory = require('react-router/lib/BrowserHistory').default;
+
 const App = () => {
+
   return (
     <Router>
       <div>
