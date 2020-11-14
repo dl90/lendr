@@ -6,10 +6,14 @@ import {
   Route,
 } from "react-router-dom";
 import './App.css';
+import Chat from "./pages/chat";
 import Edit from "./pages/edit";
 import Index from "./pages";
 import Item from "./pages/item";
 import Login from "./pages/login";
+import LendingAvailable from "./pages/lendingAvailable";
+import LendingHistory from "./pages/lendingHistory";
+import LendingLoan from "./pages/lendingLoan";
 import Messages from "./pages/messages";
 import Post from "./pages/post";
 import ProfileSettings from "./pages/profileSettings";
@@ -34,11 +38,15 @@ const App = () => {
     <Router>
       <div>
         <Route exact path="/" component={ExplorePage}></Route>
+        <Route exact path="/chat" component={Chat}></Route>
         <Route exact path="/edit" component={Edit}></Route>
         <Route exact path="/explorepage" component={ExplorePage}></Route>
         <Route exact path="/index" component={Index}></Route>
         <Route exact path="/item" component={Item}></Route>
         <Route exact path="/login" component={Login}></Route>
+        <Route exact path="/lendingAvailable" component={LendingAvailable}></Route>
+        <Route exact path="/lendingHistory" component={LendingHistory}></Route>
+        <Route exact path="/lendingLoan" component={LendingLoan}></Route>
         <Route exact path="/messages" component={Messages}></Route>
         <Route exact path="/post" component={Post}></Route>
         <Route exact path="/profileSettings" component={ProfileSettings}></Route>

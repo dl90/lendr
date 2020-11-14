@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import {Link} from 'react-router-dom';
+
 const MessageDiv = styled.div`
 max-height: 98px;
 min-height: 98px;
@@ -65,7 +67,8 @@ text-align:right;
 
 const Message = ({ fullname, lastmsg, date, pfp }) => {
     const [Hovered, setHovered] = useState(false);
-    return <MessageDiv Hovered={Hovered} onMouseOver={() => {
+    return <Link to="/chat">
+        <MessageDiv Hovered={Hovered} onMouseOver={() => {
         setHovered(true);
     }} onMouseOut={() => {
         setHovered(false);
@@ -77,6 +80,7 @@ const Message = ({ fullname, lastmsg, date, pfp }) => {
         </TextContent>
         <Date>{date}</Date>
     </MessageDiv>
+    </Link>
 };
 
 Message.defaultProps = {
