@@ -9,6 +9,7 @@ import ReviewCard from '../comps/ReviewCard';
 import styled from 'styled-components';
 import CategoryButton from '../comps/CategoryButton';
 
+import {Link} from "react-router-dom";
 
 const UserAvatar = styled.div`
 height:60px;
@@ -24,42 +25,68 @@ align-items:center;
  }
 `;
 
-export default function ExplorePage({ userfname }) {
-    return <div className="app">
+export default function ExplorePage({userfname}) {
+    return <div>
         <div className="Header">
             <div className="Header_top">
                 <div>Hi {userfname},</div>
                 <UserAvatar><img src="/placeholderProfile.png"></img></UserAvatar>
             </div>
             <h1>Explore</h1>
-        </div>
-        <div className="search">
-            <SearchBar placeholder="Search Items" />
-        </div>
-        <div className="content_div">
+            <div className="search">
+                <SearchBar placeholder="Search Items" />
+            </div>
             <div className="Category_cont">
-                <h2>Categories</h2>
-                <div className="Category_divs">
+                <div className="Category_header">
+                    <h2>Categories</h2>
+                    <Link to="/index">
+                        <h6>See All</h6>
+                    </Link>
+                </div>
+            <div className="Category_divs">
+                <Link to="/specificCategories">
                     <CategoryButton src={"/vehicles.svg"} text={"Vehicles"}></CategoryButton>
-                    <CategoryButton src={"/appliances.svg"} text={"Appliances"}></CategoryButton>
-                    <CategoryButton src={"/electronics.svg"} text={"Electronics"}></CategoryButton>
-                    <CategoryButton src={"/furniture.svg"} text={"Furniture"}></CategoryButton>
-                </div>
+                </Link>
+                <Link to="/specificCategories">
+                <CategoryButton src={"/appliances.svg"} text={"Appliances"}></CategoryButton>
+                </Link>
+                <Link to="/specificCategories">
+                <CategoryButton src={"/electronics.svg"} text={"Electronics"}></CategoryButton>
+                </Link>
+                <Link to="/specificCategories">
+                <CategoryButton src={"/furniture.svg"} text={"Furniture"}></CategoryButton>
+                </Link>
             </div>
-            <div className="Recommended_cont">
-                <h2 className="Recommended_header">Recommended</h2>
-                <div className="Recommended_divs">
-                    <ReviewCard></ReviewCard>
-                    <ReviewCard></ReviewCard>
-                </div>
+        </div>
+        
+        
+        
+        </div>
+        <div className="Recommended_cont">
+            <div className="Section_header">
+                <h2 >Recommended</h2>
+                <Link to="/specificcategories">
+                    <h6>See All</h6>
+                </Link>
             </div>
-            <div className="Saved_cont">
-                <h2 className="Saved_header">Saved Items</h2>
-                <div className="Recommended_divs">
-                    <ReviewCard></ReviewCard>
-                    <ReviewCard></ReviewCard>
-                </div>
-            </div>
+        
+        <div className="Recommended_divs">
+            <ReviewCard></ReviewCard>
+            <ReviewCard></ReviewCard>
+        </div>
+        </div>
+        <div className="Saved_cont">
+        <div className="Section_header">
+            <h2>Saved Items</h2>
+            <Link to="/specificcategories">
+                <h6>See All</h6>
+            </Link>
+        </div>
+        <div className="Recommended_divs">
+            <ReviewCard></ReviewCard>
+            <ReviewCard></ReviewCard>
+        </div>
+        {/* </div> */}
         </div>
         <div className="nav">
             <BottomNav />

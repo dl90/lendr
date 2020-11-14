@@ -12,6 +12,8 @@ import Button from '../comps/Button';
 import BottomNav from '../comps/BottomNav';
 import InputParagraph from '../comps/InputParagraph';
 
+import {Link} from "react-router-dom";
+
 export default function Post(){
     return <div>
         <div className="post">

@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import {useHistory,} from "react-router-dom";
+
 const HeaderDiv = styled.div`
     display:flex;
     align-items: center;
@@ -34,8 +36,9 @@ const Options = styled.img`
 `;
 
 const Header = ({options}) => {
+    let history = useHistory();
     return <HeaderDiv>
-        <Back src={"/back.svg"}></Back>
+        <Back onClick={() => history.goBack()} src={"/back.svg"}></Back>
         <Space></Space>
         <Options src={"/options.svg"} options={options}></Options>
     </HeaderDiv>

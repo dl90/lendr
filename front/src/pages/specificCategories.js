@@ -7,6 +7,7 @@ import '../pages/specificCategories.scss'
 import SearchBar from '../comps/SearchBar';
 import ProductThumbnail from '../comps/ProductThumbnail'
 
+import {Link} from "react-router-dom";
 
 export default function specificCategories({title}) {
     return <div className="app">
