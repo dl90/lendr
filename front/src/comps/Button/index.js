@@ -10,7 +10,7 @@ const ButtonDiv = styled.div`
     justify-content:center;
     align-items:center;
 
-    background:${props=>props.bg ? props.bg: "linear-gradient(119.69deg, rgba(57, 166, 220, 0.75) -15.26%, #39A6DC 98.97%)"};
+    background:${props => props.bg ? props.bg : "linear-gradient(119.69deg, rgba(57, 166, 220, 0.75) -15.26%, #39A6DC 98.97%)"};
     color:#FFF;
     box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06);
 
@@ -18,21 +18,22 @@ const ButtonDiv = styled.div`
         cursor:pointer;
     }
     &:active{
-    background:${props=>props.bg ? props.bg: "linear-gradient(119.69deg, rgba(57, 166, 220, 0.75) -15.26%, #39A6DC 98.97%)"};
+    background:${props => props.bg ? props.bg : "linear-gradient(119.69deg, rgba(57, 166, 220, 0.75) -15.26%, #39A6DC 98.97%)"};
         color:#FFF;
     box-shadow:none;
     }
 `;
 
-const Button = ({bg,text}) => {
-    return <ButtonDiv bg={bg}>
+const Button = ({ bg, text, onClick }) => {
+    return <ButtonDiv bg={bg} onClick={onClick}>
         {text}
     </ButtonDiv>
 };
 
 Button.defaultProps = {
     bg: "linear-gradient(119.69deg, rgba(57, 166, 220, 0.75) -15.26%, #39A6DC 98.97%)",
-    text:"Button"
+    text: "Button",
+    onClick: () => { },
 };
 
 
