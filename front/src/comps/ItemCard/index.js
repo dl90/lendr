@@ -83,7 +83,7 @@ const ItemCard = ({itemname, price, img}) => {
 ItemCard.defaultProps = {
     itemname: "Rental Item",
     price: "$10/day",
-    img: "/test.jpg"
+    img: "#DCEFFB"
 };
 
 

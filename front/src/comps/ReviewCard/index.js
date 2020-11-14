@@ -7,7 +7,7 @@ min-height: 188px;
 min-width:195px;
 max-width:150px;
 margin-right: 24px;
-background-color: blue;
+background-color: #DCEFFB;
 border-radius:10px;
 background-image: url("${props => props.bgImg}");
 background-size: cover;
@@ -15,6 +15,7 @@ background-repeat: no-repeat;
 background-position: center;
 overflow:hidden;
 box-shadow: 0px 16px 24px 0px rgba(0, 0, 0, 0.06);
+margin-bottom:30px;
 `;
 
 const Item = styled.div`
@@ -23,7 +24,7 @@ max-width:195px;
 min-height:35px;
 background-color:white;
 position:relative;
-top:129px;
+top:132px;
 border-radius:0 0 10px 10px;
 `;
 
@@ -59,7 +60,7 @@ const ReviewCard = ({ title, date, bgImg }) => {
 ReviewCard.defaultProps = {
     title: "title (20 letters max)",
     date: "uploaded ...   weeks ago",
-    bgImg: './placeholderProfile.png',
+    // bgImg: './placeholderProfile.png',
 };
 
 

@@ -5,7 +5,7 @@ const InputBoxDiv = styled.input`
     display:flex;
     align-items:center;
     flex-grow:1;
-    margin-top:10px;
+    margin-top:15px;
 
     min-width:220px;
     max-width:414px;

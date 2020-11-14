@@ -3,7 +3,6 @@ import React from 'react';
 
 import {
   BrowserRouter as Router,
-  useHistory,
   Route,
 } from "react-router-dom";
 import './App.css';
@@ -13,12 +12,13 @@ import Item from "./pages/item";
 import Login from "./pages/login";
 import Messages from "./pages/messages";
 import Post from "./pages/post";
+import ProfileSettings from "./pages/profileSettings";
 import RenterProfile from "./pages/renterProfile";
 import Settings from './pages/settings';
 import SignUp from './pages/signUp';
 import SpecificCategories from './pages/specificCategories';
+import ExplorePage from './pages/explorepage';
 import Lending from "./pages/lending"
-// import ExplorePage from './pages/ExplorePage';
 
 import Lsignup from "./pages/Lsignup";
 import Load1 from "./pages/load1";
@@ -28,18 +28,23 @@ import Tutorial2 from "./pages/tutorial2";
 import Tutorial3 from "./pages/tutorial3";
 import Tutorial4 from "./pages/tutorial4";
 
+// const BrowserHistory = require('react-router/lib/BrowserHistory').default;
+
 const App = () => {
+
   return (
     <Router>
       <div>
-        <Route exact path="/" component={Login}></Route>
+        <Route exact path="/" component={ExplorePage}></Route>
         <Route exact path="/lending" component={Lending}></Route>
         <Route exact path="/edit" component={Edit}></Route>
+        <Route exact path="/explorepage" component={ExplorePage}></Route>
         <Route exact path="/index" component={Index}></Route>
         <Route exact path="/item" component={Item}></Route>
         <Route exact path="/login" component={Login}></Route>
         <Route exact path="/messages" component={Messages}></Route>
         <Route exact path="/post" component={Post}></Route>
+        <Route exact path="/profileSettings" component={ProfileSettings}></Route>
         <Route exact path="/renterProfile" component={RenterProfile}></Route>
         <Route exact path="/settings" component={Settings}></Route>
         <Route exact path="/signUp" component={SignUp}></Route>
