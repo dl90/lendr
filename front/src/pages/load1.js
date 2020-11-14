@@ -3,7 +3,7 @@ import './index.scss';
 import './app.scss';
 import './load1.scss';
 
-export default function load(){
+export default function Load1(){
     return <div className="loggingIn">
         <h1>Logging In</h1>
         <div className="img"><img src="logging.png"></img></div>

@@ -8,6 +8,8 @@ import Input from '../comps/Input';
 import Button from '../comps/Button';
 import InputBox from '../comps/InputBox';
 
+import {Link} from "react-router-dom";
+
 import axios from 'axios';
 export default function SignUp() {
 
@@ -50,16 +52,18 @@ export default function SignUp() {
                 }}
             ></Input>
             <InputBox placeholder={"Re-enter Password"} ></InputBox>
-            <div className="button">
-                <Button text={"Create account"}
-                    onClick={() => {
-                        HandleSignUp(email, pass, name);
-                    }}
-                />
-            </div>
+            <Link to="/tutorial1">
+                <div className="button">
+                    <Button text={"Create account"}
+                        onClick={() => {
+                            HandleSignUp(email, pass, name);
+                        }}
+                    />
+                </div>
+            </Link>
+           
 
         </div>
 
     </div>
 }
-

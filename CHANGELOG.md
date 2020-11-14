@@ -2,7 +2,12 @@
 
 format: Major . Minor . Sprint Week
 
-## 0.0.7 (October 27, 2020)
+## 0.0.8 (November 8, 2020)
+
+* [x] Api doc
+* [x] Post routes
+
+## 0.0.6 (October 27, 2020)
 
 * [x] User authentication
 * [x] Image upload

@@ -107,7 +107,7 @@ const ProductThumbnail = ({itemname, price, img, pfp, username}) => {
 ProductThumbnail.defaultProps = {
     itemname: "Rental Item",
     price: "$10/day",
-    img: "/test.jpg",
+    img: "#DCEFFB",
     pfp:"/placeholderProfile.png",
     username: "John Doe"
 };

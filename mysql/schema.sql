@@ -21,6 +21,7 @@ CREATE TABLE `UserPassword` (
   `user_id`                 INTEGER UNIQUE NOT NULL,
   `password_hash`           VARCHAR(255) NOT NULL,
   `created_on`              TIMESTAMP NOT NULL DEFAULT(NOW()),
+  `updated_on`              TIMESTAMP NOT NULL DEFAULT(NOW()),
 
   FOREIGN KEY (`user_id`) REFERENCES `User`(`id`) ON DELETE CASCADE
 );
@@ -65,7 +66,7 @@ CREATE TABLE `Post` (
   `duration`                TIMESTAMP NOT NULL DEFAULT(NOW() + INTERVAL 1 MONTH),
   `views`                   INTEGER NOT NULL DEFAULT(0), -- increment on vew
   `likes`                   INTEGER NOT NULL DEFAULT(0), -- aggregated
-  `report_flag`             INTEGER NOT NULL DEFAULT(0),
+  `report_flag`             BOOLEAN NOT NULL DEFAULT(0),
   `user_id`                 INTEGER NOT NULL,
   `item_id`                 INTEGER NOT NULL,
 
@@ -79,6 +80,7 @@ CREATE TABLE `PostImage` (
   `post_id`                 INTEGER NOT NULL,
   `image_id`                INTEGER NOT NULL,
 
+  UNIQUE (`post_id`, `image_id`),
   FOREIGN KEY (`post_id`) REFERENCES `Post`(`id`) ON DELETE CASCADE,
   FOREIGN KEY (`image_id`) REFERENCES `Image`(`id`) ON DELETE CASCADE
 );
@@ -94,6 +96,7 @@ CREATE TABLE `PostTag` (
   `post_id`                 INTEGER NOT NULL,
   `tag_id`                  INTEGER NOT NULL,
 
+  UNIQUE (`post_id`,`tag_id`),
   FOREIGN KEY (`post_id`) REFERENCES `Post`(`id`) ON DELETE CASCADE,
   FOREIGN KEY (`tag_id`) REFERENCES `Tag`(`id`) ON DELETE CASCADE
 );
