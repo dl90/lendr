@@ -12,6 +12,7 @@ import Item from "./pages/item";
 import Login from "./pages/login";
 import Messages from "./pages/messages";
 import Post from "./pages/post";
+import ProfileSettings from "./pages/profileSettings";
 import RenterProfile from "./pages/renterProfile";
 import Settings from './pages/settings';
 import SignUp from './pages/signUp';
@@ -43,6 +44,7 @@ const App = () => {
         <Route exact path="/login" component={Login}></Route>
         <Route exact path="/messages" component={Messages}></Route>
         <Route exact path="/post" component={Post}></Route>
+        <Route exact path="/profileSettings" component={ProfileSettings}></Route>
         <Route exact path="/renterProfile" component={RenterProfile}></Route>
         <Route exact path="/settings" component={Settings}></Route>
         <Route exact path="/signUp" component={SignUp}></Route>

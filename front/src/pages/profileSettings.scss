@@ -1,0 +1,21 @@
+.ProfileSettingsPage{
+    margin:25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .login{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+    .button{
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        padding: 25px 0px 25px;
+        div{
+            flex-grow:1;
+        }
+    }
+}
