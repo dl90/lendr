@@ -1,6 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 
+const Bar = styled.div`
+max-width:414px;
+min-height:76px;
+box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.25);
+display:flex;
+align-items: center;
+justify-content: space-evenly;
+background-color:white;
+`;
 
 const MessageDiv = styled.div`
 max-width: 325px;
@@ -11,6 +20,7 @@ align-items:center;
 border-radius:10px;
 background-color: #F5F7FF;
 box-shadow: 0px 16px 24px 0px rgba(0, 0, 0, 0.06);
+flex-grow:1;
 `;
 
 const Input = styled.input`
@@ -57,10 +67,13 @@ margin-left:-6px;
 `;
 
 const MessageBar = () => {
-    return <MessageDiv>
-        <Input placeholder="Type your message..."></Input>
-        <Circle><Icon draggable="false" src="/sendicon.png"></Icon></Circle>
-    </MessageDiv>
+    return <Bar>
+        <MessageDiv>
+            <Input placeholder="Type your message..."></Input>
+            <Circle><Icon draggable="false" src="/sendicon.png"></Icon></Circle>
+        </MessageDiv>
+    </Bar>
+    
 };
 
 

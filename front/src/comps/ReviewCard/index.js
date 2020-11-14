@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import {Link} from 'react-router-dom';
 
 const Card = styled.div`
 min-height: 188px;
@@ -49,18 +50,20 @@ bottom:0;
 //bgImg is the name of the image
 
 const ReviewCard = ({ title, date, bgImg }) => {
-    return <Card bgImg={bgImg} onClick="">
+    return <Link to="/item">
+    <Card bgImg={bgImg} onClick="">
         <Item  >
             <Title><h4>{title}</h4></Title>
             <Date><p>{date}</p></Date>
         </Item>
     </Card>
+    </Link>
 };
 
 ReviewCard.defaultProps = {
     title: "title (20 letters max)",
     date: "uploaded ...   weeks ago",
-    // bgImg: './placeholderProfile.png',
+    bgImg: './placeholderProfile.png',
 };
 
 

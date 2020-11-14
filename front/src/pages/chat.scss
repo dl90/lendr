@@ -1,0 +1,28 @@
+.chat{
+    display: flex;
+    height: 87.5vh;
+    flex-direction: column;
+    margin:25px 25px 45px;
+}
+
+.threadBox{
+    display: flex;
+    flex-direction: column-reverse;
+    width: 100%;
+    margin: 15px 0px 0px;
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.thread{
+    margin-top: auto;
+    width: 100%;
+    padding-bottom: 25px;
+}
+.msg{
+    position: fixed;
+    z-index: 2;
+    width:100%;
+    left: 0;
+    bottom: 0;
+}
