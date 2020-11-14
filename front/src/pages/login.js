@@ -23,8 +23,8 @@ export default function Login() {
             password: pass,
             // email: "test@test.com",
             // password: "test"
-        });
-        console.log(resp.data);
+        }, { withCredentials: true });
+        console.log(resp);
     }
 
 

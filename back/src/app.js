@@ -16,7 +16,7 @@ import userRoute from './routes/userRoute.js'
 import itemRoute from './routes/itemRoute.js'
 import postRoute from './routes/postRoute.js'
 import tagRoute from './routes/tagRoute.js'
-import chatRoute from './routes/chatRoute.js'
+import msgRoute from './routes/msgRoute.js'
 
 dotenv.config()
 
@@ -29,13 +29,14 @@ const generalLimit = rateLimit({ windowMs: 300_000, max: 200 }) //        5min
 const filter = new Filter()
 
 app.use(json())
-app.use(cors())
+app.use(cors({ credentials: true, origin: 'http://localhost:3000', allowedHeaders: ['Content-Type', 'Authorization'] }))
 app.use(urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use(cookieSession({
   maxAge: 43_200_000, // 12h
   keys: [process.env.COOKIE_SESSION_SECRET_1, process.env.COOKIE_SESSION_SECRET_2],
-  sameSite: true,
+  domain: '',
+  sameSite: 'lax',
   httpOnly: true
   // secure: true
 }))
@@ -63,7 +64,7 @@ export default function () {
   app.use('/item', itemRoute())
   app.use('/post', postRoute())
   app.use('/tag', tagRoute())
-  app.use('/msg', chatRoute(wsInstance, filter))
+  app.use('/msg', msgRoute(wsInstance, filter))
 
   app.use('*', (req, res) => res.sendStatus(404))
 

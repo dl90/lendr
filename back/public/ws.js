@@ -4,7 +4,11 @@ const ws = new WebSocket(`ws://${www.hostname}:${www.port}/msg/live`)
 
 ws.onopen = () => console.log('connected')
 ws.onclose = () => console.error('disconnected')
-ws.onerror = error => console.error('error', error)
+ws.onerror = error => {
+  const div = document.createElement('div')
+  div.innerText = error
+  document.querySelector('#chat').append(div)
+}
 
 ws.onmessage = (socket) => {
   const div = document.createElement('div')

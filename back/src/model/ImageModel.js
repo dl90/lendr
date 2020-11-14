@@ -86,7 +86,6 @@ async function updateImage (fields) {
   util.checkID(fields.imageID)
   util.validateURL(fields.imageURL)
   checkImageID(fields.imageID)
-
   return await db.updateImage(fields)
 }
 
