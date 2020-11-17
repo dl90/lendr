@@ -1,29 +1,27 @@
 import React from 'react';
 import BottomNav from '../comps/BottomNav';
-import CategoryGallery from '../comps/CategoryGallery';
-import Header from '../comps/Header';
 import './app.scss'
 import '../pages/explorepage.scss'
 import SearchBar from '../comps/SearchBar';
 import ReviewCard from '../comps/ReviewCard';
-import styled from 'styled-components';
+import UserAvatar from '../comps/UserAvatar';
 import CategoryButton from '../comps/CategoryButton';
 
 import {Link} from "react-router-dom";
 
-const UserAvatar = styled.div`
-height:60px;
-max-width: 60px;
-border-radius:50%;
-overflow:hidden;
-display:flex;
-justify-content:center;
-align-items:center;
- img {
-     width:100%;
-     height:100%;
- }
-`;
+// const UserAvatar = styled.div`
+// height:60px;
+// max-width: 60px;
+// border-radius:50%;
+// overflow:hidden;
+// display:flex;
+// justify-content:center;
+// align-items:center;
+//  img {
+//      width:100%;
+//      height:100%;
+//  }
+// `;
 
 export default function ExplorePage({userfname}) {
     return <div>

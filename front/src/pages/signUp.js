@@ -46,12 +46,12 @@ export default function SignUp() {
                     setEmail(e.target.value);
                 }}
             ></Input>
-            <Input title={"Password"} placeholder={"Password"}
+            <Input title={"Password"} placeholder={"Password"}  type={"password"}
                 onChange={(e) => {
                     setPass(e.target.value);
                 }}
             ></Input>
-            <InputBox placeholder={"Re-enter Password"} ></InputBox>
+            <InputBox placeholder={"Re-enter Password"}  type={"password"}></InputBox>
             <Link to="/tutorial1">
                 <div className="button">
                     <Button text={"Create account"}
