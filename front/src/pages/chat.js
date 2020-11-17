@@ -34,7 +34,6 @@ export default function Chat() {
             <ChatSecondary></ChatSecondary>
             <ChatPrimary></ChatPrimary>
             <ChatSecondary></ChatSecondary>
-            <ChatPrimary></ChatPrimary>
             </div>
         </div>
     </div>
