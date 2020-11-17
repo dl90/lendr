@@ -4,6 +4,7 @@ import handler from '../util/handler.js'
 export default {
   saveMessage,
   getAllMessage,
+  getAllConversations,
   liveViewMessage,
   deleteMessage,
   deleteConversation
@@ -25,7 +26,7 @@ async function saveMessage (senderID, receiverID, message) {
 /**
  * @param {number} userID
  * @param {number} senderID
- * @return {[object]}
+ * @return {[object]|false}
  * ```
  *  [
  *     {
@@ -60,8 +61,34 @@ async function getAllMessage (userID, receiverID) {
 
 /**
  * @param {number} userID
+ * @return {[object]|false}
+ * ```
+ *  [
+ *    {
+ *      sender_id: 3,
+ *      display_name: "Test User 3",
+ *      avatar_url: null,
+ *      created_on: "2020-11-16T06:45:59.000Z"
+ *    },
+ *    {
+ *      sender_id: 2,
+ *      display_name: "Test User 2",
+ *      avatar_url: null,
+ *      created_on: "2020-11-16T06:45:15.000Z"
+ *    }
+ *  ]
+ * ```
+ */
+async function getAllConversations (userID) {
+  return await handler.asyncErrorHandler(Message.getAllConversations, userID,
+    'MessageController: getAllConversations - Message.getAllConversations'
+  )
+}
+
+/**
+ * @param {number} userID
  * @param {number} receiverID
- * @return {object}
+ * @return {object|false}
  * ```
  *  ResultSetHeader {
  *    fieldCount: 0,

@@ -29,18 +29,18 @@ const generalLimit = rateLimit({ windowMs: 300_000, max: 200 }) //        5min
 const filter = new Filter()
 
 app.use(json())
-app.use(cors({ credentials: true, origin: 'http://localhost:3000', allowedHeaders: ['Content-Type', 'Authorization'] }))
+app.use(cors()) // { credentials: true, origin: 'http://localhost:8080', allowedHeaders: ['Content-Type', 'Authorization'] }
 app.use(urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use(cookieSession({
   maxAge: 43_200_000, // 12h
   keys: [process.env.COOKIE_SESSION_SECRET_1, process.env.COOKIE_SESSION_SECRET_2],
-  domain: '',
+  // domain: 'http://localhost:8080',
   sameSite: 'lax',
   httpOnly: true
   // secure: true
 }))
-app.use(helmet({ hsts: false, contentSecurityPolicy: false }))
+app.use(helmet()) // { hsts: false, contentSecurityPolicy: false }
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(generalLimit)

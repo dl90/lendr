@@ -92,6 +92,21 @@ export default function (wsInstance, filter) {
   })
 
   /**
+   * @api {get} /msg/conversations          Returns a list of users info from users you messaged previously
+   * @apiName GetConversations
+   * @apiGroup Msg
+   *
+   * @apiSuccess (200) {json}               Messages
+   * @apiError (400) {}                     Error
+   */
+  router.get('/conversations', async (req, res) => {
+    const conversations = await MessageController.getAllConversations(req.user.id)
+    conversations
+      ? res.json(conversations)
+      : res.sendStatus(400)
+  })
+
+  /**
    * @api {delete} /msg/delete              Delete a message sent by you to another user
    * @apiName DeleteMsg
    * @apiGroup Msg

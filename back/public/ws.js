@@ -24,6 +24,7 @@ ws.onmessage = (socket) => {
     }
   */
 
+  console.log(socket.data)
   div.innerText = `From ${payload.sender}: ${payload.message}`
   document.querySelector('#chat').append(div)
 }

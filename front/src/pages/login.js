@@ -8,7 +8,7 @@ import Input from '../comps/Input';
 import Button from '../comps/Button';
 
 import axios from 'axios';
-export default function Login() {
+export default function Login () {
 
     // const [login, setLogin] = useState("Test");
 
@@ -18,7 +18,7 @@ export default function Login() {
     const HandleLogin = async (userEmail, pass) => {
         console.log("logging in", userEmail, pass);
         //do a await axios get to rectrieve data
-        var resp = await axios.post('http://ec2-44-242-43-38.us-west-2.compute.amazonaws.com/auth/login/', {
+        var resp = await axios.post('https://www.lendr-bc.me/auth/login/', {
             email: userEmail,
             password: pass,
             // email: "test@test.com",

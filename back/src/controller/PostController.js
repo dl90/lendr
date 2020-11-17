@@ -1,16 +1,17 @@
 import handler from '../util/handler.js'
 
 import Post from '../model/PostModel.js'
-import Item from '../model/ItemModel.js'
 import Image from '../model/ImageModel.js'
 import PostTag from '../model/PostTagModel.js'
 import PostImage from '../model/PostImageModel.js'
 
 import TagController from './TagController.js'
+import ItemController from './ItemController.js'
 
 export default {
   createPostWithItemID,
   createPostWithNewItem,
+  createNewPostWithNewItemAndImages,
   deletePost,
 
   getPostByPostID,
@@ -86,25 +87,48 @@ async function createPostWithNewItem (
   postLocation,
   postDuration = null
 ) {
-  const itemInsert = await handler.asyncErrorHandler(
-    Item.createItem,
-    { userID: +userID, itemName, itemCondition, itemAge: +itemAge }
-  )
-  if (!itemInsert) return false
+  const itemID = await ItemController.createItem(userID, itemName, itemCondition, itemAge)
+  if (!itemID) return false
 
-  const result = await handler.asyncErrorHandler(
-    Post.createPostWithItemID,
-    {
-      userID: +userID,
-      itemID: itemInsert.insertId,
-      postTitle,
-      postRate: +postRate,
-      postDescription,
-      postLocation,
-      postDuration
-    }
-  )
-  return result.insertId ?? false
+  return await createPostWithItemID(userID, itemID, postTitle, postRate, postDescription, postLocation, postDuration)
+}
+
+/**
+ * @param {number} userID
+ * @param {string} itemName
+ * @param {string} itemCondition
+ * @param {number} itemAge
+ * @param {string} postTitle
+ * @param {number} postRate
+ * @param {string} postDescription
+ * @param {string} postLocation
+ * @param {[objects]} imageArray
+ * @param {string|null} postDuration datetime format: '2020-12-31 23:59:59' (UTC), default duration 1 month
+ * @return {object}
+ * ```
+ *  { postID: [number], imagesUploaded: [boolean] }
+ * ```
+ */
+async function createNewPostWithNewItemAndImages (
+  userID,
+  itemName,
+  itemCondition,
+  itemAge,
+  postTitle,
+  postRate,
+  postDescription,
+  postLocation,
+  imageArray,
+  postDuration = null
+) {
+  const itemID = await ItemController.createItem(userID, itemName, itemCondition, itemAge)
+  if (!itemID) return false
+
+  const postID = await createPostWithItemID(userID, itemID, postTitle, postRate, postDescription, postLocation, postDuration)
+  if (!postID) return false
+
+  const success = await addPostImages(userID, postID, imageArray)
+  return { postID, imagesUploaded: success }
 }
 
 /**

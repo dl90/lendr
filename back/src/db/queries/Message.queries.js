@@ -5,6 +5,7 @@ const query = db.dbQuery
 export default {
   saveMessage,
   getAllMessage,
+  getAllConversations,
   viewedMessage,
   liveViewMessage,
   deleteMessage,
@@ -37,6 +38,24 @@ async function getAllMessage (fields) {
      AND ? IN (UserMessage.sender_id, UserMessage.receiver_id)
      ORDER BY Message.created_on DESC`,
     [fields.userID, fields.receiverID])
+}
+
+/**
+ * @param {number} userID
+ */
+async function getAllConversations (userID) {
+  return await query(
+    `SELECT * FROM (
+      SELECT UserMessage.sender_id, User.display_name, User.avatar_url, max(Message.created_on) AS created_on
+      FROM UserMessage
+      JOIN User ON User.id = UserMessage.sender_id
+      JOIN Message ON Message.id = UserMessage.message_id
+      WHERE ? IN (UserMessage.sender_id, UserMessage.receiver_id)
+      AND ? != UserMessage.sender_id
+      GROUP BY sender_id) AS tbl
+    ORDER BY created_on DESC`,
+    [userID, userID]
+  )
 }
 
 /**

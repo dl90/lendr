@@ -4,6 +4,7 @@ import util from '../util/util.js'
 export default {
   saveMessage,
   getAllMessage,
+  getAllConversations,
   viewedMessage,
   liveViewMessage,
   deleteMessage,
@@ -42,8 +43,15 @@ async function saveMessage (fields) {
 async function getAllMessage (fields) {
   util.checkID(fields.userID)
   util.checkID(fields.receiverID)
-  const result = await db.getAllMessage(fields)
-  return result
+  return await db.getAllMessage(fields)
+}
+
+/**
+ * @param {number} userID
+ */
+async function getAllConversations (userID) {
+  util.checkID(userID)
+  return await db.getAllConversations(userID)
 }
 
 /**

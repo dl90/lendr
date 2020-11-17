@@ -65,7 +65,12 @@ async function deletePost (fields) {
  * @return {[object]} single post [ BinaryRow { data } ]
  */
 async function getPostByPostID (postID) {
-  return await query('SELECT * FROM Post WHERE id = ? LIMIT 1', [postID])
+  return await query(
+    `SELECT Post.*, JSON_ARRAYAGG(Image.url) AS 'images' FROM Post
+     JOIN PostImage ON PostImage.post_id = Post.id
+     JOIN Image ON PostImage.image_id = Image.id
+     WHERE Post.id = ? GROUP BY Post.id`,
+    [postID])
 }
 
 /**
@@ -76,10 +81,19 @@ async function getPostByPostID (postID) {
  * @return {[object]} multiple posts [ BinaryRow { data } ]
  */
 async function getAllPostsByUserID (fields) {
+  const base = (query) =>
+    `SELECT Post.*, JSON_ARRAYAGG(Image.url) AS 'images' FROM Post
+     JOIN PostImage ON PostImage.post_id = Post.id
+     JOIN Image ON PostImage.image_id = Image.id
+     ${query}
+     GROUP BY Post.id
+     ORDER BY Post.created_on DESC`
+
+  const notFlagged = base('WHERE Post.user_id = ?')
+  const flagged = base('WHERE Post.user_id = ? AND Post.report_flag = ?')
   return fields.reportFlag === undefined
-    ? await query('SELECT * FROM Post WHERE user_id = ? ORDER BY created_on DESC', [fields.userID])
-    : await query('SELECT * FROM post WHERE user_id = ? AND report_flag = ? ORDER BY created_on DESC',
-      [fields.userID, fields.reportFlag])
+    ? await query(notFlagged, [fields.userID])
+    : await query(flagged, [fields.userID, fields.reportFlag])
 }
 
 /**
@@ -90,10 +104,19 @@ async function getAllPostsByUserID (fields) {
  * @return {[object]} multiple posts [ BinaryRow { data } ]
  */
 async function getAllPostsByItemID (fields) {
+  const base = (query) =>
+    `SELECT Post.*, JSON_ARRAYAGG(Image.url) AS 'images' FROM Post
+     JOIN PostImage ON PostImage.post_id = Post.id
+     JOIN Image ON PostImage.image_id = Image.id
+     ${query}
+     GROUP BY Post.id
+     ORDER BY Post.created_on DESC`
+
+  const notFlagged = base('WHERE Post.user_id = ? AND Post.item_id = ?')
+  const flagged = base('WHERE Post.user_id = ? AND Post.report_flag = ? AND Post.report_flag = ?')
   return fields.reportFlag === undefined
-    ? await query('SELECT * FROM Post WHERE item_id = ? AND user_id = ? ORDER BY created_on DESC', [fields.itemID, fields.userID])
-    : await query('SELECT * FROM post WHERE item_id = ? AND user_id = ? AND report_flag = ? ORDER BY created_on DESC',
-      [fields.itemID, fields.userID, fields.reportFlag])
+    ? await query(notFlagged, [fields.userID, fields.itemID])
+    : await query(flagged, [fields.userID, fields.itemID, fields.reportFlag])
 }
 
 /**
@@ -104,20 +127,20 @@ async function getAllPostsByItemID (fields) {
  * @return {[object]} multiple posts [ BinaryRow { data } ]
  */
 async function getAllPostsByTagID (fields) {
-  console.log(fields)
+  const base = (query) =>
+    `SELECT Post.*, JSON_ARRAYAGG(Image.url) AS 'images' FROM Post
+     JOIN PostTag ON Post.id = PostTag.post_id
+     JOIN PostImage ON PostImage.post_id = Post.id
+     JOIN Image ON PostImage.image_id = Image.id
+     ${query}
+     GROUP BY Post.id
+     ORDER BY Post.created_on DESC`
+
+  const notFlagged = base('WHERE PostTag.tag_id = ?')
+  const flagged = base('WHERE PostTag.tag_id = ? AND Post.report_flag = ?')
   return fields.reportFlag === undefined
-    ? await query(
-      `SELECT Post.* FROM Post
-       JOIN PostTag ON Post.id = PostTag.post_id
-       WHERE PostTag.tag_id = ?
-       ORDER BY Post.created_on DESC`,
-      [fields.tagID])
-    : await query(
-      `SELECT Post.* FROM Post
-       JOIN PostTag ON Post.id = PostTag.post_id
-       WHERE PostTag.tag_id = ? AND Post.report_flag = ?
-       ORDER BY Post.created_on DESC`,
-      [fields.tagID, fields.reportFlag])
+    ? await query(notFlagged, [fields.tagID])
+    : await query(flagged, [fields.tagID, fields.reportFlag])
 }
 
 /**
@@ -128,21 +151,21 @@ async function getAllPostsByTagID (fields) {
  * @return {[object]} multiple posts [ BinaryRow { data } ]
  */
 async function getAllPostsByTagName (fields) {
+  const base = (query) =>
+    `SELECT Post.*, JSON_ARRAYAGG(Image.url) AS 'images' FROM Post
+     JOIN PostTag ON Post.id = PostTag.post_id
+     JOIN PostImage ON PostImage.post_id = Post.id
+     JOIN Image ON PostImage.image_id = Image.id
+     JOIN Tag ON Tag.id = PostTag.tag_id
+     ${query}
+     GROUP BY Post.id
+     ORDER BY Post.created_on DESC`
+
+  const notFlagged = base('WHERE Tag.name = ?')
+  const flagged = base('WHERE Tag.name = ? AND Post.report_flag = ?')
   return fields.reportFlag === undefined
-    ? await query(
-      `SELECT Post.* FROM Post
-       JOIN PostTag ON Post.id = PostTag.post_id
-       JOIN Tag ON Tag.id = PostTag.tag_id
-       WHERE Tag.name = ?
-       ORDER BY Post.created_on DESC`,
-      [fields.tagName])
-    : await query(
-      `SELECT Post.* FROM Post
-       JOIN PostTag ON Post.id = PostTag.post_id
-       JOIN Tag ON Tag.id = PostTag.tag_id
-       WHERE Tag.name = ? AND Post.report_flag = ?
-       ORDER BY Post.created_on DESC`,
-      [fields.tagName, fields.reportFlag])
+    ? await query(notFlagged, [fields.tagName])
+    : await query(flagged, [fields.tagName, fields.reportFlag])
 }
 
 /**

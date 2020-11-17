@@ -42,7 +42,7 @@ export default function () {
 
   /**
    * @api {post} /post/new-item             Create new post with new item
-   * @apiName NewPostWIthNewItem
+   * @apiName NewItemPost
    * @apiGroup Post
    *
    * @apiParam {string} itemName
@@ -74,6 +74,46 @@ export default function () {
     postID
       ? res.json({ postID })
       : res.sendStatus(400)
+  })
+
+  /**
+   * @api {post} /post/new-item-images      Create new post with new item and images
+   * @apiName NewItemPostWithImages
+   * @apiGroup Post
+   *
+   * @apiParam {string} itemName
+   * @apiParam {string} itemCondition
+   * @apiParam {number} itemAge
+   * @apiParam {string} postTitle
+   * @apiParam {number} postRate
+   * @apiParam {string} postDescription
+   * @apiParam {string} postLocation
+   * @apiParam {string|null} [postDuration]
+   * @apiParam {files}  images
+   *
+   * @apiSuccess (200) {json}               Success
+   * @apiError (400) {}                     Incorrect arguments || servier error
+   */
+  router.post('/new-item-images', multer.array('images', config.BATCH_IMAGE_UPLOAD_COUNT), async (req, res) => {
+    if (!req.files.length) res.sendStatus(400)
+    else {
+      const result = await PostController.createNewPostWithNewItemAndImages(
+        req.user.id,
+        req.body.itemName,
+        req.body.itemCondition,
+        req.body.itemAge,
+        req.body.postTitle,
+        req.body.postRate,
+        req.body.postDescription,
+        req.body.postLocation,
+        req.files,
+        req.body.postDuration
+      )
+
+      result
+        ? res.json(result)
+        : res.sendStatus(400)
+    }
   })
 
   /**
