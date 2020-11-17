@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState} from 'react';
 import BottomNav from '../comps/BottomNav';
 import './app.scss'
 import '../pages/explorepage.scss'
@@ -6,7 +6,7 @@ import SearchBar from '../comps/SearchBar';
 import ReviewCard from '../comps/ReviewCard';
 import UserAvatar from '../comps/UserAvatar';
 import CategoryButton from '../comps/CategoryButton';
-
+import axios from 'axios';
 import {Link} from "react-router-dom";
 
 // const UserAvatar = styled.div`
@@ -23,11 +23,21 @@ import {Link} from "react-router-dom";
 //  }
 // `;
 
-export default function ExplorePage({userfname}) {
-    return <div>
+
+export default function ExplorePage({userfname, userpfp}) {
+const [userpicture, setUserPicture] = useState(null)
+const [username, setUserName] = useState(null)
+
+const HandleUser = async () => {
+    var resp = await axios.get('http://ec2-44-242-43-38.us-west-2.compute.amazonaws.com/user/me', {
+      displayName:userfname
+    })
+    console.log(resp)
+}
+    return <div onLoad={HandleUser}>
         <div className="Header">
             <div className="Header_top">
-                <div>Hi {userfname},</div>
+                <div>Hi, {userfname}</div>
                 <UserAvatar><img src="/placeholderProfile.png"></img></UserAvatar>
             </div>
             <h1>Explore</h1>
@@ -62,7 +72,7 @@ export default function ExplorePage({userfname}) {
         </div>
         <div className="Recommended_cont">
             <div className="Section_header">
-                <h2 >Recommended</h2>
+                <h2>Recommended</h2>
                 <Link to="/specificcategories">
                     <h6>See All</h6>
                 </Link>
@@ -94,6 +104,7 @@ export default function ExplorePage({userfname}) {
 
 
 ExplorePage.defaultProps = {
-    userfname: "Steven"
+    userfname: null,
+    userpfp: null
 }
 
