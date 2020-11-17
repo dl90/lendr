@@ -7,7 +7,6 @@ import Header from '../comps/Header';
 import Input from '../comps/Input';
 import InputBox from '../comps/InputBox';
 import Button from '../comps/Button';
-import BottomNav from '../comps/BottomNav';
 
 import {Link} from "react-router-dom";
 
