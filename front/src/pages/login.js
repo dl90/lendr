@@ -40,7 +40,7 @@ export default function Login() {
                     setEmail(e.target.value);
                 }}
             ></Input>
-            <Input title={"Password"} placeholder={"Password"}
+            <Input title={"Password"} placeholder={"Password"} type={"password"}
                 onChange={(e) => {
                     setPass(e.target.value);
                 }}
