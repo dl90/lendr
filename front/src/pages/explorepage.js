@@ -31,8 +31,9 @@ const [userpicture, setUserPicture] = useState(null)
 const [username, setUserName] = useState(null)
 
 const HandleUser = async () => {
-    var resp = await axios.get('http://ec2-44-242-43-38.us-west-2.compute.amazonaws.com/user/me', {
-      displayName:userfname
+    var resp = await axios.get('https://www.lendr-bc.me/me', {
+      displayName:userfname 
+      
     })
     console.log(resp)
 }
@@ -40,7 +41,9 @@ const HandleUser = async () => {
         <div className="Header">
             <div className="Header_top">
                 <div>Hi, {userfname}</div>
+                <Link to ="/settings">
                 <UserAvatar><img src="/placeholderProfile.png"></img></UserAvatar>
+                </Link>
             </div>
             <h1>Explore</h1>
             <div className="search">
