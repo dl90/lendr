@@ -7,6 +7,8 @@ import Header from '../comps/Header';
 import Input from '../comps/Input';
 import Button from '../comps/Button';
 
+import {Link} from "react-router-dom";
+
 import axios from 'axios';
 
 
@@ -39,21 +41,22 @@ export default function Login () {
                     setEmail(e.target.value);
                 }}
             ></Input>
-            <Input title={"Password"} placeholder={"Password"}
+            <Input title={"Password"} placeholder={"Password"} type={"password"}
                 onChange={(e) => {
                     setPass(e.target.value);
                 }}
             ></Input>
             <a>Forgot your password?</a>
 
-            <div className="button">
-                <Button text={"Login"}
-                    onClick={() => {
-                        HandleLogin(userEmail, pass);
-                    }}
-                />
-            </div>
-
+            <Link to="/">
+                <div className="button">
+                    <Button text={"Login"}
+                        onClick={() => {
+                            HandleLogin(userEmail, pass);
+                        }}
+                    />
+                </div>
+            </Link>
         </div>
 
     </div>

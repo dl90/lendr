@@ -12,6 +12,8 @@ import Menu from '../comps/Menu';
 
 import BottomNav from '../comps/BottomNav';
 
+import {Link} from "react-router-dom";
+
 export default function Home() {
     return <div className="app">
         <Header />

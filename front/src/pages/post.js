@@ -12,7 +12,9 @@ import Button from '../comps/Button';
 import BottomNav from '../comps/BottomNav';
 import InputParagraph from '../comps/InputParagraph';
 
-//import axios to get
+import {Link} from "react-router-dom";
+
+//import axios to get 
 import axios from 'axios';
 export default function Post() {
 
@@ -80,6 +82,7 @@ export default function Post() {
                         setLocation(e.target.value);
                     }}
                 />
+                <Link to="/lending">
                 <div className="button">
                     <Button text={"Post"}
                         onClick={() => {
@@ -87,6 +90,8 @@ export default function Post() {
                         }}
                     />
                 </div>
+                </Link>
+                
             </div>
 
             <div className="nav">

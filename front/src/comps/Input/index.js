@@ -9,16 +9,17 @@ const InputDiv = styled.div`
     color: #175FA4;
 `;
 
-const Input = ({ title, placeholder, onChange }) => {
+const Input = ({ title, placeholder, onChange, type }) => {
     return <InputDiv>
         <h2>{title}</h2>
-        <InputBox type="text" placeholder={placeholder} onChange={onChange} />
+        <InputBox type={type} placeholder={placeholder} onChange={onChange} />
     </InputDiv>
 };
 
 Input.defaultProps = {
     title: "Title",
     placeholder: "Placeholder Text",
+    type: "text"
 };
 
 
