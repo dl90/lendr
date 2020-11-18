@@ -8,6 +8,7 @@ import UserAvatar from '../comps/UserAvatar';
 import CategoryButton from '../comps/CategoryButton';
 // import axios from 'axios';
 import {Link} from "react-router-dom";
+import axios from 'axios';
 
 // const UserAvatar = styled.div`
 // height:60px;
@@ -28,17 +29,11 @@ export default function ExplorePage() {
 // const [userpicture, setUserPicture] = useState(null)
 // const [username, setUserName] = useState(null)
 
-const HandleUser = async () => {
-    var resp = await axios.get('https://www.lendr-bc.me/me', {
-      displayName:userfname 
-      
-    })
-    console.log(resp)
-}
+
     return <div>
         <div className="Header">
             <div className="Header_top">
-                <div>Hi, {userfname}</div>
+                <div>Hi</div>
                 <Link to ="/settings">
                 <UserAvatar><img src="/placeholderProfile.png"></img></UserAvatar>
                 </Link>
