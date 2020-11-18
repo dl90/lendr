@@ -9,7 +9,7 @@ import AskLender from '../comps/AskLender';
 import BottomNav from '../comps/BottomNav';
 import Like from '../comps/Like';
 
-import {Link} from "react-router-dom";
+// import {Link} from "react-router-dom";
 
 import axios from 'axios';
 export default function Item({ Price, img, Desc }) {

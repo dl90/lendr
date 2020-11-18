@@ -1,0 +1,8 @@
+DROP DATABASE IF EXISTS lendr;
+CREATE DATABASE lendr;
+ALTER DATABASE lendr CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+
+USE lendr;
+
+SOURCE schema.sql
+SOURCE procedure.sql

@@ -10,7 +10,9 @@ import Button from '../comps/Button';
 import {Link} from "react-router-dom";
 
 import axios from 'axios';
-export default function Login() {
+
+
+export default function Login () {
 
     // const [login, setLogin] = useState("Test");
 
@@ -39,7 +41,7 @@ export default function Login() {
                     setEmail(e.target.value);
                 }}
             ></Input>
-            <Input title={"Password"} placeholder={"Password"}
+            <Input title={"Password"} placeholder={"Password"} type={"password"}
                 onChange={(e) => {
                     setPass(e.target.value);
                 }}

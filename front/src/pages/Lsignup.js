@@ -8,7 +8,7 @@ import {Link} from "react-router-dom";
 
 export default function Lsignup(){
     return <div className="loginPage">
-        <div><img src="signup.png"></img></div>
+        <div><img src="signup.png" alt="Signup"></img></div>
         <h1>Creating more budget</h1>
         <br></br>
         <h1>friendly options for you!</h1>

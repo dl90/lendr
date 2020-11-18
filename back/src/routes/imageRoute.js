@@ -1,15 +1,15 @@
 import express from 'express'
+import config from '../util/config.js'
 import authCheck from '../middleware/authCheck.js'
 import multer from '../middleware/multer.js'
 import ImageController from '../controller/ImageController.js'
 
-const BATCH_IMAGE_UPLOAD_SIZE = 12
 const router = express.Router()
 router.use(authCheck)
 
 export default function () {
   /**
-   * @api {put} /image/single               Upload image to s3 and store url to db
+   * @api {post} /image/single              Upload image to s3 and store url to db
    * @apiName PutImageSingle
    * @apiGroup Image
    *
@@ -18,7 +18,7 @@ export default function () {
    * @apiSuccess (200) {json}               { url }
    * @apiError (400) {}                     Incorrect type or failed to save to db
    */
-  router.put('/single', multer.single('image'), async (req, res) => {
+  router.post('/single', multer.single('image'), async (req, res) => {
     if (!req.file) res.sendStatus(400)
     else {
       await ImageController.addImage(req.user.id, req.file.location)
@@ -28,7 +28,7 @@ export default function () {
   })
 
   /**
-   * @api {put} /image/multi                Upload images to s3 and store urls to db
+   * @api {post} /image/multi               Upload images to s3 and store urls to db
    * @apiName PutImageMulti
    * @apiGroup Image
    *
@@ -37,7 +37,7 @@ export default function () {
    * @apiSuccess (200) {json}               { [url, url, ...] }
    * @apiError (400) {}                     Incorrect type or failed to save to db
    */
-  router.put('/multi', multer.array('images', BATCH_IMAGE_UPLOAD_SIZE), async (req, res) => {
+  router.post('/multi', multer.array('images', config.BATCH_IMAGE_UPLOAD_COUNT), async (req, res) => {
     if (!req.files.length) res.sendStatus(400)
     else {
       const imageURLs = req.files.map(file => file.location)

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import {Link} from 'react-router-dom';
 
 const CardDiv = styled.div`
 
@@ -10,7 +11,7 @@ const CardTextBox = styled.div`
 height: 64.85998535156274px;
 max-width: 324.9391174316419px;
 border-radius: 0px 0px 10px 10px;
-background-color:white;
+background-color:#DCEFFB;
 box-shadow: 0px 16px 24px 0px rgba(0, 0, 0, 0.06);
 position:relative;
 top:-10px;
@@ -84,12 +85,9 @@ padding-left:220px;
 bottom:110px;
 `;
 
-const CompDiv = styled.div`
-
-`;
 
 const ProductThumbnail = ({itemname, price, img, pfp, username}) => {
-    return <CompDiv>
+    return <Link to="/item">
 <CardDiv>
     <ItemThumbnail><Img src={img}></Img></ItemThumbnail>
 <CardTextBox>
@@ -101,13 +99,13 @@ const ProductThumbnail = ({itemname, price, img, pfp, username}) => {
 <UserDiv>
 </UserDiv>
 </CardDiv>
-</CompDiv>
+</Link>
 };  
 
 ProductThumbnail.defaultProps = {
     itemname: "Rental Item",
     price: "$10/day",
-    img: "#DCEFFB",
+    img: "/placeholderProfile.png",
     pfp:"/placeholderProfile.png",
     username: "John Doe"
 };

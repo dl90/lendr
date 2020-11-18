@@ -1,34 +1,32 @@
-import React, { useEffect, useState} from 'react';
+import React from 'react';
 import BottomNav from '../comps/BottomNav';
-import CategoryGallery from '../comps/CategoryGallery';
-import Header from '../comps/Header';
 import './app.scss'
 import '../pages/explorepage.scss'
 import SearchBar from '../comps/SearchBar';
 import ReviewCard from '../comps/ReviewCard';
-import styled from 'styled-components';
+import UserAvatar from '../comps/UserAvatar';
 import CategoryButton from '../comps/CategoryButton';
-import axios from 'axios';
+// import axios from 'axios';
 import {Link} from "react-router-dom";
 
-const UserAvatar = styled.div`
-height:60px;
-max-width: 60px;
-border-radius:50%;
-overflow:hidden;
-display:flex;
-justify-content:center;
-align-items:center;
- img {
-     width:100%;
-     height:100%;
- }
-`;
+// const UserAvatar = styled.div`
+// height:60px;
+// max-width: 60px;
+// border-radius:50%;
+// overflow:hidden;
+// display:flex;
+// justify-content:center;
+// align-items:center;
+//  img {
+//      width:100%;
+//      height:100%;
+//  }
+// `;
 
 
-export default function ExplorePage({userfname, userpfp}) {
-const [userpicture, setUserPicture] = useState(null)
-const [username, setUserName] = useState(null)
+export default function ExplorePage() {
+// const [userpicture, setUserPicture] = useState(null)
+// const [username, setUserName] = useState(null)
 
 const HandleUser = async () => {
     var resp = await axios.get('https://www.lendr-bc.me/me', {
@@ -37,7 +35,7 @@ const HandleUser = async () => {
     })
     console.log(resp)
 }
-    return <div onLoad={HandleUser}>
+    return <div>
         <div className="Header">
             <div className="Header_top">
                 <div>Hi, {userfname}</div>
@@ -108,8 +106,8 @@ const HandleUser = async () => {
 }
 
 
-ExplorePage.defaultProps = {
-    userfname: null,
-    userpfp: null
-}
+// ExplorePage.defaultProps = {
+//     userfname: null,
+//     userpfp: null
+// }
 

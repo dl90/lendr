@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import {Link} from 'react-router-dom';
 
 const CardDiv = styled.div`
 
@@ -59,16 +60,19 @@ border-radius: 10px;
 display:flex;
 justify-content:center;
 align-items:center;
+background-color:#DCEFFB;
 `;
 
 const Img = styled.img`
 width:100%;
 height:100%;
 border-radius: 10px;
+object-fit: cover;
+overflow:hidden;
 `;  
 
 const ItemCard = ({itemname, price, img}) => {
-    return <div>
+    return <Link to="/item">
 <CardDiv>
     <ItemThumbnail><Img src={img}></Img></ItemThumbnail>
 <CardTextBox>
@@ -77,13 +81,13 @@ const ItemCard = ({itemname, price, img}) => {
 </CardTextBox>
 <Circle><img src = "/editicon.png"></img></Circle>
 </CardDiv>
-    </div>
+    </Link>
 };  
 
 ItemCard.defaultProps = {
     itemname: "Rental Item",
     price: "$10/day",
-    img: "#DCEFFB"
+    img: "/placeholderProfile.png"
 };
 
 
