@@ -13,7 +13,10 @@
   "dependencies": {
     "argon2": "^0.27.0",
     "aws-sdk": "^2.774.0",
+<<<<<<< HEAD
     "axios": "^0.21.0",
+=======
+>>>>>>> back
     "bad-words": "^3.0.3",
     "cookie-parser": "^1.4.5",
     "cookie-session": "^1.4.0",

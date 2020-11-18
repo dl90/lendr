@@ -14,29 +14,53 @@ const pool = mysql.createPool({
 })
 
 function connect (cb) {
-  pool.getConnection(err => cb(err))
+  pool.getConnection((err, conn) => cb(err, conn))
 }
 
 /**
- * Queries database with .execute
  * @param {string} query SQL query
- * @param {[*]} values
+ * @param {[*]} params
  * @return {[object]} [ BinaryRow { data } ]
  */
-async function dbExecute (query, values) {
-  const [rows] = await pool.promise().execute(query, values)
+async function dbExecute (query, params) {
+  const [rows] = await pool.promise().execute(query, params)
   return rows
 }
 
 /**
- * Queries database with .query
  * @param {string} query SQL query
- * @param {[*]} values
+ * @param {[*]} params
  * @return {[object]} [ BinaryRow { data } ]
  */
-async function dbQuery (query, values) {
-  const [rows] = await pool.promise().query(query, values)
+async function dbQuery (query, params) {
+  const [rows] = await pool.promise().query(query, params)
   return rows
 }
 
-export default { connect, dbExecute, dbQuery }
+/**
+ * @param {string} query
+ * @param {[*]} params
+ */
+async function dbTransaction (query, params) {
+  // const conn = await pool.getConnection()
+  // await conn.beginTransaction()
+  // await conn.query(query, params)
+  // const result = await conn.commit()
+  // await conn.release()
+  // return result
+
+  let result
+  const connection = await pool.getConnection()
+  try {
+    await connection.query('START TRANSACTION')
+    await connection.query(query, params)
+    result = await connection.commit()
+    await connection.release()
+  } catch (e) {
+    await connection.query('ROLLBACK')
+    await connection.release()
+  }
+  return result
+}
+
+export default { connect, dbExecute, dbQuery, dbTransaction }

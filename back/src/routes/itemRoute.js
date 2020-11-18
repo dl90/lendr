@@ -56,8 +56,8 @@ export default function () {
   })
 
   /**
-   * @api {put} /item/create                Create item and store in db
-   * @apiName PutCreateItem
+   * @api {post} /item/create               Create item and store in db
+   * @apiName CreateItem
    * @apiGroup Item
    *
    * @apiParam {string} itemName
@@ -67,7 +67,7 @@ export default function () {
    * @apiSuccess (200) {json}               Item ID
    * @apiError (400) {}                     Incorrect params || create failed
    */
-  router.put('/create', async (req, res) => {
+  router.post('/create', async (req, res) => {
     const { itemName, itemCondition, itemAge } = req.body
     const itemID = await ItemController.createItem(req.user.id, itemName, itemCondition, itemAge)
     itemID
