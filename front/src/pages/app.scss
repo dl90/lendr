@@ -8,6 +8,7 @@
     z-index: -1;
 }
 
+
 h1{
     font-family: Poppins;
     font-size: 48px;
@@ -32,7 +33,7 @@ h2{
 }
 
 h3{
-    color: #175FA4; 
+    color: #175FA4;
     font-family: Poppins;
     font-style: normal;
     font-weight: 700;
@@ -51,21 +52,31 @@ h4{
     text-align: left;
     color: #175FA4;
 }
-
 // h5 is a font style used for category thumbnail text to make it white and not blue. Any other css is smae a h3
 h5{
-    color: white; 
+    color: white;
     font-family: Poppins;
     font-style: normal;
     font-weight: 700;
+    font-size: 20px;
     line-height: 27px;
     letter-spacing: 0em;
     text-align: left;
 }
 
+// h6 is for the 'see all' on the explore page
+h6{
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 22px;
+    text-align: right;
+    
+    color: #D3D3D3;    
+}
 a{
     color: #39A6DC;
-
     font-family: Lato;
     font-style: normal;
     font-weight: normal;
@@ -73,6 +84,21 @@ a{
     line-height: 12px;
 }
 
+
+a{
+    text-decoration: none !important;
+    font-size: 16px !important;
+    line-height: normal !important;
+}
+
+
 p{
-    font-family: Lato;   
+    font-family: Lato;
+}
+.nav{
+    position: fixed;
+    z-index: 2;
+    width:100%;
+    left: 0;
+    bottom: 0;
 }

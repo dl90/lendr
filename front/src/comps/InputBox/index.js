@@ -5,7 +5,7 @@ const InputBoxDiv = styled.input`
     display:flex;
     align-items:center;
     flex-grow:1;
-    margin-top:10px;
+    margin-top:15px;
 
     min-width:220px;
     max-width:414px;
@@ -23,12 +23,13 @@ const InputBoxDiv = styled.input`
     top:-10px;
 `;
 
-const InputBox = ({ placeholder, onChange }) => {
-    return <InputBoxDiv type="text" placeholder={placeholder} onChange={onChange}></InputBoxDiv>
+const InputBox = ({ placeholder, onChange, type}) => {
+    return <InputBoxDiv type={type} placeholder={placeholder} onChange={onChange}></InputBoxDiv>
 };
 
 InputBox.defaultProps = {
-    placeholder: "Placeholder Text"
+    placeholder: "Placeholder Text",
+    type: "text"
 };
 
 

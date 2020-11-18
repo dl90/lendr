@@ -2,6 +2,8 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import Button from '../Button';
 
+import {Link} from "react-router-dom";
+
 // To display 'Edit Profile' make sure to write 'userState={true}' when stating the comp.
 // the props for this comp are: 'userImg', 'userName', and 'userRating'
 // **** The User Rating still needs to be implemented ****
@@ -97,7 +99,7 @@ const ProfileCard = ({ userImg, userName, userRating, msgState, userState }) => 
                 <UserProfile>
                     <img src={userImg} alt="User Profile" />
                 </UserProfile>
-                <a>Edit Profile</a>
+                <Link to="/profileSettings"><p>Edit Profile</p></Link>
             </UserImg>
             <UserData>
                 <UserName><h3>{userName}</h3></UserName>

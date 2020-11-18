@@ -3,22 +3,11 @@ const execute = db.dbExecute
 const query = db.dbQuery
 
 export default {
-  addPostImage,
   addPostImages,
   deletePostImage,
   getPostImageByID,
   getAllImageIDsByPostID,
   getAllPostIDsByImageID
-}
-
-/**
- * @param {number} postID
- * @param {number} imageID
- * @return {}
- */
-async function addPostImage (postID, imageID) {
-  return await execute('INSERT INTO PostImage SET post_id = ?, image_id = ?',
-    [postID, imageID])
 }
 
 /**
@@ -29,12 +18,13 @@ async function addPostImage (postID, imageID) {
  * @return {}
  */
 async function addPostImages (fields) {
-  return await query('INSERT INTO PostImage (post_id, image_id)', [fields])
+  return await query('INSERT INTO PostImage (post_id, image_id) VALUE ?', [fields])
 }
 
 /**
  * @param {number} postImageID
  * @return {}
+ * @TODO delete entry from image and s3
  */
 async function deletePostImage (postImageID) {
   return await execute('DELETE FROM PostImage WHERE id = ?', [postImageID])
@@ -53,7 +43,12 @@ async function getPostImageByID (postImageID) {
  * @return {}
  */
 async function getAllImageIDsByPostID (postID) {
-  return await query('SELECT image_id FROM PostImage WHERE post_id = ?', [postID])
+  return await query(
+    `SELECT Image.url, PostImage.id FROM Image
+     JOIN PostImage ON Image.id = PostImage.image_id
+     WHERE PostImage.post_id = ?
+     ORDER BY Image.id`,
+    [postID])
 }
 
 /**

@@ -7,8 +7,12 @@ import Header from '../comps/Header';
 import Input from '../comps/Input';
 import Button from '../comps/Button';
 
+import {Link} from "react-router-dom";
+
 import axios from 'axios';
-export default function Login() {
+
+
+export default function Login () {
 
     // const [login, setLogin] = useState("Test");
 
@@ -18,13 +22,12 @@ export default function Login() {
     const HandleLogin = async (userEmail, pass) => {
         console.log("logging in", userEmail, pass);
         //do a await axios get to rectrieve data
-        var resp = await axios.post('http://ec2-44-242-43-38.us-west-2.compute.amazonaws.com/auth/login/', {
+        var resp = await axios.post('https://www.lendr-bc.me/auth/login/', {
             email: userEmail,
             password: pass,
-            // email: "test@test.com",
-            // password: "test"
-        });
-        console.log(resp.data);
+            headers: { crossDomain: true, 'Content-Type': 'application/json' }
+        }, { withCredentials: true });
+        console.log(resp.status)
     }
 
 
@@ -38,21 +41,22 @@ export default function Login() {
                     setEmail(e.target.value);
                 }}
             ></Input>
-            <Input title={"Password"} placeholder={"Password"}
+            <Input title={"Password"} placeholder={"Password"} type={"password"}
                 onChange={(e) => {
                     setPass(e.target.value);
                 }}
             ></Input>
             <a>Forgot your password?</a>
 
-            <div className="button">
-                <Button text={"Login"}
-                    onClick={() => {
-                        HandleLogin(userEmail, pass);
-                    }}
-                />
-            </div>
-
+            <Link to="/">
+                <div className="button">
+                    <Button text={"Login"}
+                        onClick={() => {
+                            HandleLogin(userEmail, pass);
+                        }}
+                    />
+                </div>
+            </Link>
         </div>
 
     </div>
