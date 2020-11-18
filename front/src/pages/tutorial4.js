@@ -11,7 +11,7 @@ import {Link} from "react-router-dom";
 export default function Tutorial4(){
     return <div className="loggingIn">
             <Header options={"none"}/>
-        <div className="img"><img src="logging.png"></img></div>
+        <div className="img"><img src="logging.png" alt="Tutorial 4"></img></div>
         <h1>Write a Review</h1>
             <div className="text">
             <h10> Rate your experience and let others' know what they can expect.</h10>
