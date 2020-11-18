@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react';
+import React from 'react';
 import BottomNav from '../comps/BottomNav';
 import './app.scss'
 import '../pages/explorepage.scss'
@@ -6,7 +6,7 @@ import SearchBar from '../comps/SearchBar';
 import ReviewCard from '../comps/ReviewCard';
 import UserAvatar from '../comps/UserAvatar';
 import CategoryButton from '../comps/CategoryButton';
-import axios from 'axios';
+// import axios from 'axios';
 import {Link} from "react-router-dom";
 
 // const UserAvatar = styled.div`
@@ -24,20 +24,20 @@ import {Link} from "react-router-dom";
 // `;
 
 
-export default function ExplorePage({userfname, userpfp}) {
-const [userpicture, setUserPicture] = useState(null)
-const [username, setUserName] = useState(null)
+export default function ExplorePage() {
+// const [userpicture, setUserPicture] = useState(null)
+// const [username, setUserName] = useState(null)
 
-const HandleUser = async () => {
-    var resp = await axios.get('http://ec2-44-242-43-38.us-west-2.compute.amazonaws.com/user/me', {
-      displayName:userfname
-    })
-    console.log(resp)
-}
-    return <div onLoad={HandleUser}>
+// const HandleUser = async () => {
+//     var resp = await axios.get('http://ec2-44-242-43-38.us-west-2.compute.amazonaws.com/user/me', {
+//       displayName:userfname
+//     })
+//     console.log(resp)
+// }
+    return <div>
         <div className="Header">
             <div className="Header_top">
-                <div>Hi, {userfname}</div>
+                <div>Hi,</div>
                 <UserAvatar><img src="/placeholderProfile.png"></img></UserAvatar>
             </div>
             <h1>Explore</h1>
@@ -103,8 +103,8 @@ const HandleUser = async () => {
 }
 
 
-ExplorePage.defaultProps = {
-    userfname: null,
-    userpfp: null
-}
+// ExplorePage.defaultProps = {
+//     userfname: null,
+//     userpfp: null
+// }
 
