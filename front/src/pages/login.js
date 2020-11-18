@@ -26,8 +26,8 @@ export default function Login () {
             email: userEmail,
             password: pass,
             headers: { crossDomain: true, 'Content-Type': 'application/json' }
-        }, { withCredentials: true });
-        console.log(resp.status)
+          }, { withCredentials: true });
+        console.log(resp.data);
     }
 
 
