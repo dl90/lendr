@@ -18,11 +18,11 @@ function serve (error, conn) {
   console.log('Connected to DB')
   conn.release()
 
-  app().listen(PORT, () => console.log(`Live @ https://localhost:${PORT}`))
+  // app().listen(PORT, () => console.log(`Live @ https://localhost:${PORT}`))
 
-  // const httpsServer = https.createServer({ key: key, cert: cert }, app())
-  // httpsServer.listen(8443, () => console.log('Live @ https://localhost:8443'))
+  const httpsServer = https.createServer({ key: key, cert: cert }, app())
+  httpsServer.listen(8443, () => console.log('Live @ https://localhost:8443'))
 
   // const httpServer = http.createServer(app())
-  // httpServer.listen(PORT, () => console.log(`Live @ https://localhost:${PORT}`))
+  // httpServer.listen(PORT, () => console.log(`Live @ http://localhost:${PORT}`))
 }

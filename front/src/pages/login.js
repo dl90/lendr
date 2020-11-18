@@ -8,6 +8,8 @@ import Input from '../comps/Input';
 import Button from '../comps/Button';
 
 import axios from 'axios';
+
+
 export default function Login () {
 
     // const [login, setLogin] = useState("Test");
@@ -21,10 +23,9 @@ export default function Login () {
         var resp = await axios.post('https://www.lendr-bc.me/auth/login/', {
             email: userEmail,
             password: pass,
-            // email: "test@test.com",
-            // password: "test"
+            headers: { crossDomain: true, 'Content-Type': 'application/json' }
         }, { withCredentials: true });
-        console.log(resp);
+        console.log(resp.status)
     }
 
 
