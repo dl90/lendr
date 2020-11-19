@@ -40,7 +40,7 @@ const Header = ({options}) => {
     return <HeaderDiv>
         <Back onClick={() => history.goBack()} src={"/back.svg"}></Back>
         <Space></Space>
-        <Options src={"/options.svg"} options={options}></Options>
+        {/* <Options src={"/options.svg"} options={options}></Options> */}
     </HeaderDiv>
 };
 
