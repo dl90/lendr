@@ -10,7 +10,7 @@ function generate (payload) {
 }
 
 function verify (token) {
-  return jwt.verify(token, SECRET, { issuer: ISSUER }, (err, decoded) => {
+  jwt.verify(token, SECRET, { issuer: ISSUER }, (err, decoded) => {
     return err ?? decoded
   })
 }

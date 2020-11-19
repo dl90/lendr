@@ -6,7 +6,7 @@ import multer from '../middleware/multer.js'
 const router = express.Router()
 router.use(authCheck)
 
-export default function () {
+export default function (filter) {
   /**
    * @api {post} /user/get                  Get user profile
    * @apiName PostGetUserProfile
@@ -43,7 +43,7 @@ export default function () {
   })
 
   /**
-   * @api {put} /user/change-pw             Update user password
+   * @api {post} /user/change-pw            Update user password
    * @apiName PutUpdateUserPassword
    * @apiGroup User
    *
@@ -52,7 +52,7 @@ export default function () {
    * @apiSuccess (204) {}                   Success
    * @apiError (400) {}                     Failed
    */
-  router.put('/change-pw', async (req, res) => {
+  router.post('/change-pw', async (req, res) => {
     const { password } = req.body
     await UserController.updatePassword(req.user.id, password)
       ? res.sendStatus(204)
@@ -60,7 +60,7 @@ export default function () {
   })
 
   /**
-   * @api {put} /user/change-display-name   Update user display name
+   * @api {post} /user/change-display-name  Update user display name
    * @apiName PutUpdateUserDisplayName
    * @apiGroup User
    *
@@ -69,7 +69,7 @@ export default function () {
    * @apiSuccess (204) {}                   Success
    * @apiError (400) {}                     Failed
    */
-  router.put('/change-display-name', authCheck, async (req, res) => {
+  router.post('/change-display-name', authCheck, async (req, res) => {
     await UserController.updateDisplayName(req.user.id, req.body.displayName)
       ? res.sendStatus(204)
       : res.sendStatus(400)

@@ -7,8 +7,7 @@ import Header from '../comps/Header';
 import Input from '../comps/Input';
 import Button from '../comps/Button';
 
-import axios from 'axios';
-
+import network from '../network/cookie.js'
 
 export default function Login () {
 
@@ -20,12 +19,16 @@ export default function Login () {
     const HandleLogin = async (userEmail, pass) => {
         console.log("logging in", userEmail, pass);
         //do a await axios get to rectrieve data
-        var resp = await axios.post('https://www.lendr-bc.me/auth/login/', {
-            email: userEmail,
-            password: pass,
-            headers: { crossDomain: true, 'Content-Type': 'application/json' }
-        }, { withCredentials: true });
-        console.log(resp.status)
+
+        // var resp = await axios.post('https://www.lendr-bc.me/auth/login/', {
+        //     email: userEmail,
+        //     password: pass,
+        //     headers: { crossDomain: true, 'Content-Type': 'application/json' }
+        // }, { withCredentials: true });
+        // console.log(resp.status)
+
+        const res = await network.axiosPost('/auth/login', { email: userEmail, password: pass })
+        console.log(res)
     }
 
 

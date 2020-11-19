@@ -67,8 +67,8 @@ async function deletePost (fields) {
 async function getPostByPostID (postID) {
   return await query(
     `SELECT Post.*, JSON_ARRAYAGG(Image.url) AS 'images' FROM Post
-     JOIN PostImage ON PostImage.post_id = Post.id
-     JOIN Image ON PostImage.image_id = Image.id
+     LEFT JOIN PostImage ON PostImage.post_id = Post.id
+     LEFT JOIN Image ON PostImage.image_id = Image.id
      WHERE Post.id = ? GROUP BY Post.id`,
     [postID])
 }
@@ -83,8 +83,8 @@ async function getPostByPostID (postID) {
 async function getAllPostsByUserID (fields) {
   const base = (query) =>
     `SELECT Post.*, JSON_ARRAYAGG(Image.url) AS 'images' FROM Post
-     JOIN PostImage ON PostImage.post_id = Post.id
-     JOIN Image ON PostImage.image_id = Image.id
+     LEFT JOIN PostImage ON PostImage.post_id = Post.id
+     LEFT JOIN Image ON PostImage.image_id = Image.id
      ${query}
      GROUP BY Post.id
      ORDER BY Post.created_on DESC`
@@ -106,8 +106,8 @@ async function getAllPostsByUserID (fields) {
 async function getAllPostsByItemID (fields) {
   const base = (query) =>
     `SELECT Post.*, JSON_ARRAYAGG(Image.url) AS 'images' FROM Post
-     JOIN PostImage ON PostImage.post_id = Post.id
-     JOIN Image ON PostImage.image_id = Image.id
+     LEFT JOIN PostImage ON PostImage.post_id = Post.id
+     LEFT JOIN Image ON PostImage.image_id = Image.id
      ${query}
      GROUP BY Post.id
      ORDER BY Post.created_on DESC`
@@ -129,9 +129,9 @@ async function getAllPostsByItemID (fields) {
 async function getAllPostsByTagID (fields) {
   const base = (query) =>
     `SELECT Post.*, JSON_ARRAYAGG(Image.url) AS 'images' FROM Post
-     JOIN PostTag ON Post.id = PostTag.post_id
-     JOIN PostImage ON PostImage.post_id = Post.id
-     JOIN Image ON PostImage.image_id = Image.id
+     LEFT JOIN PostTag ON Post.id = PostTag.post_id
+     LEFT JOIN PostImage ON PostImage.post_id = Post.id
+     LEFT JOIN Image ON PostImage.image_id = Image.id
      ${query}
      GROUP BY Post.id
      ORDER BY Post.created_on DESC`
@@ -153,10 +153,10 @@ async function getAllPostsByTagID (fields) {
 async function getAllPostsByTagName (fields) {
   const base = (query) =>
     `SELECT Post.*, JSON_ARRAYAGG(Image.url) AS 'images' FROM Post
-     JOIN PostTag ON Post.id = PostTag.post_id
-     JOIN PostImage ON PostImage.post_id = Post.id
-     JOIN Image ON PostImage.image_id = Image.id
-     JOIN Tag ON Tag.id = PostTag.tag_id
+     LEFT JOIN PostTag ON Post.id = PostTag.post_id
+     LEFT JOIN PostImage ON PostImage.post_id = Post.id
+     LEFT JOIN Image ON PostImage.image_id = Image.id
+     LEFT JOIN Tag ON Tag.id = PostTag.tag_id
      ${query}
      GROUP BY Post.id
      ORDER BY Post.created_on DESC`

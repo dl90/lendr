@@ -7,7 +7,7 @@ import multer from '../middleware/multer.js'
 const router = express.Router()
 router.use(authCheck)
 
-export default function () {
+export default function (filter) {
   /**
    * @api {post} /post/new                  Create new post with existing item
    * @apiName NewPostWithExistingItem
@@ -150,14 +150,14 @@ export default function () {
   })
 
   /**
-   * @api {get} /post/get                   Get all posts by userID
+   * @api {post} /post/get                  Get all posts by userID
    * @apiName GetAllPostsFromCurrentUser
    * @apiGroup Post
    *
    * @apiSuccess (200) {json}               Posts
    * @apiError (400) {}                     Get failed
    */
-  router.get('/get', async (req, res) => {
+  router.post('/get-all', async (req, res) => {
     const posts = await PostController.getAllPostsByUserID(req.user.id)
     posts
       ? res.json(posts)

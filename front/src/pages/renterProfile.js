@@ -11,7 +11,8 @@ import ReviewCard from '../comps/ReviewCard';
 
 import BottomNav from '../comps/BottomNav';
 
-export default function Home() {
+export default async function Home() {
+
     return <div className="app">
         <Header />
 

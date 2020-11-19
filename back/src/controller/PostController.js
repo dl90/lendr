@@ -170,7 +170,7 @@ async function getAllPostsByUserID (userID, postFlag = undefined) {
  */
 async function getAllPostsByItemID (userID, itemID, postFlag = undefined) {
   const fields = { userID: +userID, itemID: +itemID }
-  fields.postFlag = (postFlag === 'true')
+  if (postFlag) fields.postFlag = (postFlag === 'true')
   return await handler.asyncErrorHandler(Post.getAllPostsByItemID,
     fields)
 }
