@@ -6,9 +6,9 @@ import SearchBar from '../comps/SearchBar';
 import ReviewCard from '../comps/ReviewCard';
 import UserAvatar from '../comps/UserAvatar';
 import CategoryButton from '../comps/CategoryButton';
-
+// import axios from 'axios';
 import {Link} from "react-router-dom";
-
+import axios from 'axios';
 // const UserAvatar = styled.div`
 // height:60px;
 // max-width: 60px;
@@ -23,12 +23,25 @@ import {Link} from "react-router-dom";
 //  }
 // `;
 
+
 export default function ExplorePage({userfname}) {
-    return <div>
+// const [userpicture, setUserPicture] = useState(null)
+// const [username, setUserName] = useState(null)
+
+const HandleUser = async () => {
+    var resp = await axios.get('https://www.lendr-bc.me/me', {
+      displayName:userfname 
+      
+    })
+    console.log(resp)
+}
+    return <div onLoad={HandleUser}>
         <div className="Header">
             <div className="Header_top">
-                <div>Hi {userfname},</div>
-                <UserAvatar><img src="/placeholderProfile.png"></img></UserAvatar>
+                <div>Hi, {userfname}</div>
+                <Link to ="/settings">
+                <UserAvatar></UserAvatar>
+                </Link>
             </div>
             <h1>Explore</h1>
             <div className="search">
@@ -62,7 +75,7 @@ export default function ExplorePage({userfname}) {
         </div>
         <div className="Recommended_cont">
             <div className="Section_header">
-                <h2 >Recommended</h2>
+                <h2>Recommended</h2>
                 <Link to="/specificcategories">
                     <h6>See All</h6>
                 </Link>
@@ -93,7 +106,8 @@ export default function ExplorePage({userfname}) {
 }
 
 
-ExplorePage.defaultProps = {
-    userfname: "Steven"
-}
+// ExplorePage.defaultProps = {
+//     userfname: null,
+//     userpfp: null
+// }
 

@@ -12,7 +12,7 @@ export default function Tutorial1(){
     return <div className="loggingIn">
             <Header options={"none"}/>
             <h12 className="skip">Skip Tutorial</h12>
-        <div className="img"><img src="logging.png"></img></div>
+        <div className="img"><img src="logging.png" alt="Tutorial 1"></img></div>
         <h1>Find an Item To Rent</h1>
             <div className="text">
             <h10>Browse the categories for items you would like to rent</h10>

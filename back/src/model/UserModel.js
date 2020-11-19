@@ -1,4 +1,5 @@
 import db from '../db/queries/User.queries.js'
+import config from '../util/config.js'
 import util from '../util/util.js'
 
 export default {
@@ -57,7 +58,7 @@ async function getID (userEmail) {
  */
 async function getPasswordHashByEmail (userEmail) {
   util.validateEmail(userEmail)
-  if (util.DB_ENTRY_CHECK) await getEmail(userEmail)
+  if (config.DB_ENTRY_CHECK) await getEmail(userEmail)
   const result = await db.getPasswordByUserEmail(userEmail)
   return result[0]
 }
@@ -113,7 +114,7 @@ async function getUserByID (userID) {
  */
 async function getUserByEmail (userEmail) {
   util.validateEmail(userEmail)
-  if (util.DB_ENTRY_CHECK) await getEmail(userEmail)
+  if (config.DB_ENTRY_CHECK) await getEmail(userEmail)
   const result = await db.getUserByEmail(userEmail)
   return result[0]
 }
@@ -162,7 +163,7 @@ async function createPassword (fields) {
   util.checkEmptyString(pwHash)
   util.checkID(userID)
 
-  if (util.DB_ENTRY_CHECK) {
+  if (config.DB_ENTRY_CHECK) {
     const results = await db.getPasswordByUserID(userID)
     if (results.length > 0) util.existingEntry({ fields })
   }
@@ -189,7 +190,7 @@ async function createGitHubOAuth (fields) {
   util.checkID(userID)
   util.checkID(githubUserID)
 
-  if (util.DB_ENTRY_CHECK) {
+  if (config.DB_ENTRY_CHECK) {
     const results = await db.getGitHubOAuthUserIDByUserID(userID)
     if (results.length > 0) util.existingEntry(fields)
   }
@@ -206,7 +207,7 @@ async function updatePassword (fields) {
   util.checkID(userID)
   util.checkEmptyString(pwHash)
 
-  if (util.DB_ENTRY_CHECK) {
+  if (config.DB_ENTRY_CHECK) {
     const results = await db.getPasswordByUserID(userID)
     if (results.length === 0) util.missingEntry(fields)
   }
@@ -224,7 +225,7 @@ async function updateDisplayName (fields) {
   util.checkID(userID)
   util.checkEmptyString(displayName)
 
-  if (util.DB_ENTRY_CHECK) await getUser(userID)
+  if (config.DB_ENTRY_CHECK) await getUser(userID)
   return await db.updateDisplayName(fields)
 }
 
@@ -238,7 +239,7 @@ async function updateAvatar (fields) {
   util.checkID(userID)
   util.validateURL(avatarURL)
 
-  if (util.DB_ENTRY_CHECK) await getUser(userID)
+  if (config.DB_ENTRY_CHECK) await getUser(userID)
   return await db.updateAvatar(fields)
 }
 
@@ -272,7 +273,7 @@ async function updateGitHubOauth (fields) {
   util.checkID(userID)
   util.checkID(githubUserID)
 
-  if (util.DB_ENTRY_CHECK) {
+  if (config.DB_ENTRY_CHECK) {
     const results = await db.getGitHubOAuthUserIDByUserID(userID)
     if (results.length === 0) util.missingEntry(fields)
   }
@@ -289,7 +290,7 @@ async function updateActivateUser (fields) {
   util.checkID(userID)
   util.checkState(state)
 
-  if (util.DB_ENTRY_CHECK) await getUser(userID)
+  if (config.DB_ENTRY_CHECK) await getUser(userID)
   return await db.setUserActiveState(fields)
 }
 
@@ -314,7 +315,7 @@ async function updateUserReportFlag (fields) {
   util.checkID(userID)
   util.checkBool(reportFlag)
 
-  if (util.DB_ENTRY_CHECK) await getUser(userID)
+  if (config.DB_ENTRY_CHECK) await getUser(userID)
   return await db.setUserReportFlag(fields)
 }
 
@@ -337,7 +338,7 @@ async function deleteUser (userID) {
   util.checkID(userID)
 
   // @TODO delete assets from s3 if there are any
-  if (util.DB_ENTRY_CHECK) await getUser(userID)
+  if (config.DB_ENTRY_CHECK) await getUser(userID)
   return await db.deleteUser(userID)
 }
 

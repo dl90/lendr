@@ -2,7 +2,7 @@ import db from '../db/queries/PostImage.queries.js'
 import util from '../util/util.js'
 
 export default {
-  addPostImage,
+  addPostImages,
   deletePostImage,
   getPostImageByID,
   getAllImageIDsByPostID,
@@ -11,16 +11,26 @@ export default {
 
 /**
  * @param {object} fields
+ * @param {[number]} fields.imageIDs
+ * @param {number} fields.postID
+ * @return {object}
  * ```
- *  { imageID: [number], postID: [number] }
+ *  ResultSetHeader {
+ *    fieldCount: 0,
+ *    affectedRows: 2,
+ *    insertId: 7,
+ *    info: 'Records: 2  Duplicates: 0  Warnings: 0',
+ *    serverStatus: 2,
+ *    warningStatus: 0
+ *  }
  * ```
- * @return {}
  * @throw invalid argument error
  */
-async function addPostImage (fields) {
-  util.checkID(fields.imageID)
+async function addPostImages (fields) {
   util.checkID(fields.postID)
-  return await db.addPostImage(fields.postID, fields.imageID)
+  if (fields.imageIDs.length < 0) util.invalidArgument(fields.imageIDs)
+  const arr = fields.imageIDs.map(imageID => [fields.postID, imageID])
+  return await db.addPostImages(arr)
 }
 
 /**
