@@ -22,9 +22,6 @@ export default function Lsignup(){
                 <Button bg={"linear-gradient(119.69deg, rgba(255,138,0,0.5) -15.26%, #FF8A00 98.97%)"} text={"Signup"}/>
                 </div>
             </Link>
-            <BgWave/>
-
+            <BgWave Op={"top:-50px;right:50px;transform: rotate(-25deg);"} Bp={"top:-75px;right:165px;transform: rotate(-30deg);"}></BgWave>
         </div>
-        
- 
 }
