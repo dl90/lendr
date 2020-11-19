@@ -15,13 +15,14 @@ align-items:center;
  }
 `;
 
-const UserAvatar = () => {
-    return <UserAvatar>
-        <img src="/placeholderProfile.png"></img>
-    </UserAvatar>
+const UserAvatar = ({src}) => {
+    return <UserAvatarDiv>
+        <img src={src} alt=""></img>
+    </UserAvatarDiv>
 };
 
 UserAvatar.defaultProps = {
+    src:"/placeholderProfile.png"
 };
 
 

@@ -40,7 +40,6 @@ const App = () => {
         <Route exact path="/" component={ExplorePage}></Route>
         <Route exact path="/chat" component={Chat}></Route>
         <Route exact path="/edit" component={Edit}></Route>
-        <Route exact path="/explorepage" component={ExplorePage}></Route>
         <Route exact path="/index" component={Index}></Route>
         <Route exact path="/item" component={Item}></Route>
         <Route exact path="/login" component={Login}></Route>

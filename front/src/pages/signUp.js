@@ -8,6 +8,8 @@ import Input from '../comps/Input';
 import Button from '../comps/Button';
 import InputBox from '../comps/InputBox';
 
+import BgWave from '../comps/BgWave';
+
 import {Link} from "react-router-dom";
 
 import axios from 'axios';
@@ -61,9 +63,7 @@ export default function SignUp() {
                     />
                 </div>
             </Link>
-           
-
         </div>
-
+        <BgWave/>
     </div>
 }
