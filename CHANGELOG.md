@@ -2,6 +2,10 @@
 
 format: Major . Minor . Sprint Week
 
+## 0.0.9 (November 15, 2020)
+
+* [x] Messaging
+
 ## 0.0.8 (November 8, 2020)
 
 * [x] Api doc

@@ -8,7 +8,7 @@ import UserAvatar from '../comps/UserAvatar';
 import CategoryButton from '../comps/CategoryButton';
 // import axios from 'axios';
 import {Link} from "react-router-dom";
-
+import axios from 'axios';
 // const UserAvatar = styled.div`
 // height:60px;
 // max-width: 60px;
@@ -24,21 +24,24 @@ import {Link} from "react-router-dom";
 // `;
 
 
-export default function ExplorePage() {
+export default function ExplorePage({userfname}) {
 // const [userpicture, setUserPicture] = useState(null)
 // const [username, setUserName] = useState(null)
 
-// const HandleUser = async () => {
-//     var resp = await axios.get('http://ec2-44-242-43-38.us-west-2.compute.amazonaws.com/user/me', {
-//       displayName:userfname
-//     })
-//     console.log(resp)
-// }
-    return <div>
+const HandleUser = async () => {
+    var resp = await axios.get('https://www.lendr-bc.me/me', {
+      displayName:userfname 
+      
+    })
+    console.log(resp)
+}
+    return <div onLoad={HandleUser}>
         <div className="Header">
             <div className="Header_top">
-                <div>Hi,</div>
-                <UserAvatar><img src="/placeholderProfile.png"></img></UserAvatar>
+                <div>Hi, {userfname}</div>
+                <Link to ="/settings">
+                <UserAvatar></UserAvatar>
+                </Link>
             </div>
             <h1>Explore</h1>
             <div className="search">

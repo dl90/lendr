@@ -18,5 +18,4 @@
 
 * Backend submissions linted with [JavaScript Standard Style](https://standardjs.com/)
 * Frontend submissions linted with default react ESLint
-* Include tests if PR > 100 lines
 * Document code

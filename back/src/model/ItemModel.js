@@ -1,4 +1,5 @@
 import db from '../db/queries/Item.queries.js'
+import config from '../util/config.js'
 import util from '../util/util.js'
 
 export default {
@@ -96,7 +97,7 @@ async function deleteItem (fields) {
   util.checkID(fields.userID)
   util.checkID(fields.itemID)
 
-  if (util.DB_ENTRY_CHECK) await checkItem(fields.itemID)
+  if (config.DB_ENTRY_CHECK) await checkItem(fields.itemID)
   return await db.deleteItem(fields)
 }
 
@@ -123,7 +124,7 @@ async function updateItemName (fields) {
   util.checkID(fields.itemID)
   util.checkEmptyString(fields.itemName)
 
-  if (util.DB_ENTRY_CHECK) await checkItem(fields.itemID)
+  if (config.DB_ENTRY_CHECK) await checkItem(fields.itemID)
   return await db.updateItemName(fields)
 }
 
@@ -139,7 +140,7 @@ async function updateItemCondition (fields) {
   util.checkID(fields.itemID)
   util.checkEmptyString(fields.itemCondition)
 
-  if (util.DB_ENTRY_CHECK) await checkItem(fields.itemID)
+  if (config.DB_ENTRY_CHECK) await checkItem(fields.itemID)
   return await db.updateItemCondition(fields)
 }
 
@@ -155,7 +156,7 @@ async function updateItemAge (fields) {
   util.checkID(fields.itemID)
   util.checkSmallInt(fields.itemAge)
 
-  if (util.DB_ENTRY_CHECK) await checkItem(fields.itemID)
+  if (config.DB_ENTRY_CHECK) await checkItem(fields.itemID)
   return await db.updateItemAge(fields)
 }
 
@@ -171,7 +172,7 @@ async function updateItemStatus (fields) {
   util.checkID(fields.itemID)
   util.checkBool(fields.itemStatus)
 
-  if (util.DB_ENTRY_CHECK) await checkItem(fields.itemID)
+  if (config.DB_ENTRY_CHECK) await checkItem(fields.itemID)
   return await db.updateItemStatus(fields)
 }
 
@@ -197,7 +198,7 @@ async function updateAllItemFields (fields) {
   util.checkSmallInt(fields.itemAge)
   util.checkBool(fields.itemStatus)
 
-  if (util.DB_ENTRY_CHECK) await checkItem(fields.itemID)
+  if (config.DB_ENTRY_CHECK) await checkItem(fields.itemID)
   return await db.updateAllItemFields(fields)
 }
 

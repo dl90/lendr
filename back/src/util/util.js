@@ -1,9 +1,5 @@
-// validates db entries before query (adds additional query)
-const DB_ENTRY_CHECK = true
 
 export default {
-  DB_ENTRY_CHECK,
-
   checkEmptyString,
   checkID,
   checkStatus,
