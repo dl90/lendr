@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import BottomNav from '../comps/BottomNav';
 import './app.scss'
 import '../pages/explorepage.scss'
@@ -23,24 +23,38 @@ import axios from 'axios';
 //  }
 // `;
 
-
-export default function ExplorePage({userfname}) {
-// const [userpicture, setUserPicture] = useState(null)
+    
+export default function ExplorePage() {
+const [UserPicture, setUserPicture] = useState(null);
+const [DisplayName, setDisplayName] = useState("");
 // const [username, setUserName] = useState(null)
 
 const HandleUser = async () => {
-    var resp = await axios.get('https://www.lendr-bc.me/me', {
-      displayName:userfname 
-      
-    })
-    console.log(resp)
-}
+    var resp = await axios.post('https://www.lendr-bc.me/me', {
+        headers: { crossDomain: true, 'Content-Type': 'application/json' }
+    }, { withCredentials: true });
+
+    // console.log("post ./me data here: " + resp.data)
+    var data = JSON.parse(resp.data);
+setDisplayName(data.display_name);
+setUserPicture(data.avatar_url);
+    // console.log("after login, display name is: " + userfname);
+
+    var item = await axios.post('https://www.lendr-bc.me/post/get-all', {
+        headers: { crossDomain: true, 'Content-Type': 'application/json' }
+    }, { withCredentials: true });
+
+    var itemarray = item.data; 
+    console.log(itemarray);
+
+} 
+
     return <div onLoad={HandleUser}>
         <div className="Header">
             <div className="Header_top">
-                <div>Hi, {userfname}</div>
+<div>Hi, {DisplayName}</div>
                 <Link to ="/settings">
-                <UserAvatar></UserAvatar>
+                <UserAvatar imgsrc={UserPicture}></UserAvatar>
                 </Link>
             </div>
             <h1>Explore</h1>
@@ -81,6 +95,7 @@ const HandleUser = async () => {
                 </Link>
             </div>
         
+
         <div className="Recommended_divs">
             <ReviewCard></ReviewCard>
             <ReviewCard></ReviewCard>

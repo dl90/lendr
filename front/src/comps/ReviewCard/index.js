@@ -52,7 +52,7 @@ bottom:0;
 const ReviewCard = ({ title, date, bgImg }) => {
     return <Link to="/item">
     <Card bgImg={bgImg} onClick="">
-        <Item  >
+        <Item>
             <Title><h4>{title}</h4></Title>
             <Date><p>{date}</p></Date>
         </Item>
