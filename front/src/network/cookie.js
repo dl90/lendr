@@ -2,7 +2,7 @@ import axios from 'axios'
 // import toughCookie from 'tough-cookie'
 // import axiosCookieJarSupport from 'axios-cookiejar-support'
 
-axiosCookieJarSupport(axios)
+// axiosCookieJarSupport(axios)
 // const cookieJar = new toughCookie.CookieJar()
 // const Cookie = toughCookie.Cookie
 

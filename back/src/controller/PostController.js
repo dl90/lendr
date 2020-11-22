@@ -11,10 +11,11 @@ import ItemController from './ItemController.js'
 export default {
   createPostWithItemID,
   createPostWithNewItem,
-  createNewPostWithNewItemAndImages,
+  createNewPostComplete,
   deletePost,
 
   getPostByPostID,
+  getAllPosts,
   getAllPostsByUserID,
   getAllPostsByItemID,
   getAllPostsByTagID,
@@ -102,6 +103,7 @@ async function createPostWithNewItem (
  * @param {number} postRate
  * @param {string} postDescription
  * @param {string} postLocation
+ * @param {string} tag
  * @param {[objects]} imageArray
  * @param {string|null} postDuration datetime format: '2020-12-31 23:59:59' (UTC), default duration 1 month
  * @return {object}
@@ -109,7 +111,7 @@ async function createPostWithNewItem (
  *  { postID: [number], imagesUploaded: [boolean] }
  * ```
  */
-async function createNewPostWithNewItemAndImages (
+async function createNewPostComplete (
   userID,
   itemName,
   itemCondition,
@@ -118,6 +120,7 @@ async function createNewPostWithNewItemAndImages (
   postRate,
   postDescription,
   postLocation,
+  tag,
   imageArray,
   postDuration = null
 ) {
@@ -126,6 +129,9 @@ async function createNewPostWithNewItemAndImages (
 
   const postID = await createPostWithItemID(userID, itemID, postTitle, postRate, postDescription, postLocation, postDuration)
   if (!postID) return false
+
+  const postTagID = await addPostTagWithNewTag(userID, postID, tag)
+  if (!postTagID) return false
 
   const success = await addPostImages(userID, postID, imageArray)
   return { postID, imagesUploaded: success }
@@ -153,6 +159,15 @@ async function getPostByPostID (postID) {
 }
 
 /**
+ * @param {number} idx
+ * @param {number} count
+ */
+async function getAllPosts (idx, count) {
+  return await handler.asyncErrorHandler(Post.getAllPosts,
+    { idx: +idx, count: +count })
+}
+
+/**
  * @param {number} userID
  * @param {boolean|null} postFlag
  * @return {[object]|false}
@@ -177,23 +192,28 @@ async function getAllPostsByItemID (userID, itemID, postFlag = undefined) {
 
 /**
  * @param {number} tagID
+ * @param {number} idx pagination starting index
+ * @param {number} count number of responses
  * @param {boolean|undefined} postFlag
  * @return {[object]|false}
  */
-async function getAllPostsByTagID (tagID, postFlag = undefined) {
-  const fields = { tagID: +tagID }
+async function getAllPostsByTagID (tagID, idx, count, postFlag = undefined) {
+  const fields = { tagID: +tagID, idx: +idx, count: +count }
   if (postFlag) fields.postFlag = (postFlag === 'true')
   return await handler.asyncErrorHandler(Post.getAllPostsByTagID, fields)
 }
 
 /**
  * @param {number} tagName
+ * @param {number} idx pagination starting index
+ * @param {number} count number of responses
  * @param {boolean|undefined} postFlag
  * @return {[object]|false}
  */
-async function getAllPostsByTagName (tagName, postFlag = undefined) {
-  return await handler.asyncErrorHandler(Post.getAllPostsByTagName,
-    { tagName, postFlag })
+async function getAllPostsByTagName (tagName, idx, count, postFlag = undefined) {
+  const fields = { tagName, idx: +idx, count: +count }
+  if (postFlag) fields.postFlag = (postFlag === 'true')
+  return await handler.asyncErrorHandler(Post.getAllPostsByTagName, fields)
 }
 
 /* ======================================== UPDATE ======================================== */

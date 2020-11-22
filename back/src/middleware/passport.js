@@ -4,7 +4,7 @@ import GitHubStrategy from 'passport-github2'
 import dotenv from 'dotenv'
 
 import UserController from '../controller/UserController.js'
-import JWTController from '../controller/JWTController.js'
+// import JWTController from '../controller/JWTController.js'
 
 dotenv.config()
 
@@ -20,7 +20,6 @@ passport.use('local-login', new LocalStrategy({
   passwordField: 'password'
 }, async (email, password, done) => {
   const existingUser = await UserController.login(email, password)
-  console.log(existingUser)
   !existingUser
     ? done(null, false, { message: 'Invalid email or password' })
     : done(null, existingUser)

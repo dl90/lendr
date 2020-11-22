@@ -27,22 +27,23 @@ export default function Post () {
     const [rate, setRate] = useState("");
 
 
-    const HandleNewPost = async (cookiejar, title, desc, location, rate) => {
-        console.log('Creating a New Post: ', "Title:", title, "Desc:", desc, "Location:", location, "Rate:", rate);
+    const HandleNewPost = async (title, desc, location, rate) => {
+    //     console.log('Creating a New Post: ', "Title:", title, "Desc:", desc, "Location:", location, "Rate:", rate);
 
-        const resp = await axios.post('https://www.lendr-bc.me/post/new-item', {
-            itemName: 'New',
-            itemCondition: 'good',
-            itemAge: 2,
-            postTitle: title,
-            postRate: 20,
-            postDescription: desc,
-            postLocation: location,
-            postRate: 2
-        }, { withCredentials: true })
-        console.log(resp);
+        // const resp = await axios.post('https://www.lendr-bc.me/post/new-item', {
+        //     itemName: 'New',
+        //     itemCondition: 'good',
+        //     itemAge: 2,
+        //     postTitle: title,
+        //     postRate: 20,
+        //     postDescription: desc,
+        //     postLocation: location,
+        //     postRate: 2
+        // }, { withCredentials: true })
+        // console.log(resp);
 
-        const posts = await axios.post('https://www.lendr-bc.me/post/get-all', { withCredentials: true })
+        // const posts = await axios.post('https://www.lendr-bc.me/post/get-all', { withCredentials: true })
+        const posts = await axios.get('https://www.lendr-bc.me/me', { withCredentials: true })
         console.log(posts)
     }
 
@@ -87,7 +88,7 @@ export default function Post () {
             <div className="button">
                 <Button text={"Post"}
                     onClick={() => {
-                        HandleNewPost(cookiejar, title, desc, location, rate);
+                        HandleNewPost(title, desc, location, rate);
                     }}
                 />
             </div>

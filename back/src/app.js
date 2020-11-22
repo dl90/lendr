@@ -31,7 +31,7 @@ const filter = new Filter()
 app.use(json())
 app.use(cors({
   credentials: true,
-  origin: ['https://localhost:*', 'http://localhost:*', 'https://www.lendr-bc.me'],
+  origin: ['https://localhost:3000', 'https://www.lendr-bc.me'],
   allowedHeaders: ['crossdomain', 'Content-Type', 'Authorization', 'Accept', 'X-Requested-With', 'Origin']
 }))
 app.options('*', cors({ allowedHeaders: ['crossdomain'] }))
