@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import BottomNav from '../comps/BottomNav';
 import './app.scss'
 import '../pages/explorepage.scss'
@@ -8,7 +8,7 @@ import UserAvatar from '../comps/UserAvatar';
 import CategoryButton from '../comps/CategoryButton';
 // import axios from 'axios';
 import {Link} from "react-router-dom";
-
+import axios from 'axios';
 // const UserAvatar = styled.div`
 // height:60px;
 // max-width: 60px;
@@ -23,22 +23,35 @@ import {Link} from "react-router-dom";
 //  }
 // `;
 
-
+    
 export default function ExplorePage() {
-// const [userpicture, setUserPicture] = useState(null)
+const [UserPicture, setUserPicture]=useState(null);
+const [DisplayName, setDisplayName]=useState("");
+const [ItemPrice, setItemPrice]=useState("10");
+const [ItemDate, setItemDate]=useState("default item date");
+const [ItemTitle, setItemTitle]=useState("default title");
+const [ItemImage, setItemImage]=useState("./placeholderProfile.png");
+
 // const [username, setUserName] = useState(null)
 
-// const HandleUser = async () => {
-//     var resp = await axios.get('http://ec2-44-242-43-38.us-west-2.compute.amazonaws.com/user/me', {
-//       displayName:userfname
-//     })
-//     console.log(resp)
-// }
-    return <div>
+const HandleUser = async () => {
+    var resp = await axios.get('https://www.lendr-bc.me/me', { 
+        withCredentials: true    
+    })
+    setDisplayName(resp.data.display_name);
+    setUserPicture(resp.data.avatar_url);
+
+    var itemresp = await axios.get("https://www.lendr-bc.me/post/get-all")
+    console.log(itemresp.data);
+}
+
+    return <div onLoad={HandleUser}>
         <div className="Header">
             <div className="Header_top">
-                <div>Hi,</div>
-                <UserAvatar><img src="/placeholderProfile.png"></img></UserAvatar>
+<div>Hi, {DisplayName}</div>
+                <Link to ="/settings">
+                <UserAvatar imgsrc={UserPicture}></UserAvatar>
+                </Link>
             </div>
             <h1>Explore</h1>
             <div className="search">
@@ -78,9 +91,10 @@ export default function ExplorePage() {
                 </Link>
             </div>
         
+
         <div className="Recommended_divs">
-            <ReviewCard></ReviewCard>
-            <ReviewCard></ReviewCard>
+            <ReviewCard title={ItemTitle} date={ItemDate} bgImg={ItemImage}price={ItemPrice}></ReviewCard>
+            <ReviewCard title={ItemTitle} date={ItemDate} bgImg={ItemImage}price={ItemPrice}></ReviewCard>
         </div>
         </div>
         <div className="Saved_cont">
@@ -91,8 +105,8 @@ export default function ExplorePage() {
             </Link>
         </div>
         <div className="Recommended_divs">
-            <ReviewCard></ReviewCard>
-            <ReviewCard></ReviewCard>
+            <ReviewCard title={ItemTitle} date={ItemDate} bgImg={ItemImage}price={ItemPrice}></ReviewCard>
+            <ReviewCard title={ItemTitle} date={ItemDate} bgImg={ItemImage}price={ItemPrice}></ReviewCard>
         </div>
         {/* </div> */}
         </div>
