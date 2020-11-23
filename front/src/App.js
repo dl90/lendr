@@ -6,6 +6,9 @@ import {
   Route,
 } from "react-router-dom";
 import './App.css';
+
+import LogoPage from './comps/LogoPage';
+
 import Chat from "./pages/chat";
 import Edit from "./pages/edit";
 import Index from "./pages";
@@ -36,11 +39,11 @@ const App = () => {
 
   return (
     <Router>
+      <LogoPage/>
       <div>
         <Route exact path="/" component={ExplorePage}></Route>
         <Route exact path="/chat" component={Chat}></Route>
         <Route exact path="/edit" component={Edit}></Route>
-        <Route exact path="/explorepage" component={ExplorePage}></Route>
         <Route exact path="/index" component={Index}></Route>
         <Route exact path="/item" component={Item}></Route>
         <Route exact path="/login" component={Login}></Route>

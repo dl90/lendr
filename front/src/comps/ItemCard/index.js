@@ -79,7 +79,7 @@ const ItemCard = ({itemname, price, img}) => {
 <Title>{itemname}</Title>
 <Price>{price}</Price>
 </CardTextBox>
-<Circle><img src = "/editicon.png"></img></Circle>
+<Link to="/edit"><Circle><img src = "/editicon.png"></img></Circle></Link>
 </CardDiv>
     </Link>
 };  

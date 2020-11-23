@@ -43,7 +43,8 @@ export default function Post(){
             <InputParagraph title={"Description"} placeholder="Write a description of the item you're renting out."></InputParagraph>
             <Input title={"Meeting Location"} placeholder="123 Main St."></Input>
             <div className="button">
-                <Button text={"Save Changes"}></Button>
+                <div><Button text={"Save Changes"}></Button></div>
+                <div><Button bg={"linear-gradient(119.69deg, rgba(255, 138, 0, 0.5) -15.26%, #FF8A00 98.97%)"} text={"Delete Post"}></Button></div>
             </div>
         </div>
 
