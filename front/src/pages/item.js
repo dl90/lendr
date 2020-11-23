@@ -25,9 +25,8 @@ export default function Item({ Price, img, Desc }) {
 
 
     const HandleNewPost = async (title, desc, location, rate, itemID) => {
-        console.log('Creating a New Post: ', "Title:", title, "Desc:", desc, "Location:", location, "Rate:", rate, "ItemID:", itemID);
-
-        var resp = await axios.get('http://ec2-44-242-43-38.us-west-2.compute.amazonaws.com/item/get');
+        console.log('Creating a New Post: ', "Title:", title, "Desc:", desc, "Location:", location, "Rate:", rate, "ItemID:", itemID);  
+        var resp = await axios.get('https://lendr-bc.me/item/get');
         console.log(resp);
         setTitle(resp.data.postTitle);
         setDesc(resp.data.postDescription);
