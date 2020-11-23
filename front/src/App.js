@@ -26,10 +26,6 @@ import SignUp from './pages/signUp';
 import SpecificCategories from './pages/specificCategories';
 import ExplorePage from './pages/explorepage';
 
-import LendingAvailable from './pages/lendingAvailable';
-import LendingHistory from './pages/lendingHistory';
-import LendingLoan from './pages/lendingLoan';
-
 import Lsignup from "./pages/Lsignup";
 import Load1 from "./pages/load1";
 import Load2 from "./pages/load2";
@@ -43,7 +39,7 @@ const App = () => {
 
   return (
     <Router>
-      <LogoPage/>
+      <LogoPage />
       <div>
         <Route exact path="/lendingAvailable" component={LendingAvailable}></Route>
         <Route exact path="/lendingHistory" component={LendingHistory}></Route>

@@ -32,10 +32,11 @@ export default function Post() {
     const [desc, setDesc] = useState("");
     const [location, setLocation] = useState("");
     const [rate, setRate] = useState("");
+    const [imgs, setImg] = useState("");
 
 
-    const HandleNewPost = async (title, desc, location, rate) => {
-        console.log('Creating a New Post: ', "Title:", title, "Desc:", desc, "Location:", location, "Rate:", rate);
+    const HandleNewPost = async (title, desc, location, rate, imgs) => {
+        console.log('Creating a New Post: ', "Title:", title, "Desc:", desc, "Location:", location, "Rate:", rate, "img:", imgs);
 
         const resp = await axios.put('https://www.lendr-bc.me/post/new-item', {
             itemName: 'New',
@@ -44,9 +45,10 @@ export default function Post() {
             postTitle: title,
             postDescription: desc,
             postLocation: location,
-            postRate: 2
+            postRate: rate,
+            images: imgs,
         }, { withCredentials: true })
-        console.log(resp);
+        console.log("item is", resp);
     }
 
 
@@ -70,7 +72,11 @@ export default function Post() {
         <div className="imageDiv">
             <h2>Upload Photos</h2>
             <div className="images">
-                <UploadImg />
+                <UploadImg
+                    onChange={(e) => {
+                        setImg(e.target.value);
+                    }}
+                />
                 <UploadImg />
                 <UploadImg />
             </div>
