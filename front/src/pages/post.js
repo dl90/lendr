@@ -34,18 +34,19 @@ export default function Post() {
     const [rate, setRate] = useState("");
 
 
-    const HandleNewPost = async (title, desc, location, rate, itemID) => {
-        console.log('Creating a New Post: ', "Title:", title, "Desc:", desc, "Location:", location, "Rate:", rate, "ItemID:", itemID);
+    const HandleNewPost = async (title, desc, location, rate) => {
+        console.log('Creating a New Post: ', "Title:", title, "Desc:", desc, "Location:", location, "Rate:", rate);
 
-        var resp = await axios.post('http://ec2-44-242-43-38.us-west-2.compute.amazonaws.com/post/new-item/', {
-            itemName: 'Test Name',
+        const resp = await axios.put('https://www.lendr-bc.me/post/new-item', {
+            itemName: 'New',
+            itemCondition: 'good',
+            itemAge: 2,
             postTitle: title,
             postDescription: desc,
             postLocation: location,
-            postRate: rate,
-            itemID: itemID
-        })
-        console.log(resp.data);
+            postRate: 2
+        }, { withCredentials: true })
+        console.log(resp);
     }
 
 

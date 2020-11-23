@@ -7,8 +7,8 @@ router.use(authCheck)
 
 export default function () {
   /**
-   * @api {put} /tag/create                Create tag and store in db
-   * @apiName PutCreateTag
+   * @api {post} /tag/create                Create tag and store in db
+   * @apiName CreateTag
    * @apiGroup Tag
    *
    * @apiParam {string} tagName
@@ -16,7 +16,7 @@ export default function () {
    * @apiSuccess (200) {json}               tag ID
    * @apiError (400) {}                     Incorrect params or create failed
    */
-  router.put('/create', async (req, res) => {
+  router.post('/create', async (req, res) => {
     const tagID = await TagController.addTag(req.body.tagName)
     tagID
       ? res.json({ tagID })

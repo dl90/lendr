@@ -1,9 +1,3 @@
-DROP DATABASE IF EXISTS lendr;
-CREATE DATABASE lendr;
-ALTER DATABASE lendr CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
-
-USE lendr;
-
 CREATE TABLE `User` (
   `id`                      INTEGER PRIMARY KEY AUTO_INCREMENT,
   `email`                   VARCHAR(255) UNIQUE NOT NULL,
@@ -139,8 +133,7 @@ CREATE TABLE `ItemList` (
 CREATE TABLE `Message` (
   `id`                      INTEGER PRIMARY KEY AUTO_INCREMENT,
   `message`                 VARCHAR(2550),
-  `timestamp`               TIMESTAMP NOT NULL DEFAULT(NOW()),
-  `receiver_read`           BOOLEAN NOT NULL DEFAULT(0)
+  `created_on`              TIMESTAMP NOT NULL DEFAULT(NOW())
 );
 
 CREATE TABLE `MessageImage` (
@@ -157,6 +150,7 @@ CREATE TABLE `UserMessage` (
   `message_id`              INTEGER NOT NULL,
   `sender_id`               INTEGER NOT NULL,
   `receiver_id`             INTEGER NOT NULL,
+  `receiver_read`           BOOLEAN NOT NULL DEFAULT(0),
 
   FOREIGN KEY (`message_id`) REFERENCES `Message`(`id`) ON DELETE CASCADE,
   FOREIGN KEY (`sender_id`) REFERENCES `User`(`id`),
@@ -203,8 +197,6 @@ CREATE TABLE `History` (
   FOREIGN KEY (`item_id`) REFERENCES `Item`(`id`) ON DELETE CASCADE,
   FOREIGN KEY (`lender_id`) REFERENCES `User`(`id`) ON DELETE CASCADE,
   FOREIGN KEY (`renter_id`) REFERENCES `User`(`id`)
-  -- FOREIGN KEY (`lender_rating`) REFERENCES `Rating`(`id`),
-  -- FOREIGN KEY (`renter_rating`) REFERENCES `Rating`(`id`)
 );
 
 CREATE TABLE `PostLike` (

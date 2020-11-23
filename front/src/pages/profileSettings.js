@@ -7,7 +7,6 @@ import Header from '../comps/Header';
 import Input from '../comps/Input';
 import InputBox from '../comps/InputBox';
 import Button from '../comps/Button';
-import BottomNav from '../comps/BottomNav';
 
 import {Link} from "react-router-dom";
 
@@ -50,17 +49,17 @@ export default function ProfileSettings() {
                 }}
             ></InputBox>
 
-            <Input title={"Change Password"} placeholder={"Old Password"}
+            <Input title={"Change Password"} placeholder={"Old Password"} type={"password"}
                 onChange={(e) => {
                     setOPWord(e.target.value);
                 }}
             ></Input>
-            <InputBox placeholder={"New Password"}
+            <InputBox placeholder={"New Password"} type={"password"}
                 onChange={(e) => {
                     setNPWord(e.target.value);
                 }}
             ></InputBox>
-            <InputBox placeholder={"Verify New Password"}
+            <InputBox placeholder={"Verify New Password"} type={"password"}
                 onChange={(e) => {
                     setVNPWord(e.target.value);
                 }}

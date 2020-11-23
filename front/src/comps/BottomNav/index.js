@@ -70,7 +70,7 @@ const BottomNav = ({ }) => {
             <div>Home</div>
         </Explore>
         </Link>
-        <Link to="/lending">
+        <Link to="/lendingAvailable">
         <Lend onClick={() => {
             changeExploreActive(2)
         }}

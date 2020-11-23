@@ -8,6 +8,8 @@ import Input from '../comps/Input';
 import Button from '../comps/Button';
 import InputBox from '../comps/InputBox';
 
+import BgWave from '../comps/BgWave';
+
 import {Link} from "react-router-dom";
 
 import axios from 'axios';
@@ -20,11 +22,13 @@ export default function SignUp() {
     const HandleSignUp = async (email, pass, name) => {
         console.log('Creating an Account for: ', name, email, pass,);
         //do a await axios get to rectrieve data
-        var resp = await axios.post('http://ec2-44-242-43-38.us-west-2.compute.amazonaws.com/auth/sign-up', {
+        var resp = await axios.post('https://www.lendr-bc.me/auth/sign-up/', {
             email: email,
             password: pass,
-            displayName: name
-        });
+            displayName: name,
+
+            headers: { crossDomain: true, 'Content-Type': 'application/json' }
+        }, { withCredentials: true });
         console.log(resp.data);
     }
 
@@ -46,12 +50,12 @@ export default function SignUp() {
                     setEmail(e.target.value);
                 }}
             ></Input>
-            <Input title={"Password"} placeholder={"Password"}
+            <Input title={"Password"} placeholder={"Password"}  type={"password"}
                 onChange={(e) => {
                     setPass(e.target.value);
                 }}
             ></Input>
-            <InputBox placeholder={"Re-enter Password"} ></InputBox>
+            <InputBox placeholder={"Re-enter Password"}  type={"password"}></InputBox>
             <Link to="/tutorial1">
                 <div className="button">
                     <Button text={"Create account"}
@@ -61,9 +65,7 @@ export default function SignUp() {
                     />
                 </div>
             </Link>
-           
-
         </div>
-
+        <BgWave/>
     </div>
 }

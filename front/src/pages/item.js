@@ -9,7 +9,7 @@ import AskLender from '../comps/AskLender';
 import BottomNav from '../comps/BottomNav';
 import Like from '../comps/Like';
 
-import {Link} from "react-router-dom";
+// import {Link} from "react-router-dom";
 
 import axios from 'axios';
 export default function Item({ Price, img, Desc }) {
@@ -18,7 +18,7 @@ export default function Item({ Price, img, Desc }) {
 
     const [title, setTitle] = useState("");
     const [desc, setDesc] = useState("");
-    const [location, setLocation] = useState("");
+    // const [location, setLocation] = useState("");
     const [rate, setRate] = useState("");
 
     // const [heartActive, changeHeartActive] = useState(false);
@@ -31,7 +31,7 @@ export default function Item({ Price, img, Desc }) {
         console.log(resp);
         setTitle(resp.data.postTitle);
         setDesc(resp.data.postDescription);
-        setLocation(resp.data.postLocation);
+        // setLocation(resp.data.postLocation);
         setRate(resp.data.postRate);
         // setID(resp.data.itmeID);
     }
