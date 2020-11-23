@@ -34,20 +34,9 @@ const HandleUser = async () => {
         headers: { crossDomain: true, 'Content-Type': 'application/json' }
     }, { withCredentials: true });
 
-    // console.log("post ./me data here: " + resp.data)
-    var data = JSON.parse(resp.data);
-setDisplayName(data.display_name);
-setUserPicture(data.avatar_url);
-    // console.log("after login, display name is: " + userfname);
 
-    var item = await axios.post('https://www.lendr-bc.me/post/get-all', {
-        headers: { crossDomain: true, 'Content-Type': 'application/json' }
-    }, { withCredentials: true });
 
-    var itemarray = item.data; 
-    console.log(itemarray);
-
-} 
+}
 
     return <div onLoad={HandleUser}>
         <div className="Header">
