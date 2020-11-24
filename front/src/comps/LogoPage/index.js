@@ -61,7 +61,7 @@ const LogoPage = () => {
 
         setTimeout(function(){SetWavePosO("top:-100px;right:50px;transform: rotate(-25deg);");}, 500);
         setTimeout(function(){SetWavePosB("top:-100px;right:165px;transform: rotate(-30deg);");}, 400);
-        setTimeout(function(){SetWavePosO2("bottom:0px;left:0px;");}, 400);
+        setTimeout(function(){SetWavePosO2("bottom:0px;left:0px;");}, 450);
         setTimeout(function(){SetWavePosB2("bottom:-5px;left:0px;");}, 500);
         setTimeout(function(){SetPageO(0);}, 5000);
         setTimeout(function(){SetPageDisp("none");}, 5500);

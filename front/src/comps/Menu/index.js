@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import {Link} from 'react-router-dom';
+import axios from 'axios';
 const MenuCont = styled.div`
 max-width: 304px;
 min-height: 186px;
@@ -13,7 +14,7 @@ padding:20px;
 display:flex;
 flex-direction:column;
 justify-content:space-between;
-background-color:white;
+background-color:white; 
 overflow:hidden;
 `;
 
@@ -44,7 +45,9 @@ font-size:18px;
 `
 
 
-
+const LogOut = async () => {
+    var resp = await axios.post('https://www.lendr-bc.me/auth/logout')
+}
 
 
 const Menu = ({ notification, share, logout, report }) => {
@@ -58,10 +61,12 @@ const Menu = ({ notification, share, logout, report }) => {
             <img src={share}></img>
             <MenuText>Share With Friends</MenuText>
         </Menu3>
-        <Menu4>
+       
+        <Menu4 onClick={LogOut}>
             <img src={logout}></img>
             <MenuText>Log Out</MenuText>
         </Menu4>
+      
         <Menu5>
             <img src={report}></img>
             <MenuText>Report</MenuText>

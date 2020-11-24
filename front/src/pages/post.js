@@ -2,57 +2,37 @@ import React, { useState } from 'react';
 // import './index.scss';
 import './app.scss';
 import './edit.scss';
-
 import Header from '../comps/Header';
 import Input from '../comps/Input';
 import UploadImg from '../comps/UploadImg';
 import CategoriesDropdown from '../comps/CatagoriesDropdown';
 import Button from '../comps/Button';
-
 import BottomNav from '../comps/BottomNav';
 import InputParagraph from '../comps/InputParagraph';
-
+import { Link } from "react-router-dom";
 //import axios to get 
 import axios from 'axios';
-
-import {
-    BrowserRouter as Router,
-    Link,
-    Route,
-} from "react-router-dom";
-
-
 export default function Post() {
-
     //Creating Use state
-
     // const [name, setName] = useState('');
     const [title, setTitle] = useState("");
     // const [catag, setCatag] = useState('');
     const [desc, setDesc] = useState("");
     const [location, setLocation] = useState("");
     const [rate, setRate] = useState("");
-    const [imgs, setImg] = useState("");
-
-
-    const HandleNewPost = async (title, desc, location, rate, imgs) => {
-        console.log('Creating a New Post: ', "Title:", title, "Desc:", desc, "Location:", location, "Rate:", rate, "img:", imgs);
-
-        const resp = await axios.put('https://www.lendr-bc.me/post/new-item', {
+    const HandleNewPost = async (title, desc, location, rate) => {
+        const resp = await axios.post('https://www.lendr-bc.me/post/new-complete', {
             itemName: 'New',
             itemCondition: 'good',
             itemAge: 2,
             postTitle: title,
             postDescription: desc,
             postLocation: location,
-            postRate: rate,
-            images: imgs,
-        }, { withCredentials: true })
-        console.log("item is", resp);
+            postRate: 2,
+            headers: { crossDomain: true, 'Content-Type': 'application/json' }
+        }, { withCredentials: true });
+        console.log('Creating a New Post: ', "Title:", title, "Desc:", desc, "Location:", location, "Rate:", rate);
     }
-
-
-
     return <div>
         <div className="post">
             <Header />
@@ -68,20 +48,14 @@ export default function Post() {
                 }}
             />
         </div>
-
         <div className="imageDiv">
             <h2>Upload Photos</h2>
             <div className="images">
-                <UploadImg
-                    onChange={(e) => {
-                        setImg(e.target.value);
-                    }}
-                />
+                <UploadImg />
                 <UploadImg />
                 <UploadImg />
             </div>
         </div>
-
         <div className="post">
             <CategoriesDropdown />
             <InputParagraph title={"Description"} placeholder="Write a description of the item you're renting out."
@@ -94,17 +68,29 @@ export default function Post() {
                     setLocation(e.target.value);
                 }}
             />
-            <div className="button">
-                <Button text={"Post"}
-                    onClick={() => {
-                        HandleNewPost(title, desc, location, rate);
-                    }}
-                />
-            </div>
+            <Link to="/lending">
+                <div className="button">
+                    <Button text={"Post"}
+                        onClick={() => {
+                            HandleNewPost(title, desc, location, rate);
+                        }}
+                    />
+                </div>
+            </Link>
         </div>
-
         <div className="nav">
             <BottomNav />
         </div>
     </div>
 }
+
+
+
+
+
+
+
+
+
+
+

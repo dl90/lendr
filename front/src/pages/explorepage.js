@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect} from 'react';
 import BottomNav from '../comps/BottomNav';
 import './app.scss'
 import '../pages/explorepage.scss'
@@ -31,21 +31,25 @@ const [ItemPrice, setItemPrice]=useState("10");
 const [ItemDate, setItemDate]=useState("default item date");
 const [ItemTitle, setItemTitle]=useState("default title");
 const [ItemImage, setItemImage]=useState("./placeholderProfile.png");
-
 // const [username, setUserName] = useState(null)
-
 const HandleUser = async () => {
     var resp = await axios.get('https://www.lendr-bc.me/me', { 
         withCredentials: true    
     })
     setDisplayName(resp.data.display_name);
     setUserPicture(resp.data.avatar_url);
-
-    var itemresp = await axios.get("https://www.lendr-bc.me/post/get-all")
+    var itemresp = await axios.post("https://www.lendr-bc.me/post/get-all", {idx: 0, count: 5}, {
+        headers: { crossDomain: true, 'Content-Type': 'application/json' }
+    }, { withCredentials: true });
     console.log(itemresp.data);
 }
 
-    return <div onLoad={HandleUser}>
+useEffect(() => {
+    HandleUser();
+}, [])
+
+
+    return <div>
         <div className="Header">
             <div className="Header_top">
 <div>Hi, {DisplayName}</div>
