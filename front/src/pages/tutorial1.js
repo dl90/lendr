@@ -2,12 +2,22 @@ import React from 'react';
 import './index.scss';
 import './app.scss';
 import './tutorial1.scss';
+import Lottie from 'react-lottie';
+import animData from'../pages/lottie.json';
 
 import Header from '../comps/Header';
 import Button from '../comps/SmallButton';
 
 import {Link} from "react-router-dom";
 
+const defaultOptions = {
+    loop: true,
+    autoplay: true, 
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice'
+    }
+  };
 export default function Tutorial1(){
     return <div className="loggingIn">
             <Header options={"none"}/>
@@ -22,6 +32,8 @@ export default function Tutorial1(){
                     <Button  bg={"linear-gradient(119.69deg, rgba(255,138,0,0.5) -15.26%, #FF8A00 98.97%)"} text={"Next"}/>
                 </div>
             </Link>
+            <Lottie
+            options={defaultOptions}/>
             </div>
 
         </div>

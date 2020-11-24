@@ -1,6 +1,5 @@
 import React from 'react';
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 // import './App.css';
 // import Pages from "./pages/renterProfile";
 // import Pages from "./pages/index";
@@ -8,19 +7,17 @@ import React from 'react';
 // import Pages from "./pages/login";
 // import Pages from "./pages/signUp";
 // import Pages from "./pages/item";
-// import Pages from "./pages/settings";
-import Pages from "./pages/Lsignup";
+import Pages from "./pages/settings";
+// import Pages from "./pages/Lsignup";
 // import Pages from "./pages/load1";
 // import Pages from "./pages/load2";
 // import Pages from "./pages/tutorial1";
 // import Pages from "./pages/tutorial2";
 // import Pages from "./pages/tutorial3";
 // import Pages from "./pages/tutorial4";
-=======
-=======
 
 
->>>>>>> 04900ac2178aaa9b95cb3e253040b0f1f8ad51f3
+
 import {
   BrowserRouter as Router,
   Route,
@@ -41,9 +38,7 @@ import RenterProfile from "./pages/renterProfile";
 import Settings from './pages/settings';
 import SignUp from './pages/signUp';
 import SpecificCategories from './pages/specificCategories';
-<<<<<<< HEAD
->>>>>>> 9a3f86e9ae108a799857a6cbf48104dcc22c7609
-=======
+
 import ExplorePage from './pages/explorepage';
 
 import Lsignup from "./pages/Lsignup";
@@ -54,7 +49,7 @@ import Tutorial2 from "./pages/tutorial2";
 import Tutorial3 from "./pages/tutorial3";
 import Tutorial4 from "./pages/tutorial4";
 // const BrowserHistory = require('react-router/lib/BrowserHistory').default;
->>>>>>> 04900ac2178aaa9b95cb3e253040b0f1f8ad51f3
+
 
 const App = () => {
 
