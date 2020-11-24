@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import BottomNav from '../comps/BottomNav';
 import './app.scss'
 import '../pages/explorepage.scss'
@@ -40,7 +40,6 @@ const HandleUser = async () => {
     })
     setDisplayName(resp.data.display_name);
     setUserPicture(resp.data.avatar_url);
-
     var itemresp = await axios.get("https://www.lendr-bc.me/post/get-all")
     console.log(itemresp.data);
 }

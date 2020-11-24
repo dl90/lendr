@@ -62,7 +62,7 @@ const ReviewCard = ({ title, date, bgImg, price}) => {
         <Item>
             <Title><h4>{title}</h4></Title>
             <Date><p>{date}</p></Date>
-            <Price><p>{price}/day</p></Price>
+            <Price><p>${price}/day</p></Price>
         </Item>
     </Card>
     </Link>
