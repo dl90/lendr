@@ -47,7 +47,6 @@ font-size:18px;
 
 const LogOut = async () => {
     var resp = await axios.post('https://www.lendr-bc.me/auth/logout')
-console.log(resp);
 }
 
 
@@ -64,10 +63,8 @@ const Menu = ({ notification, share, logout, report }) => {
         </Menu3>
        
         <Menu4 onClick={LogOut}>
-        <Link to ="/login">
             <img src={logout}></img>
             <MenuText>Log Out</MenuText>
-            </Link>
         </Menu4>
       
         <Menu5>

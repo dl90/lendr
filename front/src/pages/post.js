@@ -29,22 +29,20 @@ export default function Post() {
 
 
     const HandleNewPost = async (title, desc, location, rate) => {
-        console.log('Creating a New Post: ', "Title:", title, "Desc:", desc, "Location:", location, "Rate:", rate);
-
-        const resp = await axios.put('https://www.lendr-bc.me/post/new-item', {
+      
+        const resp = await axios.post('https://www.lendr-bc.me/post/new-complete', {
             itemName: 'New',
             itemCondition: 'good',
             itemAge: 2,
             postTitle: title,
             postDescription: desc,
             postLocation: location,
-            postRate: 2
-        }, { withCredentials: true })
-        console.log(resp);
+            postRate: 2,
+            headers: { crossDomain: true, 'Content-Type': 'application/json' }
+        }, { withCredentials: true });
+
+        console.log('Creating a New Post: ', "Title:", title, "Desc:", desc, "Location:", location, "Rate:", rate);
     }
-
-
-
     return<div>
             <div className="post">
                 <Header />
