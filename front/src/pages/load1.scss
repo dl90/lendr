@@ -1,12 +1,33 @@
 .loggingIn{
-    text-align: center;
+
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:3;
+
+    width:100vw;
+    height:100vh;
+
+    display: flex;
     flex-direction: column;
-    padding:55px;
-    .img{
-        margin-left: -15px;
-    }
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    padding:50px;
+    margin: 50px;
+    
     .text{
         font-family: Lato;
         color: #FF8A00;
+    }
+}
+.img{
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+    img{
+        width: 90%;
     }
 }

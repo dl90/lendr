@@ -15,7 +15,6 @@ import axios from 'axios';
 
 
 export default function Login () {
-
     // const [login, setLogin] = useState("Test");
 
     const [userEmail, setEmail] = useState("");
@@ -50,7 +49,7 @@ export default function Login () {
             ></Input>
             <a>Forgot your password?</a>
 
-            <Link to="/">
+            <Link to="/load1">
                 <div className="button">
                     <Button text={"Login"}
                         onClick={() => {
