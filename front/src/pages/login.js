@@ -7,13 +7,14 @@ import Header from '../comps/Header';
 import Input from '../comps/Input';
 import Button from '../comps/Button';
 
+import BgWave from '../comps/BgWave';
+
 import {Link} from "react-router-dom";
 
 import axios from 'axios';
 
 
 export default function Login () {
-
     // const [login, setLogin] = useState("Test");
 
     const [userEmail, setEmail] = useState("");
@@ -48,7 +49,7 @@ export default function Login () {
             ></Input>
             <a>Forgot your password?</a>
 
-            <Link to="/">
+            <Link to="/load1">
                 <div className="button">
                     <Button text={"Login"}
                         onClick={() => {
@@ -58,6 +59,6 @@ export default function Login () {
                 </div>
             </Link>
         </div>
-
+        <BgWave></BgWave>
     </div>
 }

@@ -16,7 +16,7 @@ export default function Tutorial4(){
             <div className="text">
             <h10> Rate your experience and let others' know what they can expect.</h10>
 
-            <Link to="/index">
+            <Link to="/load1">
                 <div className="button2"> <Button text={"Get Started"}/></div>
             </Link>
             </div>

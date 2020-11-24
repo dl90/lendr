@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import BottomNav from '../comps/BottomNav';
 import './app.scss'
 import '../pages/explorepage.scss'
@@ -23,24 +23,34 @@ import axios from 'axios';
 //  }
 // `;
 
+    
+export default function ExplorePage() {
+const [UserPicture, setUserPicture]=useState(null);
+const [DisplayName, setDisplayName]=useState("");
+const [ItemPrice, setItemPrice]=useState("10");
+const [ItemDate, setItemDate]=useState("default item date");
+const [ItemTitle, setItemTitle]=useState("default title");
+const [ItemImage, setItemImage]=useState("./placeholderProfile.png");
 
-export default function ExplorePage({userfname}) {
-// const [userpicture, setUserPicture] = useState(null)
 // const [username, setUserName] = useState(null)
 
 const HandleUser = async () => {
-    var resp = await axios.get('https://www.lendr-bc.me/me', {
-      displayName:userfname 
-      
+    var resp = await axios.get('https://www.lendr-bc.me/me', { 
+        withCredentials: true    
     })
-    console.log(resp)
+    setDisplayName(resp.data.display_name);
+    setUserPicture(resp.data.avatar_url);
+
+    var itemresp = await axios.get("https://www.lendr-bc.me/post/get-all")
+    console.log(itemresp.data);
 }
+
     return <div onLoad={HandleUser}>
         <div className="Header">
             <div className="Header_top">
-                <div>Hi, {userfname}</div>
+<div>Hi, {DisplayName}</div>
                 <Link to ="/settings">
-                <UserAvatar></UserAvatar>
+                <UserAvatar imgsrc={UserPicture}></UserAvatar>
                 </Link>
             </div>
             <h1>Explore</h1>
@@ -81,9 +91,10 @@ const HandleUser = async () => {
                 </Link>
             </div>
         
+
         <div className="Recommended_divs">
-            <ReviewCard></ReviewCard>
-            <ReviewCard></ReviewCard>
+            <ReviewCard title={ItemTitle} date={ItemDate} bgImg={ItemImage}price={ItemPrice}></ReviewCard>
+            <ReviewCard title={ItemTitle} date={ItemDate} bgImg={ItemImage}price={ItemPrice}></ReviewCard>
         </div>
         </div>
         <div className="Saved_cont">
@@ -94,8 +105,8 @@ const HandleUser = async () => {
             </Link>
         </div>
         <div className="Recommended_divs">
-            <ReviewCard></ReviewCard>
-            <ReviewCard></ReviewCard>
+            <ReviewCard title={ItemTitle} date={ItemDate} bgImg={ItemImage}price={ItemPrice}></ReviewCard>
+            <ReviewCard title={ItemTitle} date={ItemDate} bgImg={ItemImage}price={ItemPrice}></ReviewCard>
         </div>
         {/* </div> */}
         </div>
