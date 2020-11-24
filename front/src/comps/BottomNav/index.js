@@ -56,7 +56,7 @@ const BottomNav = ({ }) => {
 
     return<div>
     <NavBar>
-        <Link to="/">
+        <Link to="/explorePage">
         <Explore onClick={() => {
             changeExploreActive(1)
         }} exploreActive={exploreActiveValue === 1 ? "orange" : "black"}>
