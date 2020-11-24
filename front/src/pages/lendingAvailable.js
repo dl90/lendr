@@ -14,14 +14,14 @@ import { Link } from "react-router-dom";
 
 export default function LendingAvailable() {
 
-    const HandleGetItems = async (name,rate) => {
+    const HandleGetItems = async (name, rate) => {
         var resp = await axios.get('https://www.lendr-bc.me/item/get', {
-    
+
             headers: { crossDomain: true, 'Content-Type': 'application/json' }
         }, { withCredentials: true });
-     
-        
-        
+
+
+
     }
 
 
@@ -39,7 +39,7 @@ export default function LendingAvailable() {
         <ItemCard />
         <ItemCard />
         <div className="nav">
-            <BottomNav />
+            <BottomNav active={2} />
         </div>
     </div>
 }

@@ -79,7 +79,7 @@ export default function Post() {
             </Link>
         </div>
         <div className="nav">
-            <BottomNav />
+            <BottomNav active={3} />
         </div>
     </div>
 }
