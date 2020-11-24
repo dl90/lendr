@@ -10,7 +10,7 @@ import {Link} from "react-router-dom";
 
 export default function Lsignup(){
     return <div className="loginPage">
-        <div><img src="signup.png" alt="Signup"></img></div>
+        <div className="img"><img src="/MainGraphic1.png" alt="Signup"></img></div>
         <h2>Creating more budget friendly options for you!</h2>
             <Link to="/login">
                 <div className="button">
