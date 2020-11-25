@@ -21,6 +21,8 @@ export default function Post() {
     const [location, setLocation] = useState("");
     const [rate, setRate] = useState("");
     const [imgs, setImgs] = useState("");
+
+
     const HandleNewPost = async (title, desc, location, rate, imgs) => {
         const resp = await axios.post('https://www.lendr-bc.me/post/new-complete', {
             itemName: 'New',
@@ -29,7 +31,7 @@ export default function Post() {
             postTitle: title,
             postDescription: desc,
             postLocation: location,
-            postRate: 2,
+            postRate: rate,
             tag: "Electronic",
             images: imgs,
             headers: { crossDomain: true, 'Content-Type': 'application/json' }
