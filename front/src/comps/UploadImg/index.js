@@ -34,26 +34,28 @@ button{
 // Need to make this comp so that when a file gets uploaded the plus sign turns into a minus sign
 
 
-const UploadImg = ({ bgImg }) => {
+const UploadImg = ({ bgImg, cbProp }) => {
     const hiddenFileInput = React.useRef(null);
 
     const handleClick = event => {
         hiddenFileInput.current.click();
     };
-    const handleChange = event => {
-        const fileUploaded = event.target.files[0];
-    };
-    return <ImgDiv bgImg={bgImg}>
+    // const handleChange = event => {
+    //     const fileUploaded = event.target.files[0];
+    // };
+    return <ImgDiv bgImg={bgImg} className="" >
         <button onClick={handleClick}>
             <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M2.81567 8.31689H14.7797" stroke="white" stroke-width="4" stroke-linecap="round" />
                 <path d="M8.5 14.0423V2.00001" stroke="white" stroke-width="4" stroke-linecap="round" />
             </svg>
         </button>
-        <input type="file"
+        <input
+            type="file"
             accept="image/x-png,image/gif,image/jpeg"
+            multiple
             ref={hiddenFileInput}
-            onChange={handleChange}
+            onChange={cbProp}
             style={{ display: 'none' }}
         />
     </ImgDiv>
