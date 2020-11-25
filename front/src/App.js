@@ -34,13 +34,18 @@ import Tutorial2 from "./pages/tutorial2";
 import Tutorial3 from "./pages/tutorial3";
 import Tutorial4 from "./pages/tutorial4";
 // const BrowserHistory = require('react-router/lib/BrowserHistory').default;
+import axios from 'axios';
+axios.defaults.withCredentials = true;
 
 const App = () => {
 
   return (
     <Router>
-      <LogoPage/>
+      <LogoPage />
       <div>
+
+
+        <Route exact path="/" component={ExplorePage}></Route>
 
         <Route exact path="/chat" component={Chat}></Route>
         <Route exact path="/edit" component={Edit}></Route>

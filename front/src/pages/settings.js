@@ -12,7 +12,7 @@ import Menu from '../comps/Menu';
 
 import BottomNav from '../comps/BottomNav';
 
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Home() {
     return <div className="app">
@@ -27,7 +27,7 @@ export default function Home() {
         </div>
 
         <div className="nav">
-            <BottomNav />
+            <BottomNav active={5} />
         </div>
     </div>
 }
