@@ -19,7 +19,7 @@ export default function Chat() {
     const HandleGetItems = async (name, rate) => {
         var msgresp = await axios.post("https://localhost:8443/msg/get", {idx: 0, count: 5}, {
             headers: { crossDomain: true, 'Content-Type': 'application/json' }
-        }, { withCredentials: true });
+        }, { withCredentials: true});
         console.log("repo data");
         console.log(msgresp.data);
 

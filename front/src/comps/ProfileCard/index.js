@@ -90,8 +90,6 @@ const Message = styled.div`
 `;
 
 
-
-
 const ProfileCard = ({ userImg, userName, userRating, msgState, userState }) => {
     return <UserProfileCard msgState={msgState}>
         <UserInfo>
