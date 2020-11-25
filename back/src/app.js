@@ -17,6 +17,7 @@ import itemRoute from './routes/itemRoute.js'
 import postRoute from './routes/postRoute.js'
 import tagRoute from './routes/tagRoute.js'
 import msgRoute from './routes/msgRoute.js'
+import searchRoute from './routes/searchRoute.js'
 
 dotenv.config()
 
@@ -31,9 +32,10 @@ const filter = new Filter()
 app.use(json())
 app.use(cors({
   credentials: true,
-  origin: ['https://localhost:*', 'http://localhost:*', 'https://www.lendr-bc.me'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'X-Requested-With', 'Origin']
+  origin: ['https://localhost:3000', 'https://www.lendr-bc.me'],
+  allowedHeaders: ['crossdomain', 'Content-Type', 'Authorization', 'Accept', 'X-Requested-With', 'Origin']
 }))
+app.options('*', cors({ allowedHeaders: ['crossdomain'] }))
 app.use(urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use(cookieSession({
@@ -58,13 +60,13 @@ export default function () {
   /* ------ private routes ------ */
   app.use('/me', meRoute())
   app.use('/image', imageUploadLimit, imageRoute())
-  app.use('/user', userRoute())
-  app.use('/item', itemRoute())
-  app.use('/post', postRoute())
-  app.use('/tag', tagRoute())
+  app.use('/user', userRoute(filter))
+  app.use('/item', itemRoute(filter))
+  app.use('/post', postRoute(filter))
+  app.use('/tag', tagRoute(filter))
   app.use('/msg', msgRoute(wsInstance, filter))
+  app.use('/search', searchRoute())
 
-  app.use('*', (req, res) => res.sendStatus(404))
-
+  app.use('*', (_req, res) => res.sendStatus(404))
   return app
 }

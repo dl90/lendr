@@ -7,7 +7,7 @@ import multer from '../middleware/multer.js'
 const router = express.Router()
 router.use(authCheck)
 
-export default function () {
+export default function (filter) {
   /**
    * @api {post} /post/new                  Create new post with existing item
    * @apiName NewPostWithExistingItem
@@ -26,7 +26,6 @@ export default function () {
   router.post('/new', async (req, res) => {
     const postID = await PostController.createPostWithItemID(
       req.user.id,
-
       req.body.itemID,
       req.body.postTitle,
       req.body.postRate,
@@ -60,7 +59,6 @@ export default function () {
   router.post('/new-item', async (req, res) => {
     const postID = await PostController.createPostWithNewItem(
       req.user.id,
-
       req.body.itemName,
       req.body.itemCondition,
       req.body.itemAge,
@@ -88,16 +86,17 @@ export default function () {
    * @apiParam {number} postRate
    * @apiParam {string} postDescription
    * @apiParam {string} postLocation
+   * @apiParam {string} tag
    * @apiParam {string|null} [postDuration]
    * @apiParam {files}  images
    *
    * @apiSuccess (200) {json}               Success
    * @apiError (400) {}                     Incorrect arguments || servier error
    */
-  router.post('/new-item-images', multer.array('images', config.BATCH_IMAGE_UPLOAD_COUNT), async (req, res) => {
+  router.post('/new-complete', multer.array('images', config.BATCH_IMAGE_UPLOAD_COUNT), async (req, res) => {
     if (!req.files.length) res.sendStatus(400)
     else {
-      const result = await PostController.createNewPostWithNewItemAndImages(
+      const result = await PostController.createNewPostComplete(
         req.user.id,
         req.body.itemName,
         req.body.itemCondition,
@@ -106,6 +105,7 @@ export default function () {
         req.body.postRate,
         req.body.postDescription,
         req.body.postLocation,
+        req.body.tag,
         req.files,
         req.body.postDuration
       )
@@ -133,7 +133,7 @@ export default function () {
   })
 
   /**
-   * @api {post} /post/get                  Get post by postID
+   * @api {post} /post/get-id               Get post by postID
    * @apiName GetPostByPostID
    * @apiGroup Post
    *
@@ -142,7 +142,7 @@ export default function () {
    * @apiSuccess (200) {json}               Post
    * @apiError (400) {}                     Incorrect postID || get failed
    */
-  router.post('/get', async (req, res) => {
+  router.post('/get-id', async (req, res) => {
     const post = await PostController.getPostByPostID(req.body.postID)
     post
       ? res.json(post)
@@ -150,14 +150,32 @@ export default function () {
   })
 
   /**
-   * @api {get} /post/get                   Get all posts by userID
+   * @api {post} /post/get-all              Get all posts
+   * @apiName GetAllPosts
+   * @apiGroup Post
+   *
+   * @apiParam {number} idx                 starting idx
+   * @apiParam {number} count               number of posts
+   *
+   * @apiSuccess (200) {json}               Posts
+   * @apiError (400) {}                     Get failed
+   */
+  router.post('/get-all', async (req, res) => {
+    const posts = await PostController.getAllPosts(req.body.idx, req.body.count)
+    posts
+      ? res.json(posts)
+      : res.status(400)
+  })
+
+  /**
+   * @api {post} /post/get-all-own          Get all users posts
    * @apiName GetAllPostsFromCurrentUser
    * @apiGroup Post
    *
    * @apiSuccess (200) {json}               Posts
    * @apiError (400) {}                     Get failed
    */
-  router.get('/get', async (req, res) => {
+  router.post('/get-all-own', async (req, res) => {
     const posts = await PostController.getAllPostsByUserID(req.user.id)
     posts
       ? res.json(posts)
@@ -165,7 +183,7 @@ export default function () {
   })
 
   /**
-   * @api {post} /post/get-user-id          Get all posts form userID
+   * @api {post} /post/get-user-id          Get all posts by userID
    * @apiName GetAllPostsFromUserID
    * @apiGroup Post
    *
@@ -205,12 +223,15 @@ export default function () {
    * @apiGroup Post
    *
    * @apiParam {number} tagID
+   * @apiParam {number} idx
+   * @apiParam {number} count
+   * @apiParam {boolean|undefined} postFlag
    *
    * @apiSuccess (200) {json}               Posts
    * @apiError (400) {}                     Incorrect tagID || get failed
    */
   router.post('/get-tag-id', async (req, res) => {
-    const posts = await PostController.getAllPostsByTagID(req.body.tagID, req.body.postFlag)
+    const posts = await PostController.getAllPostsByTagID(req.body.tagID, req.body.idx, req.body.count, req.body.postFlag)
     posts
       ? res.json(posts)
       : res.sendStatus(400)
@@ -222,12 +243,15 @@ export default function () {
    * @apiGroup Post
    *
    * @apiParam {string} tagName
+   * @apiParam {number} idx
+   * @apiParam {number} count
+   * @apiParam {boolean|undefined} postFlag
    *
    * @apiSuccess (200) {json}               Posts
    * @apiError (400) {}                     Incorrect tagName || get failed
    */
   router.post('/get-tag-name', async (req, res) => {
-    const posts = await PostController.getAllPostsByTagName(req.body.tagName, req.body.postFlag)
+    const posts = await PostController.getAllPostsByTagName(req.body.tagName, req.body.idx, req.body.count, req.body.postFlag)
     posts
       ? res.json(posts)
       : res.sendStatus(400)

@@ -7,14 +7,16 @@ import PostImage from '../model/PostImageModel.js'
 
 import TagController from './TagController.js'
 import ItemController from './ItemController.js'
+import ElasticController from './ElasticController.js'
 
 export default {
   createPostWithItemID,
   createPostWithNewItem,
-  createNewPostWithNewItemAndImages,
+  createNewPostComplete,
   deletePost,
 
   getPostByPostID,
+  getAllPosts,
   getAllPostsByUserID,
   getAllPostsByItemID,
   getAllPostsByTagID,
@@ -102,6 +104,7 @@ async function createPostWithNewItem (
  * @param {number} postRate
  * @param {string} postDescription
  * @param {string} postLocation
+ * @param {string} tag
  * @param {[objects]} imageArray
  * @param {string|null} postDuration datetime format: '2020-12-31 23:59:59' (UTC), default duration 1 month
  * @return {object}
@@ -109,7 +112,7 @@ async function createPostWithNewItem (
  *  { postID: [number], imagesUploaded: [boolean] }
  * ```
  */
-async function createNewPostWithNewItemAndImages (
+async function createNewPostComplete (
   userID,
   itemName,
   itemCondition,
@@ -118,6 +121,7 @@ async function createNewPostWithNewItemAndImages (
   postRate,
   postDescription,
   postLocation,
+  tag,
   imageArray,
   postDuration = null
 ) {
@@ -126,6 +130,20 @@ async function createNewPostWithNewItemAndImages (
 
   const postID = await createPostWithItemID(userID, itemID, postTitle, postRate, postDescription, postLocation, postDuration)
   if (!postID) return false
+
+  const postTagID = await addPostTagWithNewTag(userID, postID, tag)
+  if (!postTagID) return false
+
+  // Elastic index
+  ElasticController.index({
+    id: postID,
+    title: postTitle,
+    rate: postRate,
+    location: postLocation,
+    duration: postDuration,
+    itemID,
+    userID
+  })
 
   const success = await addPostImages(userID, postID, imageArray)
   return { postID, imagesUploaded: success }
@@ -153,6 +171,15 @@ async function getPostByPostID (postID) {
 }
 
 /**
+ * @param {number} idx
+ * @param {number} count
+ */
+async function getAllPosts (idx, count) {
+  return await handler.asyncErrorHandler(Post.getAllPosts,
+    { idx: +idx, count: +count })
+}
+
+/**
  * @param {number} userID
  * @param {boolean|null} postFlag
  * @return {[object]|false}
@@ -170,30 +197,35 @@ async function getAllPostsByUserID (userID, postFlag = undefined) {
  */
 async function getAllPostsByItemID (userID, itemID, postFlag = undefined) {
   const fields = { userID: +userID, itemID: +itemID }
-  fields.postFlag = (postFlag === 'true')
+  if (postFlag) fields.postFlag = (postFlag === 'true')
   return await handler.asyncErrorHandler(Post.getAllPostsByItemID,
     fields)
 }
 
 /**
  * @param {number} tagID
+ * @param {number} idx pagination starting index
+ * @param {number} count number of responses
  * @param {boolean|undefined} postFlag
  * @return {[object]|false}
  */
-async function getAllPostsByTagID (tagID, postFlag = undefined) {
-  const fields = { tagID: +tagID }
+async function getAllPostsByTagID (tagID, idx, count, postFlag = undefined) {
+  const fields = { tagID: +tagID, idx: +idx, count: +count }
   if (postFlag) fields.postFlag = (postFlag === 'true')
   return await handler.asyncErrorHandler(Post.getAllPostsByTagID, fields)
 }
 
 /**
  * @param {number} tagName
+ * @param {number} idx pagination starting index
+ * @param {number} count number of responses
  * @param {boolean|undefined} postFlag
  * @return {[object]|false}
  */
-async function getAllPostsByTagName (tagName, postFlag = undefined) {
-  return await handler.asyncErrorHandler(Post.getAllPostsByTagName,
-    { tagName, postFlag })
+async function getAllPostsByTagName (tagName, idx, count, postFlag = undefined) {
+  const fields = { tagName, idx: +idx, count: +count }
+  if (postFlag) fields.postFlag = (postFlag === 'true')
+  return await handler.asyncErrorHandler(Post.getAllPostsByTagName, fields)
 }
 
 /* ======================================== UPDATE ======================================== */
@@ -307,14 +339,14 @@ async function addPostTagWithTagID (postID, tagID) {
  * @param {number} userID
  * @param {number} postID
  * @param {string} tagName
- * @return {number} postTag id
+ * @return {number|false} postTag id
  */
 async function addPostTagWithNewTag (userID, postID, tagName) {
   const post = await getPostByPostID(postID)
   if (!post || post.user_id !== +userID) return false
 
-  const tag = await TagController.getTagByTagName(tagName)
   const fields = { postID: +postID }
+  const tag = await TagController.getTagByTagName(tagName)
 
   if (tag) fields.tagID = +tag.id
   else {
@@ -323,14 +355,20 @@ async function addPostTagWithNewTag (userID, postID, tagName) {
     fields.tagID = +newTagID
   }
 
-  // @TODO check if post already has postTag (currently just throws errors)
-  // const postTag = await handler.asyncErrorHandler(PostTag.getPostTagByID, field)
-  const result = await handler.asyncErrorHandler(
-    PostTag.addPostTag,
+  const existingPostTag = await handler.asyncErrorHandler(
+    PostTag.getPostTagByPostIDTagID,
     fields,
-    'PostController: addPostTagWithNewTag - PostTag model'
+    'PostController: getPostTagByPostIDTagID - PostTag model'
   )
-  return result.insertId
+  if (existingPostTag) return existingPostTag.id
+  else {
+    const result = await handler.asyncErrorHandler(
+      PostTag.addPostTag,
+      fields,
+      'PostController: addPostTagWithNewTag - PostTag model'
+    )
+    return result.insertId
+  }
 }
 
 /* ======================================== Image ======================================== */

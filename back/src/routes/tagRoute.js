@@ -5,7 +5,7 @@ import authCheck from '../middleware/authCheck.js'
 const router = express.Router()
 router.use(authCheck)
 
-export default function () {
+export default function (filter) {
   /**
    * @api {post} /tag/create                Create tag and store in db
    * @apiName CreateTag
@@ -24,14 +24,14 @@ export default function () {
   })
 
   /**
-   * @api {get} /tag/all                    Get all tags from db
+   * @api {post} /tag/all                   Get all tags from db
    * @apiName GetAllTags
    * @apiGroup Tag
    *
    * @apiSuccess (200) {json}               tags
    * @apiError (400) {}                     get failed
    */
-  router.get('/all', async (req, res) => {
+  router.post('/all', async (_req, res) => {
     const tags = await TagController.getAllTags()
     tags
       ? res.json(tags)

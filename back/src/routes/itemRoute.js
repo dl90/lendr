@@ -5,7 +5,7 @@ import authCheck from '../middleware/authCheck.js'
 const router = express.Router()
 router.use(authCheck)
 
-export default function () {
+export default function (filter) {
   /**
    * @api {post} /item/get                  Get item
    * @apiName GetItem
@@ -24,14 +24,14 @@ export default function () {
   })
 
   /**
-   * @api {get} /item/get                   Get all items that belongs to user
+   * @api {post} /item/get                  Get all items that belongs to user
    * @apiName GetItems
    * @apiGroup Item
    *
    * @apiSuccess (200) {json}               [Items]
    * @apiError (400) {}                     Get failed
    */
-  router.get('/get', async (req, res) => {
+  router.post('/get-all', async (req, res) => {
     const items = await ItemController.getItemsByUserID(req.user.id)
     items
       ? res.json(items)
