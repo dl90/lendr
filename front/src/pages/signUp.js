@@ -56,7 +56,7 @@ export default function SignUp() {
                 }}
             ></Input>
             <InputBox placeholder={"Re-enter Password"}  type={"password"}></InputBox>
-            <Link to="/explorePage">
+            <Link to="/load2">
                 <div className="button">
                     <Button text={"Create account"}
                         onClick={() => {
