@@ -4,30 +4,20 @@ import util from '../util/util.js'
 export default {
   addPostTag,
   deletePostTag,
-  getPostTagByID
+
+  getPostTagByID,
+  getPostTagByPostIDTagID
 }
 
 /**
  * @param {object} fields
- * ```
- * { postID: [number], tagID: [number] }
- * ```
- * @return {object}
- * ```
- *  ResultSetHeader {
- *    fieldCount: 0,
- *    affectedRows: 1,
- *    insertId: 1,
- *    info: '',
- *    serverStatus: 2,
- *    warningStatus: 0
- *  }
- * ```
+ * @param {number} fields.postID
+ * @param {number} fields.tagID
  */
 async function addPostTag (fields) {
   util.checkID(fields.postID)
   util.checkID(fields.tagID)
-  return await db.addPostTag(fields.postID, fields.tagID)
+  return await db.addPostTag(fields)
 }
 
 /**
@@ -45,4 +35,16 @@ async function deletePostTag (postTagID) {
 async function getPostTagByID (postTagID) {
   util.checkID(postTagID)
   return await db.getPostTagByID(postTagID)
+}
+
+/**
+ * @param {object} fields
+ * @param {number} fields.postID
+ * @param {number} fields.tagID
+ */
+async function getPostTagByPostIDTagID (fields) {
+  util.checkID(fields.postID)
+  util.checkID(fields.tagID)
+  const result = await db.getPostTagByPostIDTagID(fields)
+  return result[0]
 }
