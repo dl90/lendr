@@ -28,31 +28,27 @@ export default function Login () {
         }, { withCredentials: true });
         console.log(status)
 
-        const newPost = await axios.post('https://www.lendr-bc.me/post/new-item', {
-            itemName: 'test',
-            itemCondition: 'new',
-            itemAge: 1,
-            postTitle: 'test',
-            postRate: 1.11,
-            postDescription: 'test',
-            postLocation: 'test',
-            headers: { crossDomain: true, 'Content-Type': 'application/json' }
-        }, { withCredentials: true })
-        console.log(newPost.data)
+        // const newPost = await axios.post('https://www.lendr-bc.me/post/new-item', {
+        //     itemName: 'test',
+        //     itemCondition: 'new',
+        //     itemAge: 1,
+        //     postTitle: 'test',
+        //     postRate: 1.11,
+        //     postDescription: 'test',
+        //     postLocation: 'test',
+        //     headers: { crossDomain: true, 'Content-Type': 'application/json' }
+        // }, { withCredentials: true })
+        // console.log(newPost.data)
 
-        const posts = await axios.post('https://www.lendr-bc.me/post/get-all', {
-            idx: 0,
-            count: 5,
-            headers: {
-                crossDomain: true,
-                'Content-Type': 'application/json'
-            }
-        }, { withCredentials: true })
-
-        console.log(posts.data)
-
-        //const res = await network.axiosPost('/auth/login', { email: userEmail, password: pass })
-        //console.log(res)
+        // const posts = await axios.post('https://www.lendr-bc.me/post/get-all', {
+        //     idx: 0,
+        //     count: 5,
+        //     headers: {
+        //         crossDomain: true,
+        //         'Content-Type': 'application/json'
+        //     }
+        // }, { withCredentials: true })
+        // console.log(posts.data)
     }
 
 

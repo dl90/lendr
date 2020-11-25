@@ -10,9 +10,10 @@ import Button from '../comps/Button';
 import BottomNav from '../comps/BottomNav';
 import InputParagraph from '../comps/InputParagraph';
 import { Link } from "react-router-dom";
-//import axios to get 
+
+//import axios to get
 import axios from 'axios';
-export default function Post() {
+export default function Post () {
     //Creating Use state
     // const [name, setName] = useState('');
     const [title, setTitle] = useState("");
@@ -20,19 +21,55 @@ export default function Post() {
     const [desc, setDesc] = useState("");
     const [location, setLocation] = useState("");
     const [rate, setRate] = useState("");
-    const HandleNewPost = async (title, desc, location, rate) => {
-        const resp = await axios.post('https://www.lendr-bc.me/post/new-complete', {
-            itemName: 'New',
-            itemCondition: 'good',
-            itemAge: 2,
-            postTitle: title,
-            postDescription: desc,
-            postLocation: location,
-            postRate: 2,
-            headers: { crossDomain: true, 'Content-Type': 'application/json' }
-        }, { withCredentials: true });
-        console.log('Creating a New Post: ', "Title:", title, "Desc:", desc, "Location:", location, "Rate:", rate);
+    const [imgs, setImgs] = useState(null);
+
+    const HandleNewPost = async (e, title, desc, location, rate, xyz) => {
+        e.preventDefault()
+
+        const formData = new FormData()
+        formData.append("itemName", 'New');
+        formData.append("itemCondition", 'good');
+        formData.append("itemAge", 2);
+        formData.append("postTitle", title);
+        formData.append("postDescription", desc);
+        formData.append("postLocation", location);
+        formData.append("postRate", rate);
+        formData.append("tag", "Electronic");
+        formData.append("images", imgs);
+
+        console.log(imgs)
+
+        // const resp = await axios.post('https://www.lendr-bc.me/post/new-complete', formData,
+        //     { headers: { crossDomain: true, 'Content-Type': 'multipart/form-data' } }, { withCredentials: true });
+        // console.log(resp);
+
+        const post = await axios.post('https://www.lendr-bc.me/post/get-all-own',
+            { headers: { crossDomain: true, 'Content-Type': 'application/json' } }, { withCredentials: true })
+        console.log(post)
     }
+
+    // const HandleNewPost = async (title, desc, location, rate, imgs) => {
+    //     const resp = await axios.post('https://www.lendr-bc.me/post/new-complete', {
+    //         itemName: 'New',
+    //         itemCondition: 'good',
+    //         itemAge: 2,
+    //         postTitle: title,
+    //         postDescription: desc,
+    //         postLocation: location,
+    //         postRate: rate,
+    //         tag: "Electronic",
+    //         images: imgs,
+    //         headers: { crossDomain: true, 'Content-Type': 'multipart/form-data' }
+    //     }, { withCredentials: true });
+    //     console.log('Creating a New Post: ', "Title:", title, "Desc:", desc, "Location:", location, "Rate:", rate, "Images:", imgs);
+    //     console.log(resp);
+    // }
+
+    function eventCB (e) {
+        // const i = [...imgs, e.target.files[0]]
+        setImgs(...e.target.files)
+    }
+
     return <div>
         <div className="post">
             <Header />
@@ -51,9 +88,24 @@ export default function Post() {
         <div className="imageDiv">
             <h2>Upload Photos</h2>
             <div className="images">
-                <UploadImg />
-                <UploadImg />
-                <UploadImg />
+                <UploadImg
+                    cbProp={eventCB}
+                // onChange={(e) => {
+                //     setImgs(e.target.value);
+                // }}
+                />
+                <UploadImg
+                    cbProp={eventCB}
+                // onChange={(e) => {
+                //     setImgs(e.target.value);
+                // }}
+                />
+                <UploadImg
+                    cbProp={eventCB}
+                // onChange={(e) => {
+                //     setImgs(e.target.value);
+                // }}
+                />
             </div>
         </div>
         <div className="post">
@@ -71,8 +123,8 @@ export default function Post() {
             <Link to="/lending">
                 <div className="button">
                     <Button text={"Post"}
-                        onClick={() => {
-                            HandleNewPost(title, desc, location, rate);
+                        onClick={(e) => {
+                            HandleNewPost(e, title, desc, location, rate, imgs);
                         }}
                     />
                 </div>
@@ -83,14 +135,3 @@ export default function Post() {
         </div>
     </div>
 }
-
-
-
-
-
-
-
-
-
-
-
