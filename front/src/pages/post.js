@@ -20,7 +20,8 @@ export default function Post() {
     const [desc, setDesc] = useState("");
     const [location, setLocation] = useState("");
     const [rate, setRate] = useState("");
-    const HandleNewPost = async (title, desc, location, rate) => {
+    const [imgs, setImgs] = useState("");
+    const HandleNewPost = async (title, desc, location, rate, imgs) => {
         const resp = await axios.post('https://www.lendr-bc.me/post/new-complete', {
             itemName: 'New',
             itemCondition: 'good',
@@ -29,9 +30,12 @@ export default function Post() {
             postDescription: desc,
             postLocation: location,
             postRate: 2,
+            tag: "Electronic",
+            images: imgs,
             headers: { crossDomain: true, 'Content-Type': 'application/json' }
         }, { withCredentials: true });
-        console.log('Creating a New Post: ', "Title:", title, "Desc:", desc, "Location:", location, "Rate:", rate);
+        // console.log('Creating a New Post: ', "Title:", title, "Desc:", desc, "Location:", location, "Rate:", rate, "Images:", imgs);
+        console.log(resp);
     }
     return <div>
         <div className="post">
@@ -51,7 +55,11 @@ export default function Post() {
         <div className="imageDiv">
             <h2>Upload Photos</h2>
             <div className="images">
-                <UploadImg />
+                <UploadImg
+                    onChange={(e) => {
+                        setImgs(e.target.value);
+                    }}
+                />
                 <UploadImg />
                 <UploadImg />
             </div>
@@ -72,7 +80,7 @@ export default function Post() {
                 <div className="button">
                     <Button text={"Post"}
                         onClick={() => {
-                            HandleNewPost(title, desc, location, rate);
+                            HandleNewPost(title, desc, location, rate, imgs);
                         }}
                     />
                 </div>
