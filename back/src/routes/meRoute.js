@@ -6,15 +6,13 @@ router.use(authCheck)
 
 export default function () {
   /**
-   * @api {get} /me/                        Profile
-   * @apiName GetMe
+   * @api {post} /me/                       Profile
+   * @apiName GetProfile
    * @apiGroup Me
    *
    * @apiSuccess (200) {json}               User profile JSON
    */
-  router.get('/', (req, res) => {
-    res.json(req.user)
-  })
+  router.post('/', (req, res) => res.json(req.user))
 
   return router
 }

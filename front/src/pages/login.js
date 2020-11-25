@@ -7,31 +7,52 @@ import Header from '../comps/Header';
 import Input from '../comps/Input';
 import Button from '../comps/Button';
 
+import BgWave from '../comps/BgWave';
 import {Link} from "react-router-dom";
 
 import axios from 'axios';
 
 
 export default function Login () {
-
-    // const [login, setLogin] = useState("Test");
-
     const [userEmail, setEmail] = useState("");
     const [pass, setPass] = useState("");
 
     const HandleLogin = async (userEmail, pass) => {
         console.log("logging in", userEmail, pass);
         //do a await axios get to rectrieve data
-        var resp = await axios.post('https://www.lendr-bc.me/auth/login/', {
+
+        const status = await axios.post('https://www.lendr-bc.me/auth/login/', {
             email: userEmail,
             password: pass,
             headers: { crossDomain: true, 'Content-Type': 'application/json' }
         }, { withCredentials: true });
-        console.log(resp.status)
+        console.log(status)
+
+        // const newPost = await axios.post('https://www.lendr-bc.me/post/new-item', {
+        //     itemName: 'test',
+        //     itemCondition: 'new',
+        //     itemAge: 1,
+        //     postTitle: 'test',
+        //     postRate: 1.11,
+        //     postDescription: 'test',
+        //     postLocation: 'test',
+        //     headers: { crossDomain: true, 'Content-Type': 'application/json' }
+        // }, { withCredentials: true })
+        // console.log(newPost.data)
+
+        // const posts = await axios.post('https://www.lendr-bc.me/post/get-all', {
+        //     idx: 0,
+        //     count: 5,
+        //     headers: {
+        //         crossDomain: true,
+        //         'Content-Type': 'application/json'
+        //     }
+        // }, { withCredentials: true })
+        // console.log(posts.data)
     }
 
 
-    return <div className="loginPage">
+    return <div className="loginDiv">
         <Header options={"none"} />
         <h1>Hey there, welcome back!</h1>
 
@@ -48,7 +69,7 @@ export default function Login () {
             ></Input>
             <a>Forgot your password?</a>
 
-            <Link to="/">
+            <Link to="/explorePage">
                 <div className="button">
                     <Button text={"Login"}
                         onClick={() => {
@@ -58,6 +79,6 @@ export default function Login () {
                 </div>
             </Link>
         </div>
-
+        <BgWave></BgWave>
     </div>
 }

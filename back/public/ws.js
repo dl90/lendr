@@ -1,8 +1,8 @@
 /* global WebSocket */
 const www = window.location
-const ws = new WebSocket(`ws://${www.hostname}:${www.port}/msg/live`)
+const ws = new WebSocket(`wss://${www.hostname}:${www.port}/msg/live`)
 
-ws.onopen = () => console.log('connected')
+ws.onopen = () => ws.send('a')
 ws.onclose = () => console.error('disconnected')
 ws.onerror = error => {
   const div = document.createElement('div')
@@ -13,6 +13,7 @@ ws.onerror = error => {
 ws.onmessage = (socket) => {
   const div = document.createElement('div')
   const payload = JSON.parse(socket.data)
+  console.log(socket.data)
 
   /*
     payload {

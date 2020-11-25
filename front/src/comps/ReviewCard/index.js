@@ -45,25 +45,35 @@ position relative;
 bottom:0;
 `;
 
+const Price = styled.div`
+font-size:9px;
+text-align:left;
+position relative;
+bottom:20px;
+`;
+
 //Title is the items name
 //Date is the date the item was uploaded in weeks
 //bgImg is the name of the image
 
-const ReviewCard = ({ title, date, bgImg }) => {
+const ReviewCard = ({ title, date, bgImg, price}) => {
     return <Link to="/item">
     <Card bgImg={bgImg} onClick="">
-        <Item  >
+        <Item>
             <Title><h4>{title}</h4></Title>
             <Date><p>{date}</p></Date>
+            <Price><p>${price}/day</p></Price>
         </Item>
     </Card>
     </Link>
+    
 };
 
 ReviewCard.defaultProps = {
     title: "title (20 letters max)",
     date: "uploaded ...   weeks ago",
     bgImg: './placeholderProfile.png',
+    price: "$0 /day"
 };
 
 

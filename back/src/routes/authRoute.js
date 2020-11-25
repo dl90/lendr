@@ -1,4 +1,5 @@
 import express from 'express'
+// import JWTController from '../controller/JWTController.js'
 import passport from '../middleware/passport.js'
 
 const router = express.Router()
@@ -13,10 +14,10 @@ export default function () {
    * @apiParam {string} password
    * @apiParam {string} [displayName = '']
    *
-   * @apiSuccess (200) {}                   Redirect
+   * @apiSuccess (200) {}
    * @apiError (401) {}                     400/Email already exists
    */
-  router.post('/sign-up', passport.authenticate('local-signup'), (_req, res) => res.redirect('/me'))
+  router.post('/sign-up', passport.authenticate('local-signup'), (req, res) => res.json(req.user))
 
   /**
    * @api {post} /auth/login                Authenticate user
@@ -26,26 +27,33 @@ export default function () {
    * @apiParam {string} email
    * @apiParam {string} password
    *
-   * @apiSuccess (200) {}                   Redirect
+   * @apiSuccess (200) {}
    * @apiError (401) {}                     401/Unauthorized
    */
-  router.post('/login', passport.authenticate('local-login'), (_req, res) => res.redirect('/me'))
+  router.post('/login', passport.authenticate('local-login'), (req, res) => res.json(req.user))
+  // const payload = { id: req.user.id, displayName: req.user.display_name }
+  // const token = JWTController.generate(payload)
+  // res.cookie('access_token', 'Bearer ' + token, {
+  //   expires: new Date(Date.now() + 12 * 3600000)
+  // })
+  // res.json(req.user)
+  // })
 
   /**
-   * @api {get} /auth/logout                Logout user
-   * @apiName PostLogin
+   * @api {post} /auth/logout                Logout user
+   * @apiName PostLogout
    * @apiGroup Auth
    *
-   * @apiSuccess (200) {}                   Redirect
+   * @apiSuccess (200) {}
    */
-  router.get('/logout', (req, res) => {
+  router.post('/logout', (req, res) => {
     req.logout()
     res.redirect('/')
   })
 
   /**
    * @api {get} /auth/github                GitHub OAuth signup/login
-   * @apiName PostLoginGitHub
+   * @apiName GetLoginGitHub
    * @apiGroup Auth
    *
    * @apiSuccess (200) {}                   Redirect
@@ -57,9 +65,9 @@ export default function () {
    * @apiName GetLoginGitHubRedirect
    * @apiGroup Auth
    *
-   * @apiSuccess (200) {}                   Redirect
+   * @apiSuccess (200) {}
    */
-  router.get('/github/redirect', passport.authenticate('github'), (_req, res) => res.redirect('/me'))
+  router.get('/github/redirect', passport.authenticate('github'), (req, res) => res.json(req.user))
 
   return router
 }

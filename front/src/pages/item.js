@@ -18,20 +18,19 @@ export default function Item({ Price, img, Desc }) {
 
     const [title, setTitle] = useState("");
     const [desc, setDesc] = useState("");
-    const [location, setLocation] = useState("");
+    // const [location, setLocation] = useState("");
     const [rate, setRate] = useState("");
 
     // const [heartActive, changeHeartActive] = useState(false);
 
 
     const HandleNewPost = async (title, desc, location, rate, itemID) => {
-        console.log('Creating a New Post: ', "Title:", title, "Desc:", desc, "Location:", location, "Rate:", rate, "ItemID:", itemID);
-
-        var resp = await axios.get('http://ec2-44-242-43-38.us-west-2.compute.amazonaws.com/item/get');
+        console.log('Creating a New Post: ', "Title:", title, "Desc:", desc, "Location:", location, "Rate:", rate, "ItemID:", itemID);  
+        var resp = await axios.get('https://lendr-bc.me/item/get');
         console.log(resp);
         setTitle(resp.data.postTitle);
         setDesc(resp.data.postDescription);
-        setLocation(resp.data.postLocation);
+        // setLocation(resp.data.postLocation);
         setRate(resp.data.postRate);
         // setID(resp.data.itmeID);
     }

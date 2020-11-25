@@ -7,7 +7,7 @@ import SearchBar from '../comps/SearchBar';
 import './messages.scss';
 import './app.scss'
 
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Home() {
     return <div className="app">
@@ -21,7 +21,7 @@ export default function Home() {
         <Message />
 
         <div className="nav">
-            <BottomNav />
+            <BottomNav active={4} />
         </div>
     </div>
 }
