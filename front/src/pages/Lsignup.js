@@ -9,7 +9,7 @@ import BgWave from '../comps/BgWave';
 import {Link} from "react-router-dom";
 
 export default function Lsignup(){
-    return <div className="loginPage">
+    return <div className="loginSignup">
         <div className="img"><img src="/MainGraphic1.png" alt="Signup"></img></div>
         <h2>Creating more budget friendly options for you!</h2>
             <Link to="/login">

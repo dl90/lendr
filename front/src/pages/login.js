@@ -56,7 +56,7 @@ export default function Login () {
     }
 
 
-    return <div className="loginPage">
+    return <div className="loginDiv">
         <Header options={"none"} />
         <h1>Hey there, welcome back!</h1>
 
