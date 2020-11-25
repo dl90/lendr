@@ -45,7 +45,7 @@ const App = () => {
       <div>
 
 
-        <Route exact path="/" component={ExplorePage}></Route>
+        <Route exact path="/" component={Lsignup}></Route>
 
         <Route exact path="/chat" component={Chat}></Route>
         <Route exact path="/edit" component={Edit}></Route>
@@ -64,7 +64,6 @@ const App = () => {
         <Route exact path="/signUp" component={SignUp}></Route>
         <Route exact path="/specificCategories" component={SpecificCategories}></Route>
 
-        <Route exact path="/" component={Lsignup}></Route>
         <Route exact path="/load1" component={Load1}></Route>
         <Route exact path="/load2" component={Load2}></Route>
         <Route exact path="/tutorial1" component={Tutorial1}></Route>

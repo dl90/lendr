@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 
+import { Link } from "react-router-dom";
+
 const MyLendsButtonsDiv = styled.div`
     display:flex;
     justify-content: space-between;
@@ -28,21 +30,28 @@ const SmallButtonDiv = styled.div`
 const MyLendsButtons = () => {
     const [MyLendsActive, changeMyLendsActive] = useState(1);
     return <MyLendsButtonsDiv>
+        
+        <Link to="/lendingAvailable">
         <SmallButtonDiv 
             onClick={() => {changeMyLendsActive(1) }}
                 bgcolor={MyLendsActive === 1 ? "#175FA4" : "#DCEFFB"}
                 color={MyLendsActive === 1 ? "#FFF" : "#175FA4"}
         >{"Available"}</SmallButtonDiv>
+         </Link>
+        <Link to="/lendingLoan">
         <SmallButtonDiv 
             onClick={() => {changeMyLendsActive(2) }}
             bgcolor={MyLendsActive === 2 ? "#175FA4" : "#DCEFFB"}
             color={MyLendsActive === 2 ? "#FFF" : "#175FA4"}
         >{"On Loan"}</SmallButtonDiv>
+        </Link>
+        <Link to="/lendingHistory">
         <SmallButtonDiv 
             onClick={() => {changeMyLendsActive(3) }}
             bgcolor={MyLendsActive === 3 ? "#175FA4" : "#DCEFFB"}
             color={MyLendsActive === 3 ? "#FFF" : "#175FA4"}
         >{"History"}</SmallButtonDiv>
+        </Link>
     </MyLendsButtonsDiv>
     
 };
