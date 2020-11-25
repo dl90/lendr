@@ -7,6 +7,7 @@ import PostImage from '../model/PostImageModel.js'
 
 import TagController from './TagController.js'
 import ItemController from './ItemController.js'
+import ElasticController from './ElasticController.js'
 
 export default {
   createPostWithItemID,
@@ -132,6 +133,17 @@ async function createNewPostComplete (
 
   const postTagID = await addPostTagWithNewTag(userID, postID, tag)
   if (!postTagID) return false
+
+  // Elastic index
+  ElasticController.index({
+    id: postID,
+    title: postTitle,
+    rate: postRate,
+    location: postLocation,
+    duration: postDuration,
+    itemID,
+    userID
+  })
 
   const success = await addPostImages(userID, postID, imageArray)
   return { postID, imagesUploaded: success }
@@ -327,14 +339,14 @@ async function addPostTagWithTagID (postID, tagID) {
  * @param {number} userID
  * @param {number} postID
  * @param {string} tagName
- * @return {number} postTag id
+ * @return {number|false} postTag id
  */
 async function addPostTagWithNewTag (userID, postID, tagName) {
   const post = await getPostByPostID(postID)
   if (!post || post.user_id !== +userID) return false
 
-  const tag = await TagController.getTagByTagName(tagName)
   const fields = { postID: +postID }
+  const tag = await TagController.getTagByTagName(tagName)
 
   if (tag) fields.tagID = +tag.id
   else {
@@ -343,14 +355,20 @@ async function addPostTagWithNewTag (userID, postID, tagName) {
     fields.tagID = +newTagID
   }
 
-  // @TODO check if post already has postTag (currently just throws errors)
-  // const postTag = await handler.asyncErrorHandler(PostTag.getPostTagByID, field)
-  const result = await handler.asyncErrorHandler(
-    PostTag.addPostTag,
+  const existingPostTag = await handler.asyncErrorHandler(
+    PostTag.getPostTagByPostIDTagID,
     fields,
-    'PostController: addPostTagWithNewTag - PostTag model'
+    'PostController: getPostTagByPostIDTagID - PostTag model'
   )
-  return result.insertId
+  if (existingPostTag) return existingPostTag.id
+  else {
+    const result = await handler.asyncErrorHandler(
+      PostTag.addPostTag,
+      fields,
+      'PostController: addPostTagWithNewTag - PostTag model'
+    )
+    return result.insertId
+  }
 }
 
 /* ======================================== Image ======================================== */

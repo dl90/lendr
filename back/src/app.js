@@ -17,6 +17,7 @@ import itemRoute from './routes/itemRoute.js'
 import postRoute from './routes/postRoute.js'
 import tagRoute from './routes/tagRoute.js'
 import msgRoute from './routes/msgRoute.js'
+import searchRoute from './routes/searchRoute.js'
 
 dotenv.config()
 
@@ -64,6 +65,7 @@ export default function () {
   app.use('/post', postRoute(filter))
   app.use('/tag', tagRoute(filter))
   app.use('/msg', msgRoute(wsInstance, filter))
+  app.use('/search', searchRoute())
 
   app.use('*', (_req, res) => res.sendStatus(404))
   return app

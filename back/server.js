@@ -5,6 +5,7 @@ import path from 'path'
 
 import app from './src/app.js'
 import db from './src/db/mysql.connect.js'
+import Elastic from './src/db/elastic.connect.js'
 // import wss from './src/socket/index.js'
 import dotenv from 'dotenv'
 dotenv.config()
@@ -19,6 +20,7 @@ function serve (error, conn) {
   console.log('Connected to DB')
   conn.release()
 }
+Elastic.ping((err) => { err ? console.log(err.message) : console.log('Connected to Elastic') })
 
 // app().listen(PORT, () => console.log(`Live @ https://localhost:${PORT}`))
 

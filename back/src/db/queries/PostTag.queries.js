@@ -5,35 +5,23 @@ const query = db.dbQuery
 export default {
   addPostTag,
   deletePostTag,
-  getPostTagByID
 
-  // getAllPostIDsByTagID
-  // getAllTagIDsByPostID
+  getPostTagByID,
+  getPostTagByPostIDTagID
 }
 
 /**
- * @param {number} postID
- * @param {number} tagID
- * @return {object}
- * ```
- *  ResultSetHeader {
- *    fieldCount: 0,
- *    affectedRows: 1,
- *    insertId: 1,
- *    info: '',
- *    serverStatus: 2,
- *    warningStatus: 0
- *  }
- * ```
+ * @param {object} fields
+ * @param {number} fields.postID
+ * @param {number} fields.tagID
  */
-async function addPostTag (postID, tagID) {
+async function addPostTag (fields) {
   return await execute('INSERT INTO PostTag SET post_id = ?, tag_id = ?',
-    [postID, tagID])
+    [fields.postID, fields.tagID])
 }
 
 /**
  * @param {number} postTagID
- * @return {}
  */
 async function deletePostTag (postTagID) {
   return await execute('DELETE FROM PostTag WHERE id = ?', [postTagID])
@@ -43,5 +31,14 @@ async function deletePostTag (postTagID) {
  * @param {number} postTagID
  */
 async function getPostTagByID (postTagID) {
-  return await query('SELECT * FROM PostTag WHERE id = ?', [postTagID])
+  return await query('SELECT * FROM PostTag WHERE id = ? LIMIT 1', [postTagID])
+}
+
+/**
+ * @param {object} fields
+ * @param {number} postID
+ * @param {number} tagID
+ */
+async function getPostTagByPostIDTagID (fields) {
+  return await query('SELECT * FROM PostTag WHERE post_id = ? AND tag_id = ? LIMIT 1', [fields.postID, fields.tagID])
 }

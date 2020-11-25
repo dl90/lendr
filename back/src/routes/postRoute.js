@@ -26,7 +26,6 @@ export default function (filter) {
   router.post('/new', async (req, res) => {
     const postID = await PostController.createPostWithItemID(
       req.user.id,
-
       req.body.itemID,
       req.body.postTitle,
       req.body.postRate,
@@ -60,7 +59,6 @@ export default function (filter) {
   router.post('/new-item', async (req, res) => {
     const postID = await PostController.createPostWithNewItem(
       req.user.id,
-
       req.body.itemName,
       req.body.itemCondition,
       req.body.itemAge,
@@ -88,6 +86,7 @@ export default function (filter) {
    * @apiParam {number} postRate
    * @apiParam {string} postDescription
    * @apiParam {string} postLocation
+   * @apiParam {string} tag
    * @apiParam {string|null} [postDuration]
    * @apiParam {files}  images
    *
