@@ -43,15 +43,17 @@ const UploadImg = ({ bgImg }) => {
     const handleChange = event => {
         const fileUploaded = event.target.files[0];
     };
-    return <ImgDiv bgImg={bgImg}>
+    return <ImgDiv bgImg={bgImg} className="" >
         <button onClick={handleClick}>
             <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M2.81567 8.31689H14.7797" stroke="white" stroke-width="4" stroke-linecap="round" />
                 <path d="M8.5 14.0423V2.00001" stroke="white" stroke-width="4" stroke-linecap="round" />
             </svg>
         </button>
-        <input type="file"
+        <input
+            type="file"
             accept="image/x-png,image/gif,image/jpeg"
+            multiple
             ref={hiddenFileInput}
             onChange={handleChange}
             style={{ display: 'none' }}

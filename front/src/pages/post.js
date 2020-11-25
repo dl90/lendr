@@ -10,6 +10,10 @@ import Button from '../comps/Button';
 import BottomNav from '../comps/BottomNav';
 import InputParagraph from '../comps/InputParagraph';
 import { Link } from "react-router-dom";
+// import FormData from 'form-data';
+
+import image from "./activeStar.png"
+
 //import axios to get 
 import axios from 'axios';
 export default function Post() {
@@ -23,22 +27,51 @@ export default function Post() {
     const [imgs, setImgs] = useState("");
 
 
-    const HandleNewPost = async (title, desc, location, rate, imgs) => {
-        const resp = await axios.post('https://www.lendr-bc.me/post/new-complete', {
-            itemName: 'New',
-            itemCondition: 'good',
-            itemAge: 2,
-            postTitle: title,
-            postDescription: desc,
-            postLocation: location,
-            postRate: rate,
-            tag: "Electronic",
-            images: imgs,
-            headers: { crossDomain: true, 'Content-Type': 'application/json' }
-        }, { withCredentials: true });
-        // console.log('Creating a New Post: ', "Title:", title, "Desc:", desc, "Location:", location, "Rate:", rate, "Images:", imgs);
+    let formData = new FormData()
+
+    formData.append("itemName", 'New');
+    formData.append("itemCondition", 'good');
+    formData.append("itemAge", 2);
+    formData.append("postTitle", title);
+    formData.append("postDescription", desc);
+    formData.append("postLocation", location);
+    formData.append("postRate", rate);
+    formData.append("tag", "Electronic");
+    formData.append("images", imgs);
+
+
+
+    const HandleNewPost = async (title, desc, location, rate, xyz) => {
+        console.log(xyz);
+        console.log(imgs);
+        const resp = await axios.post('https://www.lendr-bc.me/post/new-complete', formData,
+            {
+                headers: { crossDomain: true, 'Content-Type': 'application/json; multipart/form-data' }
+            }, { withCredentials: true });
+        console.log('Creating a New Post: ', "Title:", title, "Desc:", desc, "Location:", location, "Rate:", rate, "Images:", imgs);
+
         console.log(resp);
+
     }
+
+    // const HandleNewPost = async (title, desc, location, rate, imgs) => {
+    //     const resp = await axios.post('https://www.lendr-bc.me/post/new-complete', {
+    //         itemName: 'New',
+    //         itemCondition: 'good',
+    //         itemAge: 2,
+    //         postTitle: title,
+    //         postDescription: desc,
+    //         postLocation: location,
+    //         postRate: rate,
+    //         tag: "Electronic",
+    //         images: image,
+    //         headers: { crossDomain: true, 'Content-Type': 'application/json; multipart/form-data' }
+    //     }, { withCredentials: true });
+    //     console.log('Creating a New Post: ', "Title:", title, "Desc:", desc, "Location:", location, "Rate:", rate, "Images:", imgs);
+    //     console.log(resp);
+    // }
+
+
     return <div>
         <div className="post">
             <Header />
@@ -62,8 +95,16 @@ export default function Post() {
                         setImgs(e.target.value);
                     }}
                 />
-                <UploadImg />
-                <UploadImg />
+                <UploadImg
+                    onChange={(e) => {
+                        setImgs(e.target.value);
+                    }}
+                />
+                <UploadImg
+                    onChange={(e) => {
+                        setImgs(e.target.value);
+                    }}
+                />
             </div>
         </div>
         <div className="post">
