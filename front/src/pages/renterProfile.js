@@ -11,7 +11,7 @@ import ReviewCard from '../comps/ReviewCard';
 
 import BottomNav from '../comps/BottomNav';
 
-export default async function Home() {
+import { Link } from "react-router-dom";
 
     return <div className="app">
         <Header />
@@ -42,7 +42,7 @@ export default async function Home() {
         </div>
 
         <div className="nav">
-            <BottomNav />
+            <BottomNav active={1} />
         </div>
     </div>
 }

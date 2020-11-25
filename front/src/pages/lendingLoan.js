@@ -23,7 +23,7 @@ export default function LendingLoan() {
         </div>
         <ItemCard />
         <div className="nav">
-            <BottomNav />
+            <BottomNav active={2} />
         </div>
     </div>
 }

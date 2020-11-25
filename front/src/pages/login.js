@@ -7,13 +7,13 @@ import Header from '../comps/Header';
 import Input from '../comps/Input';
 import Button from '../comps/Button';
 
-// import network from '../network/cookie.js'
-import axios from 'axios'
+import BgWave from '../comps/BgWave';
+import {Link} from "react-router-dom";
+
+import axios from 'axios';
+
 
 export default function Login () {
-
-    // const [login, setLogin] = useState("Test");
-
     const [userEmail, setEmail] = useState("");
     const [pass, setPass] = useState("");
 
@@ -56,7 +56,7 @@ export default function Login () {
     }
 
 
-    return <div className="loginPage">
+    return <div className="loginDiv">
         <Header options={"none"} />
         <h1>Hey there, welcome back!</h1>
 
@@ -73,7 +73,7 @@ export default function Login () {
             ></Input>
             <a>Forgot your password?</a>
 
-            <Link to="/">
+            <Link to="/explorePage">
                 <div className="button">
                     <Button text={"Login"}
                         onClick={() => {
@@ -83,6 +83,6 @@ export default function Login () {
                 </div>
             </Link>
         </div>
-
+        <BgWave></BgWave>
     </div>
 }

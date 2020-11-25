@@ -1,8 +1,9 @@
-.loginPage{
+.loginDiv{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding:25px;
+    height:92vh;
     
     .login{
         display: flex;

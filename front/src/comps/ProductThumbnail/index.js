@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-
 import {Link} from 'react-router-dom';
 
 const CardDiv = styled.div`
@@ -92,7 +91,7 @@ const ProductThumbnail = ({itemname, price, img, pfp, username}) => {
     <ItemThumbnail><Img src={img}></Img></ItemThumbnail>
 <CardTextBox>
 <Title>{itemname}</Title>
-<Price>{price}</Price>
+<Price>${price}/day</Price>
 <Circle><img src = {pfp}></img></Circle>
 <Username>{username}</Username>
 </CardTextBox>
