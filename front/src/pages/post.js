@@ -23,7 +23,7 @@ export default function Post() {
     const [rate, setRate] = useState("");
     const [imgs, setImgs] = useState(null);
 
-    const HandleNewPost = async (e, title, desc, location, rate, xyz) => {
+    const HandleNewPost = async (e, title, desc, location, rate, imgs) => {
         e.preventDefault()
 
         const formData = new FormData()
@@ -35,46 +35,28 @@ export default function Post() {
         formData.append("postLocation", location);
         formData.append("postRate", rate);
         formData.append("tag", "Electronic");
-        formData.append("images", imgs);
-
+        imgs.forEach(img => formData.append("images", img))
+        debugger
         console.log(imgs)
 
-        // const resp = await axios.post('https://www.lendr-bc.me/post/new-complete', formData,
-        //     { headers: { crossDomain: true, 'Content-Type': 'multipart/form-data' } }, { withCredentials: true });
-        // console.log(resp);
+        const resp = await axios.post('https://www.lendr-bc.me/post/new-complete', formData,
+            { headers: { crossDomain: true, 'Content-Type': 'multipart/form-data' } }, { withCredentials: true });
+        console.log(resp);
 
-        const post = await axios.post('https://www.lendr-bc.me/post/get-all-own',
-            { headers: { crossDomain: true, 'Content-Type': 'application/json' } }, { withCredentials: true })
-        console.log(post)
+        // const post = await axios.post('https://www.lendr-bc.me/post/get-all-own',
+        //     { headers: { crossDomain: true, 'Content-Type': 'application/json' } }, { withCredentials: true })
+        // console.log(post)
     }
 
-    // const HandleNewPost = async (title, desc, location, rate, imgs) => {
-    //     const resp = await axios.post('https://www.lendr-bc.me/post/new-complete', {
-    //         itemName: 'New',
-    //         itemCondition: 'good',
-    //         itemAge: 2,
-    //         postTitle: title,
-    //         postDescription: desc,
-    //         postLocation: location,
-    //         postRate: rate,
-    //         tag: "Electronic",
-    //         images: imgs,
-    //         headers: { crossDomain: true, 'Content-Type': 'multipart/form-data' }
-    //     }, { withCredentials: true });
-    //     console.log('Creating a New Post: ', "Title:", title, "Desc:", desc, "Location:", location, "Rate:", rate, "Images:", imgs);
-    //     console.log(resp);
-    // }
-
     function eventCB(e) {
-        // const i = [...imgs, e.target.files[0]]
-        setImgs(...e.target.files)
+        setImgs(Array.from(e.target.files))
     }
 
     return <div>
         <div className="post">
             <Header />
             <h1>Post Item</h1>
-            <Input title={"Post Title"} placeholder="Item Name"
+            <Input type="number" title={"Post Title"} placeholder="Item Name"
                 onChange={(e) => {
                     setTitle(e.target.value);
                 }}

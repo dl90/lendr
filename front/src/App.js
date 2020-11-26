@@ -5,6 +5,7 @@ import {
   BrowserRouter as Router,
   Route,
 } from "react-router-dom";
+
 import './App.css';
 
 import LogoPage from './comps/LogoPage';
@@ -34,46 +35,51 @@ import Tutorial2 from "./pages/tutorial2";
 import Tutorial3 from "./pages/tutorial3";
 import Tutorial4 from "./pages/tutorial4";
 // const BrowserHistory = require('react-router/lib/BrowserHistory').default;
+
+import AppProvider from './context/provider';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
+
 
 const App = () => {
 
   return (
-    <Router>
-      {/* <LogoPage /> */}
-      <div>
+    <AppProvider>
+      <Router>
+        <LogoPage />
+        <div>
 
 
-        <Route exact path="/" component={Lsignup}></Route>
+          <Route exact path="/" component={Lsignup}></Route>
 
-        <Route exact path="/chat" component={Chat}></Route>
-        <Route exact path="/edit" component={Edit}></Route>
-        <Route exact path="/explorePage" component={ExplorePage}></Route>
-        <Route exact path="/index" component={Index}></Route>
-        <Route exact path="/item" component={Item}></Route>
-        <Route exact path="/login" component={Login}></Route>
-        <Route exact path="/lendingAvailable" component={LendingAvailable}></Route>
-        <Route exact path="/lendingHistory" component={LendingHistory}></Route>
-        <Route exact path="/lendingLoan" component={LendingLoan}></Route>
-        <Route exact path="/messages" component={Messages}></Route>
-        <Route exact path="/post" component={Post}></Route>
-        <Route exact path="/profileSettings" component={ProfileSettings}></Route>
-        <Route exact path="/renterProfile" component={RenterProfile}></Route>
-        <Route exact path="/settings" component={Settings}></Route>
-        <Route exact path="/signUp" component={SignUp}></Route>
-        <Route exact path="/specificCategories" component={SpecificCategories}></Route>
+          <Route exact path="/chat" component={Chat}></Route>
+          <Route exact path="/edit" component={Edit}></Route>
+          <Route exact path="/explorePage" component={ExplorePage}></Route>
+          <Route exact path="/index" component={Index}></Route>
+          <Route exact path="/item" component={Item}></Route>
+          <Route exact path="/login" component={Login}></Route>
+          <Route exact path="/lendingAvailable" component={LendingAvailable}></Route>
+          <Route exact path="/lendingHistory" component={LendingHistory}></Route>
+          <Route exact path="/lendingLoan" component={LendingLoan}></Route>
+          <Route exact path="/messages" component={Messages}></Route>
+          <Route exact path="/post" component={Post}></Route>
+          <Route exact path="/profileSettings" component={ProfileSettings}></Route>
+          <Route exact path="/renterProfile" component={RenterProfile}></Route>
+          <Route exact path="/settings" component={Settings}></Route>
+          <Route exact path="/signUp" component={SignUp}></Route>
+          <Route exact path="/specificCategories" component={SpecificCategories}></Route>
 
-        <Route exact path="/load1" component={Load1}></Route>
-        <Route exact path="/load2" component={Load2}></Route>
-        <Route exact path="/tutorial1" component={Tutorial1}></Route>
-        <Route exact path="/tutorial2" component={Tutorial2}></Route>
-        <Route exact path="/tutorial3" component={Tutorial3}></Route>
-        <Route exact path="/tutorial4" component={Tutorial4}></Route>
+          <Route exact path="/load1" component={Load1}></Route>
+          <Route exact path="/load2" component={Load2}></Route>
+          <Route exact path="/tutorial1" component={Tutorial1}></Route>
+          <Route exact path="/tutorial2" component={Tutorial2}></Route>
+          <Route exact path="/tutorial3" component={Tutorial3}></Route>
+          <Route exact path="/tutorial4" component={Tutorial4}></Route>
 
-      </div>
+        </div>
 
-    </Router>
+      </Router>
+    </AppProvider>
   );
 }
 

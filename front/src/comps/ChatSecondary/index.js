@@ -14,7 +14,7 @@ const ChatSecondaryBox = styled.div`
     padding:15px;
     border-radius:10px;
     margin:1px;
-    
+
     background-color:#175FA4;
     color:white;
 `;
