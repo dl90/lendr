@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 
 //import axios to get
 import axios from 'axios';
-export default function Post () {
+export default function Post() {
     //Creating Use state
     // const [name, setName] = useState('');
     const [title, setTitle] = useState("");
@@ -65,7 +65,7 @@ export default function Post () {
     //     console.log(resp);
     // }
 
-    function eventCB (e) {
+    function eventCB(e) {
         // const i = [...imgs, e.target.files[0]]
         setImgs(...e.target.files)
     }
@@ -94,7 +94,7 @@ export default function Post () {
                 //     setImgs(e.target.value);
                 // }}
                 />
-                <UploadImg
+                {/* <UploadImg
                     cbProp={eventCB}
                 // onChange={(e) => {
                 //     setImgs(e.target.value);
@@ -105,7 +105,7 @@ export default function Post () {
                 // onChange={(e) => {
                 //     setImgs(e.target.value);
                 // }}
-                />
+                /> */}
             </div>
         </div>
         <div className="post">

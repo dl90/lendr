@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './app.scss';
 import './settings.scss';
 
@@ -13,14 +13,34 @@ import Menu from '../comps/Menu';
 import BottomNav from '../comps/BottomNav';
 
 import { Link } from "react-router-dom";
+import axios from 'axios';
+
 
 export default function Home() {
+    // const [UserPicture, setUserPicture] = useState(null);
+    const [DisplayName, setDisplayName] = useState("");
+
+    // const [username, setUserName] = useState(null)
+    const HandleUser = async () => {
+        var resp = await axios.get('https://www.lendr-bc.me/me', {
+            withCredentials: true
+        })
+        setDisplayName(resp.data.display_name);
+        console.log(resp.data.display_name);
+        // setUserPicture(resp.data.avatar_url);
+    }
+
+    useEffect(() => {
+        HandleUser();
+    }, [])
+
+
     return <div className="app">
         <Header />
         <h1>Settings</h1>
         <SearchBar />
         <div className="ProfileCard">
-            <ProfileCard userState={true} />
+            <ProfileCard userState={true} userName={DisplayName} />
         </div>
         <div className="Menu">
             <Menu />
