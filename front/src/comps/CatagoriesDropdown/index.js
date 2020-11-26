@@ -40,7 +40,7 @@ const CatagoriesDropDiv = styled.div`
 display:flex;
 border: 1px solid rgba(151, 151, 151, 0.26);
 min-height:260px;
-min-width: 414px;
+max-width: 414px;
 background-color:white;
 position:relative;
 display:${props => props.DisplayDrop ? "flex" : "none"};
