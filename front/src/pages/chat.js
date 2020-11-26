@@ -9,83 +9,34 @@ import MessageBar from '../comps/MessageBar';
 import UserAvatar from '../comps/UserAvatar';
 
 import axios from 'axios';
+// make sure no one can just connect, do if statement on useEffect
+import {Link} from "react-router-dom";
 
-// vvv Chat functionality stuff
-/* global WebSocket */
-// const www = window.location
-// const ws = new WebSocket(`wss://${www.hostname}:${www.port}/msg/live`)
-
-// ws.onopen = () => console.log('connected')
-// ws.onclose = () => console.error('disconnected')
-// ws.onerror = error => {
-//   const div = document.createElement(<ChatPrimary></ChatPrimary>)
-//   div.innerText = error
-//   document.querySelector('#chat').append(div)
-// }
-
-// ws.onmessage = (socket) => {
-//   const div = document.createElement(<ChatPrimary></ChatPrimary>)
-//   const payload = JSON.parse(socket.data)
-//   console.log(socket.data)
-
-//   /*
-//     payload {
-//       senderID: 1,
-//       sender: "John",
-//       receiverID: 2,
-//       receiver: "Joe",
-//       message: "a"
-//     }
-//   */
-
-//   div.innerText = `From ${payload.sender}: ${payload.message}`
-//   document.querySelector('#chat').append(div)
-// }
-
-// document.querySelector('#chatBox').addEventListener('submit', e => {
-//   e.preventDefault()
-
-// //   const receiverID = document.querySelector('#recipient-id').value
-//   const message = document.querySelector('#message').value
-//   if (ws.readyState) ws.send(JSON.stringify({ receiverID: +receiverID, message }))
-
-//   const div = document.createElement(<ChatPrimary></ChatPrimary>)
-//   div.innerText = ws.readyState
-//     ? /*`To ${receiverID}:*/ `${message}`
-//     : `Failed to send: ${message}`
-
-//   document.querySelector('#chat').append(div)
-//   document.querySelector('#message').value = ''
-// })
-
-// ^^^ Chat functionality stuff
+import io from 'socket.io-client';
+var socket = null;
 
 export default function Chat() {
-
     const [Msgs, setMsgs]= useState([]);
-    const [RecID, setRecID] = useState("");
-
+    const [inp, setInp] = useState("");
     const HandleGetItems = async (name, rate) => {
-        var resp = await axios.get('https://www.lendr-bc.me/me', {
-            withCredentials: true
-        })
-    
-        var msgresp = await axios.post("https://www.lendr-bc.me/get", {
-            ReceiverID: RecID,
+        var msgresp = await axios.post("https://localhost:8443/msg/get", {idx: 0, count: 5}, {
             headers: { crossDomain: true, 'Content-Type': 'application/json' }
-        }, { withCredentials: true });
+        }, { withCredentials: true});
         console.log("repo data");
-        console.log(msgresp.data);
-        setRecID(msgresp.data)
-
+        console.log(msgresp.data); 
         setMsgs([...msgresp.data]);
     }
 
-    useEffect(() => {
-        HandleGetItems();
-    }, [])
+    useEffect(()=>{
+        socket = io("http://localhost:8888");
 
-    return <div>
+        socket.on("newmsg", (data)=>{
+            console.log(data);
+            setMsgs([...data]);
+        });
+    },[])
+
+    return <div onLoad={HandleGetItems} >
         <div className="chat">
         {/* <div className="profile">
             <UserAvatar></UserAvatar>
@@ -93,17 +44,29 @@ export default function Chat() {
         <Header/>
         <div className="threadBox">
             <div className="thread">
+            {Msgs.map((o,i)=>{
+                return <div key={i}>{o.username} - {o.msg}</div>
+            })}
                 
+            {/* <ChatSecondary></ChatSecondary>
+            <ChatPrimary></ChatPrimary>
+            <ChatPrimary></ChatPrimary>
+            <ChatSecondary></ChatSecondary>
             <ChatSecondary></ChatSecondary>
             <ChatPrimary></ChatPrimary>
-
+            <ChatSecondary></ChatSecondary>
+            <ChatPrimary></ChatPrimary>
+            <ChatSecondary></ChatSecondary>
+            <ChatPrimary></ChatPrimary>
+            <ChatPrimary></ChatPrimary>
+            <ChatSecondary></ChatSecondary>
+            <ChatSecondary></ChatSecondary>
+            <ChatPrimary></ChatPrimary>
+            <ChatSecondary></ChatSecondary> */}
             {
                 Msgs.map((o,i)=>{
                     console.log("inside the array...", o,i);
                     return <ChatPrimary
-                    // onChange={(e) => {
-                    //     setRecID(e.target.value);
-                    // }}
                     // itemname={o.title}
                     // price={o.post_description}
                     />
@@ -113,9 +76,15 @@ export default function Chat() {
         </div>
     </div>
     <div className="msg">
-            <MessageBar id={"chatBox"}></MessageBar>
+            {/* <MessageBar></MessageBar> */}
+            <input onChange={(e)=>{
+                setInp(e.target.value);
+            }} />
+            <button onClick={()=>{
+                console.log("clicked")
+                socket.emit("getmsg", {username:"Henry", msg:inp})
+            }}>Send</button>;
         </div>
     </div>
     
 }
-
