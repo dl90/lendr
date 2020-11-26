@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 
 //import axios to get
 import axios from 'axios';
-export default function Post () {
+export default function Post() {
     //Creating Use state
     // const [name, setName] = useState('');
     const [title, setTitle] = useState("");
@@ -23,7 +23,7 @@ export default function Post () {
     const [rate, setRate] = useState("");
     const [imgs, setImgs] = useState(null);
 
-    const HandleNewPost = async (e, title, desc, location, rate, xyz) => {
+    const HandleNewPost = async (e, title, desc, location, rate, imgs) => {
         e.preventDefault()
 
         const formData = new FormData()
@@ -35,39 +35,21 @@ export default function Post () {
         formData.append("postLocation", location);
         formData.append("postRate", rate);
         formData.append("tag", "Electronic");
-        formData.append("images", imgs);
-
+        imgs.forEach(img => formData.append("images", img))
+        debugger
         console.log(imgs)
 
-        // const resp = await axios.post('https://www.lendr-bc.me/post/new-complete', formData,
-        //     { headers: { crossDomain: true, 'Content-Type': 'multipart/form-data' } }, { withCredentials: true });
-        // console.log(resp);
+        const resp = await axios.post('https://www.lendr-bc.me/post/new-complete', formData,
+            { headers: { crossDomain: true, 'Content-Type': 'multipart/form-data' } }, { withCredentials: true });
+        console.log(resp);
 
-        const post = await axios.post('https://www.lendr-bc.me/post/get-all-own',
-            { headers: { crossDomain: true, 'Content-Type': 'application/json' } }, { withCredentials: true })
-        console.log(post)
+        // const post = await axios.post('https://www.lendr-bc.me/post/get-all-own',
+        //     { headers: { crossDomain: true, 'Content-Type': 'application/json' } }, { withCredentials: true })
+        // console.log(post)
     }
 
-    // const HandleNewPost = async (title, desc, location, rate, imgs) => {
-    //     const resp = await axios.post('https://www.lendr-bc.me/post/new-complete', {
-    //         itemName: 'New',
-    //         itemCondition: 'good',
-    //         itemAge: 2,
-    //         postTitle: title,
-    //         postDescription: desc,
-    //         postLocation: location,
-    //         postRate: rate,
-    //         tag: "Electronic",
-    //         images: imgs,
-    //         headers: { crossDomain: true, 'Content-Type': 'multipart/form-data' }
-    //     }, { withCredentials: true });
-    //     console.log('Creating a New Post: ', "Title:", title, "Desc:", desc, "Location:", location, "Rate:", rate, "Images:", imgs);
-    //     console.log(resp);
-    // }
-
-    function eventCB (e) {
-        // const i = [...imgs, e.target.files[0]]
-        setImgs(...e.target.files)
+    function eventCB(e) {
+        setImgs(Array.from(e.target.files))
     }
 
     return <div>
@@ -94,7 +76,7 @@ export default function Post () {
                 //     setImgs(e.target.value);
                 // }}
                 />
-                <UploadImg
+                {/* <UploadImg
                     cbProp={eventCB}
                 // onChange={(e) => {
                 //     setImgs(e.target.value);
@@ -105,7 +87,7 @@ export default function Post () {
                 // onChange={(e) => {
                 //     setImgs(e.target.value);
                 // }}
-                />
+                /> */}
             </div>
         </div>
         <div className="post">

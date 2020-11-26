@@ -12,7 +12,6 @@ import axios from 'axios';
 import {AppContext} from '../context/provider';
 
 export default function ExplorePage() {
-
     //use the context to access global state and global function 
     const {state, dispatch} = useContext(AppContext);
     const [UserPicture, setUserPicture] = useState(null);
@@ -34,6 +33,9 @@ console.log(state);
             type:"ChangeDisplayName",
             displayname:resp.data.display_name
         })
+        var itemresp = await axios.post("https://www.lendr-bc.me/post/get-all", { idx: 0, count: 5 }, {
+            headers: { crossDomain: true, 'Content-Type': 'application/json' }
+        }, { withCredentials: true });
     }
 
 const HandleGetItems = async (name, rate) => {
