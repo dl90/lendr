@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext}from 'react';
 import './app.scss';
 import './settings.scss';
 
@@ -13,13 +13,16 @@ import Menu from '../comps/Menu';
 import BottomNav from '../comps/BottomNav';
 
 import { Link } from "react-router-dom";
+import {AppContext} from '../context/provider';
 
 export default function Home() {
+    const {state} = useContext(AppContext);
     return <div className="app">
         <Header />
         <h1>Settings</h1>
         <SearchBar />
         <div className="ProfileCard">
+<h1>{state.displayname}</h1>
             <ProfileCard userState={true} />
         </div>
         <div className="Menu">

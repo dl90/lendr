@@ -74,7 +74,7 @@ export default function Post () {
         <div className="post">
             <Header />
             <h1>Post Item</h1>
-            <Input title={"Post Title"} placeholder="Item Name"
+            <Input type="number" title={"Post Title"} placeholder="Item Name"
                 onChange={(e) => {
                     setTitle(e.target.value);
                 }}
