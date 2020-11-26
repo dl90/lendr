@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import BottomNav from '../comps/BottomNav';
 import CategoryGallery from '../comps/CategoryGallery';
 import Header from '../comps/Header';
@@ -25,7 +25,11 @@ export default function LendingAvailable() {
         setItems([...itemresp.data]);
     }
 
-    return <div onLoad={HandleGetItems} className="app">
+    useEffect(() => {
+        HandleGetItems();
+    }, [])
+
+    return <div className="app">
         <Header />
         <h1>Available</h1>
         {/* <Link to="/post">Post</Link> */}
