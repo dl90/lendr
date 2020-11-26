@@ -22,8 +22,9 @@ export default function Post() {
     const [location, setLocation] = useState("");
     const [rate, setRate] = useState("");
     const [imgs, setImgs] = useState(null);
+    const [tag, setTag] = useState("");
 
-    const HandleNewPost = async (e, title, desc, location, rate, xyz) => {
+    const HandleNewPost = async (e, title, desc, location, rate, tag, xyz) => {
         e.preventDefault()
 
         const formData = new FormData()
@@ -34,7 +35,7 @@ export default function Post() {
         formData.append("postDescription", desc);
         formData.append("postLocation", location);
         formData.append("postRate", rate);
-        formData.append("tag", "Electronic");
+        formData.append("tag", tag);
         formData.append("images", imgs);
 
         console.log(imgs)
@@ -109,7 +110,11 @@ export default function Post() {
             </div>
         </div>
         <div className="post">
-            <CategoriesDropdown />
+            <CategoriesDropdown
+                onClick={(e) => {
+                    setTag(e.target.value);
+                }}
+            />
             <InputParagraph title={"Description"} placeholder="Write a description of the item you're renting out."
                 onChange={(e) => {
                     setDesc(e.target.value);
@@ -124,7 +129,7 @@ export default function Post() {
                 <div className="button">
                     <Button text={"Post"}
                         onClick={(e) => {
-                            HandleNewPost(e, title, desc, location, rate, imgs);
+                            HandleNewPost(e, title, desc, location, rate, imgs, tag);
                         }}
                     />
                 </div>
