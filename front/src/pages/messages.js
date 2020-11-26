@@ -17,7 +17,7 @@ export default function Home() {
     // const handleDelete = async () => {
     //     // Here you call the setMessage function which will update state in the `Home` Component
     //     setMessage();
-    // } 
+    // }
     const [Msgs, setMsgs] = useState([]);
 
     const HandleGetItems = async (name, rate) => {

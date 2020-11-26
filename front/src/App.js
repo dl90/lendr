@@ -43,8 +43,6 @@ const App = () => {
     <Router>
       {/* <LogoPage /> */}
       <div>
-
-
         <Route exact path="/" component={Lsignup}></Route>
 
         <Route exact path="/chat" component={Chat}></Route>
