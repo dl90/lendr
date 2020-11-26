@@ -39,7 +39,7 @@ border-radius:10px;
  };
  `;
 
-const Circle = styled.div`
+const Circle = styled.button`
 min-height: 41px;
 min-width: 41px;
 border-radius: 50%;
@@ -66,12 +66,14 @@ height:20px;
 margin-left:-6px;
 `;
 
-const MessageBar = () => {
+const MessageBar = ({id}) => {
     return <Bar>
+         <form id={id}>
         <MessageDiv>
-            <Input placeholder="Type your message..."></Input>
-            <Circle><Icon draggable="false" src="/sendicon.png"></Icon></Circle>
+            <Input id="message" placeholder="Type your message..."></Input>
+            <Circle type="submit" form={id}><Icon draggable="false" src="/sendicon.png"></Icon></Circle>
         </MessageDiv>
+        </form>
     </Bar>
     
 };

@@ -77,7 +77,7 @@ const ItemCard = ({itemname, price, img}) => {
     <ItemThumbnail><Img src={img}></Img></ItemThumbnail>
 <CardTextBox>
 <Title>{itemname}</Title>
-<Price>{price}</Price>
+<Price>${price}/day</Price>
 </CardTextBox>
 <Link to="/edit"><Circle><img src = "/editicon.png"></img></Circle></Link>
 </CardDiv>
