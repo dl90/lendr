@@ -21,7 +21,6 @@ export default function LendingAvailable() {
         }, { withCredentials: true });
         console.log("repo data");
         console.log(itemresp.data);
-
         setItems([...itemresp.data]);
     }
 

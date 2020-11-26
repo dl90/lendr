@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Header from '../comps/Header';
 import './app.scss';
 import './chat.scss';
@@ -9,109 +9,82 @@ import MessageBar from '../comps/MessageBar';
 import UserAvatar from '../comps/UserAvatar';
 
 import axios from 'axios';
+// make sure no one can just connect, do if statement on useEffect
+import {Link} from "react-router-dom";
 
-export default function Chat () {
-    const [Msgs, setMsgs] = useState([]);
-    const [RecID, setRecID] = useState("");
+import io from 'socket.io-client';
+var socket = null;
 
+export default function Chat() {
+    const [Msgs, setMsgs]= useState([]);
+    const [inp, setInp] = useState("");
     const HandleGetItems = async (name, rate) => {
-        var msgresp = await axios.post("https://www.lendr-bc.me/get", {
-            ReceiverID: RecID,
+        var msgresp = await axios.post("https://localhost:8443/msg/get", {idx: 0, count: 5}, {
             headers: { crossDomain: true, 'Content-Type': 'application/json' }
-        }, { withCredentials: true });
+        }, { withCredentials: true});
         console.log("repo data");
-        console.log(msgresp.data);
-        setRecID(msgresp.data)
-
+        console.log(msgresp.data); 
         setMsgs([...msgresp.data]);
     }
 
-    useEffect(() => {
-        HandleGetItems();
-        setupWebsocketConnection()
-    }, [])
+    useEffect(()=>{
+        socket = io("http://localhost:8888");
 
-    // vvv Chat functionality stuff
-    /* global WebSocket */
-    let ws
-    function setupWebsocketConnection() {
-        ws = new WebSocket(`wss://www.lendr-bc.me/msg/live`)
+        socket.on("newmsg", (data)=>{
+            console.log(data);
+            setMsgs([...data]);
+        });
+    },[])
 
-        ws.onopen = () => console.log('connected')
-        ws.onclose = () => console.error('disconnected')
-        ws.onerror = error => {
-            console.log(error)
-            setMsgs([error.message])
-        }
-
-        ws.onmessage = (socket) => {
-            const payload = JSON.parse(socket.data)
-            console.log(payload)
-
-            setMsgs([...Msgs, payload])
-
-            /*
-            payload {
-                senderID: 1,
-                sender: "John",
-                receiverID: 2,
-                receiver: "Joe",
-                message: "a"
-            }
-            */
-            console.log(payload)
-            // console.log(sendMsgRef.current)
-            // chatRef.current.append(<ChatPrimary message={payload.message} />)
-        }
-    }
-
-
-
-    function submitCBProp ({id, text}) {
-
-        const receiverID = id
-        if (ws.readyState) {
-            ws.send(JSON.stringify({ receiverID: +receiverID, message: text }))
-        }
-
-        // setMsgs([...Msgs, {message: text}])
-        console.log(ws.readyState)
-    }
-
-    // ^^^ Chat functionality stuff
-
-
-    return (<div>
-        <div className="chat" >
-            {/* <div className="profile">
+    return <div onLoad={HandleGetItems} >
+        <div className="chat">
+        {/* <div className="profile">
             <UserAvatar></UserAvatar>
         </div> */}
-            <Header />
-            <div className="threadBox">
-                <div className="thread">
-
-                    <ChatSecondary></ChatSecondary>
-                    <ChatPrimary></ChatPrimary>
-
-                    {
-                        Msgs.map((payload, i) => {
-                            console.log("inside the array...", payload, i);
-                            return <ChatPrimary
-                            key={"chat"+i}
-                            // onChange={(e) => {
-                            //     setRecID(e.target.value);
-                            // }}
-                            // itemname={o.title}
-                            // price={o.post_description}
-                            message={payload.message}
-                            />
-                        })
-                    }
-                </div>
+        <Header/>
+        <div className="threadBox">
+            <div className="thread">
+            {Msgs.map((o,i)=>{
+                return <div key={i}>{o.username} - {o.msg}</div>
+            })}
+                
+            {/* <ChatSecondary></ChatSecondary>
+            <ChatPrimary></ChatPrimary>
+            <ChatPrimary></ChatPrimary>
+            <ChatSecondary></ChatSecondary>
+            <ChatSecondary></ChatSecondary>
+            <ChatPrimary></ChatPrimary>
+            <ChatSecondary></ChatSecondary>
+            <ChatPrimary></ChatPrimary>
+            <ChatSecondary></ChatSecondary>
+            <ChatPrimary></ChatPrimary>
+            <ChatPrimary></ChatPrimary>
+            <ChatSecondary></ChatSecondary>
+            <ChatSecondary></ChatSecondary>
+            <ChatPrimary></ChatPrimary>
+            <ChatSecondary></ChatSecondary> */}
+            {
+                Msgs.map((o,i)=>{
+                    console.log("inside the array...", o,i);
+                    return <ChatPrimary
+                    // itemname={o.title}
+                    // price={o.post_description}
+                    />
+                })
+            }
             </div>
         </div>
-        <div className="msg">
-            <MessageBar onSubmit={submitCBProp}></MessageBar>
+    </div>
+    <div className="msg">
+            {/* <MessageBar></MessageBar> */}
+            <input onChange={(e)=>{
+                setInp(e.target.value);
+            }} />
+            <button onClick={()=>{
+                console.log("clicked")
+                socket.emit("getmsg", {username:"Henry", msg:inp})
+            }}>Send</button>;
         </div>
-    </div>)
+    </div>
+    
 }
