@@ -41,7 +41,7 @@ const App = () => {
 
   return (
     <Router>
-      <LogoPage />
+      {/* <LogoPage /> */}
       <div>
 
 
