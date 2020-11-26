@@ -8,9 +8,6 @@ const conversation = new Map()
 router.use(authCheck)
 
 export default function (wsInstance, filter) {
-  // const allClients = wsInstance.getWss().clients
-
-  // when any client connects
   wsInstance.getWss().on('connection', (socket, req) => {
     const user = req.session?.passport?.user
     const payload = { sender: 'server' }
@@ -37,7 +34,6 @@ export default function (wsInstance, filter) {
         const receiverID = conversation.get(senderID)
         const rws = onlineUsers.get(receiverID)
 
-        // ends conversation for both
         conversation.delete(senderID)
         conversation.delete(receiverID)
 
@@ -92,14 +88,14 @@ export default function (wsInstance, filter) {
   })
 
   /**
-   * @api {get} /msg/conversations          Returns a list of users info from users you messaged previously
+   * @api {post} /msg/conversations         Returns a list of users info from users you messaged previously
    * @apiName GetConversations
    * @apiGroup Msg
    *
    * @apiSuccess (200) {json}               Messages
    * @apiError (400) {}                     Error
    */
-  router.get('/conversations', async (req, res) => {
+  router.post('/conversations', async (req, res) => {
     const conversations = await MessageController.getAllConversations(req.user.id)
     conversations
       ? res.json(conversations)

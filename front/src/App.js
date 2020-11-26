@@ -52,14 +52,19 @@ import Tutorial2 from "./pages/tutorial2";
 import Tutorial3 from "./pages/tutorial3";
 import Tutorial4 from "./pages/tutorial4";
 // const BrowserHistory = require('react-router/lib/BrowserHistory').default;
+import axios from 'axios';
+axios.defaults.withCredentials = true;
 
 
 const App = () => {
 
   return (
     <Router>
-      <LogoPage/>
+      <LogoPage />
       <div>
+
+
+        <Route exact path="/" component={Lsignup}></Route>
 
         <Route exact path="/chat" component={Chat}></Route>
         <Route exact path="/edit" component={Edit}></Route>
@@ -78,7 +83,6 @@ const App = () => {
         <Route exact path="/signUp" component={SignUp}></Route>
         <Route exact path="/specificCategories" component={SpecificCategories}></Route>
 
-        <Route exact path="/" component={Lsignup}></Route>
         <Route exact path="/load1" component={Load1}></Route>
         <Route exact path="/load2" component={Load2}></Route>
         <Route exact path="/tutorial1" component={Tutorial1}></Route>

@@ -6,6 +6,7 @@ export default {
   deletePost,
 
   getPostByPostID,
+  getAllPosts,
   getAllPostsByUserID,
   getAllPostsByItemID,
   getAllPostsByTagID,
@@ -96,6 +97,20 @@ async function getPostByPostID (postID) {
 /**
  * @param {object} fields
  * ```
+ *  { idx: [number], count: [number] }
+ * ```
+ * @return {[object]]}
+ * @throw invalid argument error
+ */
+async function getAllPosts (fields) {
+  util.checkIndex(fields.idx)
+  util.checkCount(fields.count)
+  return await db.getAllPosts(fields)
+}
+
+/**
+ * @param {object} fields
+ * ```
  *  { userID: [number] [, reportFlag: [boolean] ] }
  * ```
  * @return {[object]]}
@@ -124,28 +139,34 @@ async function getAllPostsByItemID (fields) {
 
 /**
  * @param {object} fields
- * ```
- *  { tagID: [number] [, reportFlag: [boolean] ] }
- * ```
+ * @param {number} fields.tagID
+ * @param {number} fields.idx
+ * @param {number} fields.count
+ * @param {boolean|undefined} fields.reportFlag
  * @return {[object]}
  * @throw invalid argument error
  */
 async function getAllPostsByTagID (fields) {
   util.checkID(fields.tagID)
+  util.checkIndex(fields.idx)
+  util.checkCount(fields.count)
   if (fields.reportFlag) util.checkBool(fields.reportFlag)
   return await db.getAllPostsByTagID(fields)
 }
 
 /**
  * @param {object} fields
- * ```
- *  { tagName: [string] [, reportFlag: [boolean] ] }
- * ```
+ * @param {string} fields.tagName
+ * @param {number} fields.idx
+ * @param {number} fields.count
+ * @param {boolean|undefined} fields.reportFlag
  * @return {[object]}
  * @throw invalid argument error
  */
 async function getAllPostsByTagName (fields) {
   util.checkEmptyString(fields.tagName)
+  util.checkIndex(fields.idx)
+  util.checkCount(fields.count)
   if (fields.reportFlag) util.checkBool(fields.reportFlag)
   return await db.getAllPostsByTagName(fields)
 }

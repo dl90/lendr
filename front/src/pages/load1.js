@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import { useHistory } from "react-router-dom";
 import './index.scss';
 import './app.scss';
@@ -8,9 +8,9 @@ export default function Load1({loadtxt}){
     const history = useHistory();
 
     useEffect(()=>{
-        setTimeout(function(){history.push("/explorePage");}, 5000);
+        setTimeout(function(){history.push("/explorePage");}, 3000);
     });
-    return <div>
+    return <div className="loadingPage">
         <h1>{loadtxt}</h1>
         <div className="img"><img src="/Loading.png"></img></div>
             <div className="text">
@@ -20,5 +20,5 @@ export default function Load1({loadtxt}){
 }
 
 Load1.defaultProps = {
-    loadtxt: "Loggin In",
+    loadtxt: "Logging In",
 }

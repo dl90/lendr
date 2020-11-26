@@ -1,7 +1,9 @@
 
 export default {
   checkEmptyString,
+  checkIndex,
   checkID,
+  checkCount,
   checkStatus,
   checkSmallInt,
   checkBool,
@@ -33,6 +35,24 @@ function checkEmptyString (arg) {
  */
 function checkID (id) {
   if (id <= 0) invalidArgument(id)
+}
+
+/**
+ * Throws error if idx < 0
+ * @param {number} idx
+ * @throw invalid argument error
+ */
+function checkIndex (idx) {
+  if (idx < 0) invalidArgument(idx)
+}
+
+/**
+ * Throws error if count < 0 or count > 100
+ * @param {number} count
+ * @throw invalid argument error
+ */
+function checkCount (count) {
+  if (count <= 0 || count > 100) invalidArgument(count)
 }
 
 /**

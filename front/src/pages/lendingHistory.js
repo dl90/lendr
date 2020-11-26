@@ -24,7 +24,7 @@ export default function LendingHistory() {
         <ItemCard />
         <ItemCard />
         <div className="nav">
-            <BottomNav />
+            <BottomNav active={2} />
         </div>
     </div>
 }
