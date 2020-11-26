@@ -25,7 +25,6 @@ import axios from 'axios';
 
 
 export default function ExplorePage() {
-
     const [UserPicture, setUserPicture] = useState(null);
     const [DisplayName, setDisplayName] = useState("");
     const [ItemPrice, setItemPrice] = useState("10");
@@ -42,7 +41,7 @@ export default function ExplorePage() {
         var itemresp = await axios.post("https://www.lendr-bc.me/post/get-all", { idx: 0, count: 5 }, {
             headers: { crossDomain: true, 'Content-Type': 'application/json' }
         }, { withCredentials: true });
-        
+        // console.log(itemresp.data);
     }
 
     useEffect(() => {
