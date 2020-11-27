@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import BottomNav from '../comps/BottomNav';
 import CategoryGallery from '../comps/CategoryGallery';
 import Header from '../comps/Header';
@@ -13,31 +13,40 @@ import { Link } from "react-router-dom";
 
 
 export default function LendingAvailable() {
+    const [Items, setItems] = useState([]);
 
-    const HandleGetItems = async (name, rate) => {
-        var resp = await axios.get('https://www.lendr-bc.me/item/get', {
-
+    const HandleGetItems = async () => {
+        var itemresp = await axios.post("https://www.lendr-bc.me/post/get-all-own", {idx: 0, count: 5}, {
             headers: { crossDomain: true, 'Content-Type': 'application/json' }
         }, { withCredentials: true });
-
-
-
+        console.log("repo data");
+        console.log(itemresp.data);
+        setItems([...itemresp.data]);
     }
 
+    useEffect(() => {
+        HandleGetItems();
+    }, [])
 
-
-
-
-
-    return <div onLoad={HandleGetItems} className="app">
+    return <div className="app">
         <Header />
         <h1>Available</h1>
         {/* <Link to="/post">Post</Link> */}
         <div className="search">
             <MyLendsButtons />
         </div>
-        <ItemCard />
-        <ItemCard />
+        <div className="items">
+            {
+                Items.map((o,i)=>{
+                    console.log("inside the array...", o,i);
+                    return <ItemCard
+                    img={o.images}
+                    itemname={o.title}
+                    price={o.rate}
+                    />
+                })
+            }
+        </div>
         <div className="nav">
             <BottomNav active={2} />
         </div>

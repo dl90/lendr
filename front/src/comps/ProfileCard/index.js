@@ -2,7 +2,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import Button from '../Button';
 
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // To display 'Edit Profile' make sure to write 'userState={true}' when stating the comp.
 // the props for this comp are: 'userImg', 'userName', and 'userRating'
@@ -33,6 +33,7 @@ const UserInfo = styled.div`
     margin-left:9.6%;
     display:flex;
     flex-direction: row;
+    padding-top:15px;
 `;
 
 //UserProfile is the profile image
@@ -66,7 +67,8 @@ const UserImg = styled.div`
 
 //UserData holds the ratings and the username
 const UserData = styled.div`
-
+margin-bottom:50px;
+margin-left:10px;
 `;
 
 const UserName = styled.div`
@@ -90,8 +92,6 @@ const Message = styled.div`
 `;
 
 
-
-
 const ProfileCard = ({ userImg, userName, userRating, msgState, userState }) => {
     return <UserProfileCard msgState={msgState}>
         <UserInfo>
@@ -102,14 +102,14 @@ const ProfileCard = ({ userImg, userName, userRating, msgState, userState }) => 
                 <Link to="/profileSettings"><p>Edit Profile</p></Link>
             </UserImg>
             <UserData>
-                <UserName><h3>{userName}</h3></UserName>
+                <UserName><h2>{userName}</h2></UserName>
                 <UserRating>
                     {/* This is hard coded in */}
-                    <img src={userRating} alt="Rating1" />
+                    {/* <img src={userRating} alt="Rating1" />
                     <img src={userRating} alt="Rating2" />
                     <img src={userRating} alt="Rating3" />
                     <img src={userRating} alt="Rating4" />
-                    <img src={userRating} alt="Rating5" />
+                    <img src={userRating} alt="Rating5" /> */}
                 </UserRating>
             </UserData>
         </UserInfo>

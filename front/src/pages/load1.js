@@ -10,7 +10,7 @@ export default function Load1({loadtxt}){
     useEffect(()=>{
         setTimeout(function(){history.push("/explorePage");}, 3000);
     });
-    return <div className="loginPage">
+    return <div className="loadingPage">
         <h1>{loadtxt}</h1>
         <div className="img"><img src="/Loading.png"></img></div>
             <div className="text">
