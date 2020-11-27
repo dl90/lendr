@@ -33,9 +33,9 @@ console.log(state);
             type:"ChangeDisplayName",
             displayname:resp.data.display_name
         })
-        var itemresp = await axios.post("https://www.lendr-bc.me/post/get-all", { idx: 0, count: 5 }, {
-            headers: { crossDomain: true, 'Content-Type': 'application/json' }
-        }, { withCredentials: true });
+        // var itemresp = await axios.post("https://www.lendr-bc.me/post/get-all", { idx: 0, count: 5 }, {
+        //     headers: { crossDomain: true, 'Content-Type': 'application/json' }
+        // }, { withCredentials: true });
     }
 
 const HandleGetItems = async (name, rate) => {
