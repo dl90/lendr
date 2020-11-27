@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './app.scss';
 import './settings.scss';
 
@@ -11,12 +11,13 @@ import SearchBar from '../comps/SearchBar';
 import Menu from '../comps/Menu';
 
 import BottomNav from '../comps/BottomNav';
-
-import { Link } from "react-router-dom";
 import axios from 'axios';
+import { Link } from "react-router-dom";
+import { AppContext } from '../context/provider';
 
 
-export default function Home() {
+export default function Home () {
+    const { state } = useContext(AppContext);
     // const [UserPicture, setUserPicture] = useState(null);
     const [DisplayName, setDisplayName] = useState("");
 
@@ -34,13 +35,13 @@ export default function Home() {
         HandleUser();
     }, [])
 
-
     return <div className="app">
         <Header />
         <h1>Settings</h1>
         <SearchBar />
         <div className="ProfileCard">
-            <ProfileCard userState={true} userName={DisplayName} />
+            <h1>{state.displayname}</h1>
+            <ProfileCard userState={true} />
         </div>
         <div className="Menu">
             <Menu />

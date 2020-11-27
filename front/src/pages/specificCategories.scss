@@ -5,7 +5,7 @@
      z-index: -1;
      overflow-y: hidden;
  }
- 
+
  .nav{
      position: fixed;
      z-index: 2;
@@ -14,10 +14,12 @@
      bottom: 0;
      // background-color: white;
  }
- 
+
  .search{
      z-index: 1;
      margin-bottom: 8%;
  }
- 
- 
+
+ .thumb_cont {
+     overflow: scroll;
+ }

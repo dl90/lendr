@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import BottomNav from '../comps/BottomNav';
 import CategoryGallery from '../comps/CategoryGallery';
 import Header from '../comps/Header';
@@ -12,16 +12,15 @@ import { Link } from "react-router-dom";
 
 
 
-export default function LendingAvailable() {
+export default function LendingAvailable () {
     const [Items, setItems] = useState([]);
 
     const HandleGetItems = async () => {
-        var itemresp = await axios.post("https://www.lendr-bc.me/post/get-all-own", {idx: 0, count: 5}, {
+        var itemresp = await axios.post("https://www.lendr-bc.me/post/get-all-own", { idx: 0, count: 5 }, {
             headers: { crossDomain: true, 'Content-Type': 'application/json' }
         }, { withCredentials: true });
         console.log("repo data");
         console.log(itemresp.data);
-
         setItems([...itemresp.data]);
     }
 
@@ -38,12 +37,12 @@ export default function LendingAvailable() {
         </div>
         <div className="items">
             {
-                Items.map((o,i)=>{
-                    console.log("inside the array...", o,i);
+                Items.map((o, i) => {
+                    console.log("inside the array...", o, i);
                     return <ItemCard
-                    img={o.images}
-                    itemname={o.title}
-                    price={o.rate}
+                        img={o.images}
+                        itemname={o.title}
+                        price={o.rate}
                     />
                 })
             }

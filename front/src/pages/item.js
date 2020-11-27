@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import './index.scss';
 import './app.scss';
 import './item.scss';
@@ -12,9 +12,10 @@ import Like from '../comps/Like';
 // import {Link} from "react-router-dom";
 
 import axios from 'axios';
-export default function Item({ Price, img, Desc }) {
+import { AppContext } from '../context/provider';
+export default function Item ({ Price, img, Desc }) {
 
-
+    const { state, dispatch } = useContext(AppContext)
 
     const [title, setTitle] = useState("");
     const [desc, setDesc] = useState("");
@@ -25,7 +26,7 @@ export default function Item({ Price, img, Desc }) {
 
 
     const HandleNewPost = async (title, desc, location, rate, itemID) => {
-        console.log('Creating a New Post: ', "Title:", title, "Desc:", desc, "Location:", location, "Rate:", rate, "ItemID:", itemID);  
+        console.log('Creating a New Post: ', "Title:", title, "Desc:", desc, "Location:", location, "Rate:", rate, "ItemID:", itemID);
         var resp = await axios.get('https://lendr-bc.me/item/get');
         console.log(resp);
         setTitle(resp.data.postTitle);
@@ -38,6 +39,7 @@ export default function Item({ Price, img, Desc }) {
 
     return <div>
         <div className="item">
+            {state.username}
             <Header />
             <div className="title">
                 <h1>{title}</h1>
