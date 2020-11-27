@@ -1,11 +1,11 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import styled from 'styled-components'
 
 const ChatDiv = styled.div`
     width:100%;
     display:flex;
     margin:10px 0px;
-`;
+`
 
 const ChatSecondaryBox = styled.div`
     height: auto;
@@ -17,19 +17,16 @@ const ChatSecondaryBox = styled.div`
 
     background-color:#175FA4;
     color:white;
-`;
+`
 
-const ChatSecondary = ({message}) => {
-    return <ChatDiv>
-        <ChatSecondaryBox>
-            {message}
-        </ChatSecondaryBox>
-    </ChatDiv>
-};
+export default ({ message }) => (
+  <ChatDiv>
+    <ChatSecondaryBox>
+      {message}
+    </ChatSecondaryBox>
+  </ChatDiv>
+)
 
-ChatSecondary.defaultProps = {
-    message: "Hey, this is Alex! Is your bike still in good condition? I'd like to rent it."
-};
-
-
-export default ChatSecondary;
+// ChatSecondary.defaultProps = {
+//   message: "Hey, this is Alex! Is your bike still in good condition? I'd like to rent it."
+// }

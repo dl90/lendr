@@ -1,12 +1,12 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import styled from 'styled-components'
 
 const ChatDiv = styled.div`
     width:100%;
     display:flex;
     justify-content:flex-end;
     margin:10px 0px;
-`;
+`
 
 const ChatPrimaryDiv = styled.div`
     height: auto;
@@ -18,19 +18,16 @@ const ChatPrimaryDiv = styled.div`
 
     background-color:#39A6DC;
     color:white;
-`;
+`
 
-const ChatPrimary = ({message}) => {
-    return <ChatDiv>
-        <ChatPrimaryDiv>
-            {message}
-        </ChatPrimaryDiv>
-    </ChatDiv>
-};
+export default ({ message }) => (
+  <ChatDiv>
+    <ChatPrimaryDiv>
+      {message}
+    </ChatPrimaryDiv>
+  </ChatDiv>
+)
 
-ChatPrimary.defaultProps = {
-    message: "Hey Alex, it's a pretty new. I haven't used it much."
-};
-
-
-export default ChatPrimary;
+// ChatPrimary.defaultProps = {
+//   message: "Hey Alex, it's a pretty new. I haven't used it much."
+// }

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useState, useContext } from 'react'
+import styled from 'styled-components'
 
-import {Link} from 'react-router-dom';
+import { TargetUserContext } from '../../App'
+import { Link } from 'react-router-dom'
 
 const MessageDiv = styled.div`
 max-height: 98px;
@@ -11,12 +12,12 @@ display:flex;
 justify-content:center;
 align-items:center;
 box-shadow: 0px 10px 24px rgba(0, 0, 0, 0.03);
-background-color: ${props => props.Hovered ? "lightgray" : "white"};
+background-color: ${props => props.Hovered ? 'lightgray' : 'white'}
 transition: background-color 0.5s;
 border-bottom: 1px solid rgba(0, 0, 0, 0.050);
 padding-left:15px;
 box-sizing:border-box;
-`;
+`
 
 const ProfilePic = styled.div`
 max-height: 50px;
@@ -32,7 +33,7 @@ img{
     width:100%;
     height:100%
  }
-`;
+`
 
 const TextContent = styled.div`
 margin-left:10px;
@@ -41,12 +42,12 @@ max-height:98px;
 display:flex;
 flex-direction:column;
 justify-content:center;
-`;
+`
 
 const Name = styled.h3`
 color: #175FA4;
 margin:0px;
-`;
+`
 
 const LastMsg = styled.p`
 color: #979797;
@@ -54,7 +55,7 @@ margin:0px;
 display:inline;
 height:20px;
 overflow:hidden;
-`;
+`
 
 const Date = styled.p`
 margin-top:-5px;
@@ -63,32 +64,40 @@ color:#39A6DC;
 width:100px;
 overflow:hidden;
 text-align:right;
-`;
+`
 
-const Message = ({ fullname, lastmsg, date, pfp }) => {
-    const [Hovered, setHovered] = useState(false);
-    return <Link to="/chat">
-        <MessageDiv Hovered={Hovered} onMouseOver={() => {
-        setHovered(true);
-    }} onMouseOut={() => {
-        setHovered(false);
-    }}>
-        <ProfilePic><img src={pfp} alt="User Profile Picture"></img></ProfilePic>
+const Message = ({ senderID, fullname, lastmsg, date, pfp }) => {
+  const [Hovered, setHovered] = useState(false)
+  const { setTargetUserID } = useContext(TargetUserContext)
+
+  return (
+    <Link to='/chat'>
+      <MessageDiv
+        Hovered={Hovered}
+        onMouseOver={() => setHovered(true)}
+        onMouseOut={() => setHovered(false)}
+        onClick={() => setTargetUserID(senderID)}
+      >
+        <ProfilePic>
+          <img src={pfp} alt='User Profile Picture' />
+        </ProfilePic>
+
         <TextContent>
-            <Name>{fullname}</Name>
-            <LastMsg>{lastmsg}</LastMsg>
+          <Name>{fullname}</Name>
+          <LastMsg>{lastmsg}</LastMsg>
         </TextContent>
-        <Date>{date}</Date>
-    </MessageDiv>
-    </Link>
-};
 
-Message.defaultProps = {
-    fullname: "John Smith",
-    lastmsg: "This is the last message sent from this use...",
-    date: "Wed.",
-    pfp: "./placeholderProfile.png"
+        <Date>{date}</Date>
+      </MessageDiv>
+    </Link>
+  )
 }
 
+Message.defaultProps = {
+  fullname: 'John Smith',
+  lastmsg: 'This is the last message sent from this use...',
+  date: 'Wed.',
+  pfp: './placeholderProfile.png'
+}
 
-export default Message;
+export default Message

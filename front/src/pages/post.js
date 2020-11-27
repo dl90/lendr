@@ -36,8 +36,6 @@ export default function Post() {
         formData.append("postRate", rate);
         formData.append("tag", "Electronic");
         imgs.forEach(img => formData.append("images", img))
-        debugger
-        console.log(imgs)
 
         const resp = await axios.post('https://www.lendr-bc.me/post/new-complete', formData,
             { headers: { crossDomain: true, 'Content-Type': 'multipart/form-data' } }, { withCredentials: true });

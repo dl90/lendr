@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useState } from 'react'
+import styled from 'styled-components'
 
 const Bar = styled.div`
 max-width:414px;
@@ -9,7 +9,7 @@ display:flex;
 align-items: center;
 justify-content: space-evenly;
 background-color:white;
-`;
+`
 
 const MessageDiv = styled.div`
 max-width: 325px;
@@ -21,7 +21,7 @@ border-radius:10px;
 background-color: #F5F7FF;
 box-shadow: 0px 16px 24px 0px rgba(0, 0, 0, 0.06);
 flex-grow:1;
-`;
+`
 
 const Input = styled.input`
 max-width:250px;
@@ -37,7 +37,7 @@ border-radius:10px;
  ::placeholder {
     color: rgba(23, 95, 164, 0.52);
  };
- `;
+ `
 
 const Circle = styled.button`
 min-height: 41px;
@@ -58,30 +58,32 @@ align-items:center;
  img {
  }
 
-`;
+`
 
 const Icon = styled.img`
 width:20px;
 height:20px;
 margin-left:-6px;
-`;
+`
 
-const MessageBar = ({id, onSubmit}) => {
+export default ({ cb }) => {
+  const [text, setText] = useState('')
+  const submit = e => {
+    e.preventDefault()
+    cb(text)
+    setText('')
+  }
 
-    const [text, setText] = useState("")
-    const submit = e => {
-        e.preventDefault()
-        onSubmit({ id, text })
-    }
-
-    return (<Bar>
-         <form id={id} onSubmit={submit}>
+  return (
+    <Bar>
+      <form onSubmit={submit}>
         <MessageDiv>
-            <Input value={text} onChange={e => setText(e.target.value)} id="message" placeholder="Type your message..."></Input>
-            <Circle type="submit" form={id}><Icon draggable="false" src="/sendicon.png"></Icon></Circle>
+          <Input value={text} onChange={e => setText(e.target.value)} id='message' placeholder='Type your message...' />
+          <Circle type='submit'>
+            <Icon draggable='false' src='/sendicon.png' />
+          </Circle>
         </MessageDiv>
-        </form>
-    </Bar>)
+      </form>
+    </Bar>
+  )
 }
-
-export default MessageBar
