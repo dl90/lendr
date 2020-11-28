@@ -38,7 +38,6 @@ export default function Post() {
         formData.append("images", imgs);
         formData.append("tag", "Electronic");
         imgs.forEach(img => formData.append("images", img))
-        debugger
         console.log(imgs)
         const resp = await axios.post('https://www.lendr-bc.me/post/new-complete', formData,
             { headers: { crossDomain: true, 'Content-Type': 'multipart/form-data' } }, { withCredentials: true });
@@ -57,7 +56,7 @@ export default function Post() {
         <div className="post">
             <Header />
             <h1>Post Item</h1>
-            <Input type="number" title={"Post Title"} placeholder="Item Name"
+            <Input type="text" title={"Post Title"} placeholder="Item Name"
                 onChange={(e) => {
                     setTitle(e.target.value);
                 }}

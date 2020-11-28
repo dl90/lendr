@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Card = styled.div`
 min-height: 188px;
@@ -56,17 +56,17 @@ bottom:20px;
 //Date is the date the item was uploaded in weeks
 //bgImg is the name of the image
 
-const ReviewCard = ({ title, date, bgImg, price}) => {
+const ReviewCard = ({ title, date, bgImg, price }) => {
     return <Link to="/item">
-    <Card bgImg={bgImg} onClick="">
-        <Item>
-            <Title><h4>{title}</h4></Title>
-            <Date><p>{date}</p></Date>
-            <Price><p>${price}/day</p></Price>
-        </Item>
-    </Card>
+        <Card bgImg={bgImg} onClick="">
+            <Item>
+                <Title><h4>{title}</h4></Title>
+                <Date><p>{date}</p></Date>
+                <Price><p>${price}/day</p></Price>
+            </Item>
+        </Card>
     </Link>
-    
+
 };
 
 ReviewCard.defaultProps = {
