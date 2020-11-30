@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import './index.scss';
 import './app.scss';
 import './item.scss';
@@ -12,10 +12,14 @@ import Like from '../comps/Like';
 // import {Link} from "react-router-dom";
 
 import axios from 'axios';
-import {AppContext} from '../context/provider';
-export default function Item({ Price, img, Desc }) {
+import { AppContext } from '../context/provider';
+export default function Item(props, { Price, img, Desc }) {
 
-    const {state, dispatch} = useContext(AppContext)
+    var itemMemory = props.location.state.o;
+    console.log(itemMemory);
+
+    const { state, dispatch } = useContext(AppContext)
+    const [userName, setUsername] = useState("");
 
     const [title, setTitle] = useState("");
     const [desc, setDesc] = useState("");
@@ -24,17 +28,28 @@ export default function Item({ Price, img, Desc }) {
 
     // const [heartActive, changeHeartActive] = useState(false);
 
-
-    const HandleNewPost = async (title, desc, location, rate, itemID) => {
-        console.log('Creating a New Post: ', "Title:", title, "Desc:", desc, "Location:", location, "Rate:", rate, "ItemID:", itemID);  
-        var resp = await axios.get('https://lendr-bc.me/item/get');
-        console.log(resp);
-        setTitle(resp.data.postTitle);
-        setDesc(resp.data.postDescription);
-        // setLocation(resp.data.postLocation);
-        setRate(resp.data.postRate);
-        // setID(resp.data.itmeID);
+    const HandleUser = async (user_id) => {
+        var resp = await axios.post("https://lendr-bc.me/user/get-all", { active: true, reportFlag: false }, {
+            headers: { crossDomain: true, 'Content-Type': 'application/json' }
+        }, { withCredentials: true });
+        console.log("TESTING THIS POST" + resp.data);
     }
+
+    // const HandleNewPost = async (title, desc, location, rate, itemID) => {
+    //     console.log('Creating a New Post: ', "Title:", title, "Desc:", desc, "Location:", location, "Rate:", rate, "ItemID:", itemID);
+    //     var resp = await axios.get('https://lendr-bc.me/item/get');
+    //     console.log(resp);
+    //     setTitle(resp.data.postTitle);
+    //     setDesc(resp.data.postDescription);
+    //     // setLocation(resp.data.postLocation);
+    //     setRate(resp.data.postRate);
+    //     // setID(resp.data.itmeID);
+    // }
+
+
+    useEffect(() => {
+        HandleUser();
+    }, [])
 
 
     return <div>
@@ -42,29 +57,29 @@ export default function Item({ Price, img, Desc }) {
             {state.username}
             <Header />
             <div className="title">
-                <h1>{title}</h1>
+                <h1>{itemMemory.title}</h1>
                 <Like></Like>
             </div>
             <h2>Price</h2>
-            <p>{rate}</p>
+            <p>{itemMemory.rate}</p>
         </div>
 
         <div className="imageDiv">
             <h2>Images</h2>
             <div className="images">
-                <img src={img}></img>
-                <img src={img}></img>
-                <img src={img}></img>
+                <img src={itemMemory.img}></img>
+                <img src={itemMemory.img}></img>
+                <img src={itemMemory.img}></img>
             </div>
         </div>
         <div className="item">
             <div>
                 <h2>Description</h2>
-                <p>{desc}</p>
+                <p>{itemMemory.post_description}</p>
             </div>
             <div>
                 <h2>Lended By:</h2>
-                <ProfileCard />
+                <ProfileCard userName={itemMemory.user_id} />
                 <AskLender />
             </div>
             <div className="location">
