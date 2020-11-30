@@ -15,13 +15,12 @@ import { Link } from "react-router-dom";
 export default function LendingAvailable() {
     const [Items, setItems] = useState([]);
 
-    const HandleGetItems = async (name, rate) => {
-        var itemresp = await axios.post("https://www.lendr-bc.me/post/get-all", {idx: 0, count: 5}, {
+    const HandleGetItems = async () => {
+        var itemresp = await axios.post("https://www.lendr-bc.me/post/get-all-own", {idx: 0, count: 5}, {
             headers: { crossDomain: true, 'Content-Type': 'application/json' }
         }, { withCredentials: true });
         console.log("repo data");
         console.log(itemresp.data);
-
         setItems([...itemresp.data]);
     }
 
@@ -41,8 +40,9 @@ export default function LendingAvailable() {
                 Items.map((o,i)=>{
                     console.log("inside the array...", o,i);
                     return <ItemCard
+                    img={o.images}
                     itemname={o.title}
-                    price={o.post_description}
+                    price={o.rate}
                     />
                 })
             }

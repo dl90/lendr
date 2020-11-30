@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import './index.scss';
 import './app.scss';
 import './item.scss';
@@ -12,9 +12,10 @@ import Like from '../comps/Like';
 // import {Link} from "react-router-dom";
 
 import axios from 'axios';
+import {AppContext} from '../context/provider';
 export default function Item({ Price, img, Desc }) {
 
-
+    const {state, dispatch} = useContext(AppContext)
 
     const [title, setTitle] = useState("");
     const [desc, setDesc] = useState("");
@@ -38,6 +39,7 @@ export default function Item({ Price, img, Desc }) {
 
     return <div>
         <div className="item">
+            {state.username}
             <Header />
             <div className="title">
                 <h1>{title}</h1>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const Bar = styled.div`
@@ -39,7 +39,7 @@ border-radius:10px;
  };
  `;
 
-const Circle = styled.div`
+const Circle = styled.button`
 min-height: 41px;
 min-width: 41px;
 border-radius: 50%;
@@ -66,15 +66,22 @@ height:20px;
 margin-left:-6px;
 `;
 
-const MessageBar = () => {
-    return <Bar>
+const MessageBar = ({id, onSubmit}) => {
+
+    const [text, setText] = useState("")
+    const submit = e => {
+        e.preventDefault()
+        onSubmit({ id, text })
+    }
+
+    return (<Bar>
+         <form id={id} onSubmit={submit}>
         <MessageDiv>
-            <Input placeholder="Type your message..."></Input>
-            <Circle><Icon draggable="false" src="/sendicon.png"></Icon></Circle>
+            <Input value={text} onChange={e => setText(e.target.value)} id="message" placeholder="Type your message..."></Input>
+            <Circle type="submit" form={id}><Icon draggable="false" src="/sendicon.png"></Icon></Circle>
         </MessageDiv>
-    </Bar>
-    
-};
+        </form>
+    </Bar>)
+}
 
-
-export default MessageBar;
+export default MessageBar
