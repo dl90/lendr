@@ -3,9 +3,9 @@
     flex-direction: column;
     padding:55px;
     display: flex;
-    .img{
-        margin-left: -20px;
-    }
+  .lottiediv{
+      margin-left: 20px;
+  }
     .skip{
         margin-top:-19px;
         margin-left: 176px;
@@ -20,16 +20,16 @@
     }
     .text{
         font-family: Lato;
-        font-size: small;;
+        font-size: small;
     }
     .button{
           margin-left: 170px;;
-          margin-top: 12px;
+          margin-top: 30px;
     }
     .number{
        position:absolute;
-       margin-top: 20px;
-       margin-left: 120px;
+       margin-top: 45px;
+       margin-left: 100px;
        color: rgba(0, 0, 0, 0.5);
        font-family: Poppins;
         font-style: normal;
