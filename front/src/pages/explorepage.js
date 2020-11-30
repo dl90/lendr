@@ -98,12 +98,14 @@ export default function ExplorePage() {
                 {
                     Items.map((o, i) => {
                         console.log("explorepage items array", o, i);
-                        return <ReviewCard
-                            title={o.title}
-                            price={o.rate[0]}
-                            date={o.created_on}
-                            bgImg={o.images}
-                        />
+                        return <Link to={{ pathname: '/item', state: { o } }}>
+                            <ReviewCard
+                                title={o.title}
+                                price={o.rate}
+                                date={o.created_on}
+                                bgImg={o.images[0]}
+                            />
+                        </Link>
                     })
                 }
             </div>
@@ -119,12 +121,14 @@ export default function ExplorePage() {
                 {
                     Items.map((o, i) => {
                         console.log("explorepage items array", o, i);
-                        return <ReviewCard
-                            title={o.title}
-                            price={o.rate}
-                            date={o.created_on}
-                            bgImg={o.images[1]}
-                        />
+                        return <Link to={{ pathname: '/item', state: { o } }}>
+                            <ReviewCard
+                                title={o.title}
+                                price={o.rate}
+                                date={o.created_on}
+                                bgImg={o.images[0]}
+                            > </ReviewCard>
+                        </Link>
                     })
                 }
             </div>
