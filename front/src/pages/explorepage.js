@@ -9,11 +9,11 @@ import CategoryButton from '../comps/CategoryButton';
 import { Link } from "react-router-dom";
 import axios from 'axios';
 //import the context
-import {AppContext} from '../context/provider';
+import { AppContext } from '../context/provider';
 
 export default function ExplorePage() {
     //use the context to access global state and global function 
-    const {state, dispatch} = useContext(AppContext);
+    const { state, dispatch } = useContext(AppContext);
     const [UserPicture, setUserPicture] = useState(null);
     const [DisplayName, setDisplayName] = useState("");
     const [ItemPrice, setItemPrice] = useState("10");
@@ -22,7 +22,8 @@ export default function ExplorePage() {
     const [ItemImage, setItemImage] = useState("./placeholderProfile.png");
     const [Items, setItems] = useState([]);
     // const [username, setUserName] = useState(null)
-console.log(state);
+
+    console.log(state);
     const HandleUser = async () => {
         var resp = await axios.get('https://www.lendr-bc.me/me', {
             withCredentials: true
@@ -30,22 +31,22 @@ console.log(state);
         setDisplayName(resp.data.display_name);
         setUserPicture(resp.data.avatar_url);
         dispatch({
-            type:"ChangeDisplayName",
-            displayname:resp.data.display_name
+            type: "ChangeDisplayName",
+            displayname: resp.data.display_name
         })
         // var itemresp = await axios.post("https://www.lendr-bc.me/post/get-all", { idx: 0, count: 5 }, {
         //     headers: { crossDomain: true, 'Content-Type': 'application/json' }
         // }, { withCredentials: true });
     }
 
-const HandleGetItems = async (name, rate) => {
-    var itemresp = await axios.post("https://www.lendr-bc.me/post/get-all", {idx: 0, count: 5}, {
-        headers: { crossDomain: true, 'Content-Type': 'application/json' }
-    }, { withCredentials: true });
-    console.log("repo data");
-    console.log(itemresp.data);
-    setItems([...itemresp.data]);
-}
+    const HandleGetItems = async (name, rate) => {
+        var itemresp = await axios.post("https://www.lendr-bc.me/post/get-all", { idx: 0, count: 5 }, {
+            headers: { crossDomain: true, 'Content-Type': 'application/json' }
+        }, { withCredentials: true });
+        console.log("repo data");
+        console.log(itemresp.data);
+        setItems([...itemresp.data]);
+    }
     useEffect(() => {
         HandleUser();
         HandleGetItems();
@@ -54,7 +55,7 @@ const HandleGetItems = async (name, rate) => {
     return <div>
         <div className="Header">
             <div className="Header_top">
-<div>Hi, {state.displayname}</div>
+                <div>Hi, {state.displayname}</div>
                 <Link to="/settings">
                     <UserAvatar imgsrc={UserPicture}></UserAvatar>
                 </Link>
@@ -94,17 +95,17 @@ const HandleGetItems = async (name, rate) => {
                 </Link>
             </div>
             <div className="Recommended_divs">
-            {
-                Items.map((o,i)=>{
-                    console.log("explorepage items array", o,i);
-                    return <ReviewCard
-                    title={o.title}
-                    price={o.rate}
-                    date={o.created_on}
-                    bgImg={o.images}
-                    />
-                })
-            }
+                {
+                    Items.map((o, i) => {
+                        console.log("explorepage items array", o, i);
+                        return <ReviewCard
+                            title={o.title}
+                            price={o.rate[0]}
+                            date={o.created_on}
+                            bgImg={o.images}
+                        />
+                    })
+                }
             </div>
         </div>
         <div className="Saved_cont">
@@ -115,17 +116,17 @@ const HandleGetItems = async (name, rate) => {
                 </Link>
             </div>
             <div className="Recommended_divs">
-            {
-                Items.map((o,i)=>{
-                    console.log("explorepage items array", o,i);
-                    return <ReviewCard
-                    title={o.title}
-                    price={o.rate}
-                    date={o.created_on}
-                    bgImg={o.images}
-                    />
-                })
-            }
+                {
+                    Items.map((o, i) => {
+                        console.log("explorepage items array", o, i);
+                        return <ReviewCard
+                            title={o.title}
+                            price={o.rate}
+                            date={o.created_on}
+                            bgImg={o.images[1]}
+                        />
+                    })
+                }
             </div>
             {/* </div> */}
         </div>
