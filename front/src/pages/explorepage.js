@@ -103,7 +103,7 @@ export default function ExplorePage() {
                                 title={o.title}
                                 price={o.rate}
                                 date={o.created_on}
-                                bgImg={o.images[0]}
+                                bgImg={o.images[0] || null}
                             />
                         </Link>
                     })
@@ -126,8 +126,8 @@ export default function ExplorePage() {
                                 title={o.title}
                                 price={o.rate}
                                 date={o.created_on}
-                                bgImg={o.images[0]}
-                            > </ReviewCard>
+                                bgImg={o.images[0] || null}
+                            />
                         </Link>
                     })
                 }
