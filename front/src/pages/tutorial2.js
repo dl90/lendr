@@ -11,7 +11,7 @@ import {Link} from "react-router-dom";
 export default function Tutorial2(){
     return <div className="loggingIn">
             <Header options={"none"}/>
-            <h12 className="skip">Skip Tutorial</h12>
+            <Link to="/load1"><h12 className="skip">Skip Tutorial</h12></Link>
         <div className="img"><img src="logging.png" alt="Tutorial 2"></img></div>
         <h1>Send a Request</h1>
             <div className="text">

@@ -40,8 +40,7 @@ export default function Home() {
         <h1>Settings</h1>
         <SearchBar />
         <div className="ProfileCard">
-<h1>{state.displayname}</h1>
-            <ProfileCard userState={true} />
+            <ProfileCard userState={true} userName={state.displayname}/>
         </div>
         <div className="Menu">
             <Menu />
