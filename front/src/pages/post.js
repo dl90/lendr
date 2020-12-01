@@ -108,7 +108,7 @@ export default function Post() {
             />
             
             <div className="button">
-                <Link to="/lending">
+                <Link to="/lending" className="link">
                     <Button text={"Post"}
                         onClick={(e) => {
                             HandleNewPost(e, title, desc, location, rate, imgs, tag);

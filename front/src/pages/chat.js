@@ -15,7 +15,11 @@ import {Link} from "react-router-dom";
 import io from 'socket.io-client';
 var socket = null;
 
-export default function Chat() {
+export default function Chat(props) {
+
+    var itemMemory = props.location.state.o;
+    console.log(itemMemory);
+
     const [Msgs, setMsgs]= useState([]);
     const [inp, setInp] = useState("");
     const HandleGetItems = async (name, rate) => {
@@ -38,31 +42,14 @@ export default function Chat() {
 
     return <div onLoad={HandleGetItems} >
         <div className="chat">
-        {/* <div className="profile">
-            <UserAvatar></UserAvatar>
-        </div> */}
+        {/* <UserAvatar imgsrc={UserPicture}></UserAvatar> */}
         <Header/>
+        <h2>{itemMemory.display_name}</h2>
         <div className="threadBox">
             <div className="thread">
             {Msgs.map((o,i)=>{
                 return <div key={i}>{o.username} - {o.msg}</div>
             })}
-                
-            {/* <ChatSecondary></ChatSecondary>
-            <ChatPrimary></ChatPrimary>
-            <ChatPrimary></ChatPrimary>
-            <ChatSecondary></ChatSecondary>
-            <ChatSecondary></ChatSecondary>
-            <ChatPrimary></ChatPrimary>
-            <ChatSecondary></ChatSecondary>
-            <ChatPrimary></ChatPrimary>
-            <ChatSecondary></ChatSecondary>
-            <ChatPrimary></ChatPrimary>
-            <ChatPrimary></ChatPrimary>
-            <ChatSecondary></ChatSecondary>
-            <ChatSecondary></ChatSecondary>
-            <ChatPrimary></ChatPrimary>
-            <ChatSecondary></ChatSecondary> */}
             {
                 Msgs.map((o,i)=>{
                     console.log("inside the array...", o,i);
@@ -76,14 +63,23 @@ export default function Chat() {
         </div>
     </div>
     <div className="msg">
-            {/* <MessageBar></MessageBar> */}
-            <input onChange={(e)=>{
+            <MessageBar change={
+                (e)=>{
+                    setInp(e.target.value);
+                }
+            } click={
+                ()=>{
+                    console.log("clicked")
+                    socket.emit("getmsg", {username:"Henry", msg:inp})
+                }
+            }></MessageBar>
+            {/* <input onChange={(e)=>{
                 setInp(e.target.value);
             }} />
             <button onClick={()=>{
                 console.log("clicked")
                 socket.emit("getmsg", {username:"Henry", msg:inp})
-            }}>Send</button>;
+            }}>Send</button>; */}
         </div>
     </div>
     

@@ -67,7 +67,7 @@ text-align:right;
 
 const Message = ({ fullname, lastmsg, date, pfp }) => {
     const [Hovered, setHovered] = useState(false);
-    return <Link to="/chat">
+    return <div>
         <MessageDiv Hovered={Hovered} onMouseOver={() => {
         setHovered(true);
     }} onMouseOut={() => {
@@ -80,7 +80,7 @@ const Message = ({ fullname, lastmsg, date, pfp }) => {
         </TextContent>
         <Date>{date}</Date>
     </MessageDiv>
-    </Link>
+    </div>
 };
 
 Message.defaultProps = {

@@ -38,9 +38,9 @@ export default function Home() {
         {
                 Msgs.map((o,i)=>{
                     console.log("inside the array...", o,i);
-                    return <Message
-                    fullname={o.display_name}
-                    />
+                    return <Link to={{ pathname: '/chat', state: { o } }}>
+                        <Message fullname={o.display_name}
+                    /></Link>
                 })
             }
         {/* <Message />
