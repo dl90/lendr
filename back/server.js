@@ -1,5 +1,5 @@
 import fs from 'fs'
-// import http from 'http'
+import http from 'http'
 import https from 'https'
 import path from 'path'
 
@@ -10,7 +10,7 @@ import Elastic from './src/db/elastic.connect.js'
 import dotenv from 'dotenv'
 dotenv.config()
 
-// const PORT = process.env.PORT
+const PORT = process.env.PORT
 const key = fs.readFileSync(path.join(path.resolve(), '../https/key.pem'))
 const cert = fs.readFileSync(path.join(path.resolve(), '../https/cert.pem'))
 db.connect(serve)
@@ -28,5 +28,5 @@ const httpsServer = https.createServer({ key: key, cert: cert }, app())
 // wss(httpsServer)
 httpsServer.listen(8443, () => console.log('Live @ https://localhost:8443'))
 
-// const httpServer = http.createServer(app())
-// httpServer.listen(PORT, () => console.log(`Live @ http://localhost:${PORT}`))
+const httpServer = http.createServer(app())
+httpServer.listen(PORT, () => console.log(`Live @ http://localhost:${PORT}`))

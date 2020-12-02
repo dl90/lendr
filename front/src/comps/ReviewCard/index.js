@@ -57,7 +57,7 @@ bottom:20px;
 //bgImg is the name of the image
 
 const ReviewCard = ({ title, date, bgImg, price }) => {
-    return <Card bgImg={bgImg} onClick="">
+    return <Card bgImg={bgImg}>
         <Item>
             <Title><h4>{title}</h4></Title>
             <Date><p>{date}</p></Date>

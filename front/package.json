@@ -12,8 +12,6 @@
     "react-dom": "^16.14.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.0",
-    "socket.io-client": "^3.0.3",
-    "storybook": "^6.0.28",
     "styled-components": "^5.2.1"
   },
   "scripts": {
@@ -48,6 +46,7 @@
     "@storybook/preset-create-react-app": "^3.1.4",
     "@storybook/react": "^6.0.27",
     "babel-loader": "^8.1.0",
-    "react-is": "^17.0.1"
+    "react-is": "^17.0.1",
+    "storybook": "^6.0.28"
   }
 }

@@ -1,18 +1,21 @@
 export const initialState = {
-    displayname:"",
-    logintoken:null,
-   
+  user: null,
+  targetUser: null
 }
+
 export const reducer = (state, action) => {
-console.log("action", action);
-    switch(action.type){
-        case "ChangeDisplayName":
-            return {
-                ...state,
-                displayname:action.displayname
-            }
-        default:
-            return state;
-    }
-    
+  switch (action.type) {
+    case 'Login':
+      return {
+        ...state,
+        user: action.user
+      }
+    case 'TargetOtherUser':
+      return {
+        ...state,
+        targetUser: action.targetUser
+      }
+    default:
+      return state
+  }
 }

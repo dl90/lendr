@@ -31,7 +31,7 @@ async function saveMessage (fields) {
 async function getAllMessage (fields) {
   return await query(
     `SELECT Message.id, Message.message, UserMessage.receiver_id, UserMessage.sender_id,
-     User.display_name AS sender_displayName FROM Message
+     Message.created_on, User.display_name AS sender_displayName FROM Message
      JOIN UserMessage ON Message.id = UserMessage.message_id
      JOIN User ON User.id = UserMessage.sender_id
      WHERE ? IN (UserMessage.receiver_id, UserMessage.sender_id)
