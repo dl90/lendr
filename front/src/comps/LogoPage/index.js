@@ -71,7 +71,7 @@ const LogoPage = () => {
         <div>
         <BgWave Op={WavePosO} Bp={WavePosB}></BgWave>
         <LogoDiv IconO={IconO} logoDisp={logoDisp}><img src="/logoIcon.svg"></img></LogoDiv>
-        <LogoText TextO={TextO}><img src="/logoText.png"></img></LogoText>
+        <LogoText TextO={TextO}><img src="/LogoText.png"></img></LogoText>
         <BgWave2 Op2={WavePosO2} Bp2={WavePosB2}></BgWave2>
         </div>
         
