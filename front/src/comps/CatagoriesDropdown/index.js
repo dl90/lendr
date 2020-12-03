@@ -187,6 +187,7 @@ const CatagoriesDropdown = ({ test, onChange }) => {
 CatagoriesDropdown.defaultProps = {
     test: "none",
     onChange: () => { }
+
 };
 
 

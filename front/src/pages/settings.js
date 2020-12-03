@@ -13,11 +13,11 @@ import Menu from '../comps/Menu';
 import BottomNav from '../comps/BottomNav';
 import axios from 'axios';
 import { Link } from "react-router-dom";
-import {AppContext} from '../context/provider';
+import { AppContext } from '../context/provider';
 
 
 export default function Home() {
-      const {state} = useContext(AppContext);
+    const { state } = useContext(AppContext);
     // const [UserPicture, setUserPicture] = useState(null);
     const [DisplayName, setDisplayName] = useState("");
 
@@ -35,12 +35,15 @@ export default function Home() {
         HandleUser();
     }, [])
 
-        return <div className="app">
+    return <div className="app">
         <Header />
         <h1>Settings</h1>
         <SearchBar />
-        <div className="ProfileCard">
-            <ProfileCard userState={true} userName={state.displayname}/>
+        <div className="ProfileCard" >
+            {/* <h1>{state.displayname}</h1> */}
+            <ProfileCard
+                userName={state.displayname}
+                userState={true} />
         </div>
         <div className="Menu">
             <Menu />
