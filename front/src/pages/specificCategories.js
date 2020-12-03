@@ -15,29 +15,33 @@ export default function SpecificCategories(props,{title}) {
     var itemMemory = props.location.state;
     console.log(itemMemory);
 
-const [ItemPrice, setItemPrice]=useState("10");
-const [ItemDate, setItemDate]=useState("default item date");
-const [ItemTitle, setItemTitle]=useState("default title");
-const [ItemImage, setItemImage]=useState("./placeholderProfile.png");
-const [ItemPoster, setItemPoster]=useState("./placeholderProfile.png");
-const [ItemPosterName, setItemPosterName] = useState("name")
 const [Items, setItems] = useState([]);
+const [Users, setUsers] = useState([]);
 
 
 const HandleGetItems = async () => {
     
 
-    var itemresp = await axios.post("https://www.lendr-bc.me/post/get-all", {idx: 0, count: 5}, {
+    var itemresp = await axios.post("https://www.lendr-bc.me/post/get-all", {idx: 0, count: 50}, {
         headers: { crossDomain: true, 'Content-Type': 'application/json' }
     }, { withCredentials: true });
-    console.log("repo data");
-    console.log(itemresp.data);
+    console.log("Specific Category repo data");
+    // console.log(itemresp.data);
 
     setItems([...itemresp.data]);
 }
 
+const HandleGetUsers = async () => {
+    
+    var userresp = await axios.get('https://localhost:8443/user/get-all',
+            { headers: { crossDomain: true, 'Content-Type': 'application/json' } }, { withCredentials: true });
+    console.log(userresp.data);
+    setUsers([...userresp.data]);
+}
+
 useEffect(() => {
     HandleGetItems();
+    HandleGetUsers();
 }, [])
 
 
@@ -58,6 +62,7 @@ useEffect(() => {
                     price={o.rate}
                     date={o.created_on}
                     img={o.images}
+                    username={o.user_id}
                     />
                 })
             }

@@ -16,7 +16,7 @@ export default function LendingLoan() {
     const [Items, setItems] = useState([]);
 
     const HandleGetItems = async () => {
-        var itemresp = await axios.post("https://www.lendr-bc.me/post/get-all-own", {idx: 0, count: 5}, {
+        var itemresp = await axios.post("https://www.lendr-bc.me/post/get-all-own", {idx: 0, count: 10}, {
             headers: { crossDomain: true, 'Content-Type': 'application/json' }
         }, { withCredentials: true });
         console.log("repo data");
