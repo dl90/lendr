@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import Moment from 'react-moment';
+
 
 // import { Link } from 'react-router-dom';
 
@@ -42,14 +44,14 @@ const Date = styled.div`
 font-size:9px;
 text-align:right;
 position relative;
-bottom:0;
+bottom:-10px;
 `;
 
 const Price = styled.div`
 font-size:9px;
 text-align:left;
 position relative;
-bottom:20px;
+bottom:10px;
 `;
 
 //Title is the items name
@@ -60,7 +62,7 @@ const ReviewCard = ({ title, date, bgImg, price }) => {
     return <Card bgImg={bgImg} onClick="">
         <Item>
             <Title><h4>{title}</h4></Title>
-            <Date><p>{date}</p></Date>
+           <Date><Moment interval={60000} fromNow><p>{date}</p></Moment></Date>
             <Price><p>${price}/day</p></Price>
         </Item>
     </Card>
