@@ -24,11 +24,12 @@
     }
     .button{
           margin-left: 170px;;
-          margin-top: 37px; 
+          margin-top: 60px; 
+
     }
     .number{
         position:absolute;
-       margin-top: 47px;
+       margin-top: 70px;
        margin-left: 120px;
        color: rgba(0, 0, 0, 0.5);
        font-family: Poppins;
@@ -36,10 +37,12 @@
         font-weight: normal;
         font-size: 12px;
         line-height: 18px;
+        position: absolute;
     }
     .button2{
-        margin-left: -9px;;
-        margin-top: -44px;
-        width:35%;
+        margin-right: -9px;
+        margin-top: 60px;
+        max-width:27%;
+        position: absolute;
     }
 }

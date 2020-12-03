@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 
 import { Link } from "react-router-dom";
@@ -27,8 +27,11 @@ const SmallButtonDiv = styled.div`
     }
 `;
 
-const MyLendsButtons = () => {
-    const [MyLendsActive, changeMyLendsActive] = useState(1);
+const MyLendsButtons = ({ active }) => {
+    const [MyLendsActive, changeMyLendsActive] = useState(active);
+    // useEffect(() => {
+    //     changeMyLendsActive(active);
+    // }, [active])
     return <MyLendsButtonsDiv>
         
         <Link to="/lendingAvailable">

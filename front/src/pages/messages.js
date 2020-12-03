@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import BottomNav from '../comps/BottomNav';
 import CategoryGallery from '../comps/CategoryGallery';
 import Header from '../comps/Header';
@@ -13,11 +13,6 @@ import axios from 'axios';
 
 
 export default function Home() {
-    // const {setUserData} = useContext(UserData);
-    // const handleDelete = async () => {
-    //     // Here you call the setMessage function which will update state in the `Home` Component
-    //     setMessage();
-    // }
     const [Msgs, setMsgs] = useState([]);
 
     const HandleGetItems = async (name, rate) => {
@@ -43,9 +38,9 @@ export default function Home() {
         {
                 Msgs.map((o,i)=>{
                     console.log("inside the array...", o,i);
-                    return <Message
-                    fullname={o.display_name}
-                    />
+                    return <Link to={{ pathname: '/chat', state: { o } }}>
+                        <Message fullname={o.display_name}
+                    /></Link>
                 })
             }
         {/* <Message />

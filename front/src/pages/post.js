@@ -108,15 +108,17 @@ export default function Post() {
                     setLocation(e.target.value);
                 }}
             />
-            <Link to="/lending">
-                <div className="button">
+            
+            <div className="button">
+                <Link to="/lending" className="link">
                     <Button text={"Post"}
                         onClick={(e) => {
                             HandleNewPost(e, title, desc, location, rate, imgs, tag);
                         }}
                     />
-                </div>
-            </Link>
+                </Link>
+            </div>
+            
         </div>
         <div className="nav">
             <BottomNav active={3} />

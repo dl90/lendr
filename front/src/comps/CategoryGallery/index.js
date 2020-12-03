@@ -18,28 +18,28 @@ const CategoryGalleryDiv = styled.div`
 const CategoryGallery = () => {
     return <CategoryGalleryDiv>
        
-        <Link to="/specificCategories">
-        <CategoryThumbnail src={"/Automobile.png"} text={"Automobile"}></CategoryThumbnail>
+        <Link to={{ pathname: "/specificCategories", state:'Vehicles' }}>
+        <CategoryThumbnail src={"/Automobile.png"} text={"Vehicles"}></CategoryThumbnail>
         </Link>
-        <Link to="/specificCategories">
+        <Link to={{ pathname: "/specificCategories", state:'Appliances' }}>
         <CategoryThumbnail src={"/Appliances.png"} text={"Appliances"}></CategoryThumbnail>
         </Link>
-        <Link to="/specificCategories">
+        <Link to={{ pathname: "/specificCategories", state:'Electronics' }}>
         <CategoryThumbnail src={"/Electronics.png"} text={"Electronics"}></CategoryThumbnail>
         </Link>
-        <Link to="/specificCategories">
+        <Link to={{ pathname: "/specificCategories", state:'Vehicles' }}>
         <CategoryThumbnail src={"/Furniture.png"} text={"Furniture"}></CategoryThumbnail>
         </Link>
-        <Link to="/specificCategories">
+        <Link to={{ pathname: "/specificCategories", state:'Recreation' }}>
         <CategoryThumbnail src={"/Recreation.png"} text={"Recreation"}></CategoryThumbnail>
         </Link>
-        <Link to="/specificCategories">
+        <Link to={{ pathname: "/specificCategories", state:'Sports & Fitness' }}>
         <CategoryThumbnail src={"/Sports&Fitness.png"} text={"Sports & Fitness"}></CategoryThumbnail>
         </Link>
-        <Link to="/specificCategories">
+        <Link to={{ pathname: "/specificCategories", state:'Tools' }}>
         <CategoryThumbnail src={"/Tools.png"} text={"Tools"}></CategoryThumbnail>
         </Link>
-        <Link to="/specificCategories">
+        <Link to={{ pathname: "/specificCategories", state:'Venues' }}>
         <CategoryThumbnail src={"/Venues.png"} text={"Venues"}></CategoryThumbnail>
         </Link>
     </CategoryGalleryDiv>

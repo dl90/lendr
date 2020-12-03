@@ -138,8 +138,8 @@ const CatagoriesDropdown = ({ test, onChange }) => {
     </CatagoriesCont>
         <CatagoriesDropDiv DisplayDrop={Dropped} ><ul>
             <li onClick={() => {
-                setCat("Automobile")
-                onChange("Automobile")
+                setCat("Vehicles")
+                onChange("Vehicles")
                 setDropped(false);
             }}>Automobile</li>
             <li onClick={() => {
