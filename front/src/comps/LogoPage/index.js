@@ -63,15 +63,15 @@ const LogoPage = () => {
         setTimeout(function(){SetWavePosB("top:-100px;right:165px;transform: rotate(-30deg);");}, 400);
         setTimeout(function(){SetWavePosO2("bottom:0px;left:0px;");}, 450);
         setTimeout(function(){SetWavePosB2("bottom:-5px;left:0px;");}, 500);
-        setTimeout(function(){SetPageO(0);}, 5000);
-        setTimeout(function(){SetPageDisp("none");}, 5500);
+        setTimeout(function(){SetPageO(0);}, 3000);
+        setTimeout(function(){SetPageDisp("none");}, 3500);
     });
 
     return <LogoPageDiv PageO={PageO} PageDisp={PageDisp}>
         <div>
         <BgWave Op={WavePosO} Bp={WavePosB}></BgWave>
         <LogoDiv IconO={IconO} logoDisp={logoDisp}><img src="/logoIcon.svg"></img></LogoDiv>
-        <LogoText TextO={TextO}><img src="/logoText.png"></img></LogoText>
+        <LogoText TextO={TextO}><img src="/LogoText.png"></img></LogoText>
         <BgWave2 Op2={WavePosO2} Bp2={WavePosB2}></BgWave2>
         </div>
         

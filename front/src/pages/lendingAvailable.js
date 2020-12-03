@@ -33,7 +33,7 @@ export default function LendingAvailable() {
         <h1>Available</h1>
         {/* <Link to="/post">Post</Link> */}
         <div className="search">
-            <MyLendsButtons />
+            <MyLendsButtons  active={1}/>
         </div>
         <div className="items">
             {

@@ -66,21 +66,21 @@ height:20px;
 margin-left:-6px;
 `;
 
-const MessageBar = ({id, onSubmit}) => {
+const MessageBar = ({id, onSubmit, change, click,}) => {
 
     const [text, setText] = useState("")
-    const submit = e => {
-        e.preventDefault()
-        onSubmit({ id, text })
-    }
+    // const submit = e => {
+    //     e.preventDefault()
+    //     onSubmit({ id, text })
+    // }
 
     return (<Bar>
-         <form id={id} onSubmit={submit}>
+         {/* <form id={id} onSubmit={submit}> */}
         <MessageDiv>
-            <Input value={text} onChange={e => setText(e.target.value)} id="message" placeholder="Type your message..."></Input>
-            <Circle type="submit" form={id}><Icon draggable="false" src="/sendicon.png"></Icon></Circle>
+            <Input onChange={change} value={text} /*onChange={e => setText(e.target.value)}*/ id="message" placeholder="Type your message..."></Input>
+            <Circle onClick={click} type="submit" form={id}><Icon draggable="false" src="/sendicon.png"></Icon></Circle>
         </MessageDiv>
-        </form>
+        {/* </form> */}
     </Bar>)
 }
 

@@ -24,7 +24,8 @@ export default function Post() {
     const [imgs, setImgs] = useState(null);
     const [tag, setTag] = useState("");
 
-    const HandleNewPost = async (e, title, desc, location, rate, tag, xyz) => {
+
+    const HandleNewPost = async (e, title, desc, location, rate, imgs, tag) => {
         e.preventDefault()
         const formData = new FormData()
         formData.append("itemName", 'New');
@@ -36,16 +37,16 @@ export default function Post() {
         formData.append("postRate", rate);
         formData.append("tag", tag);
         formData.append("images", imgs);
-        formData.append("tag", "Electronic");
+        // formData.append("tag", "Electronic");
         imgs.forEach(img => formData.append("images", img))
         console.log(imgs)
         const resp = await axios.post('https://www.lendr-bc.me/post/new-complete', formData,
             { headers: { crossDomain: true, 'Content-Type': 'multipart/form-data' } }, { withCredentials: true });
         console.log(resp);
 
-        // const post = await axios.post('https://www.lendr-bc.me/post/get-all-own',
-        //     { headers: { crossDomain: true, 'Content-Type': 'application/json' } }, { withCredentials: true })
-        // console.log(post)
+        const post = await axios.post('https://www.lendr-bc.me/post/get-all-own',
+            { headers: { crossDomain: true, 'Content-Type': 'application/json' } }, { withCredentials: true })
+        console.log(post)
     }
 
     function eventCB(e) {
@@ -92,9 +93,10 @@ export default function Post() {
         </div>
         <div className="post">
             <CategoriesDropdown
-                onClick={(e) => {
-                    setTag(e.target.value);
+                onChange={(arg) => {
+                    setTag(arg);
                 }}
+            // setTag={setTag}
             />
             <InputParagraph title={"Description"} placeholder="Write a description of the item you're renting out."
                 onChange={(e) => {
@@ -106,15 +108,17 @@ export default function Post() {
                     setLocation(e.target.value);
                 }}
             />
-            <Link to="/lending">
-                <div className="button">
+            
+            <div className="button">
+                <Link to="/lending" className="link">
                     <Button text={"Post"}
                         onClick={(e) => {
                             HandleNewPost(e, title, desc, location, rate, imgs, tag);
                         }}
                     />
-                </div>
-            </Link>
+                </Link>
+            </div>
+            
         </div>
         <div className="nav">
             <BottomNav active={3} />

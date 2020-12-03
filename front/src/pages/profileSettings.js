@@ -1,19 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './index.scss';
 import './app.scss';
 import './profileSettings.scss';
 
 import Header from '../comps/Header';
+import ProfileCard from '../comps/ProfileCard';
 import Input from '../comps/Input';
 import InputBox from '../comps/InputBox';
 import Button from '../comps/Button';
 
 import {Link} from "react-router-dom";
 
+import {AppContext} from '../context/provider';
+
 import axios from 'axios';
 export default function ProfileSettings() {
+    useEffect(() => {
+        HandleUser();
+    }, [])
 
     // const [login, setLogin] = useState("Test");
+    const {state} = useContext(AppContext);
+    // const [UserPicture, setUserPicture] = useState(null);
+    const [DisplayName, setDisplayName] = useState("");
+
+    // const [username, setUserName] = useState(null)
+    const HandleUser = async () => {
+        var resp = await axios.get('https://www.lendr-bc.me/me', {
+            withCredentials: true
+        })
+        setDisplayName(resp.data.display_name);
+        console.log(resp.data.display_name);
+        // setUserPicture(resp.data.avatar_url);
+    }
     
     const [fName, setFName] = useState("");
     const [lName, setLName] = useState("");
@@ -36,7 +55,7 @@ export default function ProfileSettings() {
     return <div className="ProfileSettingsPage">
         <Header />
         <h1>Profile Settings</h1>
-
+        <ProfileCard userState={true} userName={state.displayname}></ProfileCard>
         <div className="login">
             <Input title={"Change Name"} placeholder={"First Name"}
                 onChange={(e) => {

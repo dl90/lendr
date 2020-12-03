@@ -67,9 +67,9 @@ export default function Item(props, { Price, img, Desc }) {
         <div className="imageDiv">
             <h2>Images</h2>
             <div className="images">
-                <img src={itemMemory.img}></img>
-                <img src={itemMemory.img}></img>
-                <img src={itemMemory.img}></img>
+                <img src={itemMemory.images[0]}></img>
+                <img src={itemMemory.images[1]}></img>
+                <img src={itemMemory.images[2]}></img>
             </div>
         </div>
         <div className="item">

@@ -34,9 +34,9 @@ export default function ExplorePage() {
             type: "ChangeDisplayName",
             displayname: resp.data.display_name
         })
-        var itemresp = await axios.post("https://www.lendr-bc.me/post/get-all", { idx: 0, count: 5 }, {
-            headers: { crossDomain: true, 'Content-Type': 'application/json' }
-        }, { withCredentials: true });
+        // var itemresp = await axios.post("https://www.lendr-bc.me/post/get-all", { idx: 0, count: 5 }, {
+        //     headers: { crossDomain: true, 'Content-Type': 'application/json' }
+        // }, { withCredentials: true });
     }
 
     const HandleGetItems = async (name, rate) => {
@@ -72,16 +72,16 @@ export default function ExplorePage() {
                     </Link>
                 </div>
                 <div className="Category_divs">
-                    <Link to="/specificCategories">
+                    <Link to={{ pathname: "/specificCategories", state:'Vehicles' }}>
                         <CategoryButton src={"/vehicles.svg"} text={"Vehicles"}></CategoryButton>
                     </Link>
-                    <Link to="/specificCategories">
+                    <Link to={{ pathname: "/specificCategories", state:'Appliances' }}>
                         <CategoryButton src={"/appliances.svg"} text={"Appliances"}></CategoryButton>
                     </Link>
-                    <Link to="/specificCategories">
+                    <Link to={{ pathname: "/specificCategories", state:'Electronics' }}>
                         <CategoryButton src={"/electronics.svg"} text={"Electronics"}></CategoryButton>
                     </Link>
-                    <Link to="/specificCategories">
+                    <Link to={{ pathname: "/specificCategories", state:'Furniture' }}>
                         <CategoryButton src={"/furniture.svg"} text={"Furniture"}></CategoryButton>
                     </Link>
                 </div>
@@ -90,7 +90,7 @@ export default function ExplorePage() {
         <div className="Recommended_cont">
             <div className="Section_header">
                 <h2>Recent Posts</h2>
-                <Link to="/specificcategories">
+                <Link to={{ pathname: "/specificCategories", state:'Recent Posts' }}>
                     <h6>See All</h6>
                 </Link>
             </div>
@@ -103,7 +103,7 @@ export default function ExplorePage() {
                                 title={o.title}
                                 price={o.rate}
                                 date={o.created_on}
-                                bgImg={o.images[0]}
+                                bgImg={o.images[0] || null}
                             />
                         </Link>
                     })
@@ -113,7 +113,7 @@ export default function ExplorePage() {
         <div className="Saved_cont">
             <div className="Section_header">
                 <h2>Recommended</h2>
-                <Link to="/specificcategories">
+                <Link to={{ pathname: "/specificCategories", state:'Recommended' }}>
                     <h6>See All</h6>
                 </Link>
             </div>
@@ -126,8 +126,9 @@ export default function ExplorePage() {
                                 title={o.title}
                                 price={o.rate}
                                 date={o.created_on}
-                                bgImg={o.images[0]}
-                            > </ReviewCard>
+
+                                bgImg={o.images[0] || null}
+                            />
                         </Link>
                     })
                 }
