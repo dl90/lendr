@@ -11,7 +11,10 @@ import {Link} from "react-router-dom";
 import axios from 'axios'
 
 
-export default function SpecificCategories({title}) {
+export default function SpecificCategories(props,{title}) {
+    var itemMemory = props.location.state;
+    console.log(itemMemory);
+
 const [ItemPrice, setItemPrice]=useState("10");
 const [ItemDate, setItemDate]=useState("default item date");
 const [ItemTitle, setItemTitle]=useState("default title");
@@ -21,7 +24,9 @@ const [ItemPosterName, setItemPosterName] = useState("name")
 const [Items, setItems] = useState([]);
 
 
-const HandleGetItems = async (name, rate) => {
+const HandleGetItems = async () => {
+    
+
     var itemresp = await axios.post("https://www.lendr-bc.me/post/get-all", {idx: 0, count: 5}, {
         headers: { crossDomain: true, 'Content-Type': 'application/json' }
     }, { withCredentials: true });
@@ -38,7 +43,7 @@ useEffect(() => {
 
     return <div className="app">
         <Header options = "none" />
-<h1>{title}</h1>
+        <h1>{itemMemory}</h1>
         <div className="search">
             <SearchBar placeholder="Search Categories" />
         </div>

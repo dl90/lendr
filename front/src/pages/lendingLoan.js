@@ -31,10 +31,10 @@ export default function LendingLoan() {
 
     return <div className="app">
         <Header />
-        <h1>Available</h1>
+        <h1>On Loan</h1>
         {/* <Link to="/post">Post</Link> */}
         <div className="search">
-            <MyLendsButtons />
+            <MyLendsButtons  active={2}/>
         </div>
         <div className="items">
             {

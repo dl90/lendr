@@ -2,17 +2,28 @@ import React from 'react';
 import './index.scss';
 import './app.scss';
 import './tutorial3.scss';
+// import Lottie from 'react-lottie';
+import animData from'../pages/lottie.json';
 
 import Header from '../comps/Header';
 import Button from '../comps/Button';
 
 import {Link} from "react-router-dom";
 
+const defaultOptions = {
+    loop: true,
+    autoplay: true, 
+    animationData: animData,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice'
+    }
+  };
+
 export default function Tutorial3(){
     return <div className="loggingIn">
             <Header options={"none"}/>
-            <h12 className="skip">Skip Tutorial</h12>
-        <div className="img"><img src="logging.png" alt="Tutorial 3"></img></div>
+            <Link to="/load1"><h12 className="skip">Skip Tutorial</h12></Link>
+        {/* <div className="lottiediv"> <Lottie options={defaultOptions} />  </div> */}
         <h1>Pick Up the Item</h1>
             <div className="text">
             <h10> Make the exchange at the meeting place you set up.</h10>

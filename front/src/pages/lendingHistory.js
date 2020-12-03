@@ -31,10 +31,10 @@ export default function LendingHistory() {
 
     return <div className="app">
         <Header />
-        <h1>Available</h1>
+        <h1>History</h1>
         {/* <Link to="/post">Post</Link> */}
         <div className="search">
-            <MyLendsButtons />
+            <MyLendsButtons  active={3}/>
         </div>
         <div className="items">
             {
